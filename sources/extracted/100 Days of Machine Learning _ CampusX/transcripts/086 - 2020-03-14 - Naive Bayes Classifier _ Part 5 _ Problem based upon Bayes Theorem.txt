@@ -1,0 +1,213 @@
+# Naive Bayes Classifier | Part 5 | Problem based upon Bayes Theorem
+# https://www.youtube.com/watch?v=aAEHjXDHtbE
+
+So, now let's do a sample problem using Bayes' theorem. So, let's say there is a factory. Let's say there is a factory. The factory, let's say, manufactures these markers, okay? And there are three machines in this factory. M1 M2 and M3. So, whatever is manufactured If all the data is available He didn't know the production all right. What is the 20%? M1 banana So, I got there are 100 markers producing or manufacturing getting manufactured. 20 out of those markers is made by M1. 30% So, He didn't know the banana. What is my 5% manufacturing defect? What happened? You didn't know the banana. What is the 3% manufacturing defect? What happened? What is the banana? What is the 1% manufacturing defect? What happened? This is the data. Okay. So, I got it. Out of 120 banana What is the 5%? What happened? Okay. These are the 8 club over. Yeah, so I got it. What happened over? Okay, similarly What is the 3 club over? You didn't know the banana. What is the 8 club over? Okay. What is the question is this? This is the question. Question is He imagined When you randomly take marker with her And What you want to tell her you would defect it? It is defective. What is defective in the club? You have to tell me the probability I guess There are three different machines in a factory. Or other than that randomly example is a tell me Okay, and this is the problem that you have to solve. Now, if you think carefully First of all, you should always write to the bus guy guy here. So, I already know this P of M1 is total divided by total so that is 1 by 5 20 by 100 probability Similarly, probability of M2 is 3 by 10 And similarly, probability of M3 is 1 by 2 Okay. P A cheese defective let's say I'm D signal defective only. So, you defective only probability given M1 You defective only probability given item M2 you defective only probability given item M3 so that So, I guess we can write that conditional probability so you can write it like this. Probability of defective given M1 is equal to 5 by 100 so you can write it like 1 by 20. Probability of D given M2 is uh 3 by 100. And probability of uh M3 as in probability of D given M3 is equal to 1 by 100. Okay. So, you get all the probabilities. So, you get all the questions we have. Up to that important thing which is not important. It is about that. I mean randomly example draw here on the defective example. We need to find out the M3 from which it was made and it is a probability here. So, if you ask me, I would say I have to find out the probability of that item that we randomly draw drew out of the sample is from M3 given it is defective. Given it was defective, was M3 made here or not, is the probability we need to find out. And by base theorem, you know this that this will be equal to probability of uh sorry, probability of defective given M3 multiplied by probability of M3 divided by probability of D. I guess base theorem you have probability of A given B is equal to probability of B given A multiplied by P of A divided by P of B. This is base theorem, right? I'm going to get these three things to get you to calculate the probability. And guess what, some of these two things are already here. You can totally see keep you want to seize just take that. Or you want to seize that. There is only one thing that I need to calculate and that is this part. Probability of D. So basically, I have to find out uh I have to find out the overall data make my example draw to see the effective probability here. You want to show me I have to find out P of B. I'll put social media. How can I find out P of defective? We need to put the data in the total percent mild effective and you can see the data. Social media. Total defective mild out of the entire batch is basically coming from one of these machines. So don't you think you can write it like this? Probability of a defective piece is actually equal to probability of it being defective and coming from M1. Right? It's a lot of people I don't defective here or M1 set. Right? Plus probability of defective and coming from M2 plus probability of defective and coming from M3. Social media. It's so good English to read in the media you will actually understand the camera. Total defective only got probability is actually the summation of these three individual probabilities. Probability of a marker being defective and coming from M1. That is one way of getting a defective marker. Probability of being defective and coming from M2. That is the second way of getting a defective marker and probability of defective and coming from M3. This is the third way of getting a defective marker. So there are only three ways that I can get a defective marker in the something or whatever you have to leave here. It is I guess something you have to learn. Now, if you remember conditional probability uh we have to put out probability of A given B is actually equal to P A intersection B divided by P of B. What if I do this? B. What if I do this? probability of defective given M1 multiplied by probability of M1 plus probability of B given M2 multiplied by P of M2 plus probability of B given M3 multiplied by probability of M3 So I'm going to PD calculate with the expression song and guess what? or you know PD will die or is the expression I just want to solve and guess using base theorem and conditional probability you're able to solve a difficult seeming a seemingly so easy Okay, so it will I guess for sure solve the problem. So thanks for watching.
+
+
+[00:01] So, now let's do a sample problem using
+[00:03] Bayes' theorem.
+[00:05] So, let's say there is a factory.
+[00:10] Let's say there is a factory. The
+[00:12] factory, let's say, manufactures these
+[00:13] markers, okay? And there are three
+[00:16] machines in this factory.
+[00:18] M1
+[00:21] M2
+[00:24] and M3.
+[00:26] So, whatever is manufactured
+[00:34] If all the data is available He didn't
+[00:36] know the production all right. What is
+[00:38] the 20%?
+[00:40] M1 banana So, I got there are 100
+[00:43] markers producing or manufacturing
+[00:45] getting manufactured.
+[00:47] 20 out of those markers is made by M1.
+[00:52] 30%
+[00:57] So,
+[01:03] He didn't know the banana.
+[01:05] What is my 5% manufacturing defect? What
+[01:08] happened?
+[01:09] You didn't know the banana. What is the
+[01:11] 3% manufacturing defect? What happened?
+[01:13] What is the banana?
+[01:15] What is the 1% manufacturing defect?
+[01:17] What happened? This is the data. Okay.
+[01:19] So, I got it. Out of 120 banana What is
+[01:22] the 5%? What happened? Okay. These are
+[01:24] the 8 club over. Yeah, so I got it. What
+[01:27] happened over? Okay, similarly
+[01:30] What is the 3 club over? You didn't know
+[01:32] the banana. What is the 8 club over?
+[01:34] Okay.
+[01:38] What is the question is this?
+[01:41] This is the question.
+[01:43] Question is
+[01:45] He imagined
+[01:49] When you randomly take marker with her
+[01:52] And What you want to tell her you would
+[01:54] defect it?
+[01:57] It is defective.
+[01:58] What is defective in the club?
+[02:00] You have to tell me the probability
+[02:08] I guess
+[02:10] There are three different machines in a
+[02:12] factory.
+[02:19] Or other than that randomly example is a
+[02:21] tell me
+[02:29] Okay, and this is the problem that you
+[02:31] have to solve.
+[02:32] Now, if you think carefully
+[02:35] First of all, you should always write to
+[02:37] the bus guy guy here.
+[02:39] So, I already know this P of M1
+[02:43] is
+[02:45] total
+[02:46] divided by total
+[02:47] so that is
+[02:50] 1 by 5
+[02:52] 20 by 100 probability
+[02:54] Similarly,
+[02:56] probability of M2
+[02:59] is
+[03:00] 3 by 10
+[03:02] And similarly, probability of M3 is
+[03:05] 1 by 2
+[03:10] Okay.
+[03:16] P
+[03:18] A cheese defective let's say I'm
+[03:21] D signal defective only.
+[03:24] So, you defective only probability given
+[03:29] M1 You defective only probability given
+[03:32] item M2 you defective only probability
+[03:34] given item M3 so that
+[03:36] So, I guess we can write that
+[03:37] conditional probability so you can write
+[03:40] it like this. Probability of defective
+[03:43] given M1 is equal to 5 by 100 so you can
+[03:48] write it like 1 by 20.
+[03:50] Probability of D given M2
+[03:55] is
+[03:56] uh
+[03:59] 3 by 100.
+[04:03] And probability of
+[04:05] uh
+[04:06] M3 as in probability of D given
+[04:10] M3 is equal to 1 by 100.
+[04:14] Okay. So, you get all the probabilities.
+[04:16] So, you get all the questions we have.
+[04:18] Up to that important thing which is not
+[04:21] important. It is about that.
+[04:22] I mean randomly example draw here on the
+[04:24] defective example.
+[04:25] We need to find out the M3 from which it
+[04:28] was made and it is a probability here.
+[04:30] So, if you ask me, I would say I have to
+[04:33] find out the probability of
+[04:35] that item that we randomly draw drew out
+[04:38] of the sample is from M3
+[04:42] given it is defective.
+[04:46] Given it was defective, was M3 made here
+[04:48] or not, is the probability we need to
+[04:50] find out. And by base theorem, you know this
+[04:53] that this will be equal to probability
+[04:55] of
+[04:57] uh sorry, probability of defective given
+[05:02] M3 multiplied by probability of
+[05:06] M3 divided by probability of
+[05:09] D.
+[05:10] I guess base theorem you have
+[05:12] probability of A given B is equal to
+[05:15] probability of B given A multiplied by P
+[05:19] of A divided by P of B.
+[05:23] This is base theorem, right?
+[05:25] I'm going to
+[05:26] get these three things to get you to
+[05:28] calculate the probability. And guess
+[05:29] what, some of these two things are
+[05:30] already here. You can totally see keep
+[05:34] you want to seize just take that.
+[05:37] Or you want to seize
+[05:40] that.
+[05:41] There is only one thing that I need to
+[05:43] calculate and that is this part.
+[05:48] Probability of D.
+[05:50] So basically, I have to find out
+[05:52] uh
+[05:53] I have to find out the overall data make
+[05:56] my example draw
+[05:58] to see the effective probability here.
+[06:00] You want to show me I have to find out P
+[06:02] of B.
+[06:04] I'll put social media.
+[06:05] How can I find out P of defective? We
+[06:07] need to put the data in the total
+[06:08] percent mild effective and you can see
+[06:10] the data.
+[06:12] Social media.
+[06:14] Total defective mild out of the entire
+[06:17] batch
+[06:18] is basically coming from one of these
+[06:20] machines. So don't you think you can
+[06:22] write it like this?
+[06:23] Probability of
+[06:25] a defective piece is actually equal to
+[06:29] probability of
+[06:31] it being defective and coming from M1.
+[06:37] Right?
+[06:38] It's a lot of people I don't defective
+[06:40] here
+[06:41] or M1 set.
+[06:43] Right?
+[06:44] Plus probability of defective and coming
+[06:47] from M2 plus probability of defective
+[06:51] and coming from
+[06:53] M3.
+[06:54] Social media. It's so good English to
+[06:55] read in the media you will actually
+[06:57] understand the camera.
+[06:59] Total defective only got probability is
+[07:01] actually the summation of these three
+[07:03] individual probabilities.
+[07:04] Probability of a marker being defective
+[07:07] and coming from M1. That is one way of
+[07:10] getting a defective marker. Probability
+[07:12] of being defective and coming from M2.
+[07:14] That is the second way of getting a
+[07:15] defective marker and probability of
+[07:17] defective and coming from M3. This is
+[07:19] the third way of getting a defective
+[07:20] marker. So there are only three ways
+[07:22] that I can get a defective marker in the
+[07:23] something or whatever you have to leave
+[07:25] here.
+[07:26] It is I guess something you have to
+[07:27] learn.
+[07:28] Now, if you remember conditional
+[07:31] probability
+[07:32] uh we have to put out probability of A
+[07:36] given B is actually equal to P A
+[07:39] intersection B divided by P of B.
+[07:43] What if I do this? B.
+[07:45] What if I do this?
+[07:51] probability of
+[07:54] defective given
+[07:57] M1
+[07:59] multiplied by probability of
+[08:02] M1
+[08:05] plus probability of
+[08:08] B
+[08:09] given M2 multiplied by P of M2
+[08:14] plus probability of B given
+[08:19] M3 multiplied by probability of
+[08:22] M3 So I'm going to PD calculate with the
+[08:25] expression song and guess what?
+[08:31] or you know PD
+[08:33] will die or is the expression I just
+[08:35] want to solve and guess
+[08:39] using base theorem and conditional
+[08:40] probability you're able to solve a
+[08:43] difficult seeming a seemingly
+[08:47] so easy
+[08:48] Okay, so it will
+[08:52] I guess for sure solve the problem. So
+[08:55] thanks for watching.

@@ -1,0 +1,282 @@
+# Feature Scaling - Normalization | MinMaxScaling | MaxAbsScaling | RobustScaling
+# https://www.youtube.com/watch?v=eBrGyuA2MIg
+
+Hello guys, welcome to my YouTube channel. In this video, we are going to discuss another feature scaling technique called normalization. Okay? So, in the last video, we saw standardization and we also discussed why feature scaling is important. Right? And now, in today's video, we will look at a second technique which we call normalization, and we will also discuss its types and make what we have learned a bit more concrete through a code example. Okay? So, let's start this video. So, let's first go through the formal definition of normalization. It is written here that normalization is a technique often applied as a part of data preparation for machine learning. The goal of normalization is to change the values of numeric columns in the data set to use a common scale without distorting differences in the ranges of values or losing information. So, in simple terms, if you are ever working with a data set, let's say height and weight are your input columns and you need to predict something, like whether that person will buy sports equipment or not, let's say you have a data set like that. Now, the thing with weights is that weight is a numerical quantity, and any numerical quantity has two things. One is magnitude and the other is units. Right? So, weight also has a magnitude and a unit. The unit can be anything. It could be grams, kilograms, pounds, anything. Right? So, in machine learning literature, it is said that whenever you are dealing with numerical quantities, it's always a good idea to eliminate the units. Because if you work with units, then there is trouble, it's problematic. Right? So, it's better that you bring things to a common scale and then apply machine learning algorithms on top of that. You will always get better results. And that is the whole idea behind normalization: to eliminate the unit and just keep the magnitude, that too on a common scale. Okay? I hope you are understanding this point. Now comes the question: what are the types of normalization? So, if you talk in terms of normal machine learning, like the day-to-day machine learning you do, the most famous technique is Min-Max scaling. Min-Max scaling. In fact, sometimes people casually just call this normalization. So, if you are told to perform normalization, you should understand it as being asked to do Min-Max scaling. All right? But apart from this, there are many other types of scaling techniques. There are normalization techniques. One of them is Mean Normalization. We will learn about Mean Normalization and there is also Max Absolute Scaling. All right? And there is one more called Robust Scaling. We will cover these four in this video itself. Apart from these, there are other techniques as well. If you go to the Scikit-learn documentation, you will find many more such transformations there that you can study. But we are going to focus only on these four techniques. And even among these, we will focus most on Min-Max Scaling. Because if you are ever applying normalization, 90%of the time you will use Min-Max scaling. All right? So let's start with Min-Max Scaling. Let’s get the intuition behind it. When is it useful? What is the formula? We will look at all of this. All right? So let's say you have a numerical column in your dataset called weight. And here weights are in kg, say 130, 67, 81. 61, 32, 54; suppose you have 100 such weights. Now, suppose someone asks you to normalize this. To normalize, or in simpler terms, if asked to apply Min-Max scaling, it is very simple. Actually, you just have to apply a formula to every number. On every number of this distribution, you apply a simple formula: the transformed value, let's represent it with a dash. The transformed value will be equal to the original value minus the minimum value of the distribution, divided by the maximum value minus the minimum value; this is the formula. So, basically, you just need to find two things out of these 100 numbers: what is the minimum value? You find that out. For instance, right now it is 32, and the maximum value is 130. All right? Now what do you need to do? Suppose you have to convert 130. How will it be done? 130 minus 32 divided by 130 minus 32, which is 1. All right? Suppose you have to do it for this, it will be 67 minus 32 divided by 130 minus 32, so that is how you do Min-Max scaling; this is the simple concept, that is all you have to do. All right? Now, if you notice a couple of observations here, you will understand that once you apply this transformation, the new distribution you get, the scaled distribution, will always have a range between zero and one. You won't be able to go outside of that. Because think about it, when will xi be the smallest? In the case of x-min. In the case of x-min, your xi will become zero. And when will it be the largest? When x-max is here, and in the case of x-max, these two will cancel out to become one. So, basically, for the maximum value of xi, you get one, and for the minimum value of xi, you get zero. That is why whenever you apply Min-Max scaling, the output you get, the distribution you get, will always be scaled between zero and one. That is the bottom line. Okay? If you want to see the geometrical intuition of what exactly is happening, I can show you that too. It's a very simple concept. Suppose you have two quantities. Weight and height. Okay? And initially, your data looks something like this. Height is in centimeters, and weight is in kilograms. So, w is here. h is here. Okay? And the whole data is something like this. These are all your customers or whoever they are. It’s like this. Okay? Now, when you apply Min-Max scaling to this, the transformation that happens, I hope you understand. The mean is not coming to zero here. You aren't even talking about the mean. What are you just doing? You are taking this entire thing and squishing it between zero and one. You are compressing it. Okay? So, on the weight scale, here is one, and on the height scale, here is one. So, what I’m saying is that whatever your dataset distribution is, you are taking this entire thing and putting it inside this box. So, the geometrical intuition of Min-Max scaling is that you are putting this data into a unit rectangle or square. If this were 3D data, you would actually be squashing, compressing the entire data into a unit cube. Okay? If it were in more dimensions than that, you would be compressing this entire data into a unit hypercube. Okay? You would be squashing it. If it is small, you expand it, though that happens very rarely. Mostly you squash it, press it, compress it. Okay? I mean, you do this. So that it fits into the unit hypercube while maintaining this exact structure. That is the geometrical intuition behind normalization. Okay? Now we will do one thing. I have actual wine data that I downloaded from Kaggle. I don't remember exactly where I downloaded it from. You will find all of this in my Git repo. There, we will actually apply normalization and see how the whole thing works. Okay? So if I go to my browser, I have already created a notebook here. I will just go through the code. So I have imported the libraries here. This is my wine data dot csv. Now it had many columns. I am just taking the first three columns. And their names are here: class label, alcohol, malic acid. So these two are inputs and this is the output. Alcohol looks a bit larger in comparison to malic acid in terms of magnitude, and after that, what did we do? We just... just one second. After that, I just wanted to show you that if you plot a distplot, a PDF plot of the alcohol column at this point, then this kind of bimodal distribution appears. And which looks like it is normal. And this is the distribution of malic acid. This is it. And I also plotted a scatter plot. A 2D scatter plot where alcohol is on the x-axis, malic acid is on the y-axis, and here my class labels are three different classes. One, two, and three, so you can see them here in three different colors. Okay? I did all this just to show you that our data is like this. Okay? Now we are starting from here. First of all, you always have to remember that whenever you do any kind of scaling, you have to first do a train-test split. So that is what I have done here. I have done a train-test split. And after the train-test split, these are the shapes I got for X train and X test. After that, what did I do? I imported the MinMax scaler class from Scikit-learn. I imported the MinMax scaler class and created an object for it. And fit it on the training data. I told you in the last video too that after doing a train split, whenever you fit, you always do it on the training data. But you will transform both the training data and the test data. That is how you do it. Okay? So you must not forget this. And then I transformed both my train data and test data using whatever I learned. Now, what would I have learned in this step when I fitted it? The minimum value and the maximum value. I would have just extracted two things from my distribution, from both distributions. Okay? And after that, you might know that when you use Scikit-learn classes, it converts your dataframe into a NumPy array. So, to handle that problem, I converted that NumPy array back into a dataframe here. And here, I have described the old data. So you can see that in the old data, the minimum value for alcohol was 11. The maximum value was 14.8. For malic acid, it was 0.9 and 5.6. Now obviously, when you do this Min-Max scaling, you know that the minimum value for both quantities will become zero and your maximum value will become one. That is exactly what you will see in the data here. The minimum for alcohol also became zero, yes, alcohol's became zero and malic acid's also became zero, and the maximum value for both is also one. Okay? The mean and standard deviation will behave differently. We cannot guarantee anything about that. We can only guarantee the minimum and maximum. Okay? So, I hope you understood this transformation. And then what I did, just like I did in the last video, I plotted the scatter plot of the old data, before scaling and after scaling, once again. And you can see, there isn't any significant difference visible. This scatter plot is exactly the same scatter plot that you saw above here, the same scatter plot. Except here you will notice that your scale, as I told you that you are compressing, squishing the data inside a unit rectangle, here look, that is what is happening; while retaining the original shape of the data, you are in a unit rectangle, because this is 2D. You are squishing it there, pressing it, fitting it. Okay? And there is no other change. The representation of the data is almost exactly the same. If you notice, it's almost the same; I don't see any significant difference. Maybe in some distributions, if it's not that normal, there could be slight changes. Here, I would recommend you generate some different distributions yourself and try scaling on them. That way, you will build your own observations. But mostly, Min-Max Scaler is able to retain the form of your data. Okay? After that, we did one more thing; I showed you that I plotted both quantities before scaling. So, look here, you can see that Malic Acid was a bit lower. In the range of zero to six, and Alcohol was in the range of 10 to 16. And see the benefit of scaling, of Min-Max scaling, that both came into the same range. Between zero and one. Now, you might be noticing that it's going into the negatives here. It's going beyond one here. That's because we are plotting a KDE plot. And what does a KDE plot do? It makes inferences. Those inferences fall under statistics. You don't have to be worried about that. Just think of it as bringing both things between zero and one. And because of that, both are now working on the same scale. Which is actually good. What you needed is happening. Okay? So, in the last step, what did I just do? I showed you the distributions individually. This is the distribution of Alcohol before scaling and after scaling. I don't see any changes. Apart from the scale, and the same goes for Malic Acid. Even in Malic Acid, I don't see any change in the distribution. Apart from the fact that the scales have changed. The scales have changed. The shape of the distribution is exactly the same. But here, the shape of the distribution might change. You need to keep that in mind. In some distributions, it might change. It's not at all necessary that the shape will be maintained. Okay? So, that's that. Here, there is a problem with outliers; since you are squashing them into the zero-to-one range, the impact of outliers also gets squashed. Okay? So, that's a bit of a downside. Otherwise, for other things, it's fine. Min-Max scaling is all fine. Okay? Now, what will I do? I will quickly show you three more normalization techniques. We won't be having very deep discussions on those. I will just give you the formula and tell you the use cases where you can apply these normalization techniques. And that's it. The rest you can go and try out yourself. You will find classes for this in Scikit-learn. Right? So, there is another technique called mean normalization. Right? In mean normalization, if you have numerical quantities with numbers and you need to normalize them using mean normalization. Then the formula used here is xi '= xi-x_mean divided by x_max-x_min. So, you are doing mean centering here. Just like you do in standardization. You are doing mean centering. Meaning, wherever your data is, if it's over here, you are bringing it here. You are doing mean centering. You are doing this. You are bringing it over here. Right? So, this step is the same. And after that, you are scaling it into this range. Right? This range. And this will give you values in the range of -1 to 1. You can try it and see. If any of your values are less than the mean, if the value is less than the mean, you will get a negative number. If the value is greater than the mean, you will get a positive number. Right? That's it. This is very rarely used. In fact, there is no class for this in Scikit-learn. You will have to write the code yourself or find a workaround. Scikit-learn does not have support for this. You use it very rarely, and it is said to be useful for algorithms that require centered data. Centered data is required. But generally, people use standardization instead of this. So, it is used quite less. But since I had to tell you, I told you. So, this was mean normalization. Right? Let's discuss another variant. Max absolute scaling. Right? This is quite interesting. Here too, if you have a distribution, let's say weight, and you have numbers like this, and you need to apply max absolute scaling, then its formula is xi' = xi divided by the absolute value of x_max. This is mean—I'm sorry— max absolute scaling. What are you doing to the original value? You are just dividing it by this value. That's it. You are just doing that much. Right? And for this, there is a class in Scikit-Learn called MaxAbsScaler, which you can directly utilize in Scikit-Learn. Where is this used? It is said to be useful where you have sparse data. Sparse data means data that contains a lot of zeros. If you have any such data where there are many zeros, then you can use Max Absolute Scaling there. Okay? And apart from that, it is not used very much. Personally, I have never used it very much. But wherever I have read, it says that if there are many zeros, if you are dealing with a sparse matrix, basically if your input matrix has many zeros, then you should go for Max Absolute Scaling. I personally haven't used it that much. What I have used is Robust Scaling. The next one. This one is very interesting and it comes in handy many times. First, let me tell you what happens in Robust Scaling. Again, you have any numerical distribution. If you want to scale it using Robust Scaling, then in this case the formula for xi 'is xi minus x-median divided by IQR. What is IQR? Interquartile range. You can write this as 75th percentile value minus 25th percentile value. This is IQR. So, this is your Robust Scaling. Okay? You will also find a direct class for this in sklearn. It is called the RobustScaler class. You will find all this in the preprocessing module of sklearn. And what is the biggest feature of this Robust Scaling? That it is robust to outliers. If you have outliers in your data, then you should try this scaling. I am not saying that this will perform the best, but it generally performs well if your data has a lot of outliers. Okay? So you guys can also try this if you have outliers in your data. Try this once and run the algorithm to see. See, this is all about experimentation. All of these values, these are basically tools. Right? You cannot tell in advance which thing will perform better. Yes, there is a set of problems where one thing performs well and another thing performs less well. But for general tabular data that you have, you won't be able to tell by looking whether Min-Max will do well or Max-Absolute will do well; there you have to try it all out. Machine Learning is all about performing experimentation. The more experimentation you perform, the more knowledge you gain about the field. Alright. So, one last thing that I will discuss before closing the video is Normalization versus Standardization. This seems very confusing to many people, so I will just give you some of my personal practical tips on when you should use which one. I always say that you should first understand what kind of algorithm you are working with. What kind of data you are working with. And then the very first question you should ask is: is feature scaling required? This is the very first question you need to answer. There is no need to do it unnecessarily. If you are working with decision trees, you don't need to perform feature scaling. Don't do it. The first question you should be clear about is whether I need to do feature scaling or not. And honestly, this knowledge will be better understood once you have studied all the algorithms a little bit. You should know the internal workings of the algorithm to understand whether I need scaling or not. This is the first point. Second point. Now, if you are sure that you must scale, then should you do standardization or normalization? So, here I will give you a tip. A practical tip. Most of the problems will be solved using standardization. In most cases, you get better results with standardization itself. And that is why the StandardScaler class is used the most. Trust me. So, where is normalization used? In normalization, if you especially talk about Min-Max. Min-Max Scaler is used the most when you already know the minimum and maximum values of your given quantity beforehand. For example, let me give you an example. Image processing. In image processing, when I used to work on CNNs, Convolutional Neural Networks, we used to run algorithms on images. And in an image, there are color channels, and the value of each color channel has a minimum of zero and a maximum of 255. And guess what? When you work on CNNs, you will realize that everyone uses Min-Max Scaler to do this scaling. So, a very good tip is that if you already know that the value of your numerical quantity will stay within this range. This is the minimum, this is the maximum. Use Min-Max scaling there. When you have no idea, use Standard scaling. When you know there are outliers, use robust scaling. When you know it's a sparse matrix, use max absolute scaling. Right? These are some general tips. But if you are a total beginner and have no idea yet, just use them all. I mean, it’s not costing you money. It will just take a little extra time. Your machine has to do the calculations. You will develop an understanding that, okay, I had this kind of data and this algorithm. This specific scaling worked best, and the knowledge you gain will stick in your mind and help you a lot later when you work on actual real-world datasets in some company. Right? So that concludes the entire discussion about normalization. I hope you understood it. We are studying only this much in feature scaling, and now we are gradually moving on to other feature transformation techniques, and after that, we will move on to other feature engineering techniques. Right? So, I hope you liked the video. If so, guys, please consider subscribing. Thanks for watching. Bye.
+
+
+[00:00] Hello guys, welcome to my YouTube channel. In this video, we are going to
+[00:04] discuss another feature scaling technique called normalization. Okay?
+[00:08] So, in the last video, we saw standardization and we also discussed
+[00:12] why feature scaling is important. Right? And now, in today's video, we will
+[00:16] look at a second technique which we call normalization, and we will also
+[00:21] discuss its types and make what we have learned a bit more concrete through a
+[00:26] code example. Okay? So, let's start this video. So, let's first go through
+[00:31] the formal definition of normalization. It is written here that normalization
+[00:36] is a technique often applied as a part of data preparation for machine
+[00:39] learning. The goal of normalization is to change the values of numeric columns
+[00:45] in the data set to use a common scale without distorting differences in the
+[00:50] ranges of values or losing information. So, in simple terms, if you are ever
+[00:55] working with a data set, let's say height and weight are your input
+[01:00] columns and you need to predict something, like whether that person
+[01:04] will buy sports equipment or not, let's say you have a data set like that. Now,
+[01:09] the thing with weights is that weight is a numerical quantity, and any
+[01:13] numerical quantity has two things. One is magnitude and the other is units.
+[01:17] Right? So, weight also has a magnitude and a unit. The unit can be anything.
+[01:23] It could be grams, kilograms, pounds, anything. Right? So, in machine
+[01:27] learning literature, it is said that whenever you are dealing with numerical
+[01:31] quantities, it's always a good idea to eliminate the units. Because if you
+[01:36] work with units, then there is trouble, it's problematic. Right? So, it's
+[01:41] better that you bring things to a common scale and then apply machine
+[01:44] learning algorithms on top of that. You will always get better results. And
+[01:48] that is the whole idea behind normalization: to eliminate the unit
+[01:53] and just keep the magnitude, that too on a common scale. Okay? I hope you are
+[01:57] understanding this point. Now comes the question: what are the types of
+[02:01] normalization? So, if you talk in terms of normal machine learning, like the
+[02:07] day-to-day machine learning you do, the most famous technique is Min-Max
+[02:13] scaling. Min-Max scaling. In fact, sometimes people casually just call
+[02:21] this normalization. So, if you are told to perform normalization, you should
+[02:25] understand it as being asked to do Min-Max scaling. All right? But apart
+[02:29] from this, there are many other types of scaling techniques. There are
+[02:32] normalization techniques. One of them is Mean Normalization. We will learn
+[02:39] about Mean Normalization and there is also Max Absolute Scaling. All right?
+[02:50] And there is one more called Robust Scaling. We will cover these four in
+[02:56] this video itself. Apart from these, there are other techniques as well. If
+[03:00] you go to the Scikit-learn documentation, you will find many more
+[03:03] such transformations there that you can study. But we are going to focus only
+[03:08] on these four techniques. And even among these, we will focus most on
+[03:12] Min-Max Scaling. Because if you are ever applying normalization, 90%of the
+[03:17] time you will use Min-Max scaling. All right? So let's start with Min-Max
+[03:21] Scaling. Let’s get the intuition behind it. When is it useful? What is
+[03:25] the formula? We will look at all of this. All right? So let's say you have
+[03:29] a numerical column in your dataset called weight. And here weights are in
+[03:37] kg, say 130, 67, 81. 61, 32, 54; suppose you have 100 such weights. Now,
+[03:52] suppose someone asks you to normalize this. To normalize, or in simpler terms
+[04:02] , if asked to apply Min-Max scaling, it is very simple. Actually, you just have
+[04:09] to apply a formula to every number. On every number of this distribution, you
+[04:17] apply a simple formula: the transformed value, let's represent it with a dash.
+[04:27] The transformed value will be equal to the original value minus the minimum
+[04:34] value of the distribution, divided by the maximum value minus the minimum
+[04:40] value; this is the formula. So, basically, you just need to find two
+[04:46] things out of these 100 numbers: what is the minimum value? You find that out
+[04:51] . For instance, right now it is 32, and the maximum value is 130. All right?
+[05:00] Now what do you need to do? Suppose you have to convert 130. How will it be
+[05:04] done? 130 minus 32 divided by 130 minus 32, which is 1. All right? Suppose you
+[05:15] have to do it for this, it will be 67 minus 32 divided by 130 minus 32, so
+[05:21] that is how you do Min-Max scaling; this is the simple concept, that is all
+[05:27] you have to do. All right? Now, if you notice a couple of observations here,
+[05:33] you will understand that once you apply this transformation, the new
+[05:38] distribution you get, the scaled distribution, will always have a range
+[05:42] between zero and one. You won't be able to go outside of that. Because think
+[05:47] about it, when will xi be the smallest? In the case of x-min. In the case of
+[05:53] x-min, your xi will become zero. And when will it be the largest? When x-max
+[05:58] is here, and in the case of x-max, these two will cancel out to become one
+[06:02] . So, basically, for the maximum value of xi, you get one, and for the minimum
+[06:07] value of xi, you get zero. That is why whenever you apply Min-Max scaling, the
+[06:13] output you get, the distribution you get, will always be scaled between zero
+[06:17] and one. That is the bottom line. Okay? If you want to see the geometrical
+[06:24] intuition of what exactly is happening, I can show you that too. It's a very
+[06:28] simple concept. Suppose you have two quantities. Weight and height. Okay?
+[06:33] And initially, your data looks something like this. Height is in
+[06:37] centimeters, and weight is in kilograms. So, w is here. h is here. Okay? And
+[06:43] the whole data is something like this.
+[06:47] These are all your customers or whoever they are. It’s like this. Okay? Now,
+[06:53] when you apply Min-Max scaling to this, the transformation that happens, I hope
+[06:58] you understand. The mean is not coming to zero here. You aren't even talking
+[07:01] about the mean. What are you just doing? You are taking this entire thing and
+[07:07] squishing it between zero and one. You are compressing it. Okay? So, on the
+[07:14] weight scale, here is one, and on the height scale, here is one. So, what
+[07:19] I’m saying is that whatever your dataset distribution is, you are taking
+[07:24] this entire thing and putting it inside this box. So, the geometrical intuition
+[07:30] of Min-Max scaling is that you are putting this data into a unit rectangle
+[07:38] or square. If this were 3D data, you would actually be squashing,
+[07:44] compressing the entire data into a unit cube. Okay? If it were in more
+[07:50] dimensions than that, you would be compressing this entire data into a
+[07:54] unit hypercube. Okay? You would be squashing it. If it is small, you
+[07:57] expand it, though that happens very rarely. Mostly you squash it, press it,
+[08:01] compress it. Okay? I mean, you do this. So that it fits into the unit hypercube
+[08:07] while maintaining this exact structure. That is the geometrical intuition
+[08:12] behind normalization. Okay? Now we will do one thing. I have actual wine data
+[08:20] that I downloaded from Kaggle. I don't remember exactly where I downloaded it
+[08:26] from. You will find all of this in my Git repo. There, we will actually apply
+[08:31] normalization and see how the whole thing works. Okay? So if I go to my
+[08:37] browser, I have already created a notebook here. I will just go through
+[08:43] the code. So I have imported the libraries here. This is my wine data
+[08:47] dot csv. Now it had many columns. I am just taking the first three columns.
+[08:51] And their names are here: class label, alcohol, malic acid. So these two are
+[08:56] inputs and this is the output. Alcohol looks a bit larger in comparison to
+[09:02] malic acid in terms of magnitude, and after that, what did we do? We just...
+[09:09] just one second. After that, I just wanted to show you that if you plot a
+[09:17] distplot, a PDF plot of the alcohol column at this point, then this kind of
+[09:23] bimodal distribution appears. And which looks like it is normal. And this is
+[09:30] the distribution of malic acid. This is it. And I also plotted a scatter plot.
+[09:39] A 2D scatter plot where alcohol is on the x-axis, malic acid is on the y-axis
+[09:43] , and here my class labels are three different classes. One, two, and three,
+[09:48] so you can see them here in three different colors. Okay? I did all this
+[09:52] just to show you that our data is like this. Okay? Now we are starting from
+[09:57] here. First of all, you always have to remember that whenever you do any kind
+[10:01] of scaling, you have to first do a train-test split. So that is what I
+[10:04] have done here. I have done a train-test split. And after the
+[10:07] train-test split, these are the shapes I got for X train and X test. After
+[10:11] that, what did I do? I imported the MinMax scaler class from Scikit-learn.
+[10:16] I imported the MinMax scaler class and created an object for it. And fit it on
+[10:21] the training data. I told you in the last video too that after doing a train
+[10:25] split, whenever you fit, you always do it on the training data. But you will
+[10:30] transform both the training data and the test data. That is how you do it.
+[10:33] Okay? So you must not forget this. And then I transformed both my train data
+[10:38] and test data using whatever I learned. Now, what would I have learned in this
+[10:43] step when I fitted it? The minimum value and the maximum value. I would
+[10:46] have just extracted two things from my distribution, from both distributions.
+[10:50] Okay? And after that, you might know that when you use Scikit-learn classes,
+[10:55] it converts your dataframe into a NumPy array. So, to handle that problem, I
+[11:01] converted that NumPy array back into a dataframe here. And here, I have
+[11:06] described the old data. So you can see that in the old data, the minimum value
+[11:12] for alcohol was 11. The maximum value was 14.8. For malic acid, it was 0.9
+[11:17] and 5.6. Now obviously, when you do this Min-Max scaling, you know that the
+[11:22] minimum value for both quantities will become zero and your maximum value will
+[11:27] become one. That is exactly what you will see in the data here. The minimum
+[11:30] for alcohol also became zero, yes, alcohol's became zero and malic acid's
+[11:35] also became zero, and the maximum value for both is also one. Okay? The mean
+[11:40] and standard deviation will behave differently. We cannot guarantee
+[11:43] anything about that. We can only guarantee the minimum and maximum. Okay
+[11:47] ? So, I hope you understood this transformation. And then what I did,
+[11:51] just like I did in the last video, I plotted the scatter plot of the old
+[11:56] data, before scaling and after scaling, once again. And you can see, there
+[12:00] isn't any significant difference visible. This scatter plot is exactly
+[12:04] the same scatter plot that you saw above here, the same scatter plot.
+[12:08] Except here you will notice that your scale, as I told you that you are
+[12:12] compressing, squishing the data inside a unit rectangle, here look, that is
+[12:16] what is happening; while retaining the original shape of the data, you are in
+[12:20] a unit rectangle, because this is 2D. You are squishing it there, pressing it
+[12:24] , fitting it. Okay? And there is no other change. The representation of the
+[12:28] data is almost exactly the same. If you notice, it's almost the same; I don't
+[12:33] see any significant difference. Maybe in some distributions, if it's not that
+[12:39] normal, there could be slight changes. Here, I would recommend you generate
+[12:45] some different distributions yourself and try scaling on them. That way, you
+[12:49] will build your own observations. But mostly, Min-Max Scaler is able to
+[12:53] retain the form of your data. Okay?
+[12:57] After that, we did one more thing; I showed you that I plotted both
+[13:02] quantities before scaling. So, look here, you can see that Malic Acid was a
+[13:07] bit lower. In the range of zero to six, and Alcohol was in the range of 10 to
+[13:14] 16. And see the benefit of scaling, of Min-Max scaling, that both came into
+[13:18] the same range. Between zero and one. Now, you might be noticing that it's
+[13:22] going into the negatives here. It's going beyond one here. That's because
+[13:25] we are plotting a KDE plot. And what does a KDE plot do? It makes inferences
+[13:29] . Those inferences fall under statistics. You don't have to be
+[13:34] worried about that. Just think of it as bringing both things between zero and
+[13:38] one. And because of that, both are now working on the same scale. Which is
+[13:41] actually good. What you needed is happening. Okay? So, in the last step,
+[13:46] what did I just do? I showed you the distributions individually. This is the
+[13:51] distribution of Alcohol before scaling and after scaling. I don't see any
+[13:55] changes. Apart from the scale, and the same goes for Malic Acid. Even in Malic
+[13:59] Acid, I don't see any change in the distribution. Apart from the fact that
+[14:03] the scales have changed. The scales have changed. The shape of the
+[14:07] distribution is exactly the same. But here, the shape of the distribution
+[14:11] might change. You need to keep that in mind. In some distributions, it might
+[14:14] change. It's not at all necessary that the shape will be maintained. Okay? So,
+[14:19] that's that. Here, there is a problem with outliers; since you are squashing
+[14:25] them into the zero-to-one range, the impact of outliers also gets squashed.
+[14:31] Okay? So, that's a bit of a downside. Otherwise, for other things, it's fine.
+[14:35] Min-Max scaling is all fine. Okay? Now, what will I do? I will quickly show you
+[14:41] three more normalization techniques. We won't be having very deep discussions
+[14:45] on those. I will just give you the formula and tell you the use cases
+[14:50] where you can apply these normalization techniques. And that's it. The rest you
+[14:55] can go and try out yourself. You will find classes for this in Scikit-learn.
+[14:59] Right? So, there is another technique called mean normalization. Right? In
+[15:04] mean normalization, if you have numerical quantities with numbers and
+[15:10] you need to normalize them using mean normalization. Then the formula used
+[15:18] here is xi '= xi-x_mean divided by x_max-x_min. So, you are doing mean
+[15:34] centering here. Just like you do in standardization. You are doing mean
+[15:39] centering. Meaning, wherever your data is, if it's over here, you are bringing
+[15:46] it here. You are doing mean centering. You are doing this. You are bringing it
+[15:51] over here. Right? So, this step is the same. And after that, you are scaling
+[15:54] it into this range. Right? This range. And this will give you values in the
+[16:00] range of -1 to 1. You can try it and see. If any of your values are less
+[16:05] than the mean, if the value is less than the mean, you will get a negative
+[16:10] number. If the value is greater than the mean, you will get a positive
+[16:14] number. Right? That's it. This is very rarely used. In fact, there is no class
+[16:20] for this in Scikit-learn. You will have to write the code yourself or find a
+[16:24] workaround. Scikit-learn does not have support for this. You use it very
+[16:30] rarely, and it is said to be useful for algorithms that require centered data.
+[16:36] Centered data is required. But generally, people use standardization
+[16:41] instead of this. So, it is used quite less. But since I had to tell you, I
+[16:47] told you. So, this was mean normalization. Right? Let's discuss
+[16:51] another variant. Max absolute scaling. Right? This is quite interesting. Here
+[16:57] too, if you have a distribution, let's say weight, and you have numbers like
+[17:04] this, and you need to apply max absolute scaling, then its formula is
+[17:10] xi' = xi divided by the absolute value of x_max. This is mean—I'm sorry—
+[17:18] max absolute scaling. What are you doing to the original value? You are
+[17:24] just dividing it by this value. That's it. You are just doing that much. Right
+[17:28] ? And for this, there is a class in Scikit-Learn called MaxAbsScaler, which
+[17:34] you can directly utilize in Scikit-Learn. Where is this used? It is
+[17:40] said to be useful where you have sparse data. Sparse data means data that
+[17:50] contains a lot of zeros. If you have any such data where there are many
+[17:54] zeros, then you can use Max Absolute Scaling there. Okay? And apart from
+[18:00] that, it is not used very much. Personally, I have never used it very
+[18:03] much. But wherever I have read, it says that if there are many zeros, if you
+[18:08] are dealing with a sparse matrix, basically if your input matrix has many
+[18:13] zeros, then you should go for Max Absolute Scaling. I personally haven't
+[18:17] used it that much. What I have used is Robust Scaling. The next one. This one
+[18:22] is very interesting and it comes in handy many times. First, let me tell
+[18:26] you what happens in Robust Scaling. Again, you have any numerical
+[18:30] distribution. If you want to scale it using Robust Scaling, then in this case
+[18:39] the formula for xi 'is xi minus x-median divided by IQR. What is IQR?
+[18:47] Interquartile range. You can write this as 75th percentile value minus 25th
+[18:56] percentile value. This is IQR. So, this is your Robust Scaling. Okay? You will
+[19:04] also find a direct class for this in sklearn. It is called the RobustScaler
+[19:08] class. You will find all this in the preprocessing module of sklearn. And
+[19:13] what is the biggest feature of this Robust Scaling? That it is robust to
+[19:21] outliers. If you have outliers in your data, then you should try this scaling.
+[19:30] I am not saying that this will perform the best, but it generally performs
+[19:34] well if your data has a lot of outliers. Okay? So you guys can also try this
+[19:39] if you have outliers in your data. Try this once and run the algorithm to see.
+[19:44] See, this is all about experimentation. All of these values, these are
+[19:47] basically tools. Right? You cannot tell in advance which thing will perform
+[19:51] better. Yes, there is a set of problems where one thing performs well and
+[19:55] another thing performs less well. But for general tabular data that you have,
+[19:59] you won't be able to tell by looking whether Min-Max will do well or
+[20:02] Max-Absolute will do well; there you have to try it all out. Machine
+[20:06] Learning is all about performing experimentation. The more
+[20:09] experimentation you perform, the more knowledge you gain about the field.
+[20:13] Alright. So, one last thing that I will discuss before closing the video is
+[20:17] Normalization versus Standardization. This seems very confusing to many
+[20:21] people, so I will just give you some of my personal practical tips on when you
+[20:26] should use which one. I always say that you should first understand what kind
+[20:32] of algorithm you are working with. What kind of data you are working with. And
+[20:37] then the very first question you should ask is: is feature scaling required?
+[20:49] This is the very first question you need to answer. There is no need to do
+[20:52] it unnecessarily. If you are working with decision trees, you don't need to
+[20:55] perform feature scaling. Don't do it. The first question you should be clear
+[20:59] about is whether I need to do feature scaling or not. And honestly, this
+[21:03] knowledge will be better understood once you have studied all the
+[21:06] algorithms a little bit. You should know the internal workings of the
+[21:10] algorithm to understand whether I need scaling or not. This is the first point
+[21:14] . Second point. Now, if you are sure that you must scale, then should you do
+[21:20] standardization or normalization? So, here I will give you a tip. A practical
+[21:25] tip. Most of the problems will be solved using standardization. In most
+[21:30] cases, you get better results with standardization itself. And that is why
+[21:33] the StandardScaler class is used the most. Trust me. So, where is
+[21:38] normalization used? In normalization, if you especially talk about Min-Max.
+[21:44] Min-Max Scaler is used the most when you already know the minimum and
+[21:48] maximum values of your given quantity beforehand. For example, let me give
+[21:52] you an example. Image processing. In image processing, when I used to work
+[21:57] on CNNs, Convolutional Neural Networks, we used to run algorithms on images.
+[22:04] And in an image, there are color channels, and the value of each color
+[22:07] channel has a minimum of zero and a maximum of 255. And guess what? When
+[22:12] you work on CNNs, you will realize that everyone uses Min-Max Scaler to do this
+[22:18] scaling. So, a very good tip is that if you already know that the value of your
+[22:23] numerical quantity will stay within this range. This is the minimum, this
+[22:27] is the maximum. Use Min-Max scaling there. When you have no idea, use
+[22:32] Standard scaling. When you know there are outliers, use robust scaling. When
+[22:37] you know it's a sparse matrix, use max absolute scaling. Right? These are some
+[22:41] general tips. But if you are a total beginner and have no idea yet, just use
+[22:46] them all. I mean, it’s not costing you money. It will just take a little
+[22:49] extra time. Your machine has to do the calculations. You will develop an
+[22:53] understanding that, okay, I had this kind of data and this algorithm. This
+[22:57] specific scaling worked best, and the knowledge you gain will stick in your
+[23:01] mind and help you a lot later when you work on actual real-world datasets in
+[23:05] some company. Right? So that concludes the entire discussion about
+[23:10] normalization. I hope you understood it. We are studying only this much in
+[23:15] feature scaling, and now we are gradually moving on to other feature
+[23:19] transformation techniques, and after that, we will move on to other feature
+[23:23] engineering techniques. Right? So, I hope you liked the video. If so, guys,
+[23:27] please consider subscribing. Thanks for watching. Bye.

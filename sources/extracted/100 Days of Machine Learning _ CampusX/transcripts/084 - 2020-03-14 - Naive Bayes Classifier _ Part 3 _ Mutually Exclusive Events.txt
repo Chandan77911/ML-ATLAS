@@ -1,0 +1,40 @@
+# Naive Bayes Classifier | Part 3 | Mutually Exclusive Events
+# https://www.youtube.com/watch?v=nneTjTYikBE
+
+so now let's discuss about mutually exclusive events do events a and B are said to be mutually exclusive when this is true P of a intersection B is equal to zero but do not start megasis teenagers they say it going Coachella or head or tails dunno something not possible a conditional block electricity we are ready to accept don't wanna go sector so these events are known as mutually exclusive events rate or ei can si if you put this formula P a given B you already know that this is equal to a intersection B divided by P of B since this one is 0 this also becomes C so this is the probability of a given B knowing that both are mutually exclusive events is going to be C it's like a each other paradigm a 3-iron so they make dynamic Stability digna see somebody's garden or but now my clinical probability given I am given when I'm already left earlier which we exclusive ticket so that something first it might seem averse name independent events or next sister then it's just he even seduced remove my paper but mutually exclusive events are may exist in anger fear or to be honest window may be so difference or identify the cannot copy and where is the main thing right I notice this is you gave ugly look I found it so thanks for watching
+
+
+[00:01] so now let's discuss about mutually
+[00:03] exclusive events do events a and B are
+[00:08] said to be mutually exclusive when this
+[00:12] is true P of a intersection B is equal
+[00:16] to zero but do not start megasis
+[00:19] teenagers they say it going Coachella or
+[00:23] head or tails dunno something not
+[00:26] possible a conditional block electricity
+[00:28] we are ready to accept don't wanna go
+[00:30] sector so these events are known as
+[00:32] mutually exclusive events rate or ei can
+[00:35] si if you put this formula P a given B
+[00:42] you already know that this is equal to a
+[00:45] intersection B divided by P of B since
+[00:49] this one is 0 this also becomes C so
+[00:55] this is the probability of a given B
+[00:59] knowing that both are mutually exclusive
+[01:01] events is going to be C it's like a each
+[01:06] other
+[01:07] paradigm a 3-iron so they make dynamic
+[01:12] Stability digna see somebody's garden or
+[01:16] but now my clinical probability given I
+[01:19] am given when I'm already left earlier
+[01:21] which we exclusive ticket so that
+[01:24] something first it might seem averse
+[01:26] name independent events or next sister
+[01:29] then it's just he even seduced remove my
+[01:31] paper but mutually exclusive events are
+[01:33] may exist in anger fear or to be honest
+[01:36] window may be so difference or identify
+[01:39] the cannot copy and where is the main
+[01:41] thing right
+[01:42] I notice this is you gave ugly look I
+[01:43] found it so thanks for watching

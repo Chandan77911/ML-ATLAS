@@ -1,0 +1,1917 @@
+# The Maths Behind XGBoost | Machine Learning | CampusX
+# https://www.youtube.com/watch?v=0Eo-_5bfers
+
+Hi guys, my name is Nitesh and welcome to my YouTube channel. In this video, we are going to cover the in-depth mathematics of XGBoost. So if you have been following all the videos, I have already posted three videos on XGBoost. In the first video, I covered the introduction. In the second video, I showed how XGBoost is applied to regression. I demonstrated that. And in the third video, we covered how XGBoost is applied to classification problems. But in all three videos, I hadn't discussed any math at all. So that is exactly what we will cover in this video. In this video, we will go very deep and understand the entire mathematical formulation from scratch. We will try to understand where all the formulas came from. Let me tell you why you should watch this video. XGBoost is undoubtedly the most powerful algorithm in the machine learning space today. Take any problem involving tabular data, and most likely, you will be using XGBoost there. So, if you are going to become a data scientist or let's say you are a data scientist, you should have a very clear picture of XGBoost's mathematics. This video will provide you with exactly that. In a very in-depth, detailed, step-by-step approach, we will refer to the research paper to cover all the mathematics. No doubt, the video is a bit long. But that is because I made a conscious decision not to skip anything and to show you everything by writing and deriving it. So this is just for the hardcore data science fans. So now, I won't bore you any further. Let's start the video. So you must have understood that in this video, we are going to cover the detailed mathematics of XGBoost. But before starting the video, I want to tell you exactly what we are going to study in the mathematics section. If you have followed all the previous XGBoost videos, you would know that we have already posted three videos on this channel. In the first video, we did a detailed introduction to the XGBoost algorithm. In video number two, we focused specifically on regression and how XGBoost solves a regression problem. Then in video number three, we discussed how XGBoost works on classification problems. So, if you have watched both these videos, you might remember that the common thing in both regression and classification problems was that we used to build a decision tree that was slightly different from regular decision trees. Right? In XGBoost, your decision tree is different from a normal decision tree. In two aspects, the first aspect is that in a normal decision tree, when you construct a node, you calculate quantities like entropy and Gini index. But in XGBoost trees, instead of using these two, you calculate a completely different quantity, which we call the similarity score. Right? And if you focus here, you will find the formula to calculate the similarity score for regression and to calculate the similarity score for classification. Right? So, I introduced both these formulas in those two videos. I did not give you any mathematical background, and I told you that just trust me, this is the formula we have to use. But in today's video, we will go into great detail to understand where these two formulas came from. The second point of difference between an XGBoost tree and a normal decision tree is that the method to calculate the decision tree output is different; the normal one and the XGBoost one have different formulas for calculating the leaf node output. And again, if you focus here, this is the formula to calculate the output value for any leaf node in the case of regression. And this is the formula to calculate the output of any leaf node in the case of classification. And again, I introduced both these formulas in those two videos. And once again, I did not tell you where they came from. So, in today's video, we will look behind these as well and try to understand how these two formulas came into existence. Right? So, in short, in today's video, we are going to do a deep dive into the mathematics of XGBoost, and our goal will be to understand where these four formulas came from. I will give you the answer to every "why." And trust me, if you understand this video well, you will have such foundational knowledge of XGBoost that you will be able to apply XGBoost to any problem very effectively in the future. Right? Also, before starting the video, I want to give one more disclaimer. So when I was researching for this video, I noticed that there isn't much content available on the internet. In a few places, people have explained how the mathematics of XGBoost works. But I noticed some mistakes in them. So that is why for this video, I have specifically used the research paper of XGBoost. So whatever mathematics I explain to you in this entire video is basically in these two pages. Page number two and page number three. Okay? So things will be factually correct and the good part is that you will be able to go back and read this XGBoost paper too. Okay? So with that, I guess I gave you a clear plan of attack. Now let's start the video. Also, one more thing, if you are feeling a bit scared that this video about mathematics will be very difficult, then I have a suggestion for you to study a few things before watching this video. After that, this video will seem easy to you. What do you need to study? First of all, the two videos I uploaded before this on XGBoost, the regression video and the classification video. You must watch these videos, only then will you understand things. Apart from this, you should have some idea about gradient boosting. Because XGBoost is just optimizations over gradient boosting. So if you know gradient boosting, it will become much easier to understand. And obviously, you should know the basic concepts of decision trees. How a tree is built, how the output value is calculated? You should know all of this. If your foundation is clear to this extent, trust me, you won't have much trouble understanding this video. So guys, at the very beginning, I want to give you a short quick revision of how boosting models like XGBoost or gradient boosting work. Although I have told you this multiple times. But let's have a quick revision once. So as you know that boosting models like gradient boosting or XGBoost or for that matter, other boosting algorithms you will study later, they are all additive models. Additive models mean that in a stage-wise fashion, one after the other you keep adding models to your existing ensemble. So in stage one, you have this model M1. Okay? It made some mistakes on your data. You train this model M2 on those mistakes and then you combine these two to make a prediction. Then the combination of these two will also make some mistakes. So, you propagate that error towards the third model. The third model trains, and then you combine these into an ensemble to make a prediction, and in this way, you can add as many models as you want. I guess you are aware of this. All right? So, here, to explain this point a bit better, I am taking an example. Like, suppose you have this data of students where you have CGPA and IQ as input, and this is your output, which is the value of their package. So, what did we do? We applied XGBoost on this. And we already decided that we will build two models. The first and the second. Now, generally, the first model is a base model. And in the case of regression, this could be the mean of the output column. So, we basically took the mean of all three. This is your first model. This, this is your m1. All right? Now, obviously, M1 will make some mistakes. You are saying for this student too, the package should be 14.5. For this one too, you are saying it should be 14.5. And for this one too, you are saying it must be 14.5. So, obviously, there are errors, there are mistakes. So, now what will you do? You will take your input and this difference, these mistakes, this error, you will take them and use this data to train M2 in stage two, which is nothing but a decision tree. All right? Now, for a moment, assume that this is the decision tree you built. All right? If CGPA is less than six, then this happens; if IQ is less than 100, then this happens. All right? And you have trained this. All right? Now the question is, if tomorrow a new student comes, suppose their CGPA is nine and their IQ is 100 or 102, then how will we calculate their output? How will we calculate y-hat to find out what their package will be? It is very simple. We will send this input data into this combination of m1 + m2. So, what output will m1 give? 14.5 plus what output will m2 give? Since it is a decision tree. You will ask it a question. Is CGPA less than six? No, it is nine. All right? So, if you consider this as yes and this as no, then you will directly add 2.1 and say that 16.6 should be the package. So, this is how you find out predictions in the case of boosting. All right? So, if you talk in a strictly mathematical sense, all these models are nothing but mathematical functions; if you think about it, I can actually write this one as f1x or f1xi, we will calculate it for each data point, and we can call this f2xi. Even though this is a decision tree, it is still a function; you give it some input. It gives you some output. Now, to calculate that output, it is using if-else statements. But that doesn't matter, it is still a function. So, if you have a lot of such functions, then this last one will become fn xi. So, in short, what I mean to say is that the output calculated in boosting can be written in a compact mathematical form. If you have n models, like there are two here. Suppose we had n models, then we would write this entire expression like this. f1 xi + f2 xi + dot dot dot + fn xi, or we could write it as sum from i = 1 to n fi xi; this is the formula for the output of a boosting algorithm like XGBoost. I hope you have understood. Now guys, we have understood that you can explain the output of a boosting model in terms of the sum of functions. But one thing that isn't clear is how the output values of these leaf nodes of this decision tree, these three leaf nodes, were calculated. Now, if you have watched the previous two videos, I told you there that if you talk about regression, since this is a regression problem. So, if you talk about regression, then the formula to calculate the output of the decision tree in the case of regression is Sum of residuals divided by number of residuals plus lambda. Okay? For example, suppose you have to calculate the output of this particular leaf node. Then first of all, you will find out which of these data points will fall into this particular leaf node. Okay? You can see that only this data point will fall here. Right? Because less than CGPA 5 is only in this row. So here, what you will do is you will write down the residual or error corresponding to this point, divided by the number of residuals, which is one. Plus whatever your lambda value is, you will put it in, and that will be your output value. Similarly, what will you do for this one? Similarly, you will do the same for this one as well. For this node as well, you will find out which points fall into this node. Like right now, I can see this particular point. So for this too, you will apply the same formula. And similarly for this one also. But in this video, we need to understand where this formula came from. What is the origin story of this formula? That is what we will try to understand. Moving forward, given an XGBoost tree, how do you find the leaf weights? By the way, the output of a leaf node is also called a leaf weight. So we are trying to figure out how this formula came to be. Okay? Now, how is this formula derived? I will first explain the thought process behind it. Okay? Based on the discussion so far, you have understood that in our overall combined model, where we have two models, m1 and m2, their combined output, which we will call yi-hat, will be m 1's output plus m 2's output. Right? And I told you a while ago that we can mathematically write this in terms of functions. So let's say we are calling m1 f1 (xi) + m2, which is this decision tree. We are calling this f2. (xi). Okay? Now we know that the output of f1 (xi) is always 14.5. We need to find the output of f2 (xi). Okay? The interesting thing is that we have to calculate three output values. Okay? You have to remember that f2 (xi) doesn't have a single output value. There will be three different output values. One for this leaf node, one for this leaf node, and one for this leaf node. So we need to calculate all three. So basically, if this decision tree had five leaf nodes, we would have to find five values for this f2 (xi). Okay? Anyway. Now we have the formula for yi-hat. Okay? We need to find out what the value of f2 (xi) will be. Okay? So let's try to think once about what the value should be. If you have studied machine learning enough and read about the algorithms, you should always know that the only job of your algorithm's prediction is to get closer to reality. And what is reality? yi, which is the actual package of the kids in your data. You will always want to do one thing. You will want to reduce the gap between yi and yi-hat. Right? So basically, we need a value in f2 xi such that for every data point, the difference between these two quantities is reduced. Okay? Now, that is why it is very important that you first write down the relationship between yi and yi hat. And I guess even a beginner knows what we call the relationship between yi and yi hat? Loss function. A loss function is a mathematical function that establishes a relationship between yi and yi hat, and our goal in machine learning is to minimize this loss function. Like in the case of regression, we studied a very famous loss function. Mean Squared Error, whose formula is this. I hope you remember this from linear regression. So now, if we need to find this value, then we need to find a value that will minimize the loss function. I think you've understood this much. Now, the only question that arises is, what is the loss function in the case of XGBoost? What is the loss function? If we get the loss function, then in the process of minimizing that loss function, I will find this f2 xi. Okay? So first, I will show you the loss function used in Gradient Boosting, and then after that, I will show you the XGBoost loss function. So Gradient Boosting is one algorithm which is very, very flexible. I told you while teaching Gradient Boosting that Gradient Boosting is so flexible that it accepts any type of loss function, provided it is differentiable. Meaning, you should be able to differentiate that loss function. Because differentiating is necessary since you will perform optimization. So for that, you need a differentiable loss function. One such differentiable loss function is Mean Squared Error, which I just showed you. So if you talk about Gradient Boosting, then there isn't actually any specific loss function in Gradient Boosting. In Gradient Boosting, the loss function is often represented in this way. That's it. If you see this written, then this is the Gradient Boosting loss function. Now, you can put any mathematical function into this. You can also put Mean Squared Error. You can also put Log Loss. You can also put any other loss function. It just needs to be differentiable. But the XGBoost loss function looks a bit different, slightly different. And as I told you in the first video of XGBoost, the loss function of XGBoost has a regularization parameter by default. Right? So now, I will show you what the XGBoost loss function looks like. Now, if you go to the original XGBoost paper, you will see this. And this is the loss function of XGBoost. Right? So first, I will write it down. Then I will explain to you what this loss function indicates. So in our case, since there are two models m1 + m2, here m1 is a base model and m2 is a decision tree. So our loss function will be σ i = 1 to n for all data points l yi yi hat plus this omega term on f2 xi Right, now it is explained here what this omega of f is. Right? By the way, this term is only applicable to your last decision tree. So, it is actually made of two terms. Right? So it is actually gamma times T + 1/2 lambda times w². Right? Let me explain all these things to you once. So here, this T is the number of leaf nodes in your decision tree. Like in our case, one, two, three, these are our number of leaf nodes. So here, the value of t will be three. And what is this W? This W is the weight or output of these leaves. Like this is W1. This is W2. This is W3. Right? And this gamma is a regularization parameter, and this lambda is also a regularization parameter. Right? Basically, you want to penalize your tree for having too many leaf nodes and having very high output values. That's the whole idea behind this entire loss function. Right? You can compare it side-by-side with gradient boosting. In gradient boosting, this loss function would just be this. That's it. This term would not be there. So, the biggest difference you can see so far in XGBoost is this. That this loss function is different. It comes with a built-in regularization parameter. Right? So, now if I tell you what W1, W2, and W3 should be? Then in very simple words, we need values for W1, W2, and W3 that will minimize this loss function. And that's the whole idea. And now we have entered the domain of optimization, which is a somewhat familiar territory. You have studied this in gradient descent and also in linear regression. And in many other algorithms, you have explored how to find values for specific parameters by minimizing the loss function. Okay? So, moving forward, we are going to apply all this same mathematics. Before moving ahead, I would like to clarify one thing. Until now, what I was doing was calling this thing a loss function. Okay? I was calling this complex term a loss function. But actually, you don't call it a loss function. You actually call it an objective function. This is called an objective function. Because this is a sum of two things. First, your loss function, And second, your regularization term. Okay? So, going forward, we will call it an objective function. Wherever you read about it, it will be called an objective function. I might accidentally call it a loss function again. But you understand the sentiment. Okay? Now, I want you to get comfortable with this objective function. It is very, very important that you get a bit comfortable with what is written on the screen right now. So, what am I going to do? I will show you this objective function through two or three different examples. Okay? So, let's assume we are building three or four different models. Suppose we have a dataset. Any dataset, and we performed boosting on it using XGBoost. Now you know what you do in boosting. You keep adding models one after another in a stage-wise fashion. One model in the first stage, two models in the second stage, three models in the third, and so on. Now, assume that when you first applied XGBoost on it, you decided that, no, I will use only one model. So there will be only one model. So, I want to show you what this objective function would look like if there were only a single model. By the way, you know that the first model in XGBoost is not a decision tree. It is simply the mean. This is just a constant. So let's assume we have a single model. This is m1; mathematically, we can call it f1 xi. So, for this, our objective function becomes sigma i = 1 to n for all the data points. Loss function is yi. yi hat, that's it; this term does not come because what is This term is this thing. Right? What is T in this? Number of leaf nodes. And what is W? Leaf weights. Now think about it yourself. If you have just one model and it is only a mean model. This is not even a decision tree, so you wouldn't write this for that. I hope you are understanding the point. Now let's take a second case. The second case is that this time we are taking two models. We are taking two models. This is m1, which is again mean, and we are taking m2, which is a decision tree. Okay? And mathematically we are writing this as f1. xi and we are representing this as f2 xi. How will our objective function look in this case? Our objective function will look like this. yi, by the way, we can write yi hat as this. Right? So what am I doing? Here, rather than writing yi hat, I am writing f1 xi + f2 xi, okay? + omega of f2 xi. Why only f2xi? Because only f2xi is a decision tree. Okay, anyway, this is stage two. This is stage two, this was stage one. So since this new model has been added and since this is a decision tree, your regularization term will only apply to F2. It will not apply to F1. Okay? Let's take one more iteration. Let's add one more model. So we are moving on to stage three. In stage three, we have three models. This is the first one. This is the second one. This is the third one. So this is model one. This is model two. This is model three. This is again just a mean. This is a decision tree. This is also a decision tree. Okay? Mathematically, we are calling it f1xi, f2xi, f3xi, and now I would like you to imagine what the objective function will be. The objective function will be this. yi f1 xi + f2 xi + f3 xi + f3 xi, why did I add only f3xi? Because the regularization up to here has already been handled in this step. Okay? Now, since this new decision tree has been added. That is why we are applying regularization on it. Okay? I hope things are clear up to here. One last example, we are at stage T. We don't know how many iterations have passed. How many models we have added. We don't know. We just know that now we have T models. T could be 100, or it could be 1000. We don't know anything. So now we have T models. We have T models. This is M1, this is M2, this is MT. This is mean, this is decision tree. In between are all decision trees, and this is also a decision tree. Let's call this one f1 xi, f2 xi, ft xi, and now I would like you to think, what would be the objective function? So, the objective function will be from i = 1 to n. By the way, we can do one more thing. We can introduce a notation. Here, we can write one to represent this is the objective function of stage one. Here, we can write the objective function of stage two. Here, we can write the objective function of stage three. And similarly, we can write the objective function of stage t. So here we will have yi, f1 (xi) + f2 (xi) + dot dot dot + ft (xi). The very last plus, you always focus on your last decision tree, so here we will have (ft) xi. This will be the loss function, or I am sorry, this will be the objective function at stage t. Right. Now I am going to do one thing; I am going to simplify this entire term a bit. How? Pay attention, so I would rewrite it as yi, yi hat till stage t-1 + ft (xi) + ft. Basically, what I did is that I took (f1xi) + f2xi dot dot f (t-1) xi, replaced this whole thing with this term. yi hat till stage t-1 And we can write it like this, right? If we were at the t-1 stage, its yi hat would be this value, wouldn't it? So basically, I simplified it and I can say that, "At any stage t, the objective function of XGBoost can be written as sigma i = 1 to n (for all the data points): l (yi, yi hat till t- 1 stage +) ft (xi) + omega of ft (xi)" and I did all this hard work only because I want to show you that in this research paper, they have also written the t-th stage objective function exactly the way we have written it. You can see, now what do we need to do? We need to find such an output value for this fxi, which is the last decision tree, that will minimize this entire objective function. That is the goal. We have to find such a value of ftxi or this decision tree or the output of this leaf so that this entire objective function is minimized. This is our goal at this point of time. So, we have established our objective function and we have also established our goal. We basically need a value for ftxi that will minimize this entire objective function. So essentially, we have turned this whole problem into an optimization problem. And the good part is that we are already very comfortable with solving such optimization problems. Right? My question to you would be, have you ever solved an optimization problem like this? Where you need the values of parameters that minimize a loss function or an objective function. The answer should be yes. I mean, if you have studied linear regression, then if you remember, we used to have an objective function or a loss function there. Which was this. And, the actual loss function there, which I have written in a general form right now, was mean squared error, which you could also write as: (yi-yi hat) squared. Okay, now for a moment, assume that you are applying linear regression on this data. You have an input column called experience and you have to calculate salary, so this is your input and this is your output. Okay? So, What was yi here? What was yi hat? Like, yi is this. yi hat used to be m times experience of the ith candidate + b, right? So in a way, I was able to write this loss function like this too. yi-I can also call experience i as xi here. Because this is the input. Right? And if you remember, our task used to be that we needed such values of m and b for which this loss is minimum. This is like basic linear regression. Okay? And then what did we do? We used to plot a graph. Where one axis had m, one axis had b, and the vertical axis had our loss value. Okay? We used to try different values of m and b and plot the loss. Now, since this is a quadratic equation type. So, if you remember, this used to be our loss function. Here, this is the cost or loss. On this axis, you have m. On this axis, you have b. Okay? As soon as we find out that there is such a lovely parabolic shape. And now we have to find such values of M and B for which the loss is minimum. We know it will always be at the point where the loss with respect to both, the slope and the intercept, is zero. So what did we used to do? We used to differentiate our loss function. Once with respect to m, and by setting it to zero, we would find the value of m. And once by differentiating with b, we would find the value of b. And basically, we would get such a value of m and b. That would minimize this loss. And this is where we used techniques like gradient descent. Right? So in short, I just want to tell you that we have solved this kind of optimization problem before. But what if I tell you that this particular optimization problem is a tough nut to crack or is very difficult to solve. So would you agree? Let me give you my argument as to why I think optimizing this is...In this way, the method I just explained, in the linear regression case, our 'l' is this. In linear regression, m and b were our parameters, which are these here. Right? But the job is the same. But why am I saying that optimizing this is much more difficult? The reason is that if you understand, what is yi-hat in both places? In the case of linear regression, yi-hat is a very simple thing. It is mx + b, okay? If you try to draw it, if this is your experience and this is your salary, and if this is your data, then your 'yi-hat' is basically this line, it's a simple curve. But if you talk about our decision tree thing, then here what is 'yi-hat'? First of all, 'yi-hat' is yi-hat at time t-1 + ft xi, you can see that. This entire term is our yi-hat, right? Now, if you talk about this term, it is a constant, but if you talk about this term, it is a decision tree, okay? So this means that if we had the same data, experience here, salary here, and these were our data points, then the 'yi-hat' curve would look something like this. It would look something like this. I am not sure if I will be able to draw this or not. Basically, if you have studied decision trees for regression, you would know that in this way the entire regression happens. In the case of suppose this was the data. Then in this case, it would look something like this. Something like this. What I am trying to tell you is that unlike the linear regression case, this won't be a simple line. In our case, it would be a zigzag curve, a curve like this. Okay? Why? Because the output of decision trees is actually like this. Okay? Okay? If I can show you, so I would just search for a decision tree regression graph just to show you, because I am not able to draw it correctly. So yeah, this is what I wanted to show you. You can see, if this were linear regression here. I will just cut this diagram and I will just show you what I am trying to say. Where did it go? Here it is. So if this were normal linear regression, a line would be drawn like this. Right? But since this is a decision tree or a set of decision trees. Then its graph will look like this. Like this. And it will look like this because if you have watched my decision tree class, then I had mentioned there that its output is piecewise constant. Meaning, in this area, it is a constant value. Then at the very next moment, it is this value. At the previous moment, it was that value. There are sudden jumps. There are sudden jumps. Okay? So because our yi hat is such a weird curve. Because of that, when we try to plot the graph of loss with yi hat, we will not get such a smooth parabolic curve. There is a good chance that we might get a curve like this. It is perhaps a parabola, but with many irregularities; imagine this in 3D. Okay? So because the parabola is formed in this way. Optimizing this will not be easy. Why? Because at many points this curve is not even differentiable. So basically, you cannot even apply this partial differentiation. You cannot even reach this point because you are unable to find the slope with respect to fxi. So let me summarize my entire argument once. What did I say we have to do? We need to find the ft xi that minimizes this entire equation, this entire objective function. So basically, this is an optimization problem. But we learned that in an optimization problem, what you do is differentiate your objective function with respect to the parameters involved and then equate it to zero to find the value. But for this, it is necessary that your optimization—I am sorry—your objective function must be differentiable. But since our y-i hat involves a decision tree. Because of this decision tree, the loss curve that is formed is actually non-differentiable at many points. Because of that, you cannot find this slope, and hence you cannot find a value of f (xi) that will minimize this entire thing. This is my argument. I hope I was able to explain it. So, what is the solution? The solution is, what if I could smooth out this curve—this zigzag, weird curve? Could approximate it? I mean, what if I could replace this complex equation with some other equation that might look like this. It is not necessary. It could be a bit higher or a bit lower. But it should be close. Okay? And at the same time, it should be smooth and differentiable. The important thing is that we can differentiate it with respect to f (xi). This is very important, then our work can be done. So basically, what we need to do is somehow approximate this part of the objective function because, right now, this is not useful. So, this was a bit of a complex part of this entire explanation, but I think I was able to roughly explain what the problem is. And now, I will tell you the solution. The solution is that we will approximate our non-differentiable curve using a beautiful mathematical technique called Taylor series. I am sure you must have studied it in engineering math, but perhaps didn't pay much attention then, but guess what? It is going to help us with this problem now. So guys, let's quickly try to understand the Taylor series. So that when I apply it later, you have some idea. So, what is the Taylor series? Let me first define it for you in one line. So, the Taylor series is a very, very powerful approximation technique. That is the simplest definition. So, what does the Taylor series say? That you bring any complex function. Okay? Bring any complex mathematical function. And the Taylor series can approximate it using a polynomial. Right? Suppose you have some very complex function. Let's say for now, e to the power x, you can approximate it very easily using a polynomial. For instance, let's assume this is a polynomial. Okay? So, this is what the basic definition says: you input a complex function, and you can approximate it using simple polynomials. Okay? This is the main idea behind a Taylor approximation or Taylor series. The only caveat here is that if you want a very accurate, highly accurate approximation, then the polynomial you create will need many polynomial terms. Like x raised to the power 3, to the power 4, to the power 5, and so on. The more polynomial terms you keep adding, the more accurate your approximation will become. It will become more accurate. Okay? So that was the "what"? Now I will tell you the "how"—exactly how the Taylor series works. We won't go too deep because this isn't a video specifically about the Taylor series. So, I have added a video in the description. From 3Blue1Brown. It is a very beautiful video on the Taylor series. If you watch it once, your understanding will be well-developed. But still, I will explain to you a little bit about exactly how the Taylor series works. Okay? So, the Taylor series uses derivatives to convert any complex function into a polynomial. It uses first-order derivatives, second-order derivatives, third, fourth, and higher-order derivatives to approximate a complex function. Okay? So, if I tell you the formula—what is the Taylor series formula? The Taylor series formula for a function (f (x)) around a point 'a' can be written as: f (x) is approximately equal to f (a) + f '(a) divided by 1!(x-a) + f''(a)/2!(x-a) ² + f'''(a)/3!(x-a) ³ and in this way, you can add as many polynomial terms as you want. So you can see, to approximate this function around point 'a', I am using the derivatives. This is the first-order derivative. This is the second order, this is the third order. The more derivatives you keep adding, the more accurate approximation you will get. Okay? So, I will try to explain this whole thing to you through an example. Let's assume our function is e raised to the power x, and we want to approximate this function around the point a = 0. Okay? So, according to this formula, what will the approximation be? I will work that out for you. First, I will focus on this term. What will f of a be? So f of a will basically be e raised to the power of a instead of x, and the value of a is zero. That means it will be one. Okay? Now we will focus on this term. So this term is f '(a)/1!*(x-a). By the way, here f'(a) means the derivative of f (x). Okay? So you know that the differentiation of e to the power x is just e to the power x. So going by that logic, it will be e to the power x, and instead of x, we will put a, and the 1! becomes 1 here, and x-a comes here as it is. We will put zero in place of a. So it will simply become x. Okay? So, for this term, we got x. Now let's focus on this term. f ''(a)/2!(x-a) ²; the double derivative will be the same. So here we will get e to the power a/2! (x-a) ²; e to the power 0*x²; so we get x²/2! here. So it will be two. Then I will show you by calculating. f This term will basically be (x-a) ³/3! This will again be 1/6*x³; so this becomes x³/6. So basically, if I want to approximate e to the power x using Taylor series, this is what comes. And I can extend this as much as I want. Okay? So now I will show you how to visualize this. So I have Desmos open here. First, I will show you what e raised to the power x looks like. It's very famous. You must already know. Now I will show you y = by adding 1 + x. So basically, I have used only these terms for now. Okay? And you can see that the approximation is already accurate for x = 0 or a = 0. At least at this point, the blue curve and the red curve are the same thing. Okay? But notice, as I keep adding higher-degree terms, like adding x²/2, you will notice that a bit around zero, on both sides, the approximation is becoming more accurate. Notice, I am adding the x³ term. Divided by 6, and you can see that you can now see the approximation over a larger area. So basically, the more terms you keep adding to this polynomial, the more your approximation accuracy will improve for a wider range of x. Right? If you add a lot of terms, it will start to perfectly approximate this red curve. And that is the beauty of Taylor series. Right? So that is what we have to do now. We need to apply Taylor series to our objective function, which is not particularly usable at this point, and make it usable. So guys, now that we understand what Taylor series is and how it works. Now we will apply the Taylor series to our objective function and approximate and simplify this complex objective function of ours. Right? We are just going to do one thing: we will simplify only up to the second-degree polynomial. Basically, we will take this term, and this term. We won't take the terms beyond that. Third derivative, fourth derivative. We don't need to take them. Our work will get done. Right? Now, the biggest challenge in applying Taylor series approximation to such complex equations is to identify what x will be and what a will be. So, first of all, I would like to give this clarification. Look, in our case, x will be this entire term. Oh, one more thing, we are only going to apply Taylor series to this much part. We won't apply it to the rest. Right? So here, if you notice, then our x is this entire thing. Because this is the very thing that will vary. Basically, the prediction up to the t-th iteration. So you can write it down here first: yi hat t-1 + ft. xi, this becomes our x. Now the question arises: what will a be? A is the point of change where the modification starts to occur. So basically, this T-1 iteration is the point after which the change is happening. We are adding this decision tree. Now, it can have any output. So we will take a as yi hat t-1, okay? The change is about to happen after this. Right? Now, what will we do? We will calculate all these terms one by one and approximate this equation. So first of all, we need to calculate f (a), so to calculate f (a), what will we have to do? First, we have to write f (x) and then wherever there is x, we will substitute it with a. We will replace x. So, first, let me write down f (x) for you. So f (x) is this entire term of ours. I am writing this as it is. i = 1 to n, yi-yi hat (t-1) + (ft) xi; okay, this is my entire x. Now I just have to do one thing, I have to replace this entire x with a. So what I will do is, I will just erase and I will rewrite and this becomes our f (a); we have found our first term. Now, we need to find the second term similarly. What do we need to do for the second term? We need to find f '(a). Okay? Basically, we need to do df/dx. And then, after replacing x, let's assume for a moment that f (x) is x². So, what would df/dx be? 2x So then, what would f'(a) be? 2a, replaced x with a. So, if I want to write it simply, then f '(a) x-a; let's focus on f'(a) first. This will become our sigma i = 1 to n del L yi yi hat, here too t-1 will come. Because you have to put a in place of x. Divided by del y t-1, okay. Now let's talk about x-a, it's simple. You subtract this from that. What is left? ft xi and similarly we now need to find f ''(a)/2 *(x-a) ². So, this is also simple. Here we will have i = 1 to n. This will remain the same thing, just double-differentiated, square of ft squared. And we have approximated this. Now I will just place these three here, so this whole equation will now be formed. I am bringing all three summations out. And first of all, L will come (yi, yi hat t-1 iteration), plus now this term, this big differentiation here, we call this the gradient. This is called the gradient. Okay? And we will denote this by gi. So what we can do is we can write gi. Oh, I forgot one more thing here. A half will also come outside here because this is also two, right. So here it became gi. And then came our ft xi plus. Now this term, the double differentiation of the loss function, we call it the Hessian. You might have heard of it, and you will denote it by hi, so here will come 1/2 hi ft² xi and then lastly, this term will also come, plus ft I am sorry, here will come omega of ft xi and this is our simplified objective function, guys. So, I have written this final equation a bit more clearly here. Right? I guess, first of all, you can appreciate that we have given that complex equation a polynomial form, and now our objective function is represented very well in terms of x. Also, at this point, I would like to show you the research paper. And you can see that we have achieved this step exactly. Absolutely line by line. Here is our first term. Here is our second gradient term, and here is our third Hessian term. This is exactly what we have achieved here. Now, if we want, we can simplify this a little bit. How? I will tell you. Look, what is our goal? What did we set out to do? We need a value for f (t, xi) for which this entire equation is minimized. Okay? So, our plan was to differentiate this whole thing with respect to f (t, xi) and then set it to zero. Right? I mean, the plan was something like this, or we will apply some form of optimization. So, we have to differentiate. That is clear. So, notice one thing. If I look here, there are a total of four terms. This is the first term. This is the second term, this is the third term, and this is the fourth term. In this, this, and this, f (t, xi) is present. Meaning, differentiating will be useful. But f (t, xi) is not present in this one. So, when I differentiate it with respect to f (t, xi), this term will automatically become zero later on. So, what I can do is, I can perform a simplification and I can write my objective function as this. Just a sum of gradients and Hessian. And exactly this is written here in the next equation. Look, these people have done the same thing. They have also removed this term. Because this is a constant term. It does not contain f (t, xi). So, by differentiating it further, you won't get anything from it. So, it was just a smart move to remove that. And now we are here. Now, perhaps you might also notice that this term of ours has been sitting quietly for a long time. So, now what will we do? We will expand this too. Okay? And we know how to expand. I told you when I taught you the XGBoost loss function that this term is kind of your regularization term and you can break it down into these two components. Okay? Here, this t is the decision tree that you must have applied at the t-th step, which is the last model you added. So, this t indicates how many leaf nodes there are. So you can see there are three leaf nodes in this one. And this lambda times W squared basically means that the output of these three leaf nodes can be called W1, W2, and W3. So we can write it by breaking it down as 1/2 times lambda W1 squared + W2 squared + W3 squared, okay? One term for each leaf node. Okay? So that is what we are going to do. We are going to expand this. Okay? For a moment, let's assume that the tree we added at the end has t leaf nodes. Okay? So how will this entire equation break down? This whole equation will become. i = 1 to n. We will write this term as it is. gi ft xi + 1/2 hi ft squared xi plus here you will have gamma times t + 1/2 lambda inside, since there are t leaf nodes, we will write it as w 1² + w 2² + w 3² dot dot dot + wt² because there are t nodes. Now obviously this is not the compact form. So to write this in compact form, what we can do is we can use a summation. So we can write it this way. We can call it i or j. Because we have already used i. j = 1 to T of WJ squared. Okay? This became our somewhat more simplified objective function. So now guys, we have brought this objective function up to this point, but there is a big problem here. Understand the problem. There are three terms here. This is the first term, this is the second term, and this is the third term. Now, two of these terms have a summation. In this term and in this term. But the problem is that these two summations are different. Here you have a summation over i which goes from 1 to n. Basically the number of rows. And here you have another summation over j which goes from 1 to t. Where t is what? t is your number of leaf nodes in the last model that was added. For instance, if there are two leaf nodes, then the value of t will be two and the value of j will be one for the first time. The second time, it will be two. So now, the problem is that if we go to optimize this, there will be a problem. So we have to simplify this further and bring them into a common summation. So I am going to do a smart manipulation here. First, I will show you that manipulation and then I will explain how it happened. But trust me, after that manipulation is done, things will drastically improve. Then it will become very easy to optimize this. So let me write it down first. So I would write it this way. Summation of j = 1 to t Bracket summation i belongs to ij gi wj plus summation i belongs to ij 1/2 comes outside h wj sq plus gamma plus plus 1/2 lambda I am sorry j = 1 to t wj² This is the transformation. Now I will be very honest with you. When I was reading this XGBoost paper and I saw this step and this transformation, for a while I didn't even understand how this happened. How are we able to write it this way? But trust me, it's very logical. I will explain it to you one by one. First of all, understand a small change. The first change is that I have started calling ft (xi) as wj. I guess you might be able to notice this. This is the first change. Right? This is the first change. I will write it here that wj is nothing but ft (xi) right? The second change is that I have broken i = 1 to N into two summations. First j = 1 to t and inside that, i belongs to ij. You just need to understand these two things. If you understand these two things, you will understand this transformation. Alright guys, then I will explain to you how we took this transformation. Right? First, I will explain how we gave the form of summation i = 1 to n to j = 1 to t and inside that, i belongs to ij. Right? To understand this, I have taken a small example. Suppose this is your data. It has an input column. You can call it xi. And this is your output column. You can call it yi. And this is our t-th step decision tree. It's a very simple decision tree. Where it's just asking if the CGPA is less than seven. If it's less, the package will be five, and if it's more than seven, the package will be 10. Simple. Okay? Since this is a leaf output, we are calling it W1. And this is also a leaf output, so we are calling it W2. Okay? Now understand, look at this setup. Focus on this. Just focus on this part. If I were to tell you to expand this term for this particular dataset where you have four rows. Expand this term. Then how would you write it expanded? You would write G1 FT X1 + 1/2 H1 FT² X1 would be for the first row. Okay? Here, wherever there is X1, you would put 7.1. Okay? Even here in X1, you would put 7.1. Plus, now what would you do for the second row? For the second row, you would write G2 f2 x2 + 1/2 h2 f t² x2, here wherever there is x2, you would put 8.2. You would write the same for the fourth term: g4 ft x4 + 1/2 h4 ft² x4. I guess you can understand, I have expanded it for all four terms. If you divide it here, there are four terms in total, one for each row. Okay, now I will explain what this is saying here. So first of all, think about how many times This outer summation will open twice, why? Because in our decision tree, there are two leaf nodes. This is one, this is two. So this outer node will run twice. Now let's talk about the inner node and what it means. i belongs to IJ. What is IJ? So IJ is the instance set of leaf J. That is what I mean. Watch carefully. It's a very small thing. This is row one. This is row two. This is row three. This is row four. Okay? Now I am putting these rows into this decision tree. CGPA less than 7.1 Less than seven. So where will this first row fall? Into this leaf. It's 8.2. Where will it fall? Right here. It's 6.5. Where will it fall? 3 and 9.1. Where will it fall? Four. So that means based on this data, we can say that for this leaf, leaf node one, its instance set contains only one row, this one. Whereas if you talk about this leaf, its instance set will contain three rows. One, two, and four. Okay? So now look, I am expanding it. I am starting the value of J from one. Started the value of J at one. This means we are talking about this leaf node. Now what do we need to do? For whatever row is inside this leaf node, we have to write this equation. Okay? So that will be g 3, for a moment I will just call wj as ft xi. I will explain how both are equal a little later. But for now, I am calling it ft x3. Plus 1/2 h3 ft x3. That's it. Now Since there was only one in this, the work of the first leaf node is finished. Now we will move to J = 2, which is this leaf node. Now it has three rows. Which is the first row? The one with one. So for that, it will be G1 FT X1 + 1/2 H1 FT X1 Okay? It will be squared. Here also it will be squared. Then the second row will come, g2 ft x2 + 1/2 h2 ft² x2, and lastly the fourth term will come, g4t x4 + 1/2 h4 ft² x4. Now you compare this one and compare this. You would find that both are the same. The order is different, but they are the same thing. Right? So it means that when we have written the equation in this form, we are writing all these rows one by one in this form. But when we bring it into this form, what are we doing? We are asking the tree which rows ended up in your first leaf node. For them, I did the same thing. Then for the rows in the second leaf node, I did the same thing. So basically, I am still traversing over all the rows. I have just segregated them according to the tree. So if we were talking about the first 100 children before. Here too, we are talking about the same 100 children. Only the order has changed. Because you are expanding according to the decision tree's processing. So I really hope you understood this first similarity, how we smartly broke down i = 1 to n into this. Okay? Now, just one thing remains to be understood, why I have called F (t, xi) as Wj. Look here, I guess you can understand this very easily too. Think about it, when you are talking about the third row, when you talk about the third row, the third row has entered this leaf, right? So, for that, what will ft (t, x3) be? First of all, what was ft? ft was the output of our decision tree. Now think for yourself, for x3, as in the third row, what output will our decision tree give? W1 It will give W1 as the output, right? So, I can actually write it like this too. Right? Similarly, if you talk about this one. This is the first row. So, for the first row, what will our decision tree output? W2, so I can write this as G1 W2 as well. I guess you are understanding. This WJ is basically the output of the tree for a particular leaf node. If I know that leaf node, I can directly write it in its place, right? That is why I performed this transformation. And now we are at a stage where we have a proper objective function. In a completely simplified form. I will write it down one more time. The more I write it, the more familiar it will feel to you. Here we have gi wj + 1/2 i belongs to ij hi wj squared plus gamma t + 1/2 lambda j = 1 to t wj squared and now we can actually simplify this entire thing. So, simplifying this now is simple algebra. You can see that this term, this term, and this term, all three are summed from j = 1 to t. So, what can we do? We can write the loss or objective function in this way. Summation j = 1 to t, here we will have i belongs to ij gi wj squared plus 1/2 i belongs to ij hi wj squared and 1/2 lambda wj squared + gamma t. Now, you can take some things common in these, like you can write it as I am writing it again, summation i belongs to ij gi wj squared plus we took half as common, and after taking half out, what remains here is i belongs to ij hi plus here remains lambda, and we also took wj squared as common + gamma t. And now we are at the position where we can now differentiate this term with respect to WJ, okay? So, this is for all the terms for all the leaves in your decision tree, but we actually need to do it for just one leaf, and from that, we will get the answer for the other leaves too. So, basically, we don't need this outer summation. We would just take this, this, and this. This will also become zero. Because when you differentiate this with respect to Wj, since there is no Wj here, it will become zero. Only this term and this term will remain, so as soon as we differentiate with respect to Wj, first of all, okay, one thing I have been doing wrong. There won't be a square here. My bad, there won't be a square here either. First of all, when you differentiate this, you will get the sum of i belonging to Ij of gi. Right? Plus, when you differentiate this, it will become 2 times Wj. This two will come out to the front. So 2/2 will become 1. So you will just be left with here, sum of i belonging to Ij of Hi + lambda*Wj, and now you have to set this equal to 0 and find the value of Wj, and the value of Wj will be-lambda*sum of i belonging to Ij of gi, divided by sum of i belonging to Ij of Hi + lambda, and this is the output value for all the leaves. If you are talking about leaf one, if you want to find w1, then you just have to calculate the gradient for all those rows that are falling into this leaf. If you want to calculate W2, then you have to calculate the gradient of all those rows that are falling into this leaf node. And that's it. Now our only job is to find out what Gi is and what hi is. And we will get our formula to calculate the output that we set out to find. So guys, we are this close to calculating the exact value of Wj, just two missing pieces left. We need this value of G and we need this value of H. G means gradient, and H means Hessian. Right? So let me remind you once where these came from. When we were applying the Taylor series to our objective function, we got these derivatives and this double derivative there. We called the derivative the gradient and the double derivative the Hessian. So now we have to calculate these values. The problem is that your gradient, which you are also writing like this: y i hat t minus 1, Del y-hat t-1 and whatever your Hessian is (well, Del will be used here too), whatever your Hessian is, which is the double derivative. Let me write it down first, then I'll explain what I'm trying to say. So, the problem with this gradient and Hessian is that they actually depend on the loss function. This means you will have to derive separate gradients and Hessians for regression and separate ones for classification. So, what do we do first? Let's focus on regression because the loss function is a bit simpler here. One more thing I would like to clarify. Don't be intimidated by this t-1. It simply means that you are adding models one by one, and you are currently at the t-th iteration. But the loss you are calculating is at the t-1 step. You are calculating the loss at this step. That's it. Nothing more. Okay? So it's nothing special. It's basically the same thing. So, if you talk about regression, then in regression, your loss function is Mean Squared Error, and you can also write it as: sigma of i = 1 to n (yi-yi-hat) squared. Okay, now whether you write yi-hat here or add t-1, it doesn't matter, it's the same thing. You have to differentiate this. You have to find out this value. So, what will this value be? It's very simple. If you differentiate, you will basically get sigma i = 1, this two will come here and cancel out, and you will get yi-yi-hat, and this minus sign will come out after differentiation. Okay? This is basic differentiation. So you can write it like this too. i = 1 to n yi-hat-yi Okay? And this is your gi. Okay? Also, the yi-hat here is the yi-hat of the previous step. You have to remember this because it is t-1. The significance of this t-1 is that the yi-hat is from the previous step. So if I place this here, what will this whole thing become? This whole thing will become minus sigma of i instead of gi. Now we will not use this summation. Because we are already using this summation. We are not talking about all the rows. We are only talking about the rows that fell into the current leaf. So the next term will remain the same. So here we will get yi hat minus yi. Now, if you want, you can take this minus inside. So actually, you can write it by flipping it. You can write it by reversing it. Then it will return to yi minus yi hat. And just remember, this will be t-1, the y-hat from the previous step. Okay? Now think for yourself, in a way, what are you doing? You are calculating the residual for every point. That is exactly what you are doing, right? Just think about it, suppose you have this data-CGPA, IQ, and the package received. How did you start? You used to start. Suppose you have this data. Eight, 80, package received is eight; nine, 90, package received is nine, for example. Okay? So how did you start? You used to build the first model. So what was the prediction of the first model? Which is the mean. So here we get pred one. So this became 8.5, and this also became 8.5. Okay? So this is your yi and this is your yi hat. For step one. Okay? Now, as soon as you started adding the second model, this column became your t -1. Okay? So now for this, what do you need to do? To calculate the gradient, you just need to subtract this column from this column. Calculate 8 minus 8.5. Calculate 9 minus 8.5. Okay? So in a way, basically, whatever your residual was from the previous step, that is what came here. So I can actually do what with this? I can replace this with the sum of residuals. Don't you think this whole expression above can just be replaced with the sum of residuals? Okay? Now let's talk about the Hessian. So in the case of the Hessian, what do you have to do? Differentiate this thing twice. When we differentiated it once with respect to yi hat, what did we get? We got—let's forget the summation for a moment. Okay? Ignore the summation because there is a summation from i equals 1 to n. Here is another summation. So ignore that. You got this yi hat minus yi. Okay? Now you have to differentiate it again, with respect to yi hat. You have to differentiate one more time, so what will you get? You will get one, right? This means down here we will have σ (i belonging to ij) one + lambda. Now, how many times will this one occur? As many as the number of points falling into your leaf, so basically this becomes number of residuals + lambda. So, in simple terms, if you go to calculate wj for a regression problem with mean squared error, your formula is sum of residuals divided by number of residuals + lambda, okay, that are falling into that leaf. Okay? And if you go back to the very beginning, to the plan of attack, notice this right here. This is exactly what we just derived. Sum of residuals/number of residuals + lambda; we have solved the regression problem. Now, only the classification problem remains. Now let's talk about the classification scenario. Here, if you want to calculate the gradient and hessian, your loss function is log loss. Okay? You will have to differentiate and double-differentiate the log loss to find out g and h. The good part is that we have already done this in gradient boosting. So, I won't show it again here because it will take a lot of time. But I will show you where I have taught this to you. So, if you go to your course dashboard, you'll find gradient boosting taught in week 36. The math formulation for gradient boosting classification is there. If you watch from 37 minutes onwards, I have derived everything to show what comes from single differentiation. And then I have also explained what comes from double differentiation. Here, you will find, like, I'll have to scroll a bit to figure out where it is. But yeah, both things have been derived. In fact, you can also see it in the notes that have been provided to you. Anyway, let me show it to you. Yeah, so when you differentiate once, here is your output. It's basically yi-pi; pi is the probability for the previous time step, okay? You can call this a residual itself. And if you double-differentiate, you get this: pi*(1-pi). Here, pi is again the probability in the previous time step. Okay? So Basically, when you calculate wj for the classification scenario, it's the same here as well. The sum of residuals will still be on top. There will just be one change in the denominator. Here comes PI 1-PI + lambda i belongs to I. What is PI here? The predicted probability from the previous time step or iteration, you can say. Okay? So this is the output and this is what we saw when we discussed the plan of attack. You can see. At the top is the sum of residuals, and this has come at the bottom. Okay? And this is what we calculated here as well. And you can see, I hope you have understood up to this point. So guys, if we go back to where we started, we wanted to learn to derive four formulas in this video. We have learned to derive two of those formulas from scratch. The one to calculate the output value. Now only two formulas are left, and that is the formula to find the similarity score. Where did this come from? We will learn that now. So if we look at our progress so far, we had an objective function. Okay? Whose equation is on the screen, and we calculated the values of wj that minimize it, and that wj turned out to be this. Then, when I put the values of G and H into this wj, I got the output value exactly for both regression and classification. But what if I do one thing, take this wj and replace it here, what will I get? Think about it. I will get the minimum loss. That comes from using this parameter value. Right? Currently, what is this wj? This is the value of wj. That will minimize this loss. But how much will that loss be? What will be its minimum value? We want to find that out. So that is why we will replace them inside wj. So what will happen by replacing? I am continuing here. Why is it called that? This minimum loss that comes, why is it called that? First, let me derive the expression for you. Then I will tell you what its significance is. So there is nothing special. We will basically use simple mathematical algebra to manipulate it. Otherwise, there is nothing special. Here comes GI. This wj we are...filling in here. Here comes plus 1/2. i belongs to ij. hi + lambda, here it is squared, so here will come i belongs to ij gi squared divided by the square of the bottom quantity as well. i belongs to ij hi + lambda squared. Okay? And...We will close this and here am t will come. Now you will notice that this quantity will cancel out this quantity once because there is a square there, and by doing that we get this. We will get J. By the way, it should be J here. I am sorry. Because there are such long expressions and I have to teach simultaneously. So, some small mistakes might be happening. I am sure there must be some mistakes earlier too that I might not have noticed. So please write in the comments so that if anyone gets confused in the future, if they go through the comments, at least they will understand. So, one thing you might be seeing is that both terms have become the same. This one and this one, there is a -1 in front of this. There is a +1/2 in front of this. So, if we want, we can write it like this. This would become -1/2 + t. Now, if I want, I can bring this -1/2 outside. So, this will come as -1/2, j = 1 to t In the numerator, there will be Σ (i belongs to Ij) gi², divided by (i belongs to Ij) hi + λ + gamma. This is the minimum loss value. This is the minimum loss value, and it indicates what the minimum loss will be from the last model you are adding, the last tree you are adding. Okay? Exactly this same value you will also find in the research paper. You can see I am talking about this value. We had already calculated wj. When we filled it back, -1/2 Σ gi²/hi + λ + t, we got exactly this. And look what is written here. This equation can be used as a scoring function to measure the quality of a tree structure q. Whatever tree you have built at iteration t, the most recent one you are adding, you can use this equation to measure the quality of that tree. This score is like the impurity score for evaluating decision trees, except that it is derived for a wider range of objective functions. Okay? So we can use this quantity to replace Gini impurity or entropy. Because this also tells us what the quality of the tree we have built is. Now guys, in this similarity score that you derived, you can also fill in the values of G and H. Okay? If you talk about regression. We found out just a while ago that G comes out to be. Sum of residuals. Okay? G is actually not the sum of residuals. Uh, because of this summation, sum comes in. But yeah, g is basically your residual. And h is one, right? And when you do the summation over that, it becomes n. Okay? Similarly for classification, your g will again be the residual that gets summed, and h becomes pi*(1-pi); I told you this as well. As soon as you put both these things into this formula, again you will get this. This formula for regression, this formula for classification. Here we haven't used the regularization term. But you can do it too. So guys, the similarity score is out. Now I will tell you how we use this similarity score to do tree building. So for a while, assume that you have already added t-1 models. You have added t-1 models. And now you are going to add the t-th model. At time step t, okay? And this is a decision tree. So how do you build this decision tree? It's very simple. You start with a single leaf node first. Okay? You will have to watch the old video. And there you try out all the feature values to find out that feature split. Okay? After that, for this single leaf node, you calculate this quantity. Okay? See how, for this single leaf node, you can call this quantity qp, as parent. Okay? And this will be -1/2, think for yourself, what will the value of t be here? The value of t here will be one. Why? Because we have only one leaf node. So basically, there is no need to use the summation. We can write it here without using the summation, as i belongs to Ip. Ip means parent. All those rows that are falling into this leaf node. Okay? Here, it will be Gi squared, i belongs to Ip Hi + λ + Okay? So this is our similarity score for this leaf node. Now what will happen? We will split this leaf node. So after splitting, we will get this decision tree where this is the structure. Now we will have two leaf nodes. Okay? One is this and the second one is this. Now obviously, if we have done splitting and created new nodes, we would want to do that because we want to reduce this loss further. Right? So now what will we do? We will calculate this overall loss for this tree structure. Okay? So, pay attention to what happens here. We will write I am calling this qc for child; here it will be -1/2, and this inner loop will run twice because the value of t is two. There are two leaf nodes, this one and this one. So, I am expanding it. The first time, we will talk about this node. The second time, we will talk about this node. So, for the left node, our equation will be i belonging to I_left, gi squared, all those rows that fall into this node. σ i belonging to IL hi + λ + gamma t. Also, one more thing, here the value of this t will be one. So, you can actually remove it for the parent. And what will happen here? Here, this lambda has come. Plus Plus, we will write this expression once more. So, this would be I belonging to IR GI, now we are creating it for this node. Divided by σ i belonging to ir + lambda + here too there is gamma t. But now, instead of t, two will come here. Because there are two leaf nodes. So we can write it as 2 gamma. Okay? So now I have the loss of this parent, and the cumulative loss of this child. Now I need to find out how much the loss was reduced. How much did the loss reduce after making this split? So, what will I do? I will try to calculate this quantity. Parent minus child. Okay? I will subtract this from that. And you would see that you get. I don't want to write the whole thing again. So I will just copy this much. And I will paste it here. Okay? In fact, this will come later. The thing above will come first. So, I will quickly erase copy paste. Okay? Now, I am keeping this entire thing like this between them. Between these two, this subtraction will come. Okay? So, what will happen with this? Let's summarize it once. This minus will also make this one negative. So, because of that, when you add these two, you will get-gamma. Okay? And if you talk about these three, they will look like this -1/2. I am trying to write quickly because all these expressions are very lengthy. So it takes a lot of time. lambda, this minus minus will become + 1/2. Here, it will now become plus half. Okay? All of this comes together and becomes gamma. Now you can see if you rearrange this a bit and pull the half out. If you pull the half out, you can rearrange and write it like this. σi belonging to IL, this term GI squared σi belonging to IL hi + lambda plus σi belonging to IR GI², this term divided by i belonging to IR hi + lambda minus this term i belonging to IR gi squared (i belonging to not r, it will be p for parent) hi + lambda minus gamma; and This is the difference that you are, difference in loss that you are getting when you are actually doing this split. By doing this split, you are getting this much of a gain. This is the difference. Okay? And this is what you do if you remember, we used to do exactly this. We used to make a split. We used to calculate the similarity score for the parent and both children and subtract the child ones. Okay? Okay? There, I just didn't take this half and didn't consider this gamma. Because we were not talking about regularization. But this internal formula is what we had used. Now if you talk about it, you can see this is the split criteria. The half came out. The IL part plus the IR part minus the normal I part minus gamma. Okay? So this is the loss reduction after the split. I hope you are understanding. Okay? So with that, we have understood this entire mathematics from scratch. We now have justification for everything we have done so far. So how did you find this video? I know it was a very long video and you must be tired from studying for sure, and it is possible that you might have doubts in some places. But trust me, this video is created in such a way that if you go back and watch it again, and make your own notes, then things will stick in your mind and you will be able to retain it. Okay? So a lot of hard work went into making this video. So please, if you liked it, do like it, and if you haven't subscribed to this channel, please do subscribe. See you in the next video. Bye.
+
+
+[00:00] Hi guys, my name is Nitesh and welcome
+[00:02] to my YouTube channel. In this video,
+[00:05] we are going to cover the in-depth
+[00:07] mathematics of XGBoost. So if you have
+[00:09] been following all the videos, I have
+[00:11] already posted three videos on XGBoost.
+[00:14] In the first video, I covered the
+[00:15] introduction. In the second video, I
+[00:17] showed how XGBoost is applied to
+[00:19] regression. I demonstrated that. And in
+[00:22] the third video, we covered how XGBoost
+[00:24] is applied to classification problems.
+[00:27] But in all three videos, I hadn't
+[00:29] discussed any math at all. So that is
+[00:31] exactly what we will cover in this
+[00:33] video. In this video, we will go very
+[00:36] deep and understand the entire
+[00:37] mathematical formulation from scratch.
+[00:40] We will try to understand where all the
+[00:43] formulas came from. Let me tell you why
+[00:45] you should watch this video. XGBoost is
+[00:49] undoubtedly the most powerful algorithm
+[00:51] in the machine learning space today.
+[00:54] Take any problem involving tabular data
+[00:56] , and most likely, you will be using
+[00:58] XGBoost there. So, if you are going to
+[01:01] become a data scientist or let's say
+[01:04] you are a data scientist, you should
+[01:06] have a very clear picture of XGBoost's
+[01:09] mathematics. This video will provide
+[01:12] you with exactly that. In a very
+[01:14] in-depth, detailed, step-by-step
+[01:17] approach, we will refer to the research
+[01:21] paper to cover all the mathematics. No
+[01:25] doubt, the video is a bit long. But
+[01:27] that is because I made a conscious
+[01:29] decision not to skip anything and to
+[01:32] show you everything by writing and
+[01:35] deriving it. So this is just for the
+[01:38] hardcore data science fans. So now, I
+[01:41] won't bore you any further. Let's start
+[01:43] the video. So you must have understood
+[01:46] that in this video, we are going to
+[01:48] cover the detailed mathematics of
+[01:49] XGBoost. But before starting the video,
+[01:52] I want to tell you exactly what we are
+[01:54] going to study in the mathematics
+[01:55] section. If you have followed all the
+[01:58] previous XGBoost videos, you would know
+[02:00] that we have already posted three
+[02:02] videos on this channel. In the first
+[02:05] video, we did a detailed introduction
+[02:09] to the XGBoost algorithm. In video
+[02:13] number two, we focused specifically on
+[02:16] regression and how XGBoost solves a
+[02:18] regression problem. Then in video
+[02:22] number three, we discussed how XGBoost
+[02:25] works on classification problems. So,
+[02:30] if you have watched both these videos,
+[02:33] you might remember that the common
+[02:36] thing in both regression and
+[02:38] classification problems was that we
+[02:41] used to build a decision tree that was
+[02:44] slightly different from regular
+[02:46] decision trees. Right? In XGBoost, your
+[02:50] decision tree is different from a
+[02:52] normal decision tree. In two aspects,
+[02:55] the first aspect is that in a normal
+[02:59] decision tree, when you construct a
+[03:02] node, you calculate quantities like
+[03:06] entropy and Gini index. But in XGBoost
+[03:10] trees, instead of using these two, you
+[03:13] calculate a completely different
+[03:15] quantity, which we call the similarity
+[03:18] score. Right? And if you focus here,
+[03:23] you will find the formula to calculate
+[03:26] the similarity score for regression and
+[03:29] to calculate the similarity score for
+[03:32] classification. Right? So, I introduced
+[03:36] both these formulas in those two videos
+[03:39] . I did not give you any mathematical
+[03:42] background, and I told you that just
+[03:43] trust me, this is the formula we have
+[03:45] to use. But in today's video, we will
+[03:48] go into great detail to understand
+[03:50] where these two formulas came from. The
+[03:54] second point of difference between an
+[03:56] XGBoost tree and a normal decision tree
+[03:59] is that the method to calculate the
+[04:02] decision tree output is different; the
+[04:04] normal one and the XGBoost one have
+[04:07] different formulas for calculating the
+[04:10] leaf node output. And again, if you
+[04:13] focus here, this is the formula to
+[04:16] calculate the output value for any leaf
+[04:18] node in the case of regression. And
+[04:22] this is the formula to calculate the
+[04:24] output of any leaf node in the case of
+[04:26] classification. And again, I introduced
+[04:29] both these formulas in those two videos
+[04:31] . And once again, I did not tell you
+[04:33] where they came from. So, in today's
+[04:36] video, we will look behind these as
+[04:38] well and try to understand how these
+[04:40] two formulas came into existence. Right
+[04:43] ? So, in short, in today's video, we
+[04:47] are going to do a deep dive into the
+[04:50] mathematics of XGBoost, and our goal
+[04:53] will be to understand where these four
+[04:57] formulas came from. I will give you the
+[05:01] answer to every "why." And trust me, if
+[05:03] you understand this video well, you
+[05:06] will have such foundational knowledge
+[05:08] of XGBoost that you will be able to
+[05:11] apply XGBoost to any problem very
+[05:13] effectively in the future. Right? Also,
+[05:16] before starting the video, I want to
+[05:18] give one more disclaimer. So when I was
+[05:22] researching for this video, I noticed
+[05:24] that there isn't much content available
+[05:26] on the internet. In a few places,
+[05:29] people have explained how the
+[05:31] mathematics of XGBoost works. But I
+[05:33] noticed some mistakes in them. So that
+[05:37] is why for this video, I have
+[05:39] specifically used the research paper of
+[05:41] XGBoost. So whatever mathematics I
+[05:45] explain to you in this entire video is
+[05:47] basically in these two pages. Page
+[05:50] number two and page number three. Okay?
+[05:53] So things will be factually correct and
+[05:56] the good part is that you will be able
+[05:58] to go back and read this XGBoost paper
+[06:01] too. Okay? So with that, I guess I gave
+[06:03] you a clear plan of attack. Now let's
+[06:05] start the video. Also, one more thing,
+[06:09] if you are feeling a bit scared that
+[06:11] this video about mathematics will be
+[06:13] very difficult, then I have a
+[06:15] suggestion for you to study a few
+[06:18] things before watching this video.
+[06:21] After that, this video will seem easy
+[06:22] to you. What do you need to study?
+[06:26] First of all, the two videos I uploaded
+[06:29] before this on XGBoost, the regression
+[06:31] video and the classification video. You
+[06:36] must watch these videos, only then will
+[06:38] you understand things. Apart from this,
+[06:41] you should have some idea about
+[06:43] gradient boosting. Because XGBoost is
+[06:47] just optimizations over gradient
+[06:50] boosting. So if you know gradient
+[06:52] boosting, it will become much easier to
+[06:54] understand. And obviously, you should
+[06:57] know the basic concepts of decision
+[07:00] trees. How a tree is built, how the
+[07:02] output value is calculated? You should
+[07:05] know all of this. If your foundation is
+[07:07] clear to this extent, trust me, you
+[07:09] won't have much trouble understanding
+[07:11] this video. So guys, at the very
+[07:15] beginning, I want to give you a short
+[07:17] quick revision of how boosting models
+[07:20] like XGBoost or gradient boosting work.
+[07:24] Although I have told you this multiple
+[07:26] times. But let's have a quick revision
+[07:28] once. So as you know that boosting
+[07:32] models like gradient boosting or
+[07:35] XGBoost or for that matter, other
+[07:37] boosting algorithms you will study
+[07:40] later, they are all additive models.
+[07:44] Additive models mean that in a
+[07:46] stage-wise fashion, one after the other
+[07:52] you keep adding models to your existing
+[07:55] ensemble. So in stage one, you have
+[07:58] this model M1. Okay? It made some
+[08:02] mistakes on your data. You train this
+[08:06] model M2 on those mistakes and then you
+[08:09] combine these two to make a prediction.
+[08:15] Then the combination of these two will
+[08:17] also make some mistakes. So, you
+[08:19] propagate that error towards the third
+[08:22] model. The third model trains, and then
+[08:25] you combine these into an ensemble to
+[08:27] make a prediction, and in this way, you
+[08:30] can add as many models as you want. I
+[08:34] guess you are aware of this. All right?
+[08:36] So, here, to explain this point a bit
+[08:39] better, I am taking an example. Like,
+[08:43] suppose you have this data of students
+[08:45] where you have CGPA and IQ as input,
+[08:47] and this is your output, which is the
+[08:49] value of their package. So, what did we
+[08:53] do? We applied XGBoost on this. And we
+[08:59] already decided that we will build two
+[09:02] models. The first and the second. Now,
+[09:06] generally, the first model is a base
+[09:09] model. And in the case of regression,
+[09:14] this could be the mean of the output
+[09:18] column. So, we basically took the mean
+[09:22] of all three. This is your first model.
+[09:24] This, this is your m1. All right? Now,
+[09:27] obviously, M1 will make some mistakes.
+[09:29] You are saying for this student too,
+[09:31] the package should be 14.5. For this
+[09:33] one too, you are saying it should be
+[09:35] 14.5. And for this one too, you are
+[09:37] saying it must be 14.5. So, obviously,
+[09:39] there are errors, there are mistakes.
+[09:41] So, now what will you do? You will take
+[09:45] your input and this difference, these
+[09:49] mistakes, this error, you will take
+[09:53] them and use this data to train M2 in
+[09:57] stage two, which is nothing but a
+[10:01] decision tree. All right? Now, for a
+[10:06] moment, assume that this is the
+[10:07] decision tree you built. All right? If
+[10:09] CGPA is less than six, then this
+[10:11] happens; if IQ is less than 100, then
+[10:13] this happens. All right? And you have
+[10:17] trained this. All right? Now the
+[10:21] question is, if tomorrow a new student
+[10:25] comes, suppose their CGPA is nine and
+[10:29] their IQ is 100 or 102, then how will
+[10:33] we calculate their output? How will we
+[10:37] calculate y-hat to find out what their
+[10:39] package will be? It is very simple. We
+[10:42] will send this input data into this
+[10:45] combination of m1 + m2. So, what output
+[10:49] will m1 give? 14.5 plus what output
+[10:53] will m2 give? Since it is a decision
+[10:55] tree. You will ask it a question. Is
+[10:58] CGPA less than six? No, it is nine. All
+[11:04] right? So, if you consider this as yes
+[11:09] and this as no, then you will directly
+[11:13] add 2.1 and say that 16.6 should be the
+[11:18] package. So, this is how you find out
+[11:23] predictions in the case of boosting.
+[11:28] All right? So, if you talk in a
+[11:31] strictly mathematical sense, all these
+[11:34] models are nothing but mathematical
+[11:37] functions; if you think about it, I can
+[11:40] actually write this one as f1x or f1xi,
+[11:43] we will calculate it for each data
+[11:46] point, and we can call this f2xi. Even
+[11:50] though this is a decision tree, it is
+[11:52] still a function; you give it some
+[11:53] input. It gives you some output. Now,
+[11:56] to calculate that output, it is using
+[11:58] if-else statements. But that doesn't
+[11:59] matter, it is still a function. So, if
+[12:02] you have a lot of such functions, then
+[12:04] this last one will become fn xi. So, in
+[12:09] short, what I mean to say is that the
+[12:11] output calculated in boosting can be
+[12:13] written in a compact mathematical form.
+[12:17] If you have n models, like there are
+[12:22] two here. Suppose we had n models, then
+[12:25] we would write this entire expression
+[12:26] like this. f1 xi + f2 xi + dot dot dot
+[12:33] + fn xi, or we could write it as sum
+[12:40] from i = 1 to n fi xi; this is the
+[12:49] formula for the output of a boosting
+[12:53] algorithm like XGBoost. I hope you have
+[13:01] understood. Now guys, we have
+[13:04] understood that you can explain the
+[13:07] output of a boosting model in terms of
+[13:11] the sum of functions. But one thing
+[13:15] that isn't clear is how the output
+[13:18] values of these leaf nodes of this
+[13:21] decision tree, these three leaf nodes,
+[13:24] were calculated. Now, if you have
+[13:32] watched the previous two videos, I told
+[13:35] you there that if you talk about
+[13:37] regression, since this is a regression
+[13:39] problem. So, if you talk about
+[13:43] regression, then the formula to
+[13:45] calculate the output of the decision
+[13:48] tree in the case of regression is Sum
+[13:55] of residuals divided by number of
+[14:02] residuals plus lambda. Okay? For
+[14:06] example, suppose you have to calculate
+[14:08] the output of this particular leaf node
+[14:10] . Then first of all, you will find out
+[14:12] which of these data points will fall
+[14:13] into this particular leaf node. Okay?
+[14:24] You can see that only this data point
+[14:25] will fall here. Right? Because less
+[14:32] than CGPA 5 is only in this row. So
+[14:33] here, what you will do is you will
+[14:35] write down the residual or error
+[14:36] corresponding to this point, divided by
+[14:37] the number of residuals, which is one.
+[14:40] Plus whatever your lambda value is, you
+[14:45] will put it in, and that will be your
+[14:50] output value. Similarly, what will you
+[14:55] do for this one? Similarly, you will do
+[14:58] the same for this one as well. For this
+[15:01] node as well, you will find out which
+[15:04] points fall into this node. Like right
+[15:09] now, I can see this particular point.
+[15:12] So for this too, you will apply the
+[15:14] same formula. And similarly for this
+[15:16] one also. But in this video, we need to
+[15:19] understand where this formula came from
+[15:22] . What is the origin story of this
+[15:25] formula? That is what we will try to
+[15:29] understand. Moving forward, given an
+[15:32] XGBoost tree, how do you find the leaf
+[15:36] weights? By the way, the output of a
+[15:41] leaf node is also called a leaf weight.
+[15:46] So we are trying to figure out how this
+[15:49] formula came to be. Okay? Now, how is
+[15:53] this formula derived? I will first
+[15:56] explain the thought process behind it.
+[15:58] Okay? Based on the discussion so far,
+[16:03] you have understood that in our overall
+[16:06] combined model, where we have two
+[16:08] models, m1 and m2, their combined
+[16:11] output, which we will call yi-hat, will
+[16:14] be m 1's output plus m 2's output.
+[16:17] Right? And I told you a while ago that
+[16:20] we can mathematically write this in
+[16:22] terms of functions. So let's say we are
+[16:25] calling m1 f1 (xi) + m2, which is this
+[16:28] decision tree. We are calling this f2.
+[16:32] (xi). Okay? Now we know that the output
+[16:36] of f1 (xi) is always 14.5. We need to
+[16:40] find the output of f2 (xi). Okay? The
+[16:44] interesting thing is that we have to
+[16:47] calculate three output values. Okay?
+[16:49] You have to remember that f2 (xi)
+[16:52] doesn't have a single output value.
+[16:55] There will be three different output
+[16:56] values. One for this leaf node, one for
+[16:59] this leaf node, and one for this leaf
+[17:01] node. So we need to calculate all three
+[17:03] . So basically, if this decision tree
+[17:06] had five leaf nodes, we would have to
+[17:08] find five values for this f2 (xi). Okay
+[17:12] ? Anyway. Now we have the formula for
+[17:18] yi-hat. Okay? We need to find out what
+[17:30] the value of f2 (xi) will be. Okay? So
+[17:34] let's try to think once about what the
+[17:38] value should be. If you have studied
+[17:42] machine learning enough and read about
+[17:45] the algorithms, you should always know
+[17:49] that the only job of your algorithm's
+[17:52] prediction is to get closer to reality.
+[17:56] And what is reality? yi, which is the
+[17:59] actual package of the kids in your data
+[18:01] . You will always want to do one thing.
+[18:05] You will want to reduce the gap between
+[18:09] yi and yi-hat. Right? So basically, we
+[18:15] need a value in f2 xi such that for
+[18:20] every data point, the difference
+[18:24] between these two quantities is reduced
+[18:30] . Okay? Now, that is why it is very
+[18:36] important that you first write down the
+[18:39] relationship between yi and yi hat. And
+[18:46] I guess even a beginner knows what we
+[18:49] call the relationship between yi and yi
+[18:53] hat? Loss function. A loss function is
+[19:00] a mathematical function that
+[19:03] establishes a relationship between yi
+[19:07] and yi hat, and our goal in machine
+[19:11] learning is to minimize this loss
+[19:14] function. Like in the case of
+[19:19] regression, we studied a very famous
+[19:21] loss function. Mean Squared Error,
+[19:24] whose formula is this. I hope you
+[19:41] remember this from linear regression.
+[19:44] So now, if we need to find this value,
+[19:49] then we need to find a value that will
+[19:56] minimize the loss function. I think
+[19:58] you've understood this much. Now, the
+[20:01] only question that arises is, what is
+[20:04] the loss function in the case of
+[20:07] XGBoost? What is the loss function? If
+[20:10] we get the loss function, then in the
+[20:14] process of minimizing that loss
+[20:17] function, I will find this f2 xi. Okay?
+[20:21] So first, I will show you the loss
+[20:24] function used in Gradient Boosting, and
+[20:29] then after that, I will show you the
+[20:32] XGBoost loss function. So Gradient
+[20:36] Boosting is one algorithm which is very
+[20:39] , very flexible. I told you while
+[20:45] teaching Gradient Boosting that
+[20:47] Gradient Boosting is so flexible that
+[20:50] it accepts any type of loss function,
+[20:52] provided it is differentiable. Meaning,
+[20:56] you should be able to differentiate
+[20:57] that loss function. Because
+[20:58] differentiating is necessary since you
+[21:00] will perform optimization. So for that,
+[21:03] you need a differentiable loss function
+[21:04] . One such differentiable loss function
+[21:07] is Mean Squared Error, which I just
+[21:09] showed you. So if you talk about
+[21:11] Gradient Boosting, then there isn't
+[21:13] actually any specific loss function in
+[21:15] Gradient Boosting. In Gradient Boosting
+[21:17] , the loss function is often
+[21:19] represented in this way. That's it. If
+[21:23] you see this written, then this is the
+[21:25] Gradient Boosting loss function. Now,
+[21:27] you can put any mathematical function
+[21:29] into this. You can also put Mean
+[21:32] Squared Error. You can also put Log
+[21:34] Loss. You can also put any other loss
+[21:36] function. It just needs to be
+[21:38] differentiable. But the XGBoost loss
+[21:42] function looks a bit different,
+[21:44] slightly different. And as I told you
+[21:50] in the first video of XGBoost, the loss
+[21:54] function of XGBoost has a
+[21:56] regularization parameter by default.
+[22:05] Right? So now, I will show you what the
+[22:09] XGBoost loss function looks like. Now,
+[22:12] if you go to the original XGBoost paper
+[22:16] , you will see this. And this is the
+[22:21] loss function of XGBoost. Right? So
+[22:24] first, I will write it down. Then I
+[22:27] will explain to you what this loss
+[22:28] function indicates. So in our case,
+[22:31] since there are two models m1 + m2,
+[22:34] here m1 is a base model and m2 is a
+[22:38] decision tree. So our loss function
+[22:45] will be σ i = 1 to n for all data
+[22:51] points l yi yi hat plus this omega term
+[22:58] on f2 xi Right, now it is explained
+[23:07] here what this omega of f is. Right? By
+[23:11] the way, this term is only applicable
+[23:15] to your last decision tree. So, it is
+[23:19] actually made of two terms. Right? So
+[23:22] it is actually gamma times T + 1/2
+[23:29] lambda times w². Right? Let me explain
+[23:36] all these things to you once. So here,
+[23:39] this T is the number of leaf nodes in
+[23:46] your decision tree. Like in our case,
+[23:49] one, two, three, these are our number
+[23:53] of leaf nodes. So here, the value of t
+[23:56] will be three. And what is this W? This
+[24:00] W is the weight or output of these
+[24:03] leaves. Like this is W1. This is W2.
+[24:07] This is W3. Right? And this gamma is a
+[24:12] regularization parameter, and this
+[24:16] lambda is also a regularization
+[24:19] parameter. Right? Basically, you want
+[24:23] to penalize your tree for having too
+[24:27] many leaf nodes and having very high
+[24:30] output values. That's the whole idea
+[24:33] behind this entire loss function. Right
+[24:37] ? You can compare it side-by-side with
+[24:40] gradient boosting. In gradient boosting
+[24:42] , this loss function would just be this
+[24:44] . That's it. This term would not be
+[24:53] there. So, the biggest difference you
+[24:57] can see so far in XGBoost is this. That
+[25:01] this loss function is different. It
+[25:04] comes with a built-in regularization
+[25:06] parameter. Right? So, now if I tell you
+[25:12] what W1, W2, and W3 should be? Then in
+[25:20] very simple words, we need values for
+[25:23] W1, W2, and W3 that will minimize this
+[25:27] loss function. And that's the whole
+[25:32] idea. And now we have entered the
+[25:34] domain of optimization, which is a
+[25:37] somewhat familiar territory. You have
+[25:39] studied this in gradient descent and
+[25:41] also in linear regression. And in many
+[25:44] other algorithms, you have explored how
+[25:46] to find values for specific parameters
+[25:49] by minimizing the loss function. Okay?
+[25:52] So, moving forward, we are going to
+[25:55] apply all this same mathematics. Before
+[25:57] moving ahead, I would like to clarify
+[26:00] one thing. Until now, what I was doing
+[26:04] was calling this thing a loss function.
+[26:09] Okay? I was calling this complex term a
+[26:11] loss function. But actually, you don't
+[26:14] call it a loss function. You actually
+[26:17] call it an objective function. This is
+[26:22] called an objective function. Because
+[26:26] this is a sum of two things. First,
+[26:29] your loss function, And second, your
+[26:35] regularization term. Okay? So, going
+[26:40] forward, we will call it an objective
+[26:42] function. Wherever you read about it,
+[26:43] it will be called an objective function
+[26:45] . I might accidentally call it a loss
+[26:47] function again. But you understand the
+[26:49] sentiment. Okay? Now, I want you to get
+[26:53] comfortable with this objective
+[26:56] function. It is very, very important
+[26:59] that you get a bit comfortable with
+[27:01] what is written on the screen right now
+[27:03] . So, what am I going to do? I will
+[27:06] show you this objective function
+[27:08] through two or three different examples
+[27:10] . Okay? So, let's assume we are
+[27:14] building three or four different models
+[27:18] . Suppose we have a dataset. Any
+[27:23] dataset, and we performed boosting on
+[27:26] it using XGBoost. Now you know what you
+[27:30] do in boosting. You keep adding models
+[27:33] one after another in a stage-wise
+[27:34] fashion. One model in the first stage,
+[27:37] two models in the second stage, three
+[27:40] models in the third, and so on. Now,
+[27:43] assume that when you first applied
+[27:46] XGBoost on it, you decided that, no, I
+[27:50] will use only one model. So there will
+[27:54] be only one model. So, I want to show
+[27:58] you what this objective function would
+[28:00] look like if there were only a single
+[28:02] model. By the way, you know that the
+[28:05] first model in XGBoost is not a
+[28:07] decision tree. It is simply the mean.
+[28:10] This is just a constant. So let's
+[28:13] assume we have a single model. This is
+[28:16] m1; mathematically, we can call it f1
+[28:20] xi. So, for this, our objective
+[28:24] function becomes sigma i = 1 to n for
+[28:28] all the data points. Loss function is
+[28:33] yi. yi hat, that's it; this term does
+[28:39] not come because what is This term
+[28:42] is this thing. Right? What is
+[28:48] T in this? Number of leaf nodes. And
+[28:51] what is W? Leaf weights. Now think
+[28:54] about it yourself. If you have just one
+[28:56] model and it is only a mean model. This
+[28:59] is not even a decision tree, so you
+[29:02] wouldn't write this for that. I hope
+[29:05] you are understanding the point. Now
+[29:07] let's take a second case. The second
+[29:10] case is that this time we are taking
+[29:13] two models. We are taking two models.
+[29:17] This is m1, which is again mean, and we
+[29:21] are taking m2, which is a decision tree
+[29:25] . Okay? And mathematically we are
+[29:28] writing this as f1. xi and we are
+[29:32] representing this as f2 xi. How will
+[29:36] our objective function look in this
+[29:39] case? Our objective function will look
+[29:41] like this. yi, by the way, we can write
+[29:49] yi hat as this. Right? So what am I
+[29:58] doing? Here, rather than writing yi hat
+[30:03] , I am writing f1 xi + f2 xi, okay? +
+[30:09] omega of f2 xi. Why only f2xi? Because
+[30:16] only f2xi is a decision tree. Okay,
+[30:21] anyway, this is stage two. This is
+[30:25] stage two, this was stage one. So since
+[30:31] this new model has been added and since
+[30:34] this is a decision tree, your
+[30:36] regularization term will only apply to
+[30:39] F2. It will not apply to F1. Okay?
+[30:43] Let's take one more iteration. Let's
+[30:46] add one more model. So we are moving on
+[30:49] to stage three. In stage three, we have
+[30:52] three models. This is the first one.
+[30:55] This is the second one. This is the
+[30:57] third one. So this is model one. This
+[31:00] is model two. This is model three. This
+[31:03] is again just a mean. This is a
+[31:06] decision tree. This is also a decision
+[31:10] tree. Okay? Mathematically, we are
+[31:14] calling it f1xi, f2xi, f3xi, and now I
+[31:21] would like you to imagine what the
+[31:24] objective function will be. The
+[31:28] objective function will be this. yi f1
+[31:38] xi + f2 xi + f3 xi + f3 xi, why did I
+[31:52] add only f3xi? Because the
+[31:56] regularization up to here has already
+[32:01] been handled in this step. Okay? Now,
+[32:05] since this new decision tree has been
+[32:07] added. That is why we are applying
+[32:11] regularization on it. Okay? I hope
+[32:14] things are clear up to here. One last
+[32:19] example, we are at stage T. We don't
+[32:26] know how many iterations have passed.
+[32:27] How many models we have added. We don't
+[32:29] know. We just know that now we have T
+[32:31] models. T could be 100, or it could be
+[32:34] 1000. We don't know anything. So now we
+[32:37] have T models. We have T models. This
+[32:45] is M1, this is M2, this is MT. This is
+[32:50] mean, this is decision tree. In between
+[32:54] are all decision trees, and this is
+[32:56] also a decision tree. Let's call this
+[33:00] one f1 xi, f2 xi, ft xi, and now I
+[33:03] would like you to think, what would be
+[33:08] the objective function? So, the
+[33:12] objective function will be from i = 1
+[33:14] to n. By the way, we can do one more
+[33:18] thing. We can introduce a notation.
+[33:21] Here, we can write one to represent
+[33:23] this is the objective function of stage
+[33:24] one. Here, we can write the objective
+[33:27] function of stage two. Here, we can
+[33:30] write the objective function of stage
+[33:32] three. And similarly, we can write the
+[33:34] objective function of stage t. So here
+[33:38] we will have yi, f1 (xi) + f2 (xi) +
+[33:50] dot dot dot + ft (xi). The very last
+[33:57] plus, you always focus on your last
+[34:00] decision tree, so here we will have (ft
+[34:03] ) xi. This will be the loss function,
+[34:07] or I am sorry, this will be the
+[34:09] objective function at stage t. Right.
+[34:13] Now I am going to do one thing; I am
+[34:17] going to simplify this entire term a
+[34:21] bit. How? Pay attention, so I would
+[34:24] rewrite it as yi, yi hat till stage t-1
+[34:38] + ft (xi) + ft. Basically, what I did
+[34:48] is that I took (f1xi) + f2xi dot dot
+[34:55] f (t-1) xi, replaced this whole
+[35:03] thing with this term. yi hat till stage
+[35:08] t-1 And we can write it like this,
+[35:13] right? If we were at the t-1 stage, its
+[35:16] yi hat would be this value, wouldn't it
+[35:19] ? So basically, I simplified it and I
+[35:23] can say that, "At any stage t, the
+[35:32] objective function of XGBoost can be
+[35:36] written as sigma i = 1 to n (for all
+[35:40] the data points): l (yi, yi hat till t-
+[35:51] 1 stage +) ft (xi) + omega of ft (xi)"
+[35:56] and I did all this hard work only
+[36:01] because I want to show you that in this
+[36:06] research paper, they have also written
+[36:12] the t-th stage objective function
+[36:17] exactly the way we have written it. You
+[36:22] can see, now what do we need to do? We
+[36:26] need to find such an output value for
+[36:28] this fxi, which is the last decision
+[36:37] tree, that will minimize this entire
+[36:44] objective function. That is the goal.
+[36:46] We have to find such a value of ftxi or
+[36:49] this decision tree or the output of
+[36:53] this leaf so that this entire objective
+[36:56] function is minimized. This is our goal
+[36:59] at this point of time. So, we have
+[37:02] established our objective function and
+[37:04] we have also established our goal. We
+[37:08] basically need a value for ftxi that
+[37:11] will minimize this entire objective
+[37:14] function. So essentially, we have
+[37:19] turned this whole problem into an
+[37:21] optimization problem. And the good part
+[37:25] is that we are already very comfortable
+[37:28] with solving such optimization problems
+[37:31] . Right? My question to you would be,
+[37:36] have you ever solved an optimization
+[37:38] problem like this? Where you need the
+[37:42] values of parameters that minimize a
+[37:44] loss function or an objective function.
+[37:47] The answer should be yes. I mean, if
+[37:52] you have studied linear regression,
+[37:54] then if you remember, we used to have
+[37:57] an objective function or a loss
+[37:58] function there. Which was this. And,
+[38:10] the actual loss function there, which I
+[38:12] have written in a general form right
+[38:15] now, was mean squared error, which you
+[38:18] could also write as: (yi-yi hat)
+[38:20] squared. Okay, now for a moment, assume
+[38:25] that you are applying linear regression
+[38:28] on this data. You have an input column
+[38:32] called experience and you have to
+[38:34] calculate salary, so this is your input
+[38:37] and this is your output. Okay? So, What
+[38:43] was yi here? What was yi hat? Like, yi
+[38:46] is this. yi hat used to be m times
+[38:52] experience of the ith candidate + b,
+[38:57] right? So in a way, I was able to write
+[39:01] this loss function like this too. yi-I
+[39:09] can also call experience i as xi here.
+[39:12] Because this is the input. Right? And
+[39:18] if you remember, our task used to be
+[39:21] that we needed such values of m and b
+[39:24] for which this loss is minimum. This is
+[39:30] like basic linear regression. Okay? And
+[39:34] then what did we do? We used to plot a
+[39:37] graph. Where one axis had m, one axis
+[39:41] had b, and the vertical axis had our
+[39:44] loss value. Okay? We used to try
+[39:47] different values of m and b and plot
+[39:50] the loss. Now, since this is a
+[39:54] quadratic equation type. So, if you
+[39:57] remember, this used to be our loss
+[39:59] function. Here, this is the cost or
+[40:03] loss. On this axis, you have m. On this
+[40:06] axis, you have b. Okay? As soon as we
+[40:09] find out that there is such a lovely
+[40:11] parabolic shape. And now we have to
+[40:14] find such values of M and B for which
+[40:17] the loss is minimum. We know it will
+[40:21] always be at the point where the loss
+[40:25] with respect to both, the slope and the
+[40:30] intercept, is zero. So what did we used
+[40:34] to do? We used to differentiate our
+[40:37] loss function. Once with respect to m,
+[40:41] and by setting it to zero, we would
+[40:43] find the value of m. And once by
+[40:45] differentiating with b, we would find
+[40:48] the value of b. And basically, we would
+[40:51] get such a value of m and b. That would
+[40:54] minimize this loss. And this is where
+[40:57] we used techniques like gradient
+[40:59] descent. Right? So in short, I just
+[41:03] want to tell you that we have solved
+[41:05] this kind of optimization problem
+[41:08] before. But what if I tell you that
+[41:13] this particular optimization problem is
+[41:19] a tough nut to crack or is very
+[41:21] difficult to solve. So would you agree?
+[41:26] Let me give you my argument as to why I
+[41:30] think optimizing this is...In this way,
+[41:34] the method I just explained, in the
+[41:37] linear regression case, our 'l' is this
+[41:41] . In linear regression, m and b were
+[41:45] our parameters, which are these here.
+[41:48] Right? But the job is the same. But why
+[41:52] am I saying that optimizing this is
+[41:54] much more difficult? The reason is that
+[42:00] if you understand, what is yi-hat in
+[42:04] both places? In the case of linear
+[42:07] regression, yi-hat is a very simple
+[42:09] thing. It is mx + b, okay? If you try
+[42:16] to draw it, if this is your experience
+[42:19] and this is your salary, and if this is
+[42:24] your data, then your 'yi-hat' is
+[42:27] basically this line, it's a simple
+[42:30] curve. But if you talk about our
+[42:35] decision tree thing, then here what is
+[42:41] 'yi-hat'? First of all, 'yi-hat' is
+[42:46] yi-hat at time t-1 + ft xi, you can see
+[42:51] that. This entire term is our yi-hat,
+[42:55] right? Now, if you talk about this term
+[43:00] , it is a constant, but if you talk
+[43:02] about this term, it is a decision tree,
+[43:05] okay? So this means that if we had the
+[43:11] same data, experience here, salary here
+[43:15] , and these were our data points, then
+[43:19] the 'yi-hat' curve would look something
+[43:23] like this. It would look something like
+[43:27] this. I am not sure if I will be able
+[43:32] to draw this or not. Basically, if you
+[43:38] have studied decision trees for
+[43:41] regression, you would know that in this
+[43:44] way the entire regression happens. In
+[43:51] the case of suppose this was the data.
+[43:58] Then in this case, it would look
+[44:01] something like this. Something like
+[44:07] this. What I am trying to tell you is
+[44:10] that unlike the linear regression case,
+[44:12] this won't be a simple line. In our
+[44:16] case, it would be a zigzag curve, a
+[44:20] curve like this. Okay? Why? Because the
+[44:25] output of decision trees is actually
+[44:28] like this. Okay? Okay? If I can show
+[44:32] you, so I would just search for a
+[44:36] decision tree regression graph just to
+[44:41] show you, because I am not able to draw
+[44:45] it correctly. So yeah, this is what I
+[44:49] wanted to show you. You can see, if
+[44:52] this were linear regression here. I
+[44:54] will just cut this diagram and I will
+[44:57] just show you what I am trying to say.
+[45:03] Where did it go? Here it is. So if this
+[45:07] were normal linear regression, a line
+[45:10] would be drawn like this. Right? But
+[45:14] since this is a decision tree or a set
+[45:17] of decision trees. Then its graph will
+[45:21] look like this. Like this. And it will
+[45:25] look like this because if you have
+[45:27] watched my decision tree class, then I
+[45:30] had mentioned there that its output is
+[45:32] piecewise constant. Meaning, in this
+[45:35] area, it is a constant value. Then at
+[45:38] the very next moment, it is this value.
+[45:40] At the previous moment, it was that
+[45:42] value. There are sudden jumps. There
+[45:44] are sudden jumps. Okay? So because our
+[45:48] yi hat is such a weird curve. Because
+[45:55] of that, when we try to plot the graph
+[45:58] of loss with yi hat, we will not get
+[46:01] such a smooth parabolic curve. There is
+[46:05] a good chance that we might get a curve
+[46:07] like this. It is perhaps a parabola,
+[46:11] but with many irregularities; imagine
+[46:15] this in 3D. Okay? So because the
+[46:19] parabola is formed in this way.
+[46:25] Optimizing this will not be easy. Why?
+[46:28] Because at many points this curve is
+[46:35] not even differentiable. So basically,
+[46:39] you cannot even apply this partial
+[46:44] differentiation. You cannot even reach
+[46:46] this point because you are unable to
+[46:48] find the slope with respect to fxi. So
+[46:54] let me summarize my entire argument
+[46:56] once. What did I say we have to do? We
+[47:01] need to find the ft xi that minimizes
+[47:04] this entire equation, this entire
+[47:06] objective function. So basically, this
+[47:10] is an optimization problem. But we
+[47:13] learned that in an optimization problem
+[47:16] , what you do is differentiate your
+[47:19] objective function with respect to the
+[47:22] parameters involved and then equate it
+[47:26] to zero to find the value. But for this
+[47:30] , it is necessary that your
+[47:32] optimization—I am sorry—your
+[47:34] objective function must be
+[47:36] differentiable. But since our y-i hat
+[47:41] involves a decision tree. Because of
+[47:47] this decision tree, the loss curve that
+[47:50] is formed is actually
+[47:52] non-differentiable at many points.
+[47:57] Because of that, you cannot find this
+[47:59] slope, and hence you cannot find a
+[48:02] value of f (xi) that will minimize this
+[48:05] entire thing. This is my argument. I
+[48:07] hope I was able to explain it. So, what
+[48:11] is the solution? The solution is, what
+[48:16] if I could smooth out this curve—this
+[48:21] zigzag, weird curve? Could approximate
+[48:26] it? I mean, what if I could replace
+[48:32] this complex equation with some other
+[48:39] equation that might look like this. It
+[48:47] is not necessary. It could be a bit
+[48:49] higher or a bit lower. But it should be
+[48:52] close. Okay? And at the same time, it
+[48:56] should be smooth and differentiable.
+[49:00] The important thing is that we can
+[49:03] differentiate it with respect to f (xi)
+[49:07] . This is very important, then our work
+[49:10] can be done. So basically, what we need
+[49:15] to do is somehow approximate this part
+[49:20] of the objective function because,
+[49:23] right now, this is not useful. So, this
+[49:28] was a bit of a complex part of this
+[49:31] entire explanation, but I think I was
+[49:33] able to roughly explain what the
+[49:36] problem is. And now, I will tell you
+[49:38] the solution. The solution is that we
+[49:41] will approximate our non-differentiable
+[49:44] curve using a beautiful mathematical
+[49:47] technique called Taylor series. I am
+[49:52] sure you must have studied it in
+[49:54] engineering math, but perhaps didn't
+[49:57] pay much attention then, but guess what
+[49:59] ? It is going to help us with this
+[50:03] problem now. So guys, let's quickly try
+[50:05] to understand the Taylor series. So
+[50:08] that when I apply it later, you have
+[50:11] some idea. So, what is the Taylor
+[50:14] series? Let me first define it for you
+[50:17] in one line. So, the Taylor series is a
+[50:21] very, very powerful approximation
+[50:24] technique. That is the simplest
+[50:28] definition. So, what does the Taylor
+[50:31] series say? That you bring any complex
+[50:35] function. Okay? Bring any complex
+[50:38] mathematical function. And the Taylor
+[50:41] series can approximate it using a
+[50:48] polynomial. Right? Suppose you have
+[50:53] some very complex function. Let's say
+[50:57] for now, e to the power x, you can
+[51:00] approximate it very easily using a
+[51:03] polynomial. For instance, let's assume
+[51:08] this is a polynomial. Okay? So, this is
+[51:14] what the basic definition says: you
+[51:17] input a complex function, and you can
+[51:20] approximate it using simple polynomials
+[51:23] . Okay? This is the main idea behind a
+[51:27] Taylor approximation or Taylor series.
+[51:31] The only caveat here is that if you
+[51:34] want a very accurate, highly accurate
+[51:38] approximation, then the polynomial you
+[51:43] create will need many polynomial terms.
+[51:47] Like x raised to the power 3, to the
+[51:50] power 4, to the power 5, and so on. The
+[51:54] more polynomial terms you keep adding,
+[51:56] the more accurate your approximation
+[51:59] will become. It will become more
+[52:01] accurate. Okay? So that was the "what"?
+[52:05] Now I will tell you the "how"—exactly
+[52:08] how the Taylor series works. We won't
+[52:12] go too deep because this isn't a video
+[52:14] specifically about the Taylor series.
+[52:16] So, I have added a video in the
+[52:19] description. From 3Blue1Brown. It is a
+[52:21] very beautiful video on the Taylor
+[52:23] series. If you watch it once, your
+[52:25] understanding will be well-developed.
+[52:27] But still, I will explain to you a
+[52:29] little bit about exactly how the Taylor
+[52:31] series works. Okay? So, the Taylor
+[52:35] series uses derivatives to convert any
+[52:39] complex function into a polynomial. It
+[52:47] uses first-order derivatives,
+[52:48] second-order derivatives, third, fourth
+[52:50] , and higher-order derivatives to
+[52:52] approximate a complex function. Okay?
+[52:55] So, if I tell you the formula—what is
+[52:58] the Taylor series formula? The Taylor
+[53:01] series formula for a function (f (x))
+[53:05] around a point 'a' can be written as: f
+[53:14] (x) is approximately equal to f (a) + f
+[53:18] '(a) divided by 1!(x-a) + f''(a)/2!(x-a
+[53:37] ) ² + f'''(a)/3!(x-a) ³ and in this
+[53:49] way, you can add as many polynomial
+[53:52] terms as you want. So you can see, to
+[53:56] approximate this function around point
+[53:58] 'a', I am using the derivatives. This
+[54:02] is the first-order derivative. This is
+[54:03] the second order, this is the third
+[54:05] order. The more derivatives you keep
+[54:07] adding, the more accurate approximation
+[54:09] you will get. Okay? So, I will try to
+[54:12] explain this whole thing to you through
+[54:15] an example. Let's assume our function
+[54:19] is e raised to the power x, and we want
+[54:22] to approximate this function around the
+[54:26] point a = 0. Okay? So, according to
+[54:29] this formula, what will the
+[54:31] approximation be? I will work that out
+[54:33] for you. First, I will focus on this
+[54:35] term. What will f of a be? So f of a
+[54:39] will basically be e raised to the power
+[54:42] of a instead of x, and the value of a
+[54:43] is zero. That means it will be one.
+[54:47] Okay? Now we will focus on this term.
+[54:51] So this term is f '(a)/1!*(x-a). By the
+[54:57] way, here f'(a) means the derivative of
+[55:02] f (x). Okay? So you know that the
+[55:06] differentiation of e to the power x is
+[55:08] just e to the power x. So going by that
+[55:12] logic, it will be e to the power x, and
+[55:15] instead of x, we will put a, and the 1!
+[55:19] becomes 1 here, and x-a comes here as
+[55:22] it is. We will put zero in place of a.
+[55:25] So it will simply become x. Okay? So,
+[55:32] for this term, we got x. Now let's
+[55:35] focus on this term. f ''(a)/2!(x-a) ²;
+[55:43] the double derivative will be the same.
+[55:46] So here we will get e to the power a/2!
+[55:52] (x-a) ²; e to the power 0*x²; so we
+[55:58] get x²/2! here. So it will be two.
+[56:03] Then I will show you by calculating. f
+[56:08] This term will basically be (x-a) ³/3!
+[56:15] This will again be 1/6*x³; so this
+[56:24] becomes x³/6. So basically, if I want
+[56:29] to approximate e to the power x using
+[56:33] Taylor series, this is what comes. And
+[56:45] I can extend this as much as I want.
+[56:47] Okay? So now I will show you how to
+[56:51] visualize this. So I have Desmos open
+[56:55] here. First, I will show you what e
+[56:59] raised to the power x looks like. It's
+[57:02] very famous. You must already know. Now
+[57:05] I will show you y = by adding 1 + x. So
+[57:14] basically, I have used only these terms
+[57:17] for now. Okay? And you can see that the
+[57:22] approximation is already accurate for x
+[57:27] = 0 or a = 0. At least at this point,
+[57:31] the blue curve and the red curve are
+[57:33] the same thing. Okay? But notice, as I
+[57:37] keep adding higher-degree terms, like
+[57:40] adding x²/2, you will notice that a
+[57:48] bit around zero, on both sides, the
+[57:52] approximation is becoming more accurate
+[57:55] . Notice, I am adding the x³ term.
+[58:05] Divided by 6, and you can see that you
+[58:08] can now see the approximation over a
+[58:10] larger area. So basically, the more
+[58:14] terms you keep adding to this
+[58:17] polynomial, the more your approximation
+[58:20] accuracy will improve for a wider range
+[58:23] of x. Right? If you add a lot of terms,
+[58:27] it will start to perfectly approximate
+[58:29] this red curve. And that is the beauty
+[58:32] of Taylor series. Right? So that is
+[58:35] what we have to do now. We need to
+[58:37] apply Taylor series to our objective
+[58:41] function, which is not particularly
+[58:46] usable at this point, and make it
+[58:50] usable. So guys, now that we understand
+[58:53] what Taylor series is and how it works.
+[58:57] Now we will apply the Taylor series to
+[58:59] our objective function and approximate
+[59:01] and simplify this complex objective
+[59:03] function of ours. Right? We are just
+[59:07] going to do one thing: we will simplify
+[59:10] only up to the second-degree polynomial
+[59:13] . Basically, we will take this term,
+[59:15] and this term. We won't take
+[59:17] the terms beyond that. Third derivative
+[59:19] , fourth derivative. We don't need to
+[59:21] take them. Our work will get done.
+[59:23] Right? Now, the biggest challenge in
+[59:27] applying Taylor series approximation to
+[59:30] such complex equations is to identify
+[59:34] what x will be and what a will be. So,
+[59:38] first of all, I would like to give this
+[59:40] clarification. Look, in our case, x
+[59:43] will be this entire term. Oh, one more
+[59:46] thing, we are only going to apply
+[59:49] Taylor series to this much part. We
+[59:52] won't apply it to the rest. Right? So
+[59:55] here, if you notice, then our x is this
+[59:58] entire thing. Because this is the very
+[01:00:00] thing that will vary. Basically, the
+[01:00:03] prediction up to the t-th iteration. So
+[01:00:08] you can write it down here first: yi
+[01:00:13] hat t-1 + ft. xi, this becomes our x.
+[01:00:20] Now the question arises: what will a be
+[01:00:22] ? A is the point of change where the
+[01:00:25] modification starts to occur. So
+[01:00:27] basically, this T-1 iteration is the
+[01:00:30] point after which the change is
+[01:00:32] happening. We are adding this decision
+[01:00:34] tree. Now, it can have any output. So
+[01:00:37] we will take a as yi hat t-1, okay? The
+[01:00:42] change is about to happen after this.
+[01:00:44] Right? Now, what will we do? We will
+[01:00:46] calculate all these terms one by one
+[01:00:50] and approximate this equation. So first
+[01:00:53] of all, we need to calculate f (a), so
+[01:00:56] to calculate f (a), what will we have
+[01:00:58] to do? First, we have to write f (x)
+[01:01:01] and then wherever there is x, we will
+[01:01:03] substitute it with a. We will replace x
+[01:01:07] . So, first, let me write down f (x)
+[01:01:09] for you. So f (x) is this entire term
+[01:01:12] of ours. I am writing this as it is. i
+[01:01:16] = 1 to n, yi-yi hat (t-1) + (ft) xi;
+[01:01:29] okay, this is my entire x. Now I just
+[01:01:33] have to do one thing, I have to replace
+[01:01:36] this entire x with a. So what I will do
+[01:01:38] is, I will just erase and I will
+[01:01:43] rewrite and this becomes our f (a); we
+[01:01:46] have found our first term. Now, we need
+[01:01:49] to find the second term similarly. What
+[01:01:52] do we need to do for the second term?
+[01:01:54] We need to find f '(a). Okay? Basically
+[01:01:57] , we need to do df/dx. And then, after
+[01:02:02] replacing x, let's assume for a moment
+[01:02:05] that f (x) is x². So, what would df/dx
+[01:02:09] be? 2x So then, what would f'(a) be? 2a
+[01:02:18] , replaced x with a. So, if I want to
+[01:02:22] write it simply, then f '(a) x-a; let's
+[01:02:27] focus on f'(a) first. This will become
+[01:02:32] our sigma i = 1 to n del L yi yi hat,
+[01:02:42] here too t-1 will come. Because you
+[01:02:45] have to put a in place of x. Divided by
+[01:02:48] del y t-1, okay. Now let's talk about
+[01:02:55] x-a, it's simple. You subtract this
+[01:02:58] from that. What is left? ft xi and
+[01:03:04] similarly we now need to find f ''(a)/2
+[01:03:10] *(x-a) ². So, this is also simple.
+[01:03:14] Here we will have i = 1 to n. This will
+[01:03:21] remain the same thing, just
+[01:03:23] double-differentiated, square of ft
+[01:03:30] squared. And we have approximated this.
+[01:03:33] Now I will just place these three here,
+[01:03:36] so this whole equation will now be
+[01:03:39] formed. I am bringing all three
+[01:03:42] summations out. And first of all, L
+[01:03:47] will come (yi, yi hat t-1 iteration),
+[01:03:56] plus now this term, this big
+[01:04:00] differentiation here, we call this the
+[01:04:05] gradient. This is called the gradient.
+[01:04:09] Okay? And we will denote this by gi. So
+[01:04:15] what we can do is we can write gi. Oh,
+[01:04:20] I forgot one more thing here. A half
+[01:04:23] will also come outside here because
+[01:04:24] this is also two, right. So here it
+[01:04:27] became gi. And then came our ft xi plus
+[01:04:35] . Now this term, the double
+[01:04:38] differentiation of the loss function,
+[01:04:42] we call it the Hessian. You might have
+[01:04:46] heard of it, and you will denote it by
+[01:04:49] hi, so here will come 1/2 hi ft² xi
+[01:04:57] and then lastly, this term will also
+[01:05:02] come, plus ft I am sorry, here will
+[01:05:09] come omega of ft xi and this is our
+[01:05:15] simplified objective function, guys. So
+[01:05:18] , I have written this final equation a
+[01:05:21] bit more clearly here. Right? I guess,
+[01:05:25] first of all, you can appreciate that
+[01:05:28] we have given that complex equation a
+[01:05:32] polynomial form, and now our objective
+[01:05:35] function is represented very well in
+[01:05:38] terms of x. Also, at this point, I
+[01:05:41] would like to show you the research
+[01:05:43] paper. And you can see that we have
+[01:05:46] achieved this step exactly. Absolutely
+[01:05:49] line by line. Here is our first term.
+[01:05:52] Here is our second gradient term, and
+[01:05:55] here is our third Hessian term. This is
+[01:05:58] exactly what we have achieved here. Now
+[01:06:01] , if we want, we can simplify this a
+[01:06:04] little bit. How? I will tell you. Look,
+[01:06:08] what is our goal? What did we set out
+[01:06:10] to do? We need a value for f (t, xi)
+[01:06:14] for which this entire equation is
+[01:06:17] minimized. Okay? So, our plan was to
+[01:06:21] differentiate this whole thing with
+[01:06:25] respect to f (t, xi) and then set it to
+[01:06:28] zero. Right? I mean, the plan was
+[01:06:31] something like this, or we will apply
+[01:06:33] some form of optimization. So, we have
+[01:06:36] to differentiate. That is clear. So,
+[01:06:39] notice one thing. If I look here, there
+[01:06:45] are a total of four terms. This is the
+[01:06:47] first term. This is the second term,
+[01:06:50] this is the third term, and this is the
+[01:06:52] fourth term. In this, this, and this, f
+[01:06:55] (t, xi) is present. Meaning,
+[01:06:58] differentiating will be useful. But f (
+[01:07:00] t, xi) is not present in this one. So,
+[01:07:03] when I differentiate it with respect to
+[01:07:05] f (t, xi), this term will automatically
+[01:07:07] become zero later on. So, what I can do
+[01:07:11] is, I can perform a simplification and
+[01:07:14] I can write my objective function as
+[01:07:16] this. Just a sum of gradients and
+[01:07:25] Hessian. And exactly this is written
+[01:07:29] here in the next equation. Look, these
+[01:07:32] people have done the same thing. They
+[01:07:34] have also removed this term. Because
+[01:07:37] this is a constant term. It does not
+[01:07:39] contain f (t, xi). So, by
+[01:07:41] differentiating it further, you won't
+[01:07:43] get anything from it. So, it was just a
+[01:07:46] smart move to remove that. And now we
+[01:07:48] are here. Now, perhaps you might also
+[01:07:51] notice that this term of ours has been
+[01:07:54] sitting quietly for a long time. So,
+[01:07:57] now what will we do? We will expand
+[01:07:59] this too. Okay? And we know how to
+[01:08:03] expand. I told you when I taught you
+[01:08:06] the XGBoost loss function that this
+[01:08:08] term is kind of your regularization
+[01:08:11] term and you can break it down into
+[01:08:13] these two components. Okay? Here, this
+[01:08:17] t is the decision tree that you must
+[01:08:20] have applied at the t-th step, which is
+[01:08:22] the last model you added. So, this t
+[01:08:27] indicates how many leaf nodes there are
+[01:08:30] . So you can see there are three leaf
+[01:08:32] nodes in this one. And this lambda
+[01:08:36] times W squared basically means that
+[01:08:40] the output of these three leaf nodes
+[01:08:43] can be called W1, W2, and W3. So we can
+[01:08:48] write it by breaking it down as 1/2
+[01:08:52] times lambda W1 squared + W2 squared +
+[01:08:57] W3 squared, okay? One term for each
+[01:09:01] leaf node. Okay? So that is what we are
+[01:09:04] going to do. We are going to expand
+[01:09:09] this. Okay? For a moment, let's assume
+[01:09:13] that the tree we added at the end has t
+[01:09:17] leaf nodes. Okay? So how will this
+[01:09:22] entire equation break down? This whole
+[01:09:26] equation will become. i = 1 to n. We
+[01:09:30] will write this term as it is. gi ft xi
+[01:09:36] + 1/2 hi ft squared xi plus here you
+[01:09:42] will have gamma times t + 1/2 lambda
+[01:09:48] inside, since there are t leaf nodes,
+[01:09:55] we will write it as w 1² + w 2² + w
+[01:10:01] 3² dot dot dot + wt² because there
+[01:10:07] are t nodes. Now obviously this is not
+[01:10:10] the compact form. So to write this in
+[01:10:13] compact form, what we can do is we can
+[01:10:15] use a summation. So we can write it
+[01:10:17] this way. We can call it i or j.
+[01:10:21] Because we have already used i. j = 1
+[01:10:25] to T of WJ squared. Okay? This became
+[01:10:32] our somewhat more simplified objective
+[01:10:34] function. So now guys, we have brought
+[01:10:37] this objective function up to this
+[01:10:39] point, but there is a big problem here.
+[01:10:42] Understand the problem. There are three
+[01:10:45] terms here. This is the first term,
+[01:10:47] this is the second term, and this is
+[01:10:49] the third term. Now, two of these terms
+[01:10:52] have a summation. In this term and in
+[01:10:54] this term. But the problem is that
+[01:10:56] these two summations are different.
+[01:10:59] Here you have a summation over i which
+[01:11:02] goes from 1 to n. Basically the number
+[01:11:05] of rows. And here you have another
+[01:11:10] summation over j which goes from 1 to t
+[01:11:13] . Where t is what? t is your number of
+[01:11:17] leaf nodes in the last model that was
+[01:11:21] added. For instance, if there are two
+[01:11:24] leaf nodes, then the value of t will be
+[01:11:26] two and the value of j will be one for
+[01:11:27] the first time. The second time, it
+[01:11:29] will be two. So now, the problem is
+[01:11:32] that if we go to optimize this, there
+[01:11:34] will be a problem. So we have to
+[01:11:38] simplify this further and bring them
+[01:11:40] into a common summation. So I am going
+[01:11:43] to do a smart manipulation here. First,
+[01:11:48] I will show you that manipulation and
+[01:11:50] then I will explain how it happened.
+[01:11:53] But trust me, after that manipulation
+[01:11:56] is done, things will drastically
+[01:11:58] improve. Then it will become very easy
+[01:12:00] to optimize this. So let me write it
+[01:12:03] down first. So I would write it this
+[01:12:05] way. Summation of j = 1 to t Bracket
+[01:12:16] summation i belongs to ij gi wj plus
+[01:12:27] summation i belongs to ij 1/2 comes
+[01:12:35] outside h wj sq plus gamma plus plus
+[01:12:47] 1/2 lambda I am sorry j = 1 to t wj²
+[01:12:57] This is the transformation. Now I will
+[01:13:00] be very honest with you. When I was
+[01:13:02] reading this XGBoost paper and I saw
+[01:13:04] this step and this transformation, for
+[01:13:07] a while I didn't even understand how
+[01:13:09] this happened. How are we able to write
+[01:13:13] it this way? But trust me, it's very
+[01:13:15] logical. I will explain it to you one
+[01:13:17] by one. First of all, understand a
+[01:13:19] small change. The first change is that
+[01:13:24] I have started calling ft (xi) as wj. I
+[01:13:29] guess you might be able to notice this.
+[01:13:32] This is the first change. Right? This
+[01:13:38] is the first change. I will write it
+[01:13:42] here that wj is nothing but ft (xi)
+[01:13:48] right? The second change is that I have
+[01:13:54] broken i = 1 to N into two summations.
+[01:14:01] First j = 1 to t and inside that, i
+[01:14:05] belongs to ij. You just need to
+[01:14:10] understand these two things. If you
+[01:14:13] understand these two things, you will
+[01:14:15] understand this transformation. Alright
+[01:14:18] guys, then I will explain to you how we
+[01:14:20] took this transformation. Right? First,
+[01:14:24] I will explain how we gave the form of
+[01:14:28] summation i = 1 to n to j = 1 to t and
+[01:14:32] inside that, i belongs to ij. Right? To
+[01:14:37] understand this, I have taken a small
+[01:14:39] example. Suppose this is your data. It
+[01:14:42] has an input column. You can call it xi
+[01:14:45] . And this is your output column. You
+[01:14:47] can call it yi. And this is our t-th
+[01:14:50] step decision tree. It's a very simple
+[01:14:53] decision tree. Where it's just asking
+[01:14:55] if the CGPA is less than seven. If it's
+[01:14:57] less, the package will be five, and if
+[01:15:00] it's more than seven, the package will
+[01:15:02] be 10. Simple. Okay? Since this is a
+[01:15:05] leaf output, we are calling it W1. And
+[01:15:08] this is also a leaf output, so we are
+[01:15:10] calling it W2. Okay? Now understand,
+[01:15:13] look at this setup. Focus on this. Just
+[01:15:17] focus on this part. If I were to tell
+[01:15:22] you to expand this term for this
+[01:15:24] particular dataset where you have four
+[01:15:27] rows. Expand this term. Then how would
+[01:15:31] you write it expanded? You would write
+[01:15:33] G1 FT X1 + 1/2 H1 FT² X1 would be for
+[01:15:47] the first row. Okay? Here, wherever
+[01:15:50] there is X1, you would put 7.1. Okay?
+[01:15:54] Even here in X1, you would put 7.1.
+[01:15:57] Plus, now what would you do for the
+[01:15:59] second row? For the second row, you
+[01:16:02] would write G2 f2 x2 + 1/2 h2 f t² x2,
+[01:16:09] here wherever there is x2, you would
+[01:16:15] put 8.2. You would write the same for
+[01:16:18] the fourth term: g4 ft x4 + 1/2 h4 ft²
+[01:16:33] x4. I guess you can understand, I have
+[01:16:36] expanded it for all four terms. If you
+[01:16:38] divide it here, there are four terms in
+[01:16:42] total, one for each row. Okay, now I
+[01:16:47] will explain what this is saying here.
+[01:16:51] So first of all, think about how many
+[01:16:53] times This outer summation will open
+[01:16:56] twice,
+[01:17:00] why? Because in our decision tree,
+[01:17:02] there are two leaf nodes. This is one,
+[01:17:04] this is two. So this outer node will
+[01:17:08] run twice. Now let's talk about the
+[01:17:11] inner node and what it means. i belongs
+[01:17:14] to IJ. What is IJ? So IJ is the
+[01:17:19] instance set of leaf J. That is what I
+[01:17:26] mean. Watch carefully. It's a very
+[01:17:28] small thing. This is row one. This is
+[01:17:30] row two. This is row three. This is row
+[01:17:33] four. Okay? Now I am putting these rows
+[01:17:36] into this decision tree. CGPA less than
+[01:17:39] 7.1 Less than seven. So where will this
+[01:17:45] first row fall? Into this leaf. It's
+[01:17:50] 8.2. Where will it fall? Right here.
+[01:17:54] It's 6.5. Where will it fall? 3 and 9.1
+[01:17:59] . Where will it fall? Four. So that
+[01:18:03] means based on this data, we can say
+[01:18:07] that for this leaf, leaf node one, its
+[01:18:10] instance set contains only one row,
+[01:18:13] this one. Whereas if you talk about
+[01:18:18] this leaf, its instance set will
+[01:18:20] contain three rows. One, two, and four.
+[01:18:24] Okay? So now look, I am expanding it. I
+[01:18:27] am starting the value of J from one.
+[01:18:31] Started the value of J at one. This
+[01:18:33] means we are talking about this leaf
+[01:18:35] node. Now what do we need to do? For
+[01:18:37] whatever row is inside this leaf node,
+[01:18:41] we have to write this equation. Okay?
+[01:18:45] So that will be g 3, for a moment I
+[01:18:52] will just call wj as ft xi. I will
+[01:18:56] explain how both are equal a little
+[01:18:57] later. But for now, I am calling it ft
+[01:19:02] x3. Plus 1/2 h3 ft x3. That's it. Now
+[01:19:15] Since there was only one in this, the
+[01:19:17] work of the first leaf node is finished
+[01:19:19] . Now we will move to J = 2, which is
+[01:19:22] this leaf node. Now it has three rows.
+[01:19:25] Which is the first row? The one with
+[01:19:26] one. So for that, it will be G1 FT X1 +
+[01:19:34] 1/2 H1 FT X1 Okay? It will be squared.
+[01:19:42] Here also it will be squared. Then the
+[01:19:46] second row will come, g2 ft x2 + 1/2 h2
+[01:19:57] ft² x2, and lastly the fourth term
+[01:20:03] will come, g4t x4 + 1/2 h4 ft² x4. Now
+[01:20:16] you compare this one and compare this.
+[01:20:20] You would find that both are the same.
+[01:20:23] The order is different, but they are
+[01:20:25] the same thing. Right? So it means that
+[01:20:29] when we have written the equation in
+[01:20:31] this form, we are writing all these
+[01:20:33] rows one by one in this form. But when
+[01:20:39] we bring it into this form, what are we
+[01:20:41] doing? We are asking the tree which
+[01:20:43] rows ended up in your first leaf node.
+[01:20:46] For them, I did the same thing. Then
+[01:20:50] for the rows in the second leaf node, I
+[01:20:52] did the same thing. So basically, I am
+[01:20:55] still traversing over all the rows. I
+[01:20:57] have just segregated them according to
+[01:21:00] the tree. So if we were talking about
+[01:21:02] the first 100 children before. Here too
+[01:21:04] , we are talking about the same 100
+[01:21:05] children. Only the order has changed.
+[01:21:08] Because you are expanding according to
+[01:21:10] the decision tree's processing. So I
+[01:21:14] really hope you understood this first
+[01:21:17] similarity, how we smartly broke down i
+[01:21:20] = 1 to n into this. Okay? Now, just one
+[01:21:25] thing remains to be understood, why I
+[01:21:28] have called F (t, xi) as Wj. Look here,
+[01:21:35] I guess you can understand this very
+[01:21:38] easily too. Think about it, when you
+[01:21:42] are talking about the third row, when
+[01:21:44] you talk about the third row, the third
+[01:21:47] row has entered this leaf, right? So,
+[01:21:51] for that, what will ft (t, x3) be?
+[01:21:55] First of all, what was ft? ft was the
+[01:21:57] output of our decision tree. Now think
+[01:22:01] for yourself, for x3, as in the third
+[01:22:03] row, what output will our decision tree
+[01:22:06] give? W1 It will give W1 as the output,
+[01:22:12] right? So, I can actually write it like
+[01:22:15] this too. Right? Similarly, if you talk
+[01:22:25] about this one. This is the first row.
+[01:22:27] So, for the first row, what will our
+[01:22:30] decision tree output? W2, so I can
+[01:22:33] write this as G1 W2 as well. I guess
+[01:22:46] you are understanding. This WJ is
+[01:22:50] basically the output of the tree for a
+[01:22:53] particular leaf node. If I know that
+[01:22:57] leaf node, I can directly write it in
+[01:22:59] its place, right? That is why I
+[01:23:02] performed this transformation. And now
+[01:23:04] we are at a stage where we have a
+[01:23:09] proper objective function. In a
+[01:23:13] completely simplified form. I will
+[01:23:14] write it down one more time. The more I
+[01:23:17] write it, the more familiar it will
+[01:23:20] feel to you. Here we have gi wj + 1/2 i
+[01:23:32] belongs to ij hi wj squared plus gamma
+[01:23:42] t + 1/2 lambda j = 1 to t wj squared
+[01:23:50] and now we can actually simplify this
+[01:23:55] entire thing. So, simplifying this now
+[01:23:59] is simple algebra. You can see that
+[01:24:02] this term, this term, and this term,
+[01:24:06] all three are summed from j = 1 to t.
+[01:24:11] So, what can we do? We can write the
+[01:24:14] loss or objective function in this way.
+[01:24:18] Summation j = 1 to t, here we will have
+[01:24:25] i belongs to ij gi wj squared plus 1/2
+[01:24:36] i belongs to ij hi wj squared and 1/2
+[01:24:47] lambda wj squared + gamma t. Now, you
+[01:24:56] can take some things common in these,
+[01:25:00] like you can write it as I am writing
+[01:25:09] it again, summation i belongs to ij gi
+[01:25:13] wj squared plus we took half as common,
+[01:25:18] and after taking half out, what remains
+[01:25:24] here is i belongs to ij hi plus here
+[01:25:29] remains lambda, and we also took wj
+[01:25:35] squared as common + gamma t. And now we
+[01:25:41] are at the position where we can now
+[01:25:45] differentiate this term with respect to
+[01:25:48] WJ, okay? So, this is for all the terms
+[01:25:55] for all the leaves in your decision
+[01:25:57] tree, but we actually need to do it for
+[01:26:00] just one leaf, and from that, we will
+[01:26:03] get the answer for the other leaves too
+[01:26:05] . So, basically, we don't need this
+[01:26:08] outer summation. We would just take
+[01:26:12] this, this, and this. This will also
+[01:26:16] become zero. Because when you
+[01:26:18] differentiate this with respect to Wj,
+[01:26:20] since there is no Wj here, it will
+[01:26:22] become zero. Only this term and this
+[01:26:25] term will remain, so as soon as we
+[01:26:29] differentiate with respect to Wj, first
+[01:26:34] of all, okay, one thing I have been
+[01:26:36] doing wrong. There won't be a square
+[01:26:38] here. My bad, there won't be a square
+[01:26:40] here either. First of all, when you
+[01:26:44] differentiate this, you will get the
+[01:26:47] sum of i belonging to Ij of gi. Right?
+[01:26:53] Plus, when you differentiate this, it
+[01:26:56] will become 2 times Wj. This two will
+[01:26:58] come out to the front. So 2/2 will
+[01:27:01] become 1. So you will just be left with
+[01:27:04] here, sum of i belonging to Ij of Hi +
+[01:27:11] lambda*Wj, and now you have to set this
+[01:27:15] equal to 0 and find the value of Wj,
+[01:27:20] and the value of Wj will be-lambda*sum
+[01:27:24] of i belonging to Ij of gi, divided by
+[01:27:33] sum of i belonging to Ij of Hi + lambda
+[01:27:38] , and this is the output value for all
+[01:27:45] the leaves. If you are talking about
+[01:27:50] leaf one, if you want to find w1, then
+[01:27:53] you just have to calculate the gradient
+[01:27:57] for all those rows that are falling
+[01:28:00] into this leaf. If you want to
+[01:28:03] calculate W2, then you have to
+[01:28:05] calculate the gradient of all those
+[01:28:07] rows that are falling into this leaf
+[01:28:10] node. And that's it. Now our only job
+[01:28:13] is to find out what Gi is and what hi
+[01:28:16] is. And we will get our formula to
+[01:28:21] calculate the output that we set out to
+[01:28:25] find. So guys, we are this close to
+[01:28:29] calculating the exact value of Wj, just
+[01:28:32] two missing pieces left. We need this
+[01:28:36] value of G and we need this value of H.
+[01:28:38] G means gradient, and H means Hessian.
+[01:28:46] Right? So let me remind you once where
+[01:28:48] these came from. When we were applying
+[01:28:52] the Taylor series to our objective
+[01:28:54] function, we got these derivatives and
+[01:28:56] this double derivative there. We called
+[01:29:00] the derivative the gradient and the
+[01:29:01] double derivative the Hessian. So now
+[01:29:04] we have to calculate these values. The
+[01:29:09] problem is that your gradient, which
+[01:29:13] you are also writing like this: y i hat
+[01:29:20] t minus 1, Del y-hat t-1 and whatever
+[01:29:26] your Hessian is (well, Del will be used
+[01:29:30] here too), whatever your Hessian is,
+[01:29:34] which is the double derivative. Let me
+[01:29:41] write it down first, then I'll explain
+[01:29:43] what I'm trying to say. So, the problem
+[01:29:47] with this gradient and Hessian is that
+[01:29:50] they actually depend on the loss
+[01:29:52] function. This means you will have to
+[01:29:55] derive separate gradients and Hessians
+[01:29:58] for regression and separate ones for
+[01:30:00] classification. So, what do we do first
+[01:30:03] ? Let's focus on regression because the
+[01:30:05] loss function is a bit simpler here.
+[01:30:07] One more thing I would like to clarify.
+[01:30:11] Don't be intimidated by this t-1. It
+[01:30:15] simply means that you are adding models
+[01:30:19] one by one, and you are currently at
+[01:30:23] the t-th iteration. But the loss you
+[01:30:28] are calculating is at the t-1 step. You
+[01:30:31] are calculating the loss at this step.
+[01:30:33] That's it. Nothing more. Okay? So it's
+[01:30:36] nothing special. It's basically the
+[01:30:38] same thing. So, if you talk about
+[01:30:43] regression, then in regression, your
+[01:30:46] loss function is Mean Squared Error,
+[01:30:50] and you can also write it as: sigma of
+[01:30:54] i = 1 to n (yi-yi-hat) squared. Okay,
+[01:31:00] now whether you write yi-hat here or
+[01:31:03] add t-1, it doesn't matter, it's the
+[01:31:05] same thing. You have to differentiate
+[01:31:09] this. You have to find out this value.
+[01:31:13] So, what will this value be? It's very
+[01:31:16] simple. If you differentiate, you will
+[01:31:20] basically get sigma i = 1, this two
+[01:31:23] will come here and cancel out, and you
+[01:31:27] will get yi-yi-hat, and this minus sign
+[01:31:30] will come out after differentiation.
+[01:31:35] Okay? This is basic differentiation. So
+[01:31:37] you can write it like this too. i = 1
+[01:31:40] to n yi-hat-yi Okay? And this is your
+[01:31:50] gi. Okay? Also, the yi-hat here is the
+[01:31:55] yi-hat of the previous step. You have
+[01:31:59] to remember this because it is t-1. The
+[01:32:02] significance of this t-1 is that the
+[01:32:04] yi-hat is from the previous step. So if
+[01:32:06] I place this here, what will this whole
+[01:32:10] thing become? This whole thing will
+[01:32:13] become minus sigma of i instead of gi.
+[01:32:23] Now we will not use this summation.
+[01:32:27] Because we are already using this
+[01:32:29] summation. We are not talking about all
+[01:32:31] the rows. We are only talking about the
+[01:32:34] rows that fell into the current leaf.
+[01:32:35] So the next term will remain the same.
+[01:32:37] So here we will get yi hat minus yi.
+[01:32:44] Now, if you want, you can take this
+[01:32:46] minus inside. So actually, you can
+[01:32:49] write it by flipping it. You can write
+[01:32:53] it by reversing it. Then it will return
+[01:32:57] to yi minus yi hat. And just remember,
+[01:33:00] this will be t-1, the y-hat from the
+[01:33:02] previous step. Okay? Now think for
+[01:33:05] yourself, in a way, what are you doing?
+[01:33:07] You are calculating the residual for
+[01:33:13] every point. That is exactly what you
+[01:33:16] are doing, right? Just think about it,
+[01:33:18] suppose you have this data-CGPA, IQ,
+[01:33:22] and the package received. How did you
+[01:33:26] start? You used to start. Suppose you
+[01:33:28] have this data. Eight, 80, package
+[01:33:30] received is eight; nine, 90, package
+[01:33:32] received is nine, for example. Okay? So
+[01:33:35] how did you start? You used to build
+[01:33:37] the first model. So what was the
+[01:33:38] prediction of the first model? Which is
+[01:33:40] the mean. So here we get pred one. So
+[01:33:43] this became 8.5, and this also became
+[01:33:46] 8.5. Okay? So this is your yi and this
+[01:33:51] is your yi hat. For step one. Okay? Now
+[01:33:56] , as soon as you started adding the
+[01:34:00] second model, this column became your t
+[01:34:04] -1. Okay? So now for this, what do you
+[01:34:07] need to do? To calculate the gradient,
+[01:34:11] you just need to subtract this column
+[01:34:13] from this column. Calculate 8 minus 8.5
+[01:34:16] . Calculate 9 minus 8.5. Okay? So in a
+[01:34:20] way, basically, whatever your residual
+[01:34:22] was from the previous step, that is
+[01:34:23] what came here. So I can actually do
+[01:34:26] what with this? I can replace this with
+[01:34:30] the sum of residuals. Don't you think
+[01:34:36] this whole expression above can just be
+[01:34:39] replaced with the sum of residuals?
+[01:34:42] Okay? Now let's talk about the Hessian.
+[01:34:45] So in the case of the Hessian, what do
+[01:34:47] you have to do? Differentiate this
+[01:34:49] thing twice. When we differentiated it
+[01:34:53] once with respect to yi hat, what did
+[01:34:56] we get? We got—let's forget the
+[01:34:59] summation for a moment. Okay? Ignore
+[01:35:01] the summation because there is a
+[01:35:03] summation from i equals 1 to n. Here is
+[01:35:05] another summation. So ignore that. You
+[01:35:08] got this yi hat minus yi. Okay? Now you
+[01:35:15] have to differentiate it again, with
+[01:35:18] respect to yi hat. You have to
+[01:35:21] differentiate one more time, so what
+[01:35:22] will you get? You will get one, right?
+[01:35:27] This means down here we will have σ (i
+[01:35:32] belonging to ij) one + lambda. Now, how
+[01:35:37] many times will this one occur? As many
+[01:35:40] as the number of points falling into
+[01:35:44] your leaf, so basically this becomes
+[01:35:49] number of residuals + lambda. So, in
+[01:35:53] simple terms, if you go to calculate wj
+[01:35:58] for a regression problem with mean
+[01:36:02] squared error, your formula is sum of
+[01:36:07] residuals divided by number of
+[01:36:11] residuals + lambda, okay, that are
+[01:36:17] falling into that leaf. Okay? And if
+[01:36:22] you go back to the very beginning, to
+[01:36:25] the plan of attack, notice this right
+[01:36:28] here. This is exactly what we just
+[01:36:30] derived. Sum of residuals/number of
+[01:36:36] residuals + lambda; we have solved the
+[01:36:38] regression problem. Now, only the
+[01:36:41] classification problem remains. Now
+[01:36:43] let's talk about the classification
+[01:36:46] scenario. Here, if you want to
+[01:36:48] calculate the gradient and hessian,
+[01:36:51] your loss function is log loss. Okay?
+[01:36:57] You will have to differentiate and
+[01:36:59] double-differentiate the log loss to
+[01:37:00] find out g and h. The good part is that
+[01:37:04] we have already done this in gradient
+[01:37:07] boosting. So, I won't show it again
+[01:37:11] here because it will take a lot of time
+[01:37:13] . But I will show you where I have
+[01:37:15] taught this to you. So, if you go to
+[01:37:17] your course dashboard, you'll find
+[01:37:20] gradient boosting taught in week 36.
+[01:37:22] The math formulation for gradient
+[01:37:24] boosting classification is there. If
+[01:37:27] you watch from 37 minutes onwards, I
+[01:37:29] have derived everything to show what
+[01:37:31] comes from single differentiation. And
+[01:37:34] then I have also explained what comes
+[01:37:36] from double differentiation. Here, you
+[01:37:41] will find, like, I'll have to scroll a
+[01:37:43] bit to figure out where it is. But yeah
+[01:37:46] , both things have been derived. In
+[01:37:49] fact, you can also see it in the notes
+[01:37:51] that have been provided to you. Anyway,
+[01:37:55] let me show it to you. Yeah, so when
+[01:38:01] you differentiate once, here is your
+[01:38:06] output. It's basically yi-pi; pi is the
+[01:38:11] probability for the previous time step,
+[01:38:14] okay? You can call this a residual
+[01:38:17] itself. And if you double-differentiate
+[01:38:21] , you get this: pi*(1-pi). Here, pi is
+[01:38:25] again the probability in the previous
+[01:38:28] time step. Okay? So Basically, when you
+[01:38:33] calculate wj for the classification
+[01:38:37] scenario, it's the same here as well.
+[01:38:40] The sum of residuals will still be on
+[01:38:43] top. There will just be one change in
+[01:38:45] the denominator. Here comes PI 1-PI +
+[01:38:50] lambda i belongs to I. What is PI here?
+[01:38:58] The predicted probability from the
+[01:39:02] previous time step or iteration, you
+[01:39:07] can say. Okay? So this is the output
+[01:39:11] and this is what we saw when we
+[01:39:13] discussed the plan of attack. You can
+[01:39:16] see. At the top is the sum of residuals
+[01:39:19] , and this has come at the bottom. Okay
+[01:39:22] ? And this is what we calculated here
+[01:39:25] as well. And you can see, I hope you
+[01:39:27] have understood up to this point. So
+[01:39:31] guys, if we go back to where we started
+[01:39:33] , we wanted to learn to derive four
+[01:39:35] formulas in this video. We have learned
+[01:39:39] to derive two of those formulas from
+[01:39:41] scratch. The one to calculate the
+[01:39:44] output value. Now only two formulas are
+[01:39:46] left, and that is the formula to find
+[01:39:48] the similarity score. Where did this
+[01:39:50] come from? We will learn that now. So
+[01:39:53] if we look at our progress so far, we
+[01:39:57] had an objective function. Okay? Whose
+[01:40:02] equation is on the screen, and we
+[01:40:04] calculated the values of wj that
+[01:40:07] minimize it, and that wj turned out to
+[01:40:10] be this. Then, when I put the values of
+[01:40:14] G and H into this wj, I got the output
+[01:40:17] value exactly for both regression and
+[01:40:20] classification. But what if I do one
+[01:40:25] thing, take this wj and replace it here
+[01:40:29] , what will I get? Think about it. I
+[01:40:34] will get the minimum loss. That comes
+[01:40:40] from using this parameter value. Right?
+[01:40:45] Currently, what is this wj? This is the
+[01:40:48] value of wj. That will minimize this
+[01:40:53] loss. But how much will that loss be?
+[01:40:57] What will be its minimum value? We want
+[01:40:59] to find that out. So that is why we
+[01:41:02] will replace them inside wj. So what
+[01:41:06] will happen by replacing? I am
+[01:41:07] continuing here. Why is it called that?
+[01:41:11] This minimum loss that comes, why is it
+[01:41:13] called that? First, let me derive the
+[01:41:17] expression for you. Then I will tell
+[01:41:20] you what its significance is. So there
+[01:41:23] is nothing special. We will basically
+[01:41:26] use simple mathematical algebra to
+[01:41:30] manipulate it. Otherwise, there is
+[01:41:32] nothing special. Here comes GI. This wj
+[01:41:35] we are...filling in here. Here comes
+[01:41:50] plus 1/2. i belongs to ij. hi + lambda,
+[01:42:01] here it is squared, so here will come i
+[01:42:05] belongs to ij gi squared divided by the
+[01:42:10] square of the bottom quantity as well.
+[01:42:15] i belongs to ij hi + lambda squared.
+[01:42:21] Okay? And...We will close this and here
+[01:42:28] am t will come. Now you will notice
+[01:42:33] that this quantity will cancel out this
+[01:42:36] quantity once because there is a square
+[01:42:39] there, and by doing that we get this.
+[01:42:43] We will get J. By the way, it should be
+[01:42:47] J here. I am sorry. Because there are
+[01:42:49] such long expressions and I have to
+[01:42:51] teach simultaneously. So, some small
+[01:42:53] mistakes might be happening. I am sure
+[01:42:55] there must be some mistakes earlier too
+[01:42:57] that I might not have noticed. So
+[01:42:59] please write in the comments so that if
+[01:43:02] anyone gets confused in the future, if
+[01:43:05] they go through the comments, at least
+[01:43:08] they will understand. So, one thing you
+[01:43:14] might be seeing is that both terms have
+[01:43:16] become the same. This one and this one,
+[01:43:21] there is a -1 in front of this. There
+[01:43:24] is a +1/2 in front of this. So, if we
+[01:43:28] want, we can write it like this. This
+[01:43:31] would become -1/2 + t. Now, if I want,
+[01:43:39] I can bring this -1/2 outside. So, this
+[01:43:44] will come as -1/2, j = 1 to t In the
+[01:43:54] numerator, there will be Σ (i belongs
+[01:43:57] to Ij) gi², divided by (i belongs to
+[01:44:05] Ij) hi + λ + gamma. This is the
+[01:44:10] minimum loss value. This is the minimum
+[01:44:16] loss value, and it indicates what the
+[01:44:20] minimum loss will be from the last
+[01:44:24] model you are adding, the last tree you
+[01:44:29] are adding. Okay? Exactly this same
+[01:44:33] value you will also find in the
+[01:44:35] research paper. You can see I am
+[01:44:37] talking about this value. We had
+[01:44:40] already calculated wj. When we filled
+[01:44:44] it back, -1/2 Σ gi²/hi + λ + t, we
+[01:44:49] got exactly this. And look what is
+[01:44:53] written here. This equation can be used
+[01:44:56] as a scoring function to measure the
+[01:44:58] quality of a tree structure q. Whatever
+[01:45:03] tree you have built at iteration t, the
+[01:45:07] most recent one you are adding, you can
+[01:45:10] use this equation to measure the
+[01:45:13] quality of that tree. This score is
+[01:45:16] like the impurity score for evaluating
+[01:45:19] decision trees, except that it is
+[01:45:21] derived for a wider range of objective
+[01:45:23] functions. Okay? So we can use this
+[01:45:28] quantity to replace Gini impurity or
+[01:45:33] entropy. Because this also tells us
+[01:45:37] what the quality of the tree we have
+[01:45:40] built is. Now guys, in this similarity
+[01:45:43] score that you derived, you can also
+[01:45:46] fill in the values of G and H. Okay? If
+[01:45:49] you talk about regression. We found out
+[01:45:51] just a while ago that G comes out to be
+[01:45:54] . Sum of residuals. Okay? G is actually
+[01:46:05] not the sum of residuals. Uh, because
+[01:46:08] of this summation, sum comes in. But
+[01:46:11] yeah, g is basically your residual. And
+[01:46:14] h is one, right? And when you do the
+[01:46:20] summation over that, it becomes n. Okay
+[01:46:22] ? Similarly for classification, your g
+[01:46:27] will again be the residual that gets
+[01:46:30] summed, and h becomes pi*(1-pi); I told
+[01:46:34] you this as well. As soon as you put
+[01:46:38] both these things into this formula,
+[01:46:41] again you will get this. This formula
+[01:46:45] for regression, this formula for
+[01:46:47] classification. Here we haven't used
+[01:46:49] the regularization term. But you can do
+[01:46:52] it too. So guys, the similarity score
+[01:46:55] is out. Now I will tell you how we use
+[01:46:59] this similarity score to do tree
+[01:47:01] building. So for a while, assume that
+[01:47:06] you have already added t-1 models. You
+[01:47:11] have added t-1 models. And now you are
+[01:47:15] going to add the t-th model. At time
+[01:47:19] step t, okay? And this is a decision
+[01:47:22] tree. So how do you build this decision
+[01:47:27] tree? It's very simple. You start with
+[01:47:31] a single leaf node first. Okay? You
+[01:47:38] will have to watch the old video. And
+[01:47:40] there you try out all the feature
+[01:47:42] values to find out that feature split.
+[01:47:45] Okay? After that, for this single leaf
+[01:47:49] node, you calculate this quantity. Okay
+[01:47:53] ? See how, for this single leaf node,
+[01:47:57] you can call this quantity qp, as
+[01:48:03] parent. Okay? And this will be -1/2,
+[01:48:08] think for yourself, what will the value
+[01:48:12] of t be here? The value of t here will
+[01:48:15] be one. Why? Because we have only one
+[01:48:17] leaf node. So basically, there is no
+[01:48:19] need to use the summation. We can write
+[01:48:22] it here without using the summation, as
+[01:48:25] i belongs to Ip. Ip means parent. All
+[01:48:29] those rows that are falling into this
+[01:48:31] leaf node. Okay? Here, it will be Gi
+[01:48:38] squared, i belongs to Ip Hi + λ + Okay
+[01:48:52] ? So this is our similarity score for
+[01:48:55] this leaf node. Now what will happen?
+[01:48:59] We will split this leaf node. So after
+[01:49:03] splitting, we will get this decision
+[01:49:05] tree where this is the structure. Now
+[01:49:08] we will have two leaf nodes. Okay? One
+[01:49:13] is this and the second one is this. Now
+[01:49:16] obviously, if we have done splitting
+[01:49:19] and created new nodes, we would want to
+[01:49:23] do that because we want to reduce this
+[01:49:26] loss further. Right? So now what will
+[01:49:30] we do? We will calculate this overall
+[01:49:34] loss for this tree structure. Okay? So,
+[01:49:38] pay attention to what happens here. We
+[01:49:42] will write I am calling this qc for
+[01:49:49] child; here it will be -1/2, and this
+[01:49:52] inner loop will run twice because the
+[01:49:54] value of t is two. There are two leaf
+[01:49:57] nodes, this one and this one. So, I am
+[01:50:00] expanding it. The first time, we will
+[01:50:04] talk about this node. The second time,
+[01:50:07] we will talk about this node. So, for
+[01:50:10] the left node, our equation will be i
+[01:50:14] belonging to I_left, gi squared, all
+[01:50:18] those rows that fall into this node. σ
+[01:50:24] i belonging to IL hi + λ + gamma t.
+[01:50:33] Also, one more thing, here the value of
+[01:50:37] this t will be one. So, you can
+[01:50:41] actually remove it for the parent. And
+[01:50:46] what will happen here? Here, this
+[01:50:52] lambda has come. Plus Plus, we will
+[01:51:00] write this expression once more. So,
+[01:51:04] this would be I belonging to IR GI, now
+[01:51:11] we are creating it for this node.
+[01:51:14] Divided by σ i belonging to ir +
+[01:51:20] lambda + here too there is gamma t. But
+[01:51:25] now, instead of t, two will come here.
+[01:51:27] Because there are two leaf nodes. So we
+[01:51:29] can write it as 2 gamma. Okay? So now I
+[01:51:36] have the loss of this parent, and the
+[01:51:43] cumulative loss of this child. Now I
+[01:51:49] need to find out how much the loss was
+[01:51:51] reduced. How much did the loss reduce
+[01:51:54] after making this split? So, what will
+[01:51:57] I do? I will try to calculate this
+[01:51:59] quantity. Parent minus child. Okay? I
+[01:52:06] will subtract this from that. And you
+[01:52:10] would see that you get. I don't want to
+[01:52:14] write the whole thing again. So I will
+[01:52:17] just copy this much. And I will paste
+[01:52:27] it here. Okay? In fact, this will come
+[01:52:35] later. The thing above will come first.
+[01:52:38] So, I will quickly erase copy paste.
+[01:52:56] Okay? Now, I am keeping this entire
+[01:53:01] thing like this between them. Between
+[01:53:05] these two, this subtraction will come.
+[01:53:07] Okay? So, what will happen with this?
+[01:53:10] Let's summarize it once. This minus
+[01:53:13] will also make this one negative. So,
+[01:53:16] because of that, when you add these two
+[01:53:19] , you will get-gamma. Okay? And if you
+[01:53:24] talk about these three, they will look
+[01:53:27] like this -1/2. I am trying to write
+[01:53:31] quickly because all these expressions
+[01:53:33] are very lengthy. So it takes a lot of
+[01:53:36] time. lambda, this minus minus will
+[01:53:48] become + 1/2. Here, it will now become
+[01:54:08] plus half. Okay? All of this comes
+[01:54:29] together and becomes gamma. Now you can
+[01:54:33] see if you rearrange this a bit and
+[01:54:35] pull the half out. If you pull the half
+[01:54:39] out, you can rearrange and write it
+[01:54:41] like this. σi belonging to IL, this
+[01:54:48] term GI squared σi belonging to IL hi
+[01:54:55] + lambda plus σi belonging to IR GI²,
+[01:55:05] this term divided by i belonging to IR
+[01:55:09] hi + lambda minus this term i belonging
+[01:55:16] to IR gi squared (i belonging to not r,
+[01:55:24] it will be p for parent) hi + lambda
+[01:55:31] minus gamma; and This is the difference
+[01:55:39] that you are, difference in loss that
+[01:55:42] you are getting when you are actually
+[01:55:46] doing this split. By doing this split,
+[01:55:50] you are getting this much of a gain.
+[01:55:52] This is the difference. Okay? And this
+[01:55:55] is what you do if you remember, we used
+[01:55:57] to do exactly this. We used to make a
+[01:55:59] split. We used to calculate the
+[01:56:03] similarity score for the parent and
+[01:56:05] both children and subtract the child
+[01:56:07] ones. Okay? Okay? There, I just didn't
+[01:56:11] take this half and didn't consider this
+[01:56:13] gamma. Because we were not talking
+[01:56:15] about regularization. But this internal
+[01:56:17] formula is what we had used. Now if you
+[01:56:24] talk about it, you can see this is the
+[01:56:26] split criteria. The half came out. The
+[01:56:30] IL part plus the IR part minus the
+[01:56:34] normal I part minus gamma. Okay? So
+[01:56:38] this is the loss reduction after the
+[01:56:41] split. I hope you are understanding.
+[01:56:44] Okay? So with that, we have understood
+[01:56:48] this entire mathematics from scratch.
+[01:56:52] We now have justification for
+[01:56:54] everything we have done so far. So how
+[01:56:56] did you find this video? I know it was
+[01:56:58] a very long video and you must be tired
+[01:57:01] from studying for sure, and it is
+[01:57:02] possible that you might have doubts in
+[01:57:04] some places. But trust me, this video
+[01:57:07] is created in such a way that if you go
+[01:57:09] back and watch it again, and make your
+[01:57:11] own notes, then things will stick in
+[01:57:13] your mind and you will be able to
+[01:57:15] retain it. Okay? So a lot of hard work
+[01:57:17] went into making this video. So please,
+[01:57:20] if you liked it, do like it, and if you
+[01:57:22] haven't subscribed to this channel,
+[01:57:23] please do subscribe. See you in the
+[01:57:25] next video. Bye.

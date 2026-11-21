@@ -1,0 +1,347 @@
+# EDA using Univariate Analysis | Day 20 | 100 Days of Machine Learning
+# https://www.youtube.com/watch?v=4HyTlbHUKSw
+
+Hello guys, welcome to my YouTube channel. This is 100 Days of Machine Learning and today is Day 20. So, in the last video, we learned how we can get a basic idea about our data. Right? I told you seven questions that you can ask when you are looking at data for the first time. Right? Now, in today's video, we will start a very important thing called EDA, which stands for Exploratory Data Analysis. Right? The whole purpose of Exploratory Data Analysis is to understand the data inside out. Right? And there are different ways to do that. Right? The most important methods are univariate analysis, bivariate analysis, and multivariate analysis. Right? In today's video, we are going to focus on univariate analysis. So let's start our discussion. So guys, let's first talk about the term itself, what univariate analysis could mean. So in univariate, there are two words: uni and variate. Uni means single, variate means variable. So whenever you perform an analysis on a single variable, it can be called univariate analysis. Right? So the basic meaning is that when you get data that has multiple columns. You can call every column a variable. Right? So the independent analysis you perform on every column is called univariate analysis. If you analyze two columns together, you call it bivariate analysis. And if you run an analysis on more than two columns at once, that is called multivariate analysis. Right? In this video, our total focus, our entire focus will be on univariate analysis. We will gain knowledge about all the columns of a data frame one by one. Right? Now, before studying this, you must know a concept, what are the types of data. Right? There are two types of data. One is numerical data, and one is categorical data. Right? So numerical data means numbers, right? One example is people's height, or people's weight, or their age, or the price of their phone, or the battery capacity of their phone. All these are examples of numerical data. Examples of categorical data could be which country you belong to. Nationality, which state you belong to. What is your gender? What is your college? What is your branch in engineering? All these are categorical data. So, the point is simply that when you have a dataset, it will contain columns, and those columns will either be numerical or categorical. And while doing univariate analysis, the very first question you need to ask is: what is the nature of the variable or column you have? Is it numerical or is it categorical? And depending on that, we perform our plotting. All right? We either plot it or use tools to derive the nature behind it. Right? So, what am I going to do in this video? I will use the Titanic dataset to explain how to do univariate analysis on any kind of dataset. I mean, my end goal is that after this video, you should be able to pick any dataset and perform univariate analysis on it. If you can do that, then this video will be successful. Right? So, let's start our discussion with the Titanic dataset. Okay, guys? So, as you can see, we have already imported the dataset. And you might already know a little bit about this dataset. If not, then I will just explain it one more time. It is basically the dataset of passengers who were traveling on the Titanic. And here you have all the details about the customers, i.e., the passengers. Here, every row is a passenger's detail. And the output column here is "Survived." Whether they were able to survive that Titanic crash or not. This particular passenger. Right? Zero means they did not survive. One means they did survive. Right? And obviously, if you were to use machine learning here, you would have to predict, given a passenger's details, whether that passenger will survive or not. Right? Now, when you get this dataset, you obviously ask those seven questions first. After that, you start performing EDA. And the first step in EDA is univariate analysis. Independent analysis on every column. Basically, I need to know every column inside out. Right? Now, obviously, the first question I will ask is whether my columns are numerical or categorical. And depending on that, we perform our EDA. So, I have made a sort of chart here that we will first work on categorical data. Generally, what you do is start in this order, from left to right. So, categorical can come here, and numerical can also come here. But since we are studying right now, first we will just focus on categorical data and then we will focus on numerical data. All right? So, the second thing is that when you do univariate analysis, your focus is mostly on plotting graphs and such. Because the hidden information in the data will only come out through data visualization. All right? So to follow today's video, you should have some knowledge of Seaborn and Matplotlib. Videos on both of these are on my channel. If you want, you can watch them. All right? Now we are starting our data analysis for this video. All right? Now let's first focus on categorical data set columns. Okay? So, you can see we have many columns, like PassengerId, where the passenger's ID is basically stored. It's one, it must be from one to some number. Uh, the second is Survived. The third is Pclass. Pclass is passenger class, so in Titanic, there were three passenger classes. Class one was the most elite, the richest people were traveling in this class. Three was a bit normal, it’s like Indian Railways 'general bogie, sleeper, and AC class. There is Name and Sex here. Uh, no need to explain these. Age of the passenger, SibSp, SibSp is basically Sibling/ Spouse. Meaning, was any sibling or spouse traveling with the current passenger or not? So apparently, this passenger had one sibling or spouse traveling with them. All right? Next is Parch. Was any parent or child of this passenger traveling with them or not? All right? You can treat the ticket number like Parch. How much did the ticket cost? In which cabin were they traveling? Notice one thing about the cabin. Since I have worked on this data set. I know. Cabins were only allocated to first-class passengers. There were no cabins in second and third class. All right? Next is Embarked. Embarked means from which station this passenger boarded the Titanic. So there are three stations S, C, and Q. S means Southampton, C means Cherbourg, and Q means Queenstown. Passengers boarded from these three stations. All right? So, uh, this is our data set. And now what do we have to do? Gain knowledge about each column independently. Basically, perform univariate analysis. All right? We will start with the categorical column. So here, if you can see, PassengerId is actually a numerical column and to be honest, it is not very useful. Meaning, you ask questions like which columns will help in telling us about survival. Now you can see and understand that PassengerId makes no difference to whether a passenger will live or die. If an earthquake hits your college, you won't die because of your roll number. Right? Same logic. Here, PassengerId is not that useful. Survived itself is very useful. Survived is a categorical column. It has values of zero or one here. Okay? PClass is also categorical because it has values of one, two, and three here. Okay? Name, Name is not categorical, no, it is actually categorical. It's just that there are too many categories here. So we won't be able to analyze it like this. We will have to use some NLP tools. So I am not going to focus on that in this video. Okay? Next is Sex, which is again our categorical. Age is numerical. SibSp, although those are numbers, you can treat them as categories; the same goes for Parch. Ticket is again categorical with too many classes; meaning we cannot analyze that kind of data. Fare is numerical. Cabin is again with too many categories. Embarked is also categorical, okay? So I am not showing you how to work on all the categorical ones. You try that yourself. I will show you how to work on a few columns. Like Survived and PClass, I will show you how to work on both of these. Okay? So if you talk about Survived, then think about it. If I want to know about this column independently. Forget the other columns. If you only want to know about Survived, then what questions can you ask? What kind of answer do you need? First of all, you would want to know the total number of people traveling, which you will know immediately by doing data.shape. The second question that might come to your mind is, how many people survived and how many did not? And this is what we call a count plot. So what do you do? First of all, what I will do is I will import this library called Seaborn. As sns. And here, what I will do is I will just write this simple code: sns.countplot, and I will pass df's Survived, and what this will do is it will give me a count plot. What is a count plot? Basically, it gives you the frequency count of all the categories present in your categorical column, showing how many times each category appears. If you have studied value_counts in Pandas, it is exactly the same thing. Alright? So here you can see that out of 891 passengers, fewer people survived. More people died. Actually, more than 500 people died because the number of zeros is higher, and less than 400 people actually survived. Alright? So this is what you will simply understand right in front of you. If you wanted, you could have done this by writing df [' survived ']. value_counts (). And when you ran it, see here, there are 549 who died. There are only 342 who survived. If you wanted, you could have also plotted this with kind =' bar ', and actually, it appeared right above this. I will comment this out. And you can see that this is the same graph. So, the countplot is actually doing just that—calculating value counts and plotting a bar chart on top of it. That is countplot for you. Alright? So, one simple thing we understood is that in the future, if you ever see a categorical column, the first plot you can make for it is a countplot. Alright? You can do the same thing for any column. Let's say you want to find out how many times each category appears in Pclass. So, instead of survived, what I will do is comment this out. And I will use it by writing this statement: Pclass. In Pclass, the' c 'is lowercase. And you can see that the most people were traveling in Pclass 3. The fewest people were traveling in Pclass 2. And then, after that, people were traveling in Pclass 1. You can do a couple more things here. When you dive a bit deeper into this. You can find the mean fare price to see what the mean fare was across all three classes. That will give you some idea of why people were traveling more in class 3. Why more people were traveling in first class than in second. The reason for this could probably be that there isn't a huge difference between the fares of second and first class, and people thought, "Well, if I'm already spending this much money, let's go to Pclass 1 rather than Pclass 2." Alright? So these are the kinds of questions you have to look for. You have to find the answers to them. Alright? Similarly, you can do this for sex to find out the gender distribution on the Titanic. So you can see there were more males in comparison to females. Right? And you can also check this for embarked. So if you write embarked here, then you will find out that the most people who boarded the Titanic were from Southampton. And the fewest people who boarded were from Queenstown. Right? So you can see what I am doing here. I am taking categorical columns and just asking a simple question: what is the frequency count of all the categories within you? That is all I am doing. Right? If you want the same information in terms of percentages, you can use a pie chart. Right? To use a pie chart, what you can do is write the same code. Basically, you will write this code, copy and paste, and here in' kind ', you can just plot pie. Right? And this will show you a pie chart where you will get information on who is more and who is less. Right? You have to write one piece of code here. Just one second, I always forget that code. Pie chart matplotlib show percentage; right now, percentages are not visible here. So there is this thing called autopct, and adding this autopct makes the percentages visible. So I am pasting the same code here. And now you can see that out of 100%, 61%people died and only 38%people survived. If you want to know the Pclass distribution, you can write this code and see that out of 100, 55%passengers were traveling in Pclass 3, 20%in Class 2, and 24%in Class 1. Right? If you want to see the gender distribution, just type sex here, and look guys, 64%male and 36%female were traveling. Right? So in univariate analysis, if you have categorical data, you have these two options. Either you go with a count plot or you go with a pie chart. A pie chart just tells you an additional thing: how much of a particular category exists in terms of percentage. Right? More interesting things come when you deal with numerical data. Such as age and fare. We will focus on that next when we study graphs for numerical data. All right? Let's do that. So now guys, if you have a column with numerical data, then think a bit, what information can you extract from a numerical column? All right? If it was categorical, it was very simple, how many times did all categories appear? That was a piece of information for me. But numerical data is continuous. Right? Like age, it can have any values. So here, what could be useful information for you? Minimum value, maximum value, what is the mean? You can extract things like these. We will extract those a bit later. But before that, what you can do is make it behave like categorical data. And that is where the concept of a histogram comes in. What do you do in a histogram? You create bins in the range of the numerical data, you create ranges. Like let's say the minimum passenger age you have is zero. Meaning a child, and the maximum passenger age is 80 years. So what will you do? You will create eight bins in between. Zero to 10, 10 to 20, 20 to 30, and how many passengers are in each bin, each range? You will plot that. You will plot that number and that is what is called a histogram. So whenever you get numerical data in the future, a histogram is a great tool to see its distribution, to see how many people are on the lower side and how many are on the higher side. All right? So I will show you how to plot that right now. But always remember, if you have numerical data, continuous data, try to plot a histogram. You get to understand the distribution of the data. All right? So for this, I am importing a library named Matplotlib. Again, you will find its video on my channel. I am importing it as plt. And then I am writing plt.hist, hist as in histogram. And here I am passing the age column. All right? And as soon as I run this code, you can see what is visible is a histogram. So you can see the minimum age is a little more than zero. And the max age is touching 80, and in between is the distribution of my data. All right? So you can see that the data is such that there are fewer young people. There are also fewer very old people, and the people in the middle, say between 18 and, I don't know, 40 years old, are the ones traveling the most. Right? So you get this knowledge by plotting your histogram. Right? If you want, you can change the number of bins here. For example, if you increase the bins a lot, that doesn't mean it's increased. Let's say you set 50 bins, so your peaks will create very small ranges. So your peaks will start going up. And if you reduce it a lot, let's say you set it to five, it will become very thick. Meaning you have increased the ranges. Right? So you have to make these decisions. Matplotlib will provide you with a default one. But if you are not comfortable with that. If you want to improve it, you can change the value of this bins parameter. Right? But again, the whole idea behind the histogram is to understand the distribution of data in that numerical column. So here I can see there are fewer people of younger age, and fewer people of older age. There are more people of middle age. This is the understanding I got just now. Right? So that was histogram. That is one option you can use while dealing with numerical columns. The next one is again an improvement of a histogram. We call this a distplot. And distplot is actually almost a kind of histogram. You just have to write this code to print it. Distplot df not survived age, and you can see it's exactly the same thing you see above. There is only one difference, and that is what we call KDE, Kernel Density Estimation. And in the background, you can see the histogram. You will notice that this curve is running while touching the histogram. It is touching the tops of it. Or you can say that it is showing the distribution of the data. We call this a PDF. Probability Density Function, and what does it actually show? On the y-axis, you have your probability. On the x-axis, you have your age value. So if you want to understand this graph, what is happening here? Like this is 40. So if someone asks you, if you randomly pick a passenger from all the passengers and basically ask what is the probability that their age is 40? How will you calculate that? So what will you do for that? You will go straight to 40 here and move upwards. And from there, you will take it to this Y-axis. And you will say that the probability of it being 40 is 1.5%—look here, I multiplied by 100—1.5%. If someone asks you what is the probability of someone's age being 60? Then you will again look at the Y-axis and say 5%. Okay? So this tells you the probability of any number occurring. Okay? A histogram tells you the exact number of people in that range. A PDF tells you the probability. Okay? That is why it is called a PDF. Probability Density Function. Okay? Now this is a very useful thing. And you will understand this when we study multivariate analysis in the next video. Okay? So we will study both multivariate analysis and bivariate analysis in the same video. So you will understand this concept there. Okay? Now let's move on to the third type of plot which you can use while dealing with numerical data. It's called a box plot. Okay? This is a very interesting plot. Its job is to give you a five-number summary. Okay? If you have studied even a little bit of statistics, you might know what a five-number summary is. If you don't know, then this is a box plot. This on your screen is your box plot, and you can run a box plot on any numerical data at any time. Okay? Now if you want to understand what a box plot is? Then you will need to understand two or three things, firstly, what is a median? You must know that when you sort your numerical data, the middle value is what you call the median. Okay? After that, you should also know what percentile values are. For example, this q1 is what we call the 25th percentile value. Meaning, in the data you have, it is the value below which 25%of the values fall. Like, 25%of values are less than it. Just like when you take the CAT exam, you get percentiles. Right? So if you got the 99th percentile, it means only 1%of people are ahead of you. 99%of people are behind you. So the 25th percentile means that 25%of the values are less than this. Right? The median is the 50th percentile. You probably already know this. Q3 is the 75th percentile. Meaning 75%of values are less than this. Okay? Apart from this, there are maximum and minimum values here. Okay? Now, this minimum value is not the lowest value present in the data. No, the minimum value is what you calculate using this formula. Q1, meaning the 25th percentile value, minus 1.5 times the IQR. What is IQR? Interquartile range, meaning Q3 minus Q1, see, this is the interquartile range. So if you have the IQR, meaning if you have the Q1 and Q3 values, you can calculate the minimum using this formula: Q1 minus 1.5 times the IQR. Similarly, how is the maximum value calculated? Q3 plus 1.5 times the IQR. So if you have Q3 and Q1, you can easily find the maximum value. If any value falls outside your calculated minimum and calculated maximum, as you can see here, then these are called your potential outliers that do not follow the normal data. So the benefit of the five-number summary is that you can very easily identify potential outliers and eliminate them. Okay? So anytime in the future, if you are working with even slightly noisy data, you can plot a box plot there to find out how much of the data is noisy or is an outlier. Okay? So what I will do here is this. We haven't touched the fare column yet. What we can do is write sns.boxplot, and here I can pass the fare column, and you can see this is the box plot for the fare column. So, you can see it is heavily shifted towards the left side. Meaning the median, Q1, and Q2 are all very low. The minimum and maximum values are also very low, and there are many outliers in your data. Like look at this number, someone's fare is $ 500, which is way more than other passengers' fares, so this is an outlier. If you start relying on this, it will cause a lot of trouble, okay? If you also plot it against age, you can find this is our age distribution. The median value is somewhere around 28. The calculated maximum value it's saying is around 65, and the box plot considers any values above that as potential outliers. So, if you want, you can eliminate these numbers. Okay? So, that is the purpose of a box plot, and you generally use it when your data has noise or outliers. Okay? So, these are the three most basic plots that you can plot on numerical data. Okay? Apart from this, there are other plots as well. Like the violin plot, rug plot, and many other plots. But I am not covering them in this video. Because you don't use them every time. If you are interested in learning those, you can check out the Seaborn playlist on my channel. I have discussed all those plots there in sequence. Okay? Now, one or two more things you can do in univariate analysis on a numerical column is that you can calculate the minimum and maximum values. For instance, if you want to find out what df age dot min is. So, here it shows that someone as young as 0.42 is going. What is df age dot max? So, it is 80 years. What is df age dot mean? So, you can see it is around 29 years. Okay? So, you have these types of things. You have these functions available. You can find the std, meaning standard deviation, or you can calculate the variance. Okay? One more thing, regarding the distplot here, I forgot to discuss one thing. That is, the distplot also tells you whether your data has skewness or not. What does skewness mean? I guess you must have studied it in statistics at some point. I will just use my pen. So yeah, like if you have data of this type which peaks right in the center, then it is symmetrical. Meaning the lower values are fewer, and the higher values are also fewer. The values in the middle are higher. Perhaps you have studied normal distribution somewhere. So, this is a normal distribution. Sometimes, it happens that the data is Like this means the lower values are more, and the higher values are fewer. An example of this would be people's salaries in the world. So, a lot of people will have lower salaries, and very few people will have higher salaries. Okay? Sometimes it is skewed in this way. Like in an easy test, very few students get low marks. A large number of students get high marks. So when you plot the PDF, you can also understand if there is skewness in the data or not. Okay? Whether there is skewness in the data or not. And there is another way to find skewness, which is to directly call a pandas function that we call 'skew'. And if it is exactly zero, then it is perfectly skewed. It is perfectly symmetrical. If the number is positive, then this is positively skewed towards the right side. And if it is negative, then it is negatively skewed towards the left side. Okay? Now these are some concepts of statistics. There is also a statistics playlist on my channel. There are around 14-15 videos there. If you want to do univariate analysis at a deeper level, especially on numerical data, then you should also study some statistics. But since this is an introductory video. I am not going very deep here. But what I will do is share some resources with you in the description of this video. Seaborn, Matplotlib, and the statistics playlist. If you want, you can watch them at your own pace. You will get a better idea about things you can do when you are performing univariate analysis. Okay? But these are some things that you have to do every time. So now if you see guys, you will realize that now you have a slightly better idea about this data. You took every column, picked it up separately, and ran some analysis on it. This is what we call univariate analysis. And now I would recommend that you pick any dataset of your choice from Kaggle. Any one, if you like cricket then cricket, if you like football then football, if you like Harry Potter then Harry Potter. But try to perform univariate analysis. And what will we do tomorrow? Tomorrow we will learn to perform multivariate analysis, which is even more interesting and gives you more insights about the data. Okay? So that's it for today's video. I hope you liked it. If so guys, please consider subscribing. Thanks for watching.
+
+
+[00:00] Hello guys, welcome to my YouTube channel. This is 100 Days of Machine
+[00:04] Learning and today is Day 20. So, in the last video, we learned how we can
+[00:10] get a basic idea about our data. Right? I told you seven questions that you can
+[00:15] ask when you are looking at data for the first time. Right? Now, in today's
+[00:20] video, we will start a very important thing called EDA, which stands for
+[00:25] Exploratory Data Analysis. Right? The whole purpose of Exploratory Data
+[00:30] Analysis is to understand the data inside out. Right? And there are
+[00:34] different ways to do that. Right? The most important methods are univariate
+[00:41] analysis, bivariate analysis, and multivariate analysis. Right? In
+[00:47] today's video, we are going to focus on univariate analysis. So let's start our
+[00:51] discussion. So guys, let's first talk about the term itself, what univariate
+[00:56] analysis could mean. So in univariate, there are two words: uni and variate.
+[01:03] Uni means single, variate means variable. So whenever you perform an
+[01:08] analysis on a single variable, it can be called univariate analysis. Right?
+[01:14] So the basic meaning is that when you get data that has multiple columns. You
+[01:23] can call every column a variable. Right? So the independent analysis you
+[01:29] perform on every column is called univariate analysis. If you analyze two
+[01:35] columns together, you call it bivariate analysis. And if you run an analysis on
+[01:42] more than two columns at once, that is called multivariate analysis. Right? In
+[01:48] this video, our total focus, our entire focus will be on univariate analysis.
+[01:54] We will gain knowledge about all the columns of a data frame one by one.
+[01:59] Right? Now, before studying this, you must know a concept, what are the types
+[02:04] of data. Right? There are two types of data. One is numerical data, and one is
+[02:13] categorical data. Right? So numerical data means numbers, right? One example
+[02:21] is people's height, or people's weight, or their age, or the price of their
+[02:30] phone, or the battery capacity of their phone. All these are examples of
+[02:35] numerical data. Examples of categorical data could be which country you belong
+[02:40] to. Nationality, which state you belong to. What is your gender? What is your
+[02:46] college? What is your branch in engineering? All these are categorical
+[02:50] data. So, the point is simply that when you have a dataset, it will contain
+[02:57] columns, and those columns will either be numerical or categorical. And while
+[03:04] doing univariate analysis, the very first question you need to ask is: what
+[03:08] is the nature of the variable or column you have? Is it numerical or is it
+[03:14] categorical? And depending on that, we perform our plotting. All right? We
+[03:20] either plot it or use tools to derive the nature behind it. Right? So, what
+[03:26] am I going to do in this video? I will use the Titanic dataset to explain how
+[03:31] to do univariate analysis on any kind of dataset. I mean, my end goal is that
+[03:37] after this video, you should be able to pick any dataset and perform univariate
+[03:41] analysis on it. If you can do that, then this video will be successful.
+[03:46] Right? So, let's start our discussion with the Titanic dataset. Okay, guys?
+[03:50] So, as you can see, we have already imported the dataset. And you might
+[03:55] already know a little bit about this dataset. If not, then I will just
+[04:00] explain it one more time. It is basically the dataset of passengers who
+[04:04] were traveling on the Titanic. And here you have all the details about the
+[04:10] customers, i.e., the passengers. Here, every row is a passenger's detail. And
+[04:16] the output column here is "Survived." Whether they were able to survive that
+[04:21] Titanic crash or not. This particular passenger. Right? Zero means they did
+[04:24] not survive. One means they did survive. Right? And obviously, if you were to
+[04:29] use machine learning here, you would have to predict, given a passenger's
+[04:34] details, whether that passenger will survive or not. Right? Now, when you
+[04:40] get this dataset, you obviously ask those seven questions first. After that
+[04:46] , you start performing EDA. And the first step in EDA is univariate
+[04:50] analysis. Independent analysis on every column. Basically, I need to know every
+[04:56] column inside out. Right? Now, obviously, the first question I will
+[05:00] ask is whether my columns are numerical or categorical. And depending on that,
+[05:04] we perform our EDA. So, I have made a sort of chart here that we will first
+[05:10] work on categorical data. Generally, what you do is start in this order,
+[05:15] from left to right. So, categorical can come here, and numerical can also come
+[05:20] here. But since we are studying right now, first we will just focus on
+[05:24] categorical data and then we will focus on numerical data. All right? So, the
+[05:29] second thing is that when you do univariate analysis, your focus is
+[05:33] mostly on plotting graphs and such. Because the hidden information in the
+[05:38] data will only come out through data visualization. All right? So to follow
+[05:42] today's video, you should have some knowledge of Seaborn and Matplotlib.
+[05:48] Videos on both of these are on my channel. If you want, you can watch
+[05:51] them. All right? Now we are starting our data analysis for this video. All
+[05:57] right? Now let's first focus on categorical data set columns. Okay? So,
+[06:03] you can see we have many columns, like PassengerId, where the passenger's ID
+[06:08] is basically stored. It's one, it must be from one to some number. Uh, the
+[06:13] second is Survived. The third is Pclass. Pclass is passenger class, so in
+[06:19] Titanic, there were three passenger classes. Class one was the most elite,
+[06:24] the richest people were traveling in this class. Three was a bit normal,
+[06:30] it’s like Indian Railways 'general bogie, sleeper, and AC class. There is
+[06:37] Name and Sex here. Uh, no need to explain these. Age of the passenger,
+[06:44] SibSp, SibSp is basically Sibling/ Spouse. Meaning, was any sibling or
+[06:51] spouse traveling with the current passenger or not? So apparently, this
+[06:56] passenger had one sibling or spouse traveling with them. All right? Next is
+[07:02] Parch. Was any parent or child of this passenger traveling with them or not?
+[07:09] All right? You can treat the ticket number like Parch. How much did the
+[07:14] ticket cost? In which cabin were they traveling? Notice one thing about the
+[07:18] cabin. Since I have worked on this data set. I know. Cabins were only allocated
+[07:23] to first-class passengers. There were no cabins in second and third class.
+[07:27] All right? Next is Embarked. Embarked means from which station this passenger
+[07:32] boarded the Titanic. So there are three stations S, C, and Q. S means
+[07:37] Southampton, C means Cherbourg, and Q means Queenstown. Passengers boarded
+[07:43] from these three stations. All right? So, uh, this is our data set. And now
+[07:48] what do we have to do? Gain knowledge about each column independently.
+[07:53] Basically, perform univariate analysis. All right? We will start with the
+[07:57] categorical column. So here, if you can see, PassengerId is actually a
+[08:01] numerical column and to be honest, it is not very useful. Meaning, you ask
+[08:07] questions like which columns will help in telling us about survival. Now you
+[08:13] can see and understand that PassengerId makes no difference to whether a
+[08:18] passenger will live or die. If an earthquake hits your college, you won't
+[08:21] die because of your roll number. Right? Same logic. Here, PassengerId is not
+[08:26] that useful. Survived itself is very useful. Survived is a categorical
+[08:30] column. It has values of zero or one here. Okay? PClass is also categorical
+[08:35] because it has values of one, two, and three here. Okay? Name, Name is not
+[08:40] categorical, no, it is actually categorical. It's just that there are
+[08:45] too many categories here. So we won't be able to analyze it like this. We
+[08:48] will have to use some NLP tools. So I am not going to focus on that in this
+[08:52] video. Okay? Next is Sex, which is again our categorical. Age is numerical
+[09:01] . SibSp, although those are numbers, you can treat them as categories; the
+[09:07] same goes for Parch. Ticket is again categorical with too many classes;
+[09:12] meaning we cannot analyze that kind of data. Fare is numerical. Cabin is again
+[09:18] with too many categories. Embarked is also categorical, okay? So I am not
+[09:24] showing you how to work on all the categorical ones. You try that yourself
+[09:28] . I will show you how to work on a few columns. Like Survived and PClass, I
+[09:33] will show you how to work on both of these. Okay? So if you talk about
+[09:37] Survived, then think about it. If I want to know about this column
+[09:42] independently. Forget the other columns. If you only want to know about
+[09:45] Survived, then what questions can you ask? What kind of answer do you need?
+[09:50] First of all, you would want to know the total number of people traveling,
+[09:53] which you will know immediately by doing data.shape. The second question
+[09:57] that might come to your mind is, how many people survived and how many did
+[10:02] not? And this is what we call a count plot. So what do you do? First of all,
+[10:07] what I will do is I will import this library called Seaborn. As sns. And
+[10:17] here, what I will do is I will just write this simple code: sns.countplot,
+[10:23] and I will pass df's Survived, and what this will do is it will give me a count
+[10:30] plot. What is a count plot? Basically, it gives you the frequency count of all
+[10:37] the categories present in your categorical column, showing how many
+[10:40] times each category appears. If you have studied value_counts in Pandas, it
+[10:45] is exactly the same thing. Alright? So here you can see that out of 891
+[10:51] passengers, fewer people survived. More people died. Actually, more than 500
+[10:57] people died because the number of zeros is higher, and less than 400 people
+[11:02] actually survived. Alright? So this is what you will simply understand right
+[11:06] in front of you. If you wanted, you could have done this by writing df ['
+[11:12] survived ']. value_counts (). And when you ran it, see here, there are 549 who
+[11:20] died. There are only 342 who survived. If you wanted, you could have also
+[11:26] plotted this with kind =' bar ', and actually, it appeared right above this.
+[11:33] I will comment this out. And you can see that this is the same graph. So,
+[11:37] the countplot is actually doing just that—calculating value counts and
+[11:41] plotting a bar chart on top of it. That is countplot for you. Alright? So, one
+[11:45] simple thing we understood is that in the future, if you ever see a
+[11:49] categorical column, the first plot you can make for it is a countplot. Alright
+[11:54] ? You can do the same thing for any column. Let's say you want to find out
+[11:58] how many times each category appears in Pclass. So, instead of survived, what I
+[12:03] will do is comment this out. And I will use it by writing this statement:
+[12:10] Pclass. In Pclass, the' c 'is lowercase. And you can see that the most people
+[12:19] were traveling in Pclass 3. The fewest people were traveling in Pclass 2. And
+[12:24] then, after that, people were traveling in Pclass 1. You can do a couple more
+[12:29] things here. When you dive a bit deeper into this. You can find the mean fare
+[12:35] price to see what the mean fare was across all three classes. That will
+[12:39] give you some idea of why people were traveling more in class 3. Why more
+[12:43] people were traveling in first class than in second. The reason for this
+[12:47] could probably be that there isn't a huge difference between the fares of
+[12:51] second and first class, and people thought, "Well, if I'm already spending
+[12:55] this much money, let's go to Pclass 1 rather than Pclass 2." Alright? So
+[12:58] these are the kinds of questions you have to look for. You have to find the
+[13:01] answers to them. Alright? Similarly, you can do this for sex to find out the
+[13:07] gender distribution on the Titanic. So you can see there were more males in
+[13:13] comparison to females. Right? And you can also check this for embarked. So if
+[13:19] you write embarked here, then you will find out that the most people who
+[13:27] boarded the Titanic were from Southampton. And the fewest people who
+[13:31] boarded were from Queenstown. Right? So you can see what I am doing here. I am
+[13:36] taking categorical columns and just asking a simple question: what is the
+[13:41] frequency count of all the categories within you? That is all I am doing.
+[13:45] Right? If you want the same information in terms of percentages, you can use a
+[13:51] pie chart. Right? To use a pie chart, what you can do is write the same code.
+[13:58] Basically, you will write this code, copy and paste, and here in' kind ',
+[14:06] you can just plot pie. Right? And this will show you a pie chart where you
+[14:14] will get information on who is more and who is less. Right? You have to write
+[14:20] one piece of code here. Just one second, I always forget that code. Pie chart
+[14:26] matplotlib show percentage; right now, percentages are not visible here. So
+[14:36] there is this thing called autopct, and adding this autopct makes the
+[14:42] percentages visible. So I am pasting the same code here. And now you can see
+[14:51] that out of 100%, 61%people died and only 38%people survived. If you want to
+[14:59] know the Pclass distribution, you can write this code and see that out of 100
+[15:06] , 55%passengers were traveling in Pclass 3, 20%in Class 2, and 24%in
+[15:13] Class 1. Right? If you want to see the gender distribution, just type sex here
+[15:20] , and look guys, 64%male and 36%female were traveling. Right? So in univariate
+[15:27] analysis, if you have categorical data, you have these two options. Either you
+[15:31] go with a count plot or you go with a pie chart. A pie chart just tells you
+[15:36] an additional thing: how much of a particular category exists in terms of
+[15:40] percentage. Right? More interesting things come when you deal with
+[15:45] numerical data. Such as age and fare. We will focus on that next when we
+[15:52] study graphs for numerical data. All right? Let's do that. So now guys, if
+[15:57] you have a column with numerical data, then think a bit, what information can
+[16:03] you extract from a numerical column? All right? If it was categorical, it
+[16:08] was very simple, how many times did all categories appear? That was a piece of
+[16:12] information for me. But numerical data is continuous. Right? Like age, it can
+[16:18] have any values. So here, what could be useful information for you? Minimum
+[16:22] value, maximum value, what is the mean? You can extract things like these. We
+[16:27] will extract those a bit later. But before that, what you can do is make it
+[16:32] behave like categorical data. And that is where the concept of a histogram
+[16:37] comes in. What do you do in a histogram? You create bins in the range of the
+[16:42] numerical data, you create ranges. Like let's say the minimum passenger age you
+[16:48] have is zero. Meaning a child, and the maximum passenger age is 80 years. So
+[16:54] what will you do? You will create eight bins in between. Zero to 10, 10 to 20,
+[16:59] 20 to 30, and how many passengers are in each bin, each range? You will plot
+[17:05] that. You will plot that number and that is what is called a histogram. So
+[17:09] whenever you get numerical data in the future, a histogram is a great tool to
+[17:13] see its distribution, to see how many people are on the lower side and how
+[17:18] many are on the higher side. All right? So I will show you how to plot that
+[17:22] right now. But always remember, if you have numerical data, continuous data,
+[17:26] try to plot a histogram. You get to understand the distribution of the data
+[17:30] . All right? So for this, I am importing a library named Matplotlib.
+[17:35] Again, you will find its video on my channel. I am importing it as plt. And
+[17:44] then I am writing plt.hist, hist as in histogram. And here I am passing the
+[17:49] age column. All right? And as soon as I run this code, you can see what is
+[17:54] visible is a histogram. So you can see the minimum age is a little more than
+[18:00] zero. And the max age is touching 80, and in between is the distribution of
+[18:06] my data. All right? So you can see that the data is such that there are fewer
+[18:12] young people. There are also fewer very old people, and the people in the
+[18:19] middle, say between 18 and, I don't know, 40 years old, are the ones
+[18:24] traveling the most. Right? So you get this knowledge by plotting your
+[18:31] histogram. Right? If you want, you can change the number of bins here. For
+[18:37] example, if you increase the bins a lot, that doesn't mean it's increased.
+[18:43] Let's say you set 50 bins, so your peaks will create very small ranges. So
+[18:50] your peaks will start going up. And if you reduce it a lot, let's say you set
+[18:55] it to five, it will become very thick. Meaning you have increased the ranges.
+[19:00] Right? So you have to make these decisions. Matplotlib will provide you
+[19:04] with a default one. But if you are not comfortable with that. If you want to
+[19:08] improve it, you can change the value of this bins parameter. Right? But again,
+[19:12] the whole idea behind the histogram is to understand the distribution of data
+[19:17] in that numerical column. So here I can see there are fewer people of younger
+[19:22] age, and fewer people of older age. There are more people of middle age.
+[19:26] This is the understanding I got just now. Right? So that was histogram. That
+[19:30] is one option you can use while dealing with numerical columns. The next one is
+[19:37] again an improvement of a histogram. We call this a distplot. And distplot is
+[19:45] actually almost a kind of histogram. You just have to write this code to
+[19:52] print it. Distplot df not survived age, and you can see it's exactly the same
+[20:02] thing you see above. There is only one difference, and that is what we call
+[20:10] KDE, Kernel Density Estimation. And in the background, you can see the
+[20:15] histogram. You will notice that this curve is running while touching the
+[20:20] histogram. It is touching the tops of it. Or you can say that it is showing
+[20:25] the distribution of the data. We call this a PDF. Probability Density
+[20:29] Function, and what does it actually show? On the y-axis, you have your
+[20:34] probability. On the x-axis, you have your age value. So if you want to
+[20:38] understand this graph, what is happening here? Like this is 40. So if
+[20:42] someone asks you, if you randomly pick a passenger from all the passengers and
+[20:49] basically ask what is the probability that their age is 40? How will you
+[20:54] calculate that? So what will you do for that? You will go straight to 40 here
+[20:58] and move upwards. And from there, you will take it to this Y-axis. And you
+[21:03] will say that the probability of it being 40 is 1.5%—look here, I
+[21:10] multiplied by 100—1.5%. If someone asks you what is the probability of
+[21:18] someone's age being 60? Then you will again look at the Y-axis and say 5%.
+[21:25] Okay? So this tells you the probability of any number occurring. Okay? A
+[21:33] histogram tells you the exact number of people in that range. A PDF tells you
+[21:38] the probability. Okay? That is why it is called a PDF. Probability Density
+[21:42] Function. Okay? Now this is a very useful thing. And you will understand
+[21:46] this when we study multivariate analysis in the next video. Okay? So we
+[21:51] will study both multivariate analysis and bivariate analysis in the same
+[21:54] video. So you will understand this concept there. Okay? Now let's move on
+[21:59] to the third type of plot which you can use while dealing with numerical data.
+[22:06] It's called a box plot. Okay? This is a very interesting plot. Its job is to
+[22:12] give you a five-number summary. Okay? If you have studied even a little bit
+[22:16] of statistics, you might know what a five-number summary is. If you don't
+[22:20] know, then this is a box plot. This on your screen is your box plot, and you
+[22:27] can run a box plot on any numerical data at any time. Okay? Now if you want
+[22:33] to understand what a box plot is? Then you will need to understand two or
+[22:37] three things, firstly, what is a median? You must know that when you sort your
+[22:42] numerical data, the middle value is what you call the median. Okay? After
+[22:47] that, you should also know what percentile values are. For example,
+[22:51] this q1 is what we call the 25th percentile value. Meaning, in the data
+[22:57] you have, it is the value below which 25%of the values fall. Like, 25%of
+[23:04] values are less than it. Just like when you take the CAT exam, you get
+[23:08] percentiles. Right? So if you got the 99th percentile, it means only 1%of
+[23:13] people are ahead of you. 99%of people are behind you. So the 25th percentile
+[23:19] means that 25%of the values are less than this. Right? The median is the
+[23:24] 50th percentile. You probably already know this. Q3 is the 75th percentile.
+[23:29] Meaning 75%of values are less than this. Okay? Apart from this, there are
+[23:34] maximum and minimum values here. Okay? Now, this minimum value is not the
+[23:38] lowest value present in the data. No, the minimum value is what you calculate
+[23:43] using this formula. Q1, meaning the 25th percentile value, minus 1.5 times
+[23:49] the IQR. What is IQR? Interquartile range, meaning Q3 minus Q1, see, this
+[23:56] is the interquartile range. So if you have the IQR, meaning if you have the
+[24:02] Q1 and Q3 values, you can calculate the minimum using this formula: Q1 minus
+[24:06] 1.5 times the IQR. Similarly, how is the maximum value calculated? Q3 plus
+[24:13] 1.5 times the IQR. So if you have Q3 and Q1, you can easily find the maximum
+[24:20] value. If any value falls outside your calculated minimum and calculated
+[24:27] maximum, as you can see here, then these are called your potential
+[24:32] outliers that do not follow the normal data. So the benefit of the five-number
+[24:38] summary is that you can very easily identify potential outliers and
+[24:43] eliminate them. Okay? So anytime in the future, if you are working with even
+[24:48] slightly noisy data, you can plot a box plot there to find out how much of the
+[24:52] data is noisy or is an outlier. Okay? So what I will do here is this. We
+[24:57] haven't touched the fare column yet. What we can do is write sns.boxplot,
+[25:03] and here I can pass the fare column, and you can see this is the box plot
+[25:10] for the fare column. So, you can see it is heavily shifted towards the left
+[25:19] side. Meaning the median, Q1, and Q2 are all very low. The minimum and
+[25:25] maximum values are also very low, and there are many outliers in your data.
+[25:29] Like look at this number, someone's fare is $ 500, which is way more than
+[25:34] other passengers' fares, so this is an outlier. If you start relying on this,
+[25:39] it will cause a lot of trouble, okay? If you also plot it against age, you
+[25:45] can find this is our age distribution. The median value is somewhere around 28
+[25:50] . The calculated maximum value it's saying is around 65, and the box plot
+[25:57] considers any values above that as potential outliers. So, if you want,
+[26:03] you can eliminate these numbers. Okay? So, that is the purpose of a box plot,
+[26:07] and you generally use it when your data has noise or outliers. Okay? So, these
+[26:13] are the three most basic plots that you can plot on numerical data. Okay? Apart
+[26:19] from this, there are other plots as well. Like the violin plot, rug plot,
+[26:23] and many other plots. But I am not covering them in this video. Because
+[26:27] you don't use them every time. If you are interested in learning those, you
+[26:31] can check out the Seaborn playlist on my channel. I have discussed all those
+[26:35] plots there in sequence. Okay? Now, one or two more things you can do in
+[26:40] univariate analysis on a numerical column is that you can calculate the
+[26:43] minimum and maximum values. For instance, if you want to find out what
+[26:50] df age dot min is. So, here it shows that someone as young as 0.42 is going.
+[26:56] What is df age dot max? So, it is 80 years. What is df age dot mean? So, you
+[27:07] can see it is around 29 years. Okay? So, you have these types of things. You
+[27:11] have these functions available. You can find the std, meaning standard
+[27:14] deviation, or you can calculate the variance. Okay? One more thing,
+[27:18] regarding the distplot here, I forgot to discuss one thing. That is, the
+[27:24] distplot also tells you whether your data has skewness or not. What does
+[27:31] skewness mean? I guess you must have studied it in statistics at some point.
+[27:35] I will just use my pen. So yeah, like if you have data of this type which
+[27:49] peaks right in the center, then it is symmetrical. Meaning the lower values
+[27:54] are fewer, and the higher values are also fewer. The values in the middle
+[27:57] are higher. Perhaps you have studied normal distribution somewhere. So, this
+[28:01] is a normal distribution. Sometimes, it happens that the data is Like this
+[28:06] means the lower values are more, and the higher values are fewer.
+[28:11] An example of this would be people's salaries in the world. So, a lot of
+[28:15] people will have lower salaries, and very few people will have higher
+[28:20] salaries. Okay? Sometimes it is skewed in this way. Like in an easy test, very
+[28:27] few students get low marks. A large number of students get high marks. So
+[28:31] when you plot the PDF, you can also understand if there is skewness in the
+[28:37] data or not. Okay? Whether there is skewness in the data or not. And there
+[28:42] is another way to find skewness, which is to directly call a pandas function
+[28:46] that we call 'skew'. And if it is exactly zero, then it is perfectly
+[28:53] skewed. It is perfectly symmetrical. If the number is positive, then this is
+[28:59] positively skewed towards the right side. And if it is negative, then it is
+[29:03] negatively skewed towards the left side. Okay? Now these are some concepts of
+[29:08] statistics. There is also a statistics playlist on my channel. There are
+[29:12] around 14-15 videos there. If you want to do univariate analysis at a deeper
+[29:17] level, especially on numerical data, then you should also study some
+[29:20] statistics. But since this is an introductory video. I am not going very
+[29:25] deep here. But what I will do is share some resources with you in the
+[29:29] description of this video. Seaborn, Matplotlib, and the statistics playlist
+[29:34] . If you want, you can watch them at your own pace. You will get a better
+[29:39] idea about things you can do when you are performing univariate analysis.
+[29:44] Okay? But these are some things that you have to do every time. So now if
+[29:47] you see guys, you will realize that now you have a slightly better idea about
+[29:53] this data. You took every column, picked it up separately, and ran some
+[29:57] analysis on it. This is what we call univariate analysis. And now I would
+[30:01] recommend that you pick any dataset of your choice from Kaggle. Any one, if
+[30:05] you like cricket then cricket, if you like football then football, if you
+[30:08] like Harry Potter then Harry Potter. But try to perform univariate analysis.
+[30:13] And what will we do tomorrow? Tomorrow we will learn to perform multivariate
+[30:17] analysis, which is even more interesting and gives you more insights
+[30:20] about the data. Okay? So that's it for today's video. I hope you liked it. If
+[30:26] so guys, please consider subscribing. Thanks for watching.

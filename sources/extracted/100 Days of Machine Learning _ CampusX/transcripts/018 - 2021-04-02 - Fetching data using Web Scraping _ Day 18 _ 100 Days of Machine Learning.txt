@@ -1,0 +1,801 @@
+# Fetching data using Web Scraping | Day 18 | 100 Days of Machine Learning
+# https://www.youtube.com/watch?v=8NOdgjC1988
+
+Hello guys, welcome to my YouTube channel. This is 100 Days of Machine Learning, and today is Day 18. Today's a little different because I had to travel. I spent the entire day traveling, and I just got home. So I couldn't shoot the video. So I thought, let's not upload the video to YouTube today. We'll upload it tomorrow. Then I thought, no, we've been working with great consistency for the last 17 days, and that consistency shouldn't be broken today. And by the way, today we were going to cover webscaping. Right, if you remember, I taught webscaping in one of my mentorship batches a few days ago. So, while on the flight, I actually downloaded that video onto my laptop and edited it, so that it's ready for you. Okay? So, instead of shooting the video, I'm just going to upload it today. So, some of the details about these placements may seem a bit aberrant. There may be some minor cuts. But I've tried to make sure you understand them completely, and hopefully you will. I've even included the code in the description. You can check it out. And let's hope there are no problems. Tomorrow we'll be back to normal and functioning as normal. Okay? So, you can watch this video. Okay, bye! Okay, guys, what are we doing today? This page you see on your screen is a company called Ambition Box. They basically post detailed reviews of companies and interviews related to companies, gigs, and gigs. If you're preparing for a company placement, people visit this website. Anyway, our job is to extract all the data about these companies from this website. Okay? The bad part is that, unlike yesterday, this website isn't providing us with any APIs. Meaning, they actually don't want us to get their data. So, if you're in a situation like this where there's no API and you can't get data directly, then webskipping is the only option. So, we can webskip and get there in total. I guess, by changing this URL here, if you enter " to" here, the second page opens. This is the second page. I checked, and there were in total, I guess, 333 pages. Yes, there are 333. There probably isn't 334. Yes, so there isn't 334. They didn't handle the error properly. That's why the page is displaying. The company names aren't displaying. So, in total, they have data on 333 pages. So, what's our job? We'll hit these URLs sequentially. We'll start with one. Then move on to two, then three, then four. And in this way, we'll extract details about the companies from each page. Okay? And what details about the company will we extract? We'll extract the company's name, its rating, and how many reviews the company has. Public: its headquarters location, how old the company is, and how many employees it has. We'll put these tags related to that company in a column, comma separated. This is the total data we're extracting about the company. So, 1, 2, 3, 4, 7, 8, and nine. So there will be nine columns in total, and rows for as many companies as there are. So, this guy was saying a lot. But when I scraped, I didn't scrape that much. So let's see what happens now. Okay? So, first, create a new notebook. Call it " WebSkipping Demo" and grab some imports. First, we'll import Pandas. Then we'll import Requests. We used this yesterday as well. And we'll import BeautifulSoup from BS4S in BeautifulSoup. This is our main webscaping library. All of this comes by default in Anaconda, so there's no need to install anything. BeautifulSoup. Initially, what we have to do is create an HTTP request using the Requests library. Okay? So, we'll write this code from yesterday. Inside the request.get method, we'll pass this URL. We'll pass this entire URL. And when you run this, there's a problem. Try running it once. It says the response is 403. 403 means bad request, meaning the server rejected your request. If you put a dot text in front of it, you'll get the content. And this is the content. Look, this content is access denied. And here it says you don't have permission to access this URL. So, what's actually happening here is that this website, Ambition Box, these people, there's a thing, in web development there's a concept called ' robots.xt.' Where you write the names of those files in a text file that you don't want web scrapers or search engines like Google to crawl. Right? So, the files that you write in that robots.xt file, you can't access them directly by doing this, that is, by directly creating an http request. So, one solution to this is to disguise yourself as if the request is coming through a browser. Right? So, the concept is that if you're hitting this normally, the website thinks you're a bot, which you actually are. But, if you still want to hit that website, what you'll do is send a header of some kind, an extra piece of information, which will make the website with the ambition box think this request isn't coming from a bot, but from a human being sending it through a browser. Okay? So, I've written this code. So, what you'll do is paste this piece of code here, just before this request. So, in this header, you're passing the information that this request is coming from a browser. That's the main concept. Okay? And what do you do here? Just pass an additional parameter called headers. And its value will be the header variable you have above. Headers is equal to headers. Okay? And now when you run the code, you'll actually get the full HTML code of that website. This full code is the full HTML code of that web page. Now, let's explain what this code is. For example, if you have this website open, right-click on it and go to View Page Source, the code on your screen is the same code you just fetched in Python. Same code, this is the full HTML and CSS code. Same code here, this code both are the same. Okay? So, we're doing one thing: storing this code in a variable because we'll use it later. Let's call it webpage. So, one of our tasks is done: we're able to access the full HTML here by clicking on the URL. Now, we just need to pass it along and extract the necessary information from it. That's the main goal, and that's where you'll need to use this library. Beautiful SUP is a library used for webscraping. It's a very famous library. Most of the time, whenever you do webscraping in Python, you use Beautiful SUP. And it's a very advanced library, meaning there are a lot of functions. I don't remember them. So, I'll only teach you as much as is necessary. If you're interested, there are many videos on Beautiful Soup on YouTube, each lasting an hour and a half. Once you follow them, you'll get a rough idea. But webscaping is something that varies greatly, project to project. So, I personally prefer that learning Beautiful Soup is as efficient as possible. If you're doing this website today, then it's based on this, and if you're doing another website, it's based on another. Okay? So, that's up to you. Anyway, we have this web page. Now what will we do? We'll give this web page to Beautiful Soup. Okay? So we'll create a variable named soup. We could name it anything. And we'll call it the BeautifulSoup function and we'll pass the web page. And it needs to provide one more thing. It's called an XML, I'm sorry, HTML parser. It's called LXML. And it's built into BeautifulSoup. This makes parsing HTML easy. You'll be able to traverse within it very easily. Okay? So hit enter, and your soup variable is created. Okay? Now here you have an object of the BeautifulSoup class, and you can use this object to access BeautifulSoup's methods and embed it on your web page. Okay? So if you say SUP dot prettify, there's a function called pretty. What will it do? It will format your entire HTML correctly. But you have to print it out like this. Look, it looks exactly like it did there. What this does is help you understand the content of a web page and how it's organized. Because, at the end, you have to extract information. To extract information, you need to understand the HTML structure of the page. Okay? So, a little bit of HTML knowledge is required, but today's is very basic, so you'll understand it immediately. Okay? So, look carefully. What do we have to do now? We're here. This is the page. Right-click in your browser and go to Inspect. Inspect. A tab will open, and in this tab, you'll see the same HTML that's causing this page to display like this. Okay? Now, I need to find the structure of how this entire page is organized. If you don't know HTML, it might be a little difficult. But picking out patterns. Okay? Now, look here, there's a button. It's called the Select an Element button. Basically, check it out. And then, as soon as you hover over it, after selecting it, the Inspect Element will automatically highlight the section in the code that's responsible for it. See what I'm saying. If I want to see where this entire container, the TCS code, is written on the page, I'll just hover over it, and it'll automatically highlight: "This is the div, this is the tag that contains the entire TCS code." If I expand it, you'll actually find that inside this div tag, there's one more div tag. There's one more div tag. And by doing this, you can actually reach this place where, look, "Company Info," and look, it says "TCS. " So what do I do? Use Beautiful Soup to get to the place where "TCS" is written. Okay? Now, one important thing is that these containers are repeating. For example, there's a container for TCS, one for Accenture, one for ICICI Bank. So, if you've studied even a little bit of web development, you'll know that these are all actually identical divs. Exactly the same. They even have the same name. Okay? So what should we do? Actually, I feel like it's going to be very difficult if you don't know HTML. So I'm getting a little confused. Okay? Let's do something. Let's experiment a little. Then you'll understand what I'm talking about. If you want to extract all the H1 tags from your web page using Let's, you write this code: SUP dot find all. And as soon as you type H1 inside it, all the H1 tags on your web page will be printed. For example, look at this. Right now, at this point, there's only one H1 tag on our web page, and that's this one. Okay? Now, look, this entire information is contained within a list. So, anyone guess, if I only want this text, how do I extract it? Look, it's a given that if we want to extract the list of companies in India, we'll have to go inside this list. And currently, there's only one item in this list, so we can just type "zero." So, what do you have? H1, okay? I still need the text inside it. So, for this, you just type "dot text." So, look, you've got a string. So, you've just extracted every single piece of information from your web page. Okay? Now, let's look at another example. If I were to extract all the H2s. H2 is again an HTML tag. So sup dot find all. And here, this time I type H2 and shift enter. And look, this time too I get a list, but this time you'll notice that this list has multiple H2s separated by commas. If you want to find out how many there are, since it's a list, you can calculate its length. And you'll actually get the number of H2s on this web page. So there are 30 H2s. Okay? Look at this. Okay, now based on what I showed previously, this one shows that all the company names are in H2. Look, TCS, Accenture, ICICI Bank. So we'll write for i in this entire list, and we'll simply print out what i dot i dot text. Now the problem is that it actually has a little bit of formatting added to it. I mean, I'm telling you what it is. This slash is already there. Okay? So if you want to remove it, there's a function called "strip." Just use it. And look, you've got the names of all the companies. We've extracted the names. Run this code once. Why did you use "strip" once? Say it once. Yes, we used "strip" because if we hadn't used "strip," you'd have noticed a lot of gaps. These gaps were appearing because "a" here is hidden. Actually, we're printing, so it's not visible in the Python language, but whoever coded the HTML used spaces and slashes. So, we're using "strip" to remove all those special characters, spaces, slashes, and all that. So that gives me the entire string, like this. This is a complete, proper Python string. Now, the problem is that I don't just need the names of the companies. Along with that, I need some other information. Like I want this too. I want a rating too. Now look, how to extract the rating is a matter of understanding. What am I doing again? I'm going to Inspect Element. And I'm selecting this thing, this icon, and now I'm hovering over the review, sorry, over the rating. And as soon as I clicked, look, this text automatically got highlighted and it said, this rating that's showing here, it's because of this P tag. Right? It's because of this P tag. Yes, look, if you type this, SUP dot find all, and this time if we type in P, and then if we type, if I just type this, look what's getting printed. Yes, sir, what kind of error is coming? Oh man, sorry, my mistake for the i in the three, look, did you understand this error? The problem is that on this page of yours, all two h2s are used just to print the company name, but p-tags are used for almost everything else. This means that the p-tag is used for reviews. This p-tag is used for public. This p-tag is used for Mumbai. So, it's all p-tags. So you can't actually differentiate whether I want ratings, or about, or Mumbai text. Now, we need p-tags that are specific to ratings. We'll have to do this ourselves. Okay? So, let me show you how. Look carefully. What do you have to do here? I'm going to inspect again, and I'm selecting this tag and clicking on it. No, just one second on this. Selected this whole thing. Look, here, you can actually uniquely identify p-tags by using this class attribute. If you've studied even a little bit about web development, class actually uniquely identifies a piece. Not uniquely means there could be other pieces with the same class. But you see this "rating" word here? This "rating" word. This is signifying that this paragraph is dedicated to ratings. I can actually prove this. See how we'll do it. First of all, we'll do this. I'll write this code in this manner. I'll write "sup.findall." This time, I need a "p," but this time, I need a specific p whose class is " rating." I guess "rating" is the word. Yes, "rating." Right? So, I said I need a "p," but I only need the piece on that page whose class is "rating." And now, as I'm running this, notice: 3.9 4.0 4.1. If I calculate its length and it comes out exactly 30, we have our answer. Look, see. Similarly, let's talk about the next one, reviews. Okay? I'm selecting it again and clicking on reviews. Now, look, this one is a little different. This time it's not a p tag. This time it's an a tag. A tag, so again, I guess I have an idea what to do. If I put an a here and remove the previous one from the list, there should be a bracket. Look, I guess you're starting to understand that this won't work. Because this page has a lot of links. The a tag is basically a link tag. So, this page has a lot of links. So, what do we need to use again? A class. So, the class name here is ReviewCount. This one. So, we'll copy this class name, and I'll go back here and simply write, "Class underscore is equal to the class name." And if we calculate the length again and get 30, then we're done. Look. So I hope you understand a little bit what we're doing. Okay? Okay. Now comes the next part. This is a little tricky. Okay? So let's take a look. I want Public. Okay? I want to fetch the type of the company, whether it's public or private. I need this text. So I'm clicking on it again and hovering over it again. So I get that it's printing Public because of this P tag. And its class name is Info Entity. Okay? Right? Now look, there's a problem here. If I type P here and copy its name here, and if you write this here and run it, it's returning 119. 30*4-1 means all four iterations of all the companies are coming out. There's one company here that has only three iterations. Whatever it is, somewhere down there will be a company that has only three iterations, so one is getting reduced. But did you understand what's going on? My problem is that this time the extraction has become a little difficult. Now, C, what should we do? I'm telling you, listen carefully. We've been making a mistake from the beginning. What we should have done first is to fetch this entire container, the entire container of a company. I'm telling you why we would do this. How do we get this entire company container? Go to Inspect again. Select it again and hover over it completely. Hover over it in such a way that the entire thing is selected. Like this. And now click on this. Look, there's a div tag and it has a class called "companyContentWrapper." And inside this is all the information, or the company content. Which one should we choose? You can choose either. Everything is inside the company content, because where is the description after that? Just one second, man, this requires a lot of study of the web page. Okay? So let me take a look. This description is outside. So, instead of the company content, we'll take this one. The company content wrapper. Okay? Listen, what's the approach? I'm telling you. A C, we'll do this. Ignore all the code above. I'm removing it. In fact, let's focus on the next one. I'm removing all this code. Right now, I was just doing the code for demonstration. A, yes, that's fine. And now I'm writing this code: I'm creating something called "company. " I'm creating a structure called " company." And inside it, I'm writing "a sup dot find all sup dot find all." And inside it, I'm passing a div because I need to extract the div. What's its class? We just copied this one. If you run this and calculate the length of the company, it's 30. One for each company. So I've extracted the entire div. Now what we'll do is we'll run a loop for i in company. Okay? So what are we doing now? We're going inside a div every time. So far, right? We're going inside a div every time. And extracting one element at a time. Okay? We're extracting the company name. We're extracting everything. And what are we going to put that in? We'll put it in an empty list. Yeah, okay. Okay. Let's do one thing. Here I've created an empty list by saying name. Okay? So if I write this, look carefully. I dot find all, and if I put H2 inside it, it will find the H2 inside that div. Do you understand this? Before, we were searching the entire web page. Now we're searching inside every div. Understand this. What have we done? Listen carefully. It's very simple. We've converted the entire web page into 30 divs. Right? Now we're running a loop over each div. So imagine the first time the loop runs. When the loop runs for the first time, we're inside TCS. Right? Now, what's the score inside H2 within TCS? The TCS word is the one we want to extract. So we typed "Find." Actually, there's no need to use "Find All." Just "Find" will do. " Find" means single. "Find All" means multiple. Right? So I typed "i dot find." Right? Now, if I print this, see what it prints. Look, this is what we printed. Yes, did you understand? The first time the loop ran, TCS was printed. The second time it ran, we entered the second div and Accenture was printed. The third div printed ICICI Bank. Right? Now, if I put text in front of this and then put a strip in front of it, only the company names appear. Right? Now, if I do one thing: take this whole thing and put it inside name.append. If I run name.append like this, what will appear inside name? Name will be a list containing all the company names. Look, there's no difference between before and now. This time, we're just working inside each div. That's it. We're going inside each div on the web page and extracting the information from within the div. This will be useful in that case. As I mentioned a little later, I was having trouble extracting the public one. You'll notice this strategy will be useful there. Ah, after this, we extract the rating. I guess you're already getting it. See, you'll do this. You'll write rating is equal to this empty, and then you'll write rating.append.i.dot find all. Why do I have to do find all this time? This h2 appeared once inside this dif, so I used find. Find All produces the same output. But I have to type "Find All" for Rating here because there are multiple P tags. Okay? Now, how do I identify which P tag to use? We remembered the class and class name. It was Rating, right? Now, if I run this code again and type "Rating" here, I should have ratings for all the companies. And obviously, what do we type to extract it? Dot Text Dot Strip. And here are all my ratings. Is there a problem? Okay, fine. Let's make it zero, because it will be a single item. We're fine. Yes, we're fine. Right. Because there will only be one item in that list. So, actually, if you use " Find All," it will work. Because why would it work if we used "Find All"? Think about it. Because there's only one P named P and "Rating." That means there won't be any need to do this again. If you combine these two elements, then this item is unique within that div. So, using "Find All" works. If you use "Find All," then a single item appears in the list, and to extract it, we have to use the index of zero. Right? I used "Find All" when I think I'll get multiple answers. It's simple. You use "Find All" when you think I'll get multiple answers after performing this operation. It's simple. Right? Now, I used "Find All" thinking that the "p" tag with "rating" will give me multiple answers. But then I realized that if I combine "p" and " rating," this happens only once within a div, and that's for the one with this rating. So, using "Find All" will still give me the answer, but that answer will be inside a list. Because the default behavior of "Find All" is to return a list. So if I want to remove that item, I have to add a zero next to it. Right? But as soon as I realized, if it's just one item, why am I doing Find All? It's a useless extra step. So I simply did Find. So I didn't find the list. I found the item directly and placed a text dot strip over it. The substantive question to ask is, will what I'm searching for give me multiple values or a single value? So we've extracted two things: the name and the rating. Okay? Now what are we doing? Extracting the third thing: the number of reviews. Okay? So we're clicking again and hovering over it, and this is an A tag. Okay? And an A tag with a class of review count. So I'm going to copy this and use it in a moment. So again, we'll go back and create one more link by the name of a what is that? reviews. Reviews will be an empty list. And this time we'll write reviews dot append i dot find, put a inside, and we're putting in a class, so that's it. Next, let's just put text again, and next, let's put strip, and now we're running. We have three items, reviews. Here we are. We have three lists of 30 pages each, and we've done three things. After that, the main thing we worked so hard on is extracting these four items. Okay? For the next one, let's see a minor demonstration first; you'll understand the concept. Okay? If you notice here, what's actually inside the company? The company we created had 30 items, and within those 30 items, there are actually all the divs. Look, this is a huge thing. It has all the divs. TCS has a whole div. Accenture has a whole div. ICICI has a whole div. Can you tell me, if I want to extract the div for TCS here, what do I have to write? If we just write this, whose div is this? This entire code that came up, this entire code belongs to TCS. Right? If I type one here, I'll get the div for the second company. Right? So far, it's fine. Now, look carefully, what I'm trying to explain is that our problem here was that when we were going over this, we realized that its p and its class are exactly similar to its p and its class, its p and its class, and its p and its class. So, technically, I have no way to differentiate between these two. That was my problem. That was my problem. Now, tell me one thing, if I write this code: Find All with P and Class Underscore Equal to One in any of these, if we pick the class name of any of these, it was probably something like ' Info Entity'. Ah...if we hover over it, if I copy the name 'Info Entity' and paste it here, tell me what will happen if I run this code? It will be a list, and the list will contain how many items? Four, exactly. Look. So I have Public. I have Mumbai. I have 52 Years Old. Now tell me, if I want to get Public, what will I write? Zero, its dot, and the dot is gone. If I want to get the second item, let's say I want to get Mumbai plus 43 cities, what will I write? I will replace zero with one here. If I change Mumbai plus two, it will be 52 Years Old. If I change it to three, it will be four, because it doesn't exist. Did you understand this? If you understand this code, then you understand almost what's going to happen here. Okay? Now, look what we're doing. The code is very simple. So we're creating four variables above. Okay? The first variable is a company type. Let's call it c type. Initially, it would be empty. Then for h headquarters, let's call it hq again empty. Then there would be a how old? Let's call it old. And there will be one more for employees. Now tell me yourselves, guys. A here it says company zero. So what do you need to write inside this loop? Instead of company zero, put i. Right? This code is very simple. Just copy the i dot next and paste it here. Okay? C type dot append and write this code here. I'm done. Okay? That's it. I'm done. I'm done. I need one last thing. A what is this thing. A this about thing. Okay? So, the same thing again, going into Inspect and clicking on this, and clicking on this...yes, this is 'P' and its class is ' Description'. This is straightforward, so write it down quickly. So we'll write 'Desc'. And, hey, forget it, remove this description. I mean, let's do this much first, forget about the description, no needless effort. That's done, now tell me what's the last thing? If we've formed all the lists, what do I do next? Form a data frame. We discussed the logic for forming a data frame yesterday. I'm coming out. And here, d equals a, I'm creating columns. So, the first column is Name, and it will hold the value of this list. Then the second column will be Rating. And after Rating, you'll write Rating Reviews, Reviews, then C Type, and here again C Type. Actually, we could write the company type here, or just the type, to improve readability. We could write HQ (headquarters), how old, old bolt, and the last one is employees, and its value is employees. A PD.dot data frame will pass the dictionary. Let's call this to be equal to DF and let's print out DF. Yes, we're getting an index error somewhere. Okay? Let's run this once. What's the DF returning? What's its size? There should be one company missing, right? Okay, no. We missed one, right? So basically, it's going to be null there. Which company is it? This one, Cocentrics. Okay, that's fine. Here we go, guys, we've fetched the first page, and here are its details. Now, tell me what's the next step? We'll run another loop like we did yesterday. Yes, there are 333 pages in total, right? So we won't run it all the way to 333, it'll die because it'll take too long. I'm going to demonstrate up to 10 pages. You guys can do the rest. Okay, you know what we need to do next. What do we need to do? We'll run a for loop in a range of 1 to 11. And then we'll first create a data frame outside. Let's call it final. The final will be the PD.dot data frame. It will be an empty data frame. And then what do we do inside? First, we'll make the entire request. So, we'll copy this piece of code. The entire request will be created each time before entering the loop. After entering the loop. So this is the code. Yes. So, I'm doing one thing. I'm creating a variable called URL outside. And I'm cutting this whole thing from here and pasting it here. And just at the end, where it says "one," I'm formatting it to make it dynamic. So, I've written J here and passed the URL here. Okay? That's it. The request has been created. Now we go up and copy this code. A: This one soup created where. Paste it. And paste this one in another line. And then just pick up all the code from there. This entire code will be copied. We did this yesterday, exactly the same. So we'll copy this code (Control C) and paste it below it. The indentation is messed up. So we'll say, "Yes, this is done." Now, just one last thing remains. A: Here, we'll write "final equals final dot," this is the same. It's exactly the same code as yesterday. Final dot up end. And here, we'll just put in the df. Let's run it. It'll take a little time. We're hitting 10 pages. We're fetching data from there. We're scraping it and adding it to the data frame. Let's see. Okay, here, the index repeat, so yes, the index started repeating. We made a mistake, right? What should I do? Final dot shape 300 companies ka data nikal hai 10 pages me. Isn't it right? 10*30 so ek kaam kar raha hoon main. main bada thot le raha hoon. Ignore index. First of all true kar raha hoon. Aur phir main bhagwan ka naam leke 33 good night guys. So I hope you like my editing skills. Koi problem nahi hua aapko samjhed mein. If you face any problem you can always contact me via comments and you can also ping me on WhatsApp. Ok? If you like the video guys please consider subscribing. Thanks for watching. Bye.
+
+
+[00:00] Hello guys, welcome to my YouTube
+[00:02] channel. This is 100 Days of Machine
+[00:04] Learning, and today is Day 18. Today's
+[00:07] a little different because I had to
+[00:09] travel. I spent the entire day
+[00:12] traveling, and I just got home. So I
+[00:16] couldn't shoot the video. So I thought,
+[00:18] let's not upload the video to YouTube
+[00:20] today. We'll upload it tomorrow. Then I
+[00:22] thought, no, we've been working with
+[00:24] great consistency for the last 17 days,
+[00:26] and that consistency shouldn't be
+[00:28] broken today. And by the way, today we
+[00:30] were going to cover webscaping. Right,
+[00:32] if you remember, I taught webscaping in
+[00:36] one of my mentorship batches a few days
+[00:39] ago. So, while on the flight, I
+[00:42] actually downloaded that video onto my
+[00:45] laptop and edited it, so that it's
+[00:48] ready for you. Okay? So, instead of
+[00:52] shooting the video, I'm just going to
+[00:54] upload it today. So, some of the
+[00:56] details about these placements may seem
+[00:58] a bit aberrant. There may be some minor
+[01:00] cuts. But I've tried to make sure you
+[01:03] understand them completely, and
+[01:05] hopefully you will. I've even included
+[01:07] the code in the description. You can
+[01:10] check it out. And let's hope there are
+[01:13] no problems. Tomorrow we'll be back to
+[01:16] normal and functioning as normal. Okay?
+[01:19] So, you can watch this video. Okay, bye
+[01:22] ! Okay, guys, what are we doing today?
+[01:27] This page you see on your screen is a
+[01:30] company called Ambition Box. They
+[01:33] basically post detailed reviews of
+[01:36] companies and interviews related to
+[01:39] companies, gigs, and gigs. If you're
+[01:44] preparing for a company placement,
+[01:46] people visit this website. Anyway, our
+[01:48] job is to extract all the data about
+[01:51] these companies from this website. Okay
+[01:55] ? The bad part is that, unlike
+[01:58] yesterday, this website isn't providing
+[02:01] us with any APIs. Meaning, they
+[02:04] actually don't want us to get their
+[02:06] data. So, if you're in a situation like
+[02:10] this where there's no API and you can't
+[02:13] get data directly, then webskipping is
+[02:16] the only option. So, we can webskip and
+[02:19] get there in total. I guess, by
+[02:21] changing this URL here, if you enter "
+[02:24] to" here, the second page opens. This
+[02:26] is the second page. I checked, and
+[02:30] there were in total, I guess, 333 pages
+[02:35] . Yes, there are 333. There probably
+[02:39] isn't 334. Yes, so there isn't 334.
+[02:43] They didn't handle the error properly.
+[02:46] That's why the page is displaying. The
+[02:47] company names aren't displaying. So, in
+[02:49] total, they have data on 333 pages. So,
+[02:53] what's our job? We'll hit these URLs
+[02:56] sequentially. We'll start with one.
+[02:58] Then move on to two, then three, then
+[03:00] four. And in this way, we'll extract
+[03:02] details about the companies from each
+[03:05] page. Okay? And what details about the
+[03:07] company will we extract? We'll extract
+[03:09] the company's name, its rating, and how
+[03:11] many reviews the company has. Public:
+[03:16] its headquarters location, how old the
+[03:18] company is, and how many employees it
+[03:19] has. We'll put these tags related to
+[03:23] that company in a column, comma
+[03:24] separated. This is the total data we're
+[03:27] extracting about the company. So, 1, 2,
+[03:31] 3, 4, 7, 8, and nine. So there will be
+[03:35] nine columns in total, and rows for as
+[03:38] many companies as there are. So, this
+[03:40] guy was saying a lot. But when I
+[03:42] scraped, I didn't scrape that much. So
+[03:45] let's see what happens now. Okay? So,
+[03:49] first, create a new notebook. Call it "
+[03:56] WebSkipping Demo" and grab some imports
+[04:06] . First, we'll import Pandas. Then
+[04:14] we'll import Requests. We used this
+[04:18] yesterday as well. And we'll import
+[04:22] BeautifulSoup from BS4S in
+[04:26] BeautifulSoup. This is our main
+[04:30] webscaping library. All of this comes
+[04:32] by default in Anaconda, so there's no
+[04:34] need to install anything. BeautifulSoup
+[04:41] . Initially, what we have to do is
+[04:45] create an HTTP request using the
+[04:47] Requests library. Okay? So, we'll write
+[04:50] this code from yesterday. Inside the
+[04:53] request.get method, we'll pass this URL
+[04:58] . We'll pass this entire URL. And when
+[05:05] you run this, there's a problem. Try
+[05:09] running it once. It says the response
+[05:13] is 403. 403 means bad request, meaning
+[05:17] the server rejected your request. If
+[05:21] you put a dot text in front of it,
+[05:24] you'll get the content. And this is the
+[05:30] content. Look, this content is access
+[05:34] denied. And here it says you don't have
+[05:37] permission to access this URL. So,
+[05:40] what's actually happening here is that
+[05:42] this website, Ambition Box, these
+[05:45] people, there's a thing, in web
+[05:47] development there's a concept called '
+[05:49] robots.xt.' Where you write the names
+[05:53] of those files in a text file that you
+[05:57] don't want web scrapers or search
+[06:00] engines like Google to crawl. Right? So
+[06:04] , the files that you write in that
+[06:07] robots.xt file, you can't access them
+[06:10] directly by doing this, that is, by
+[06:13] directly creating an http request. So,
+[06:16] one solution to this is to disguise
+[06:19] yourself as if the request is coming
+[06:22] through a browser. Right? So, the
+[06:26] concept is that if you're hitting this
+[06:28] normally, the website thinks you're a
+[06:31] bot, which you actually are. But, if
+[06:34] you still want to hit that website,
+[06:37] what you'll do is send a header of some
+[06:40] kind, an extra piece of information,
+[06:42] which will make the website with the
+[06:45] ambition box think this request isn't
+[06:48] coming from a bot, but from a human
+[06:50] being sending it through a browser.
+[06:53] Okay? So, I've written this code. So,
+[06:56] what you'll do is paste this piece of
+[07:00] code here, just before this request. So
+[07:04] , in this header, you're passing the
+[07:06] information that this request is coming
+[07:09] from a browser. That's the main concept
+[07:11] . Okay? And what do you do here? Just
+[07:16] pass an additional parameter called
+[07:18] headers. And its value will be the
+[07:20] header variable you have above. Headers
+[07:22] is equal to headers. Okay? And now when
+[07:26] you run the code, you'll actually get
+[07:30] the full HTML code of that website.
+[07:35] This full code is the full HTML code of
+[07:38] that web page. Now, let's explain what
+[07:41] this code is. For example, if you have
+[07:44] this website open, right-click on it
+[07:47] and go to View Page Source, the code on
+[07:50] your screen is the same code you just
+[07:53] fetched in Python. Same code, this is
+[07:57] the full HTML and CSS code. Same code
+[08:00] here, this code both are the same. Okay
+[08:04] ? So, we're doing one thing: storing
+[08:06] this code in a variable because we'll
+[08:08] use it later. Let's call it webpage. So
+[08:12] , one of our tasks is done: we're able
+[08:14] to access the full HTML here by
+[08:16] clicking on the URL. Now, we just need
+[08:18] to pass it along and extract the
+[08:19] necessary information from it. That's
+[08:21] the main goal, and that's where you'll
+[08:23] need to use this library. Beautiful SUP
+[08:27] is a library used for webscraping. It's
+[08:32] a very famous library. Most of the time
+[08:34] , whenever you do webscraping in Python
+[08:35] , you use Beautiful SUP. And it's a
+[08:37] very advanced library, meaning there
+[08:38] are a lot of functions. I don't
+[08:41] remember them. So, I'll only teach you
+[08:42] as much as is necessary. If you're
+[08:45] interested, there are many videos on
+[08:46] Beautiful Soup on YouTube, each lasting
+[08:48] an hour and a half. Once you follow
+[08:49] them, you'll get a rough idea. But
+[08:51] webscaping is something that varies
+[08:54] greatly, project to project. So, I
+[08:56] personally prefer that learning
+[08:58] Beautiful Soup is as efficient as
+[09:00] possible. If you're doing this website
+[09:01] today, then it's based on this, and if
+[09:02] you're doing another website, it's
+[09:03] based on another. Okay? So, that's up
+[09:04] to you. Anyway, we have this web page.
+[09:08] Now what will we do? We'll give this
+[09:10] web page to Beautiful Soup. Okay? So
+[09:11] we'll create a variable named soup. We
+[09:13] could name it anything. And we'll call
+[09:15] it the BeautifulSoup function and we'll
+[09:18] pass the web page. And it needs to
+[09:21] provide one more thing. It's called an
+[09:23] XML, I'm sorry, HTML parser. It's
+[09:26] called LXML. And it's built into
+[09:28] BeautifulSoup. This makes parsing HTML
+[09:31] easy. You'll be able to traverse within
+[09:34] it very easily. Okay? So hit enter, and
+[09:37] your soup variable is created. Okay?
+[09:42] Now here you have an object of the
+[09:44] BeautifulSoup class, and you can use
+[09:47] this object to access BeautifulSoup's
+[09:51] methods and embed it on your web page.
+[09:54] Okay? So if you say SUP dot prettify,
+[09:57] there's a function called pretty. What
+[10:00] will it do? It will format your entire
+[10:03] HTML correctly. But you have to print
+[10:07] it out like this. Look, it looks
+[10:11] exactly like it did there. What this
+[10:15] does is help you understand the content
+[10:18] of a web page and how it's organized.
+[10:21] Because, at the end, you have to
+[10:23] extract information. To extract
+[10:26] information, you need to understand the
+[10:29] HTML structure of the page. Okay? So, a
+[10:32] little bit of HTML knowledge is
+[10:33] required, but today's is very basic, so
+[10:35] you'll understand it immediately. Okay?
+[10:37] So, look carefully. What do we have to
+[10:39] do now? We're here. This is the page.
+[10:43] Right-click in your browser and go to
+[10:45] Inspect. Inspect. A tab will open, and
+[10:51] in this tab, you'll see the same HTML
+[10:54] that's causing this page to display
+[10:57] like this. Okay? Now, I need to find
+[11:00] the structure of how this entire page
+[11:02] is organized. If you don't know HTML,
+[11:04] it might be a little difficult. But
+[11:05] picking out patterns. Okay? Now, look
+[11:08] here, there's a button. It's called the
+[11:10] Select an Element button. Basically,
+[11:12] check it out. And then, as soon as you
+[11:16] hover over it, after selecting it, the
+[11:19] Inspect Element will automatically
+[11:22] highlight the section in the code
+[11:25] that's responsible for it. See what I'm
+[11:28] saying. If I want to see where this
+[11:30] entire container, the TCS code, is
+[11:32] written on the page, I'll just hover
+[11:35] over it, and it'll automatically
+[11:37] highlight: "This is the div, this is
+[11:39] the tag that contains the entire TCS
+[11:42] code." If I expand it, you'll actually
+[11:45] find that inside this div tag, there's
+[11:47] one more div tag. There's one more div
+[11:50] tag. And by doing this, you can
+[11:54] actually reach this place where, look,
+[11:58] "Company Info," and look, it says "TCS.
+[12:05] " So what do I do? Use Beautiful Soup
+[12:09] to get to the place where "TCS" is
+[12:12] written. Okay? Now, one important thing
+[12:16] is that these containers are repeating.
+[12:23] For example, there's a container for
+[12:25] TCS, one for Accenture, one for ICICI
+[12:26] Bank. So, if you've studied even a
+[12:29] little bit of web development, you'll
+[12:31] know that these are all actually
+[12:32] identical divs. Exactly the same. They
+[12:35] even have the same name. Okay? So what
+[12:37] should we do? Actually, I feel like
+[12:40] it's going to be very difficult if you
+[12:42] don't know HTML. So I'm getting a
+[12:43] little confused. Okay? Let's do
+[12:45] something. Let's experiment a little.
+[12:47] Then you'll understand what I'm talking
+[12:49] about. If you want to extract all the
+[12:52] H1 tags from your web page using Let's,
+[12:56] you write this code: SUP dot find all.
+[13:00] And as soon as you type H1 inside it,
+[13:04] all the H1 tags on your web page will
+[13:09] be printed. For example, look at this.
+[13:15] Right now, at this point, there's only
+[13:18] one H1 tag on our web page, and that's
+[13:21] this one. Okay? Now, look, this entire
+[13:24] information is contained within a list.
+[13:26] So, anyone guess, if I only want this
+[13:28] text, how do I extract it? Look, it's a
+[13:31] given that if we want to extract the
+[13:33] list of companies in India, we'll have
+[13:35] to go inside this list. And currently,
+[13:37] there's only one item in this list, so
+[13:40] we can just type "zero." So, what do
+[13:42] you have? H1, okay? I still need the
+[13:46] text inside it. So, for this, you just
+[13:49] type "dot text." So, look, you've got a
+[13:52] string. So, you've just extracted every
+[13:55] single piece of information from your
+[13:57] web page. Okay? Now, let's look at
+[13:59] another example. If I were to extract
+[14:01] all the H2s. H2 is again an HTML tag.
+[14:04] So sup dot find all. And here, this
+[14:09] time I type H2 and shift enter. And
+[14:12] look, this time too I get a list, but
+[14:16] this time you'll notice that this list
+[14:19] has multiple H2s separated by commas.
+[14:22] If you want to find out how many there
+[14:24] are, since it's a list, you can
+[14:25] calculate its length. And you'll
+[14:27] actually get the number of H2s on this
+[14:29] web page. So there are 30 H2s. Okay?
+[14:32] Look at this. Okay, now based on what I
+[14:37] showed previously, this one shows that
+[14:39] all the company names are in H2. Look,
+[14:42] TCS, Accenture, ICICI Bank. So we'll
+[14:45] write for i in this entire list, and
+[14:50] we'll simply print out what i dot i dot
+[14:55] text. Now the problem is that it
+[14:59] actually has a little bit of formatting
+[15:00] added to it. I mean, I'm telling you
+[15:02] what it is. This slash is already there
+[15:05] . Okay? So if you want to remove it,
+[15:07] there's a function called "strip." Just
+[15:09] use it. And look, you've got the names
+[15:11] of all the companies. We've extracted
+[15:13] the names. Run this code once.
+[15:16] Why did you use "strip" once? Say it
+[15:19] once. Yes, we used "strip" because if we
+[15:22] hadn't used "strip," you'd have noticed
+[15:25] a lot of gaps. These gaps were
+[15:28] appearing because "a" here is hidden.
+[15:31] Actually, we're printing, so it's not
+[15:33] visible in the Python language, but
+[15:35] whoever coded the HTML used spaces and
+[15:39] slashes. So, we're using "strip" to
+[15:42] remove all those special characters,
+[15:44] spaces, slashes, and all that. So that
+[15:47] gives me the entire string, like this.
+[15:51] This is a complete, proper Python
+[15:53] string. Now, the problem is that I
+[15:54] don't just need the names of the
+[15:56] companies. Along with that, I need some
+[15:58] other information. Like I want this too
+[16:00] . I want a rating too. Now look, how to
+[16:03] extract the rating is a matter of
+[16:05] understanding. What am I doing again?
+[16:07] I'm going to Inspect Element. And I'm
+[16:10] selecting this thing, this icon, and
+[16:12] now I'm hovering over the review, sorry
+[16:15] , over the rating. And as soon as I
+[16:18] clicked, look, this text automatically
+[16:20] got highlighted and it said, this
+[16:22] rating that's showing here, it's
+[16:24] because of this P tag. Right? It's
+[16:26] because of this P tag. Yes, look, if
+[16:29] you type this, SUP dot find all, and
+[16:31] this time if we type in P, and then if
+[16:34] we type, if I just type this, look
+[16:37] what's getting printed.
+[16:39] Yes, sir, what kind of
+[16:41] error is coming? Oh man, sorry, my
+[16:43] mistake for the i in the three, look,
+[16:47] did you understand this error? The
+[16:51] problem is that on this page of yours,
+[16:54] all two h2s are used just to print the
+[16:58] company name, but p-tags are used for
+[17:01] almost everything else. This means that
+[17:05] the p-tag is used for reviews. This
+[17:06] p-tag is used for public. This p-tag is
+[17:08] used for Mumbai. So, it's all p-tags.
+[17:10] So you can't actually differentiate
+[17:13] whether I want ratings, or about, or
+[17:16] Mumbai text. Now, we need p-tags that
+[17:19] are specific to ratings. We'll have to
+[17:21] do this ourselves. Okay? So, let me
+[17:23] show you how. Look carefully. What do
+[17:26] you have to do here? I'm going to
+[17:28] inspect again, and I'm selecting this
+[17:32] tag and clicking on it. No, just one
+[17:36] second on this. Selected this whole
+[17:41] thing. Look, here, you can actually
+[17:43] uniquely identify p-tags by using this
+[17:46] class attribute. If you've studied even
+[17:49] a little bit about web development,
+[17:51] class actually uniquely identifies a
+[17:53] piece. Not uniquely means there could
+[17:54] be other pieces with the same class.
+[17:56] But you see this "rating" word here?
+[17:57] This "rating" word. This is signifying
+[18:00] that this paragraph is dedicated to
+[18:02] ratings. I can actually prove this. See
+[18:05] how we'll do it. First of all, we'll do
+[18:07] this. I'll write this code in this
+[18:09] manner. I'll write "sup.findall." This
+[18:15] time, I need a "p," but this time, I
+[18:18] need a specific p whose class is "
+[18:21] rating." I guess "rating" is the word.
+[18:24] Yes, "rating." Right? So, I said I need
+[18:27] a "p," but I only need the piece on
+[18:30] that page whose class is "rating." And
+[18:33] now, as I'm running this, notice: 3.9
+[18:38] 4.0 4.1. If I calculate its length and
+[18:42] it comes out exactly 30, we have our
+[18:45] answer. Look, see. Similarly, let's
+[18:48] talk about the next one, reviews. Okay?
+[18:50] I'm selecting it again and clicking on
+[18:53] reviews. Now, look, this one is a
+[18:55] little different. This time it's not a
+[18:58] p tag. This time it's an a tag. A tag,
+[19:01] so again, I guess I have an idea what
+[19:04] to do. If I put an a here and remove
+[19:08] the previous one from the list, there
+[19:12] should be a bracket. Look, I guess
+[19:16] you're starting to understand that this
+[19:18] won't work. Because this page has a lot
+[19:21] of links. The a tag is basically a link
+[19:23] tag. So, this page has a lot of links.
+[19:25] So, what do we need to use again? A
+[19:27] class. So, the class name here is
+[19:30] ReviewCount. This one. So, we'll copy
+[19:33] this class name, and I'll go back here
+[19:36] and simply write, "Class underscore is
+[19:40] equal to the class name." And if we
+[19:44] calculate the length again and get 30,
+[19:46] then we're done. Look. So I hope you
+[19:52] understand a little bit what we're
+[19:53] doing. Okay? Okay. Now comes the next
+[19:57] part. This is a little tricky. Okay? So
+[19:59] let's take a look. I want Public. Okay?
+[20:03] I want to fetch the type of the company
+[20:04] , whether it's public or private. I
+[20:06] need this text. So I'm clicking on it
+[20:09] again and hovering over it again. So I
+[20:12] get that it's printing Public because
+[20:14] of this P tag. And its class name is
+[20:18] Info Entity. Okay? Right? Now look,
+[20:22] there's a problem here. If I type P
+[20:25] here and copy its name here, and if you
+[20:29] write this here and run it, it's
+[20:32] returning 119.
+[20:36] 30*4-1 means all four iterations of all
+[20:40] the companies are coming out. There's
+[20:43] one company here that has only three
+[20:45] iterations. Whatever it is, somewhere
+[20:50] down there will be a company that has
+[20:51] only three iterations, so one is
+[20:52] getting reduced. But did you understand
+[20:54] what's going on? My problem is that
+[20:56] this time the extraction has become a
+[20:58] little difficult. Now, C, what should
+[21:00] we do? I'm telling you, listen
+[21:01] carefully. We've been making a mistake
+[21:05] from the beginning. What we should have
+[21:09] done first is to fetch this entire
+[21:13] container, the entire container of a
+[21:17] company. I'm telling you why we would
+[21:20] do this. How do we get this entire
+[21:22] company container? Go to Inspect again.
+[21:27] Select it again and hover over it
+[21:29] completely. Hover over it in such a way
+[21:31] that the entire thing is selected. Like
+[21:33] this. And now click on this. Look,
+[21:35] there's a div tag and it has a class
+[21:38] called "companyContentWrapper." And
+[21:41] inside this is all the information, or
+[21:44] the company content. Which one should
+[21:46] we choose? You can choose either.
+[21:48] Everything is inside the company
+[21:50] content, because where is the
+[21:52] description after that? Just one second
+[21:54] , man, this requires a lot of study of
+[21:56] the web page. Okay? So let me take a
+[21:58] look. This description is outside. So,
+[22:00] instead of the company content, we'll
+[22:01] take this one. The company content
+[22:02] wrapper. Okay? Listen, what's the
+[22:04] approach? I'm telling you. A C, we'll
+[22:06] do this. Ignore all the code above. I'm
+[22:10] removing it. In fact, let's focus on
+[22:13] the next one. I'm removing all this
+[22:16] code. Right now, I was just doing the
+[22:18] code for demonstration. A, yes, that's
+[22:20] fine. And now I'm writing this code:
+[22:23] I'm creating something called "company.
+[22:26] " I'm creating a structure called "
+[22:32] company." And inside it, I'm writing "a
+[22:37] sup dot find all sup dot find all." And
+[22:44] inside it, I'm passing a div because I
+[22:46] need to extract the div. What's its
+[22:48] class? We just copied this one. If you
+[22:52] run this and calculate the length of
+[22:55] the company, it's 30. One for each
+[22:57] company. So I've extracted the entire
+[22:59] div. Now what we'll do is we'll run a
+[23:03] loop for i in company. Okay? So what
+[23:06] are we doing now? We're going inside a
+[23:07] div every time. So far, right? We're
+[23:10] going inside a div every time. And
+[23:12] extracting one element at a time. Okay?
+[23:16] We're extracting the company name.
+[23:19] We're extracting everything. And what
+[23:20] are we going to put that in? We'll put
+[23:22] it in an empty list. Yeah, okay. Okay.
+[23:25] Let's do one thing. Here I've created
+[23:28] an empty list by saying name. Okay? So
+[23:31] if I write this, look carefully. I dot
+[23:35] find all, and if I put H2 inside it, it
+[23:40] will find the H2 inside that div. Do
+[23:45] you understand this? Before, we were
+[23:46] searching the entire web page. Now
+[23:49] we're searching inside every div.
+[23:51] Understand this. What have we done?
+[23:52] Listen carefully. It's very simple.
+[23:54] We've converted the entire web page
+[23:56] into 30 divs. Right? Now we're running
+[23:58] a loop over each div. So imagine the
+[24:00] first time the loop runs. When the loop
+[24:02] runs for the first time, we're inside
+[24:04] TCS. Right? Now, what's the score
+[24:06] inside H2 within TCS? The TCS word is
+[24:09] the one we want to extract. So we typed
+[24:11] "Find." Actually, there's no need to
+[24:13] use "Find All." Just "Find" will do. "
+[24:16] Find" means single. "Find All" means
+[24:18] multiple. Right? So I typed "i dot find
+[24:20] ." Right? Now, if I print this, see
+[24:23] what it prints. Look, this is what we
+[24:30] printed. Yes, did you understand? The
+[24:33] first time the loop ran, TCS was
+[24:34] printed. The second time it ran, we
+[24:36] entered the second div and Accenture
+[24:37] was printed. The third div printed
+[24:39] ICICI Bank. Right? Now, if I put text
+[24:42] in front of this and then put a strip
+[24:44] in front of it, only the company names
+[24:47] appear. Right? Now, if I do one thing:
+[24:50] take this whole thing and put it inside
+[24:53] name.append. If I run name.append like
+[25:00] this, what will appear inside name?
+[25:03] Name will be a list containing all the
+[25:05] company names. Look, there's no
+[25:06] difference between before and now. This
+[25:08] time, we're just working inside each
+[25:10] div. That's it. We're going inside each
+[25:12] div on the web page and extracting the
+[25:14] information from within the div. This
+[25:16] will be useful in that case. As I
+[25:17] mentioned a little later, I was having
+[25:19] trouble extracting the public one.
+[25:20] You'll notice this strategy will be
+[25:22] useful there. Ah, after this, we
+[25:24] extract the rating. I guess you're
+[25:26] already getting it. See, you'll do this
+[25:29] . You'll write rating is equal to this
+[25:32] empty, and then you'll write
+[25:34] rating.append.i.dot find all. Why do I
+[25:41] have to do find all this time? This h2
+[25:43] appeared once inside this dif, so I
+[25:46] used find. Find All produces the same
+[25:48] output. But I have to type "Find All"
+[25:50] for Rating here because there are
+[25:52] multiple P tags. Okay? Now, how do I
+[25:54] identify which P tag to use? We
+[25:57] remembered the class and class name. It
+[26:00] was Rating, right? Now, if I run this
+[26:03] code again and type "Rating" here, I
+[26:06] should have ratings for all the
+[26:08] companies. And obviously, what do we
+[26:11] type to extract it? Dot Text Dot Strip.
+[26:15] And here are all my ratings. Is there a
+[26:20] problem? Okay, fine. Let's make it zero
+[26:24] , because it will be a single item.
+[26:25] We're fine. Yes, we're fine. Right.
+[26:30] Because there will only be one item in
+[26:32] that list. So, actually, if you use "
+[26:36] Find All," it will work. Because why
+[26:39] would it work if we used "Find All"?
+[26:41] Think about it. Because there's only
+[26:43] one P named P and "Rating." That means
+[26:46] there won't be any need to do this
+[26:47] again. If you combine these two
+[26:49] elements, then this item is unique
+[26:51] within that div. So, using "Find All"
+[26:53] works. If you use "Find All," then a
+[26:55] single item appears in the list, and to
+[26:57] extract it, we have to use the index of
+[26:59] zero. Right? I used "Find All" when I
+[27:01] think I'll get multiple answers. It's
+[27:03] simple. You use "Find All" when you
+[27:04] think I'll get multiple answers after
+[27:06] performing this operation. It's simple.
+[27:09] Right? Now, I used "Find All" thinking
+[27:12] that the "p" tag with "rating" will
+[27:15] give me multiple answers. But then I
+[27:17] realized that if I combine "p" and "
+[27:20] rating," this happens only once within
+[27:23] a div, and that's for the one with this
+[27:26] rating. So, using "Find All" will still
+[27:29] give me the answer, but that answer
+[27:31] will be inside a list. Because the
+[27:33] default behavior of "Find All" is to
+[27:34] return a list. So if I want to remove
+[27:36] that item, I have to add a zero next to
+[27:38] it. Right? But as soon as I realized,
+[27:41] if it's just one item, why am I doing
+[27:43] Find All? It's a useless extra step. So
+[27:45] I simply did Find. So I didn't find the
+[27:47] list. I found the item directly and
+[27:49] placed a text dot strip over it. The
+[27:52] substantive question to ask is, will
+[27:54] what I'm searching for give me multiple
+[27:57] values or a single value? So we've
+[27:59] extracted two things: the name and the
+[28:01] rating. Okay? Now what are we doing?
+[28:03] Extracting the third thing: the number
+[28:05] of reviews. Okay? So we're clicking
+[28:07] again and hovering over it, and this is
+[28:11] an A tag. Okay? And an A tag with a
+[28:13] class of review count. So I'm going to
+[28:16] copy this and use it in a moment. So
+[28:19] again, we'll go back and create one
+[28:22] more link by the name of a what is that
+[28:24] ? reviews. Reviews will be an empty
+[28:27] list. And this time we'll write reviews
+[28:32] dot append i dot find, put a inside,
+[28:36] and we're putting in a class, so that's
+[28:41] it. Next, let's just put text again,
+[28:44] and next, let's put strip, and now
+[28:47] we're running. We have three items,
+[28:50] reviews. Here we are. We have three
+[28:56] lists of 30 pages each, and we've done
+[28:58] three things. After that, the main
+[29:01] thing we worked so hard on is
+[29:03] extracting these four items. Okay? For
+[29:05] the next one, let's see a minor
+[29:07] demonstration first; you'll understand
+[29:09] the concept. Okay? If you notice here,
+[29:13] what's actually inside the company? The
+[29:15] company we created had 30 items, and
+[29:18] within those 30 items, there are
+[29:20] actually all the divs. Look, this is a
+[29:23] huge thing. It has all the divs. TCS
+[29:25] has a whole div. Accenture has a whole
+[29:28] div. ICICI has a whole div. Can you
+[29:30] tell me, if I want to extract the div
+[29:32] for TCS here, what do I have to write?
+[29:35] If we just write this, whose div is
+[29:36] this? This entire code that came up,
+[29:38] this entire code belongs to TCS. Right?
+[29:40] If I type one here, I'll get the div
+[29:42] for the second company. Right? So far,
+[29:44] it's fine. Now, look carefully, what
+[29:46] I'm trying to explain is that our
+[29:48] problem here was that when we were
+[29:50] going over this, we realized that its p
+[29:53] and its class are exactly similar to
+[29:55] its p and its class, its p and its
+[29:57] class, and its p and its class. So,
+[29:59] technically, I have no way to
+[30:01] differentiate between these two. That
+[30:04] was my problem. That was my problem.
+[30:06] Now, tell me one thing, if I write this
+[30:09] code: Find All with P and Class
+[30:12] Underscore Equal to One in any of these
+[30:15] , if we pick the class name of any of
+[30:18] these, it was probably something like '
+[30:21] Info Entity'. Ah...if we hover over it,
+[30:25] if I copy the name 'Info Entity' and
+[30:28] paste it here, tell me what will happen
+[30:34] if I run this code? It will be a list,
+[30:35] and the list will contain how many
+[30:37] items? Four, exactly. Look. So I have
+[30:40] Public. I have Mumbai. I have 52 Years
+[30:44] Old. Now tell me, if I want to get
+[30:46] Public, what will I write? Zero, its
+[30:48] dot, and the dot is gone. If I want to
+[30:51] get the second item, let's say I want
+[30:53] to get Mumbai plus 43 cities, what will
+[30:55] I write? I will replace zero with one
+[30:57] here. If I change Mumbai plus two, it
+[31:00] will be 52 Years Old. If I change it to
+[31:03] three, it will be four, because it
+[31:05] doesn't exist. Did you understand this?
+[31:08] If you understand this code, then you
+[31:09] understand almost what's going to
+[31:11] happen here. Okay? Now, look what we're
+[31:13] doing. The code is very simple. So
+[31:14] we're creating four variables above.
+[31:16] Okay? The first variable is a company
+[31:18] type. Let's call it c type. Initially,
+[31:21] it would be empty. Then for h
+[31:24] headquarters, let's call it hq again
+[31:27] empty. Then there would be a how old?
+[31:31] Let's call it old. And there will be
+[31:34] one more for employees. Now tell me
+[31:36] yourselves, guys. A here it says
+[31:39] company zero. So what do you need to
+[31:42] write inside this loop? Instead of
+[31:43] company zero, put i. Right? This code
+[31:45] is very simple. Just copy the i dot
+[31:48] next and paste it here. Okay? C type
+[31:53] dot append and write this code here.
+[31:55] I'm done. Okay? That's it. I'm done.
+[31:59] I'm done. I need one last
+[32:01] thing. A what is this thing. A this
+[32:05] about thing. Okay? So, the same thing
+[32:07] again, going into Inspect and clicking
+[32:11] on this, and clicking on this...yes,
+[32:14] this is 'P' and its class is '
+[32:17] Description'. This is straightforward,
+[32:19] so write it down quickly. So we'll
+[32:21] write 'Desc'. And, hey, forget it,
+[32:24] remove this description. I mean, let's
+[32:27] do this much first, forget about the
+[32:29] description, no needless effort. That's
+[32:31] done, now tell me what's the last thing
+[32:32] ? If we've formed all the lists, what
+[32:34] do I do next? Form a data frame. We
+[32:38] discussed the logic for forming a data
+[32:39] frame yesterday. I'm coming out. And
+[32:42] here, d equals a, I'm creating columns.
+[32:46] So, the first column is Name, and it
+[32:48] will hold the value of this list. Then
+[32:51] the second column will be Rating. And
+[32:55] after Rating, you'll write Rating
+[33:00] Reviews, Reviews, then C Type, and here
+[33:10] again C Type. Actually, we could write
+[33:15] the company type here, or just the type
+[33:18] , to improve readability. We could
+[33:21] write HQ (headquarters), how old, old
+[33:35] bolt, and the last one is employees,
+[33:38] and its value is employees. A PD.dot
+[33:42] data frame will pass the dictionary.
+[33:46] Let's call this to be equal to DF and
+[33:49] let's print out DF. Yes, we're getting
+[33:51] an index error somewhere. Okay? Let's
+[33:55] run this once. What's the DF returning?
+[34:01] What's its size? There should be one
+[34:03] company missing, right? Okay, no. We
+[34:07] missed one, right? So basically, it's
+[34:09] going to be null there. Which company
+[34:11] is it? This one, Cocentrics. Okay,
+[34:18] that's fine. Here we go, guys, we've
+[34:20] fetched the first page, and here are
+[34:22] its details. Now, tell me what's the
+[34:24] next step? We'll run another loop like
+[34:27] we did yesterday. Yes, there are 333
+[34:30] pages in total, right? So we won't run
+[34:32] it all the way to 333, it'll die
+[34:34] because it'll take too long. I'm going
+[34:36] to demonstrate up to 10 pages. You guys
+[34:37] can do the rest. Okay, you know what we
+[34:39] need to do next. What do we need to do?
+[34:42] We'll run a for loop in a range of 1 to
+[34:49] 11. And then we'll first create a data
+[34:53] frame outside. Let's call it final. The
+[34:56] final will be the PD.dot data frame. It
+[35:00] will be an empty data frame. And then
+[35:03] what do we do inside? First, we'll make
+[35:09] the entire request. So, we'll copy this
+[35:12] piece of code. The entire request will
+[35:16] be created each time before entering
+[35:18] the loop. After entering the loop. So
+[35:20] this is the code. Yes. So, I'm doing
+[35:22] one thing. I'm creating a variable
+[35:24] called URL outside. And I'm cutting
+[35:26] this whole thing from here and pasting
+[35:28] it here. And just at the end, where it
+[35:31] says "one," I'm formatting it to make
+[35:33] it dynamic. So, I've written J here and
+[35:37] passed the URL here. Okay? That's it.
+[35:41] The request has been created. Now we go
+[35:43] up and copy this code. A: This one soup
+[35:48] created where. Paste it. And paste this
+[35:56] one in another line. And then just pick
+[36:04] up all the code from there. This entire
+[36:08] code will be copied. We did this
+[36:10] yesterday, exactly the same. So we'll
+[36:13] copy this code (Control C) and paste it
+[36:21] below it. The indentation is messed up.
+[36:25] So we'll say, "Yes, this is done." Now,
+[36:34] just one last thing remains. A: Here,
+[36:36] we'll write "final equals final dot,"
+[36:40] this is the same. It's exactly the same
+[36:42] code as yesterday. Final dot up end.
+[36:44] And here, we'll just put in the df.
+[36:46] Let's run it. It'll take a little time.
+[36:52] We're hitting 10 pages. We're fetching
+[36:54] data from there. We're scraping it and
+[36:55] adding it to the data frame. Let's see.
+[36:59] Okay, here, the index repeat, so yes,
+[37:01] the index started repeating. We made a
+[37:03] mistake, right? What should I do? Final
+[37:05] dot shape 300 companies ka data nikal
+[37:07] hai 10 pages me. Isn't it right? 10*30
+[37:09] so ek kaam kar raha hoon main. main
+[37:12] bada thot le raha hoon. Ignore
+[37:14] index. First of all true kar raha hoon.
+[37:17] Aur phir main bhagwan ka naam leke 33
+[37:25] good night guys. So I hope you like my
+[37:30] editing skills. Koi problem nahi hua
+[37:32] aapko samjhed mein. If you face any
+[37:36] problem you can always contact me via
+[37:38] comments and you can also ping me on
+[37:40] WhatsApp. Ok? If you like the video
+[37:44] guys please consider subscribing.
+[37:46] Thanks for watching. Bye.

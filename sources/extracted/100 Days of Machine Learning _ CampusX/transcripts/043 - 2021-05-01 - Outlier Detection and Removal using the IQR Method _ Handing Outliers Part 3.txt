@@ -1,0 +1,305 @@
+# Outlier Detection and Removal using the IQR Method | Handing Outliers Part 3
+# https://www.youtube.com/watch?v=Ccv1-W5ilak
+
+Hi guys, welcome to my YouTube channel. We are studying outlier removal and detection. And today we will learn the second technique, which is outlier detection and removal using IQR and box plots. So, let's start. So guys, before starting, it should be clear when you specifically use this method. You use this method when the distribution of your data is a bit skewed. Right? When it's not a normal distribution, but skewed. That is when you use this method. Right? Now, let's talk about this method—what happens in it? To use this method, you should have knowledge of two or three things. First of all, what is a box plot? Second, what is IQR? You should know these two things. Right? So, what you see on your screen right now is what we call a box plot, and you can plot a box plot for any numerical column, and it looks roughly like this. Right? Now, what happens in a box plot is that it contains your percentiles. I hope you already know about percentiles. So, percentiles mean, for example, 25th percentile, 50th percentile—which you call the median—then the 75th percentile, and the 100th percentile. So, I guess you know the meaning of a percentile—that 100th percentile means 100%of the values in that column are below that particular value. Like, I will give you an example. Let's say we have an age column. And here we have different values: 72, 89, 15, 16, and let's say our 100th percentile value is 89, so it means that all other values are less than 89. That is what the 100th percentile is. Right? And the 0th percentile means the 100%value is the maximum value. I mean, I will explain it in simpler terms. The maximum value is the 100th percentile value, and the 0th percentile value is the minimum value. Meaning, there is no value smaller than this. Right? The 25th percentile means that 25%of the values are less than this particular value. The 50th percentile means half the values are less than this current value. That is why it is called the median. Right? So, this box plot is plotted entirely based on percentile values. Right? So, here you can see that first of all, this point—this particular point—is your Q1, which means the 25th percentile. This point is your Q3, which means the 75th percentile. Right? And this point here is your median, meaning the 50th percentile. Okay? After that, there are whiskers in a box plot. The thing you see here, this is called a whisker. Okay? Just like cats have whiskers. And how are these whiskers calculated? Using this formula. Q3 + 1.5 times IQR. Okay? We understand Q3 is the 75th percentile. What is IQR? So, IQR is this range. The range you see here is basically the difference between the 75th percentile and the 25th percentile. So, if you have calculated your percentile values, you can find the IQR very easily. So, how is your maximum calculated? By this formula. Q3 + 1.5 times IQR, and similarly, how is your minimum value calculated? Q1-1.5 times IQR, and any values in your data on the other side of these values are considered outliers by your box plot. Like here, you can see these four values are coming outside our whiskers. So, you can call them outliers. And this entire thing, this formula, is called the IQR proximity rule. Okay? So, this is also a way to find outliers in a skewed distribution. So, if you have any skewed distribution that is not normal. You can apply this approach to it to detect and remove its outliers. So, the plan is very simple, guys. What will we do? We will have some data. First of all, we will find a column in that data that is not normally distributed. It will be skewed. Okay? And then what will we do? We will calculate the IQR for that particular column. We will find its Q1. We will find its Q3. And then we will find its upper limit and lower limit. And whatever values are outside these upper and lower limits, we will consider them outliers and either trim them or cap them. We will discuss both approaches. Okay? So, let's start with the coding part. So, I have already written the code. I will just walk you through this code. This is exactly the same dataset we used in the last video. The placement dataset. So, you can see our dataset consists of three columns: the student's CGPA, their marks in the placement exam, and finally, whether they were placed or not. This is placement cell data from a college, and here, when I plotted the distribution and PDF for these two columns, I saw that age is fairly normally distributed, whereas the placement exam marks column is skewed. Right? And you can actually find this using the Pandas skew method as well. pd dot, actually not pd dot, df placement exam marks dot skew, if I calculate that, you can see it's 0.83. Right? So, it is right-skewed. Okay? If I did the same for age—no, I'm sorry —if I did it for CGPA, it would be very close to zero. You can see -0.01, which is very close to zero because it is normally distributed. So, we can clearly see that there is one column here. A column that can be a candidate for the IQR method. Right? So, let's do that. Now, what did I do? Just one second. I have actually opened the wrong notebook. That was the day four notebook. So, I will just run this one more time. Everything is the same, same data. And here is our data plot. And then, what did I do? I described the placement exam marks. You can see there is data for 1000 students. The mean mark is 32. Right? The standard deviation is 19. Some even got zero marks, and 25%of the students scored below 17. 50%of the students scored below 28, and 75%of the students scored below 44. And there is some incredible topper who got 100 marks in such a difficult paper. So, hats off. Congrats. So now, I will quickly show you the box plot. In the box plot, you can see that since this is right-skewed data, your outliers are on the right side, meaning on the higher side; so these are your outliers. So now, our job is just to identify and fetch them from the data, and then perform whatever operation we need to perform on them. Either we will do trimming or we will do capping. I will show you both. Right? So, it is very simple. First of all, what do you need to do? Calculate the IQR. To calculate the IQR, you need the 25th percentile and the 75th percentile. So, first I calculated the 25th percentile by calling the quantile function on this column and passing 0.25 to it. And when I ran this, I mean if I run this cell, here is my 25th percentile value, 17. You might have noticed in the describe function above that the 25th percentile is 17. Right? Similarly, your 75th percentile is 44. We can cross-check that if we put 75 here, it is 44. Right? So now, if I want to calculate my IQR, I just need to do Q3-Q1, and I will get my IQR. That is 27. Right? Now, what will be my upper limit? My upper limit will be Q3 + 1.5 times the IQR, and my lower limit will be Q1-1.5 times the IQR, and here are my numbers. So you can see the upper limit is coming out to be quite low. It is just 84. And the lower limit, well, there won't be any outliers on the lower limit side because the minimum marks are zero. We are allowing up to -23.5. So, whatever issues arise will be on the upper limit side. Right? So now comes the question. Let's find out the outliers. It's very simple. I applied this condition on this column and found about 15 outliers. Here are those students. 94, 86, 86, 93, 90; these are all students who are scoring higher than our designated value. So they are outliers. Right? And obviously, there won't be any on the lower limit. Because the lower limit is -23 and the minimum value is zero. So we won't find any outliers on this side. So first, let me show you trimming. In the case of trimming, I didn't do anything special. I just applied the condition that I only want those rows where the value in the placement exam marks column is less than the upper limit. And I stored it in a new data frame. And when I looked at it, 15 rows were removed. And I am left with only 985 rows. I removed 15 outliers. And then I compared the old data and the new data side-by-side. So I can see that there isn't much change in the distribution. Just, you can see at this point, the curve has flattened a bit. Right? Because the values on this side were removed. The values over here were removed, so the curve flattened a bit. Right? And in the box plot, you can see all outliers are gone. I just don't understand why this one is still being considered an outlier. I'll just have to check about the new DF. But yeah, more or less, we have removed all the outliers by trimming. Okay? Now, let's say you're saying that 15 is a very large number. I shouldn't have done trimming. I should have done capping. So, you can do that very easily too. As I told you in the last video. We are doing exactly the same thing. I copied the original data frame into this new data frame. And I applied the np.where logic. I told you about np.where in the last video. In np.where, what you do is send three things. In np.where, you send three things. The first is the condition. If the condition is true, what to do? If it is false, what to do? Okay? If this condition is true, what to do? And if it is false, what to do? So, what did I do? I applied np.where on this particular column and set the condition that if any row value in this column is greater than the upper limit, I will replace that value with the upper limit. If not, I will check if any row value in that column is less than the lower limit. If it is, I will replace it with the lower limit. If both these conditions are not true, I will let the value remain as it is. In simpler terms, I am taking every value of that particular column and asking, are you greater than the upper limit? If yes, then your value becomes the upper limit. If not, I am checking, are you smaller than the lower limit? If yes, then you become the lower limit. If you are neither, then stay exactly as you are. Okay? That code is written right here. And after running this code, you can see that the shape of my new data frame is still 1000 rows. We didn't eliminate any rows. And then, when I plotted them side-by-side, you can see that in the box plot, we clearly have no outliers. And here, if you look at the PDF, you can see it has risen slightly in these areas. The reason for that is that all the values beyond that point were capped at 84. So, your distribution has increased around 84 because those values are now more frequent in your data. There are 15 extra values. Okay? So that's it. That is all it is. I mean, this is a fairly simple method. Let me summarize for you that if you have a column that is skewed and not normally distributed. On such data, you should apply the IQR proximity rule to calculate the upper and lower limits. Any values outside these upper and lower limits can be considered outliers. And then it is your decision whether you want to trim them or cap them. In both cases, your outliers will be removed from your system. Okay? So I hope you understood this entire technique. It is very simple. Try it out on some data and see. That's it. And you don't have to do anything more than this. So yeah, that's it for the video. Thanks for watching. Bye.
+
+
+[00:00] Hi guys, welcome to my YouTube channel.
+[00:02] We are studying outlier removal and
+[00:04] detection. And today we will learn the
+[00:07] second technique, which is outlier
+[00:08] detection and removal using IQR and box
+[00:11] plots. So, let's start. So guys, before
+[00:14] starting, it should be clear when you
+[00:17] specifically use this method. You use
+[00:20] this method when the distribution of
+[00:22] your data is a bit skewed. Right? When
+[00:25] it's not a normal distribution, but
+[00:27] skewed. That is when you use this
+[00:29] method. Right? Now, let's talk about
+[00:32] this method—what happens in it? To
+[00:35] use this method, you should have
+[00:38] knowledge of two or three things. First
+[00:41] of all, what is a box plot? Second,
+[00:47] what is IQR? You should know these two
+[00:51] things. Right? So, what you see on your
+[00:54] screen right now is what we call a box
+[00:57] plot, and you can plot a box plot for
+[00:59] any numerical column, and it looks
+[01:01] roughly like this. Right? Now, what
+[01:04] happens in a box plot is that it
+[01:06] contains your percentiles. I hope you
+[01:09] already know about percentiles. So,
+[01:12] percentiles mean, for example, 25th
+[01:15] percentile, 50th percentile—which you
+[01:18] call the median—then the 75th
+[01:20] percentile, and the 100th percentile.
+[01:24] So, I guess you know the meaning of a
+[01:27] percentile—that 100th percentile
+[01:30] means 100%of the values in that column
+[01:33] are below that particular value. Like,
+[01:36] I will give you an example. Let's say
+[01:38] we have an age column. And here we have
+[01:42] different values: 72, 89, 15, 16, and
+[01:46] let's say our 100th percentile value is
+[01:51] 89, so it means that all other values
+[01:55] are less than 89. That is what the
+[01:59] 100th percentile is. Right? And the 0th
+[02:02] percentile means the 100%value is the
+[02:05] maximum value. I mean, I will explain
+[02:07] it in simpler terms. The maximum value
+[02:09] is the 100th percentile value, and the
+[02:11] 0th percentile value is the minimum
+[02:13] value. Meaning, there is no value
+[02:16] smaller than this. Right? The 25th
+[02:19] percentile means that 25%of the values
+[02:22] are less than this particular value.
+[02:26] The 50th percentile means half the
+[02:28] values are less than this current value
+[02:30] . That is why it is called the median.
+[02:32] Right? So, this box plot is plotted
+[02:35] entirely based on percentile values.
+[02:38] Right? So, here you can see that first
+[02:41] of all, this point—this particular
+[02:44] point—is your Q1, which means the
+[02:47] 25th percentile. This point is your Q3,
+[02:51] which means the 75th percentile. Right?
+[02:54] And this point here is your median,
+[02:56] meaning the 50th percentile. Okay?
+[02:59] After that, there are whiskers in a box
+[03:01] plot. The thing you see here, this is
+[03:03] called a whisker. Okay? Just like cats
+[03:07] have whiskers. And how are these
+[03:09] whiskers calculated? Using this formula
+[03:12] . Q3 + 1.5 times IQR. Okay? We
+[03:17] understand Q3 is the 75th percentile.
+[03:19] What is IQR? So, IQR is this range. The
+[03:24] range you see here is basically the
+[03:26] difference between the 75th percentile
+[03:29] and the 25th percentile. So, if you
+[03:32] have calculated your percentile values,
+[03:35] you can find the IQR very easily. So,
+[03:38] how is your maximum calculated? By this
+[03:41] formula. Q3 + 1.5 times IQR, and
+[03:44] similarly, how is your minimum value
+[03:48] calculated? Q1-1.5 times IQR, and any
+[03:53] values in your data on the other side
+[03:56] of these values are considered outliers
+[04:00] by your box plot. Like here, you can
+[04:05] see these four values are coming
+[04:08] outside our whiskers. So, you can call
+[04:11] them outliers. And this entire thing,
+[04:15] this formula, is called the IQR
+[04:19] proximity rule. Okay? So, this is also
+[04:26] a way to find outliers in a skewed
+[04:31] distribution. So, if you have any
+[04:34] skewed distribution that is not normal.
+[04:37] You can apply this approach to it to
+[04:41] detect and remove its outliers. So, the
+[04:44] plan is very simple, guys. What will we
+[04:46] do? We will have some data. First of
+[04:49] all, we will find a column in that data
+[04:52] that is not normally distributed. It
+[04:55] will be skewed. Okay? And then what
+[04:57] will we do? We will calculate the IQR
+[05:00] for that particular column. We will
+[05:02] find its Q1. We will find its Q3. And
+[05:05] then we will find its upper limit and
+[05:07] lower limit. And whatever values are
+[05:10] outside these upper and lower limits,
+[05:13] we will consider them outliers and
+[05:16] either trim them or cap them. We will
+[05:18] discuss both approaches. Okay? So,
+[05:21] let's start with the coding part. So, I
+[05:24] have already written the code. I will
+[05:27] just walk you through this code. This
+[05:30] is exactly the same dataset we used in
+[05:32] the last video. The placement dataset.
+[05:35] So, you can see our dataset consists of
+[05:38] three columns: the student's CGPA,
+[05:40] their marks in the placement exam, and
+[05:43] finally, whether they were placed or
+[05:45] not. This is placement cell data from a
+[05:50] college, and here, when I plotted the
+[05:54] distribution and PDF for these two
+[05:57] columns, I saw that age is fairly
+[06:01] normally distributed, whereas the
+[06:04] placement exam marks column is skewed.
+[06:09] Right? And you can actually find this
+[06:12] using the Pandas skew method as well.
+[06:15] pd dot, actually not pd dot, df
+[06:19] placement exam marks dot skew, if I
+[06:24] calculate that, you can see it's 0.83.
+[06:30] Right? So, it is right-skewed. Okay? If
+[06:33] I did the same for age—no, I'm sorry
+[06:36] —if I did it for CGPA, it would be
+[06:38] very close to zero. You can see -0.01,
+[06:41] which is very close to zero because it
+[06:43] is normally distributed. So, we can
+[06:45] clearly see that there is one column
+[06:48] here. A column that can be a candidate
+[06:51] for the IQR method. Right? So, let's do
+[06:55] that. Now, what did I do? Just one
+[06:59] second. I have actually opened the
+[07:03] wrong notebook. That was the day four
+[07:06] notebook. So, I will just run this one
+[07:10] more time. Everything is the same, same
+[07:13] data. And here is our data plot. And
+[07:17] then, what did I do? I described the
+[07:20] placement exam marks. You can see there
+[07:24] is data for 1000 students. The mean
+[07:27] mark is 32. Right? The standard
+[07:30] deviation is 19. Some even got zero
+[07:33] marks, and 25%of the students scored
+[07:37] below 17. 50%of the students scored
+[07:41] below 28, and 75%of the students scored
+[07:44] below 44. And there is some incredible
+[07:47] topper who got 100 marks in such a
+[07:49] difficult paper. So, hats off. Congrats
+[07:53] . So now, I will quickly show you the
+[07:56] box plot. In the box plot, you can see
+[07:59] that since this is right-skewed data,
+[08:01] your outliers are on the right side,
+[08:03] meaning on the higher side; so these
+[08:06] are your outliers. So now, our job is
+[08:09] just to identify and fetch them from
+[08:11] the data, and then perform whatever
+[08:12] operation we need to perform on them.
+[08:15] Either we will do trimming or we will
+[08:17] do capping. I will show you both. Right
+[08:20] ? So, it is very simple. First of all,
+[08:22] what do you need to do? Calculate the
+[08:24] IQR. To calculate the IQR, you need the
+[08:27] 25th percentile and the 75th percentile
+[08:29] . So, first I calculated the 25th
+[08:31] percentile by calling the quantile
+[08:34] function on this column and passing
+[08:36] 0.25 to it. And when I ran this, I mean
+[08:40] if I run this cell, here is my 25th
+[08:43] percentile value, 17. You might have
+[08:46] noticed in the describe function above
+[08:48] that the 25th percentile is 17. Right?
+[08:50] Similarly, your 75th percentile is 44.
+[08:54] We can cross-check that if we put 75
+[08:56] here, it is 44. Right? So now, if I
+[09:01] want to calculate my IQR, I just need
+[09:04] to do Q3-Q1, and I will get my IQR.
+[09:07] That is 27. Right? Now, what will be my
+[09:10] upper limit? My upper limit will be Q3
+[09:14] + 1.5 times the IQR, and my lower limit
+[09:18] will be Q1-1.5 times the IQR, and here
+[09:22] are my numbers. So you can see the
+[09:25] upper limit is coming out to be quite
+[09:27] low. It is just 84. And the lower limit
+[09:29] , well, there won't be any outliers on
+[09:31] the lower limit side because the
+[09:33] minimum marks are zero. We are allowing
+[09:36] up to -23.5. So, whatever issues arise
+[09:39] will be on the upper limit side. Right?
+[09:41] So now comes the question. Let's find
+[09:42] out the outliers. It's very simple. I
+[09:44] applied this condition on this column
+[09:47] and found about 15 outliers. Here are
+[09:50] those students. 94, 86, 86, 93, 90;
+[09:53] these are all students who are scoring
+[09:56] higher than our designated value. So
+[09:59] they are outliers. Right? And obviously
+[10:01] , there won't be any on the lower limit
+[10:03] . Because the lower limit is -23 and
+[10:05] the minimum value is zero. So we won't
+[10:07] find any outliers on this side. So
+[10:09] first, let me show you trimming. In the
+[10:11] case of trimming, I didn't do anything
+[10:12] special. I just applied the condition
+[10:14] that I only want those rows where the
+[10:16] value in the placement exam marks
+[10:17] column is less than the upper limit.
+[10:20] And I stored it in a new data frame.
+[10:23] And when I looked at it, 15 rows were
+[10:26] removed. And I am left with only 985
+[10:29] rows. I removed 15 outliers. And then I
+[10:32] compared the old data and the new data
+[10:35] side-by-side. So I can see that there
+[10:39] isn't much change in the distribution.
+[10:43] Just, you can see at this point, the
+[10:45] curve has flattened a bit. Right?
+[10:48] Because the values on this side were
+[10:49] removed. The values over here were
+[10:51] removed, so the curve flattened a bit.
+[10:52] Right? And in the box plot, you can see
+[10:55] all outliers are gone. I just don't
+[10:56] understand why this one is still being
+[10:58] considered an outlier. I'll just have
+[11:00] to check about the new DF. But yeah,
+[11:03] more or less, we have removed all the
+[11:05] outliers by trimming. Okay? Now, let's
+[11:08] say you're saying that 15 is a very
+[11:10] large number. I shouldn't have done
+[11:12] trimming. I should have done capping.
+[11:14] So, you can do that very easily too. As
+[11:16] I told you in the last video. We are
+[11:18] doing exactly the same thing. I copied
+[11:20] the original data frame into this new
+[11:22] data frame. And I applied the np.where
+[11:24] logic. I told you about np.where in the
+[11:26] last video. In np.where, what you do is
+[11:29] send three things. In np.where, you
+[11:32] send three things. The first is the
+[11:35] condition. If the condition is true,
+[11:39] what to do? If it is false, what to do?
+[11:42] Okay? If this condition is true, what
+[11:44] to do? And if it is false, what to do?
+[11:46] So, what did I do? I applied np.where
+[11:49] on this particular column and set the
+[11:52] condition that if any row value in this
+[11:55] column is greater than the upper limit,
+[11:58] I will replace that value with the
+[12:01] upper limit. If not, I will check if
+[12:05] any row value in that column is less
+[12:08] than the lower limit. If it is, I will
+[12:11] replace it with the lower limit. If
+[12:14] both these conditions are not true, I
+[12:16] will let the value remain as it is. In
+[12:18] simpler terms, I am taking every value
+[12:21] of that particular column and asking,
+[12:24] are you greater than the upper limit?
+[12:27] If yes, then your value becomes the
+[12:29] upper limit. If not, I am checking, are
+[12:32] you smaller than the lower limit? If
+[12:34] yes, then you become the lower limit.
+[12:36] If you are neither, then stay exactly
+[12:38] as you are. Okay? That code is written
+[12:40] right here. And after running this code
+[12:44] , you can see that the shape of my new
+[12:47] data frame is still 1000 rows. We
+[12:50] didn't eliminate any rows. And then,
+[12:54] when I plotted them side-by-side, you
+[12:57] can see that in the box plot, we
+[12:59] clearly have no outliers. And here, if
+[13:03] you look at the PDF, you can see it has
+[13:06] risen slightly in these areas. The
+[13:09] reason for that is that all the values
+[13:11] beyond that point were capped at 84. So
+[13:14] , your distribution has increased
+[13:15] around 84 because those values are now
+[13:17] more frequent in your data. There are
+[13:19] 15 extra values. Okay? So that's it.
+[13:22] That is all it is. I mean, this is a
+[13:23] fairly simple method. Let me summarize
+[13:26] for you that if you have a column that
+[13:29] is skewed and not normally distributed.
+[13:32] On such data, you should apply the IQR
+[13:35] proximity rule to calculate the upper
+[13:37] and lower limits. Any values outside
+[13:41] these upper and lower limits can be
+[13:43] considered outliers. And then it is
+[13:46] your decision whether you want to trim
+[13:48] them or cap them. In both cases, your
+[13:51] outliers will be removed from your
+[13:53] system. Okay? So I hope you understood
+[13:55] this entire technique. It is very
+[13:56] simple. Try it out on some data and see
+[13:58] . That's it. And you don't have to do
+[14:00] anything more than this. So yeah,
+[14:01] that's it for the video. Thanks for
+[14:03] watching. Bye.

@@ -1,0 +1,263 @@
+# AdaBoost Hyperparameters | GridSearchCV in Adaboost
+# https://www.youtube.com/watch?v=JmXnztjULnQ
+
+Hello guys, my name is Nitish. Welcome to my YouTube channel. We are studying the AdaBoost algorithm. In the last three videos, we discussed in detail how AdaBoost works. Now in this video, we will learn about AdaBoost's hyperparameters, how to implement AdaBoost in scikit-learn, and finally, we will also perform hyperparameter tuning for this algorithm. So, let's start. Unlike Gradient Boosting and XGBoost, where there are many hyperparameters. AdaBoost is a slightly simpler algorithm. You won't find that many hyperparameters here. Right? So, precisely there are only three to four hyperparameters that you need to study. I will give you a quick introduction to these hyperparameters. Then we will implement them practically. So here, you have the main four hyperparameters. I am not counting the last one, random state, because you only use random state for result consistency. The first one is the base estimator. It is a boosting algorithm. If you want, you can use an algorithm other than a decision tree or decision stump. But mostly, you will see the best results with a decision tree having a max depth equal to one. That is why it says here: the base estimator from which the boosted ensemble is built. Support for sample weighting is required, as well as proper classes and n_classes attributes. If None, then the base estimator is a DecisionTreeClassifier initialized with max_depth = 1. Right? You can use logistic regression here. You can use SVM here. KNN doesn't work here because it doesn't have the feature to take sample weights. So, because of that, KNN does not work here. But again, practically speaking, 99.9%of the time, you only need to use decision trees. So, this is a parameter that you don't really touch much. Right? The next parameter is perhaps the most important one. The n_estimators hyperparameter. Basically, how many base models you want to use. Right? So, it is written here: the maximum number of estimators at which boosting is terminated. In case of perfect fit, the learning procedure is stopped early. Right? If it finds a decision tree in between that makes zero mistakes, then your learning stops right there. But if it doesn't find such a thing, then this many base models will be trained. All right? I hope you are understanding this. Next is learning rate. I haven't taught you this yet. Learning rate is basically the rate applied to each classifier at each boosting iteration. A higher learning rate increases the contribution of each classifier. There is a trade-off between the learning rate and n_estimators parameter. So, the entire hyperparameter tuning here is based on these two. All right? I will tell you more about the learning rate in detail shortly. Next is algorithm. There are only two algorithms here. One is SAMME and one is SAMME.R. All right? By default, you should use SAMME.R. It is written here. It typically converges faster than SAMME and achieves a lower test error with fewer boosting iterations. So, most of the time it will help you. Otherwise, you can use GridSearchCV to check. All right? So, these are the three or four hyperparameters we have. Now, I will show you practically how to tune them. So, if you go here, I have created a notebook. Here I have created a dataset of my own. A classification dataset that looks like this. And what did I do on this? I applied an AdaBoost classifier without any hyperparameter tuning. I used the default values. Meaning decision tree max depth 1, 50 estimators, learning rate value 1, and the algorithm value. All right? And when I trained it, my accuracy came out to be 78. All right? After that, I plotted it and after plotting, this is my output on that data. And you can see some mistakes are happening. Some yellow points are in the blue region and some blue points are in the yellow region. All right? Now, let's talk about these hyperparameters one by one. First of all, we will talk about n_estimators, what happens if you increase or decrease n_estimators? So, first of all, I will do one thing. I will set n_estimators equal to 1 here. Meaning, I am taking only one base model, one decision stump. I hope you can imagine what will happen. This is the output. This is your decision boundary. And obviously, it is way too simplistic and this is a clear-cut case of underfitting. All right? It is not working well. But as you increase it, you would see that it will show some complex behavior. This is 50, which we just saw earlier. If you set this to 150, you will start seeing overfitting behavior. Small regions will start to form. Which indicates that you are overfitting. All right? So, if you set it to 500 here, it starts showing too much overfitting. All right? If you set it to 1500, it will be a clear-cut case of overfitting and it will take more time because you have to train that many decision stumps. Look, these are very tiny regions and this is not a good thing. So, you need to find an optimum value for n_estimators. Too low leads to underfitting. Too high leads to overfitting. You need to find a value in between. All right? Now, here comes an interesting thing, and that is the learning rate. So, if you remember, I told you that whenever you calculate alpha for any decision stump, its formula is 1/2*log ((1-error)/error). All right? Now, what is the learning rate? The learning rate is, if you remember, what did we used to do? When we calculated alpha, that alpha was 1/2 *log ((1-error)/error). Now, what the learning rate does is that it gets multiplied by alpha. All right? It gets multiplied by alpha. So, by default, the value of your learning rate is one. That is why your alpha remains as it is. But you can increase or decrease the LR value if you want. Generally, you decrease it, making it less than one. All right? Suppose, what did you do? You set it to 0.1. Setting it to 0.1 will cause your alpha to also be reduced 10 times. Now, think about what reducing alpha does. Reducing the alphas leads to something called shrinkage. You will read more about this in boosting later. What happens in shrinkage? A very good explanation is given here. See, it is written here that decreasing the learning rate makes the coefficients, alpha_m, smaller. All right? Just as I told you, the value of alpha will decrease. Now, what will happen because the value of alpha decreases? It will reduce the amplitude of sample weights at each stage. Now, I told you that what do you have to do? You have to use this alpha to update the weights. How? Current weight multiplied by e to the power minus alpha for your correctly classified points, and current weight multiplied by e to the power alpha for misclassified points. Now think about it. If this alpha decreases, if this alpha reduces, then the amplitude of your update will decrease. A decrease in amplitude means if it was growing in the negative, it will grow less in the negative. If it was growing in the positive, it will grow less in the positive as well. That is what a decrease in amplitude means. And that translates into smaller variations of weighted data points, and therefore fewer differences between the weak classifiers 'decision boundaries. So basically, if you keep adding more and more weak learners, its effect is reduced. Right? So in short, you can say, as written here, the idea is to slow down learning to dramatically reduce overfitting. So the core concept here is that you can increase the n_estimators. What happens by increasing them? Overfitting. But what can you do here? You can decrease the learning rate. By decreasing the learning rate to one, your overfitting will be reduced. Because as soon as you decrease the learning rate, the alpha decreases. With the decrease in alpha, the weights being updated are now updating less, and because their amplitude is reduced, learning is not happening as fast. The speed of learning decreased, so the speed of overfitting will also decrease, and the resulting output you get will look like this. Let me show you. Look here, there is some smoothing happening. Right? So this is called the shrinkage parameter. Right? You can use the learning rate very intelligently to avoid overfitting while using AdaBoost. Right? Many people don't use this parameter. But if you use n_estimators and the learning rate together, you can unleash the true power of AdaBoost. Right? Now, the last thing I want to show you quickly is how you can apply GridSearch CV on this. So what did I do? I created a grid dictionary where I put some values for n_estimators. You can try even more values. For the learning rate, I tried values from very low up to one and added both variations of the algorithm. Created a class called GridSearch CV. Passed the estimator value there. Passed my grid into the AdaBoost parameter grid. Set n_jobs to minus one. Because the process will become a bit faster. Cross-validation 10 and scoring accuracy, and now I am storing the grid results here. And this is my output, guys: 83. Before, when I did it manually, it was coming out to be 78, but by applying GridSearchCV, I was able to reach 83. The algorithm, in this case, is surprisingly the same, and the learning rate of one is the best, with 500 n-estimators. Okay? So, tuning and using AdaBoost is not that difficult. It is one of those easier boosting algorithms that, if you have a little understanding of these two parameters, you can use very easily. Okay? Now, you should also pick up a dataset and try it out. Apply everything you learned in this video. I hope you liked the video. Thanks for watching. Bye.
+
+
+[00:00] Hello guys, my name is Nitish. Welcome
+[00:02] to my YouTube channel. We are studying
+[00:04] the AdaBoost algorithm. In the last
+[00:07] three videos, we discussed in detail
+[00:09] how AdaBoost works. Now in this video,
+[00:12] we will learn about AdaBoost's
+[00:15] hyperparameters, how to implement
+[00:17] AdaBoost in scikit-learn, and finally,
+[00:20] we will also perform hyperparameter
+[00:23] tuning for this algorithm. So, let's
+[00:26] start. Unlike Gradient Boosting and
+[00:30] XGBoost, where there are many
+[00:31] hyperparameters. AdaBoost is a slightly
+[00:35] simpler algorithm. You won't find that
+[00:37] many hyperparameters here. Right? So,
+[00:39] precisely there are only three to four
+[00:41] hyperparameters that you need to study.
+[00:44] I will give you a quick introduction to
+[00:45] these hyperparameters. Then we will
+[00:48] implement them practically. So here,
+[00:50] you have the main four hyperparameters.
+[00:55] I am not counting the last one, random
+[00:58] state, because you only use random
+[01:01] state for result consistency. The first
+[01:04] one is the base estimator. It is a
+[01:07] boosting algorithm. If you want, you
+[01:11] can use an algorithm other than a
+[01:14] decision tree or decision stump. But
+[01:19] mostly, you will see the best results
+[01:22] with a decision tree having a max depth
+[01:25] equal to one. That is why it says here:
+[01:28] the base estimator from which the
+[01:31] boosted ensemble is built. Support for
+[01:34] sample weighting is required, as well
+[01:36] as proper classes and n_classes
+[01:38] attributes. If None, then the base
+[01:41] estimator is a DecisionTreeClassifier
+[01:44] initialized with max_depth = 1. Right?
+[01:47] You can use logistic regression here.
+[01:50] You can use SVM here. KNN doesn't work
+[01:53] here because it doesn't have the
+[01:54] feature to take sample weights. So,
+[01:57] because of that, KNN does not work here
+[01:59] . But again, practically speaking, 99.9
+[02:03] %of the time, you only need to use
+[02:05] decision trees. So, this is a parameter
+[02:08] that you don't really touch much. Right
+[02:11] ? The next parameter is perhaps the
+[02:13] most important one. The n_estimators
+[02:16] hyperparameter. Basically, how many
+[02:19] base models you want to use. Right? So,
+[02:22] it is written here: the maximum number
+[02:24] of estimators at which boosting is
+[02:26] terminated. In case of perfect fit, the
+[02:28] learning procedure is stopped early.
+[02:31] Right? If it finds a decision tree in
+[02:34] between that makes zero mistakes, then
+[02:36] your learning stops right there. But if
+[02:39] it doesn't find such a thing, then this
+[02:42] many base models will be trained. All
+[02:45] right? I hope you are understanding
+[02:47] this. Next is learning rate. I haven't
+[02:49] taught you this yet. Learning rate is
+[02:52] basically the rate applied to each
+[02:54] classifier at each boosting iteration.
+[02:58] A higher learning rate increases the
+[03:00] contribution of each classifier. There
+[03:02] is a trade-off between the learning
+[03:04] rate and n_estimators parameter. So,
+[03:06] the entire hyperparameter tuning here
+[03:08] is based on these two. All right? I
+[03:11] will tell you more about the learning
+[03:13] rate in detail shortly. Next is
+[03:15] algorithm. There are only two
+[03:17] algorithms here. One is SAMME and one
+[03:19] is SAMME.R. All right? By default, you
+[03:21] should use SAMME.R. It is written here.
+[03:24] It typically converges faster than
+[03:26] SAMME and achieves a lower test error
+[03:28] with fewer boosting iterations. So,
+[03:31] most of the time it will help you.
+[03:34] Otherwise, you can use GridSearchCV to
+[03:36] check. All right? So, these are the
+[03:38] three or four hyperparameters we have.
+[03:41] Now, I will show you practically how to
+[03:43] tune them. So, if you go here, I have
+[03:46] created a notebook. Here I have created
+[03:48] a dataset of my own. A classification
+[03:51] dataset that looks like this. And what
+[03:54] did I do on this? I applied an AdaBoost
+[03:57] classifier without any hyperparameter
+[03:59] tuning. I used the default values.
+[04:02] Meaning decision tree max depth 1, 50
+[04:04] estimators, learning rate value 1, and
+[04:07] the algorithm value. All right? And
+[04:10] when I trained it, my accuracy came out
+[04:14] to be 78. All right? After that, I
+[04:17] plotted it and after plotting, this is
+[04:21] my output on that data. And you can see
+[04:24] some mistakes are happening. Some
+[04:26] yellow points are in the blue region
+[04:28] and some blue points are in the yellow
+[04:29] region. All right? Now, let's talk
+[04:32] about these hyperparameters one by one.
+[04:35] First of all, we will talk about
+[04:37] n_estimators, what happens if you
+[04:39] increase or decrease n_estimators? So,
+[04:43] first of all, I will do one thing. I
+[04:45] will set n_estimators equal to 1 here.
+[04:47] Meaning, I am taking only one base
+[04:48] model, one decision stump. I hope you
+[04:50] can imagine what will happen. This is
+[04:52] the output. This is your decision
+[04:55] boundary. And obviously, it is way too
+[04:57] simplistic and this is a clear-cut case
+[05:00] of underfitting. All right? It is not
+[05:02] working well. But as you increase it,
+[05:06] you would see that it will show some
+[05:09] complex behavior. This is 50, which we
+[05:12] just saw earlier. If you set this to
+[05:15] 150, you will start seeing overfitting
+[05:18] behavior. Small regions will start to
+[05:20] form. Which indicates that you are
+[05:22] overfitting. All right? So, if you set
+[05:25] it to 500 here, it starts showing too
+[05:28] much overfitting. All right? If you set
+[05:30] it to 1500, it will be a clear-cut case
+[05:32] of overfitting and it will take more
+[05:34] time because you have to train that
+[05:36] many decision stumps. Look, these are
+[05:39] very tiny regions and this is not a
+[05:40] good thing. So, you need to find an
+[05:43] optimum value for n_estimators. Too low
+[05:45] leads to underfitting. Too high leads
+[05:47] to overfitting. You need to find a
+[05:49] value in between. All right? Now, here
+[05:52] comes an interesting thing, and that is
+[05:54] the learning rate. So, if you remember,
+[05:58] I told you that whenever you calculate
+[06:01] alpha for any decision stump, its
+[06:04] formula is 1/2*log ((1-error)/error).
+[06:09] All right? Now, what is the learning
+[06:10] rate? The learning rate is, if you
+[06:14] remember, what did we used to do? When
+[06:19] we calculated alpha, that alpha was 1/2
+[06:26] *log ((1-error)/error). Now, what the
+[06:33] learning rate does is that it gets
+[06:35] multiplied by alpha. All right? It gets
+[06:39] multiplied by alpha. So, by default,
+[06:42] the value of your learning rate is one.
+[06:45] That is why your alpha remains as it is
+[06:47] . But you can increase or decrease the
+[06:49] LR value if you want. Generally, you
+[06:51] decrease it, making it less than one.
+[06:53] All right? Suppose, what did you do?
+[06:54] You set it to 0.1. Setting it to 0.1
+[06:59] will cause your alpha to also be
+[07:01] reduced 10 times. Now, think about what
+[07:04] reducing alpha does. Reducing the
+[07:07] alphas leads to something called
+[07:09] shrinkage. You will read more about
+[07:11] this in boosting later. What happens in
+[07:13] shrinkage? A very good explanation is
+[07:15] given here. See, it is written here
+[07:17] that decreasing the learning rate makes
+[07:19] the coefficients, alpha_m, smaller. All
+[07:22] right? Just as I told you, the value of
+[07:24] alpha will decrease. Now, what will
+[07:26] happen because the value of alpha
+[07:27] decreases? It will reduce the amplitude
+[07:30] of sample weights at each stage. Now, I
+[07:34] told you that what do you have to do?
+[07:36] You have to use this alpha to update
+[07:38] the weights. How? Current weight
+[07:42] multiplied by e to the power minus
+[07:44] alpha for your correctly classified
+[07:47] points, and current weight multiplied
+[07:50] by e to the power alpha for
+[07:52] misclassified points. Now think about
+[07:55] it. If this alpha decreases, if this
+[07:59] alpha reduces, then the amplitude of
+[08:02] your update will decrease. A decrease
+[08:06] in amplitude means if it was growing in
+[08:09] the negative, it will grow less in the
+[08:12] negative. If it was growing in the
+[08:15] positive, it will grow less in the
+[08:16] positive as well. That is what a
+[08:18] decrease in amplitude means. And that
+[08:21] translates into smaller variations of
+[08:23] weighted data points, and therefore
+[08:25] fewer differences between the weak
+[08:27] classifiers 'decision boundaries. So
+[08:31] basically, if you keep adding more and
+[08:34] more weak learners, its effect is
+[08:36] reduced. Right? So in short, you can
+[08:40] say, as written here, the idea is to
+[08:43] slow down learning to dramatically
+[08:46] reduce overfitting. So the core concept
+[08:49] here is that you can increase the
+[08:52] n_estimators. What happens by
+[08:54] increasing them? Overfitting. But what
+[08:56] can you do here? You can decrease the
+[08:58] learning rate. By decreasing the
+[09:00] learning rate to one, your overfitting
+[09:02] will be reduced. Because as soon as you
+[09:04] decrease the learning rate, the alpha
+[09:06] decreases. With the decrease in alpha,
+[09:10] the weights being updated are now
+[09:12] updating less, and because their
+[09:13] amplitude is reduced, learning is not
+[09:16] happening as fast. The speed of
+[09:19] learning decreased, so the speed of
+[09:21] overfitting will also decrease, and the
+[09:23] resulting output you get will look like
+[09:25] this. Let me show you. Look here, there
+[09:30] is some smoothing happening. Right? So
+[09:32] this is called the shrinkage parameter.
+[09:34] Right? You can use the learning rate
+[09:37] very intelligently to avoid overfitting
+[09:39] while using AdaBoost. Right? Many
+[09:42] people don't use this parameter. But if
+[09:46] you use n_estimators and the learning
+[09:48] rate together, you can unleash the true
+[09:51] power of AdaBoost. Right? Now, the last
+[09:54] thing I want to show you quickly is how
+[09:56] you can apply GridSearch CV on this. So
+[09:58] what did I do? I created a grid
+[10:00] dictionary where I put some values for
+[10:02] n_estimators. You can try even more
+[10:05] values. For the learning rate, I tried
+[10:07] values from very low up to one and
+[10:09] added both variations of the algorithm.
+[10:11] Created a class called GridSearch CV.
+[10:13] Passed the estimator value there.
+[10:15] Passed my grid into the AdaBoost
+[10:17] parameter grid. Set n_jobs to minus one
+[10:20] . Because the process will become a bit
+[10:22] faster. Cross-validation 10 and scoring
+[10:25] accuracy, and now I am storing the grid
+[10:28] results here. And this is my output,
+[10:31] guys: 83. Before, when I did it
+[10:34] manually, it was coming out to be 78,
+[10:37] but by applying GridSearchCV, I was
+[10:40] able to reach 83. The algorithm, in
+[10:43] this case, is surprisingly the same,
+[10:45] and the learning rate of one is the
+[10:47] best, with 500 n-estimators. Okay? So,
+[10:50] tuning and using AdaBoost is not that
+[10:53] difficult. It is one of those easier
+[10:56] boosting algorithms that, if you have a
+[10:58] little understanding of these two
+[11:00] parameters, you can use very easily.
+[11:03] Okay? Now, you should also pick up a
+[11:05] dataset and try it out. Apply
+[11:07] everything you learned in this video. I
+[11:09] hope you liked the video. Thanks for
+[11:11] watching. Bye.

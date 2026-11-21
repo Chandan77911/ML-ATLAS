@@ -1,0 +1,675 @@
+# Introduction to Random Forest | Intuition behind the Algorithm
+# https://www.youtube.com/watch?v=F9uESCHGjhA
+
+Hello guys, welcome to my YouTube channel. In this video, we're going to start with a machine learning algorithm that you'll use in every project. It's so powerful and so flexible that any project you're doing in the machine learning domain will definitely use this algorithm. Right? This algorithm's name is Random Forest. I hope you've heard of it before. Right? Now, in this video and the next two or three videos, we'll learn all about Random Forest in detail. So let's start the video. So, the best thing about Random Forest is that it's an algorithm that consistently delivers excellent results on every type of machine learning problem. Right? This, along with Gradient Boosting and XG Boost, is one of two algorithms that performs well on every machine learning problem. Right? That's the first good part about Random Forest. The second good thing is that random forests can be applied to both regression and classification problems. The third, which is especially great for beginners, is that the computer scientist who created random forests (I don't know their name), but he wrote in his paper that random forests are an algorithm that doesn't require much tuning out of the box. Meaning, even if you don't tinker with its settings too much, its performance remains excellent. In fact, you'll notice in the future that if you're using random forests in any project, along with other algorithms, without touching any parameters, random forests always give you the best results most of the time. Okay? Now let's talk about what you need to know to study random forests. So, random forests are an equivalent technique. Okay? So, to study this, you should first understand decision trees. If you don't have an idea of a decision tree, you won't understand anything about random forests because a random forest is basically a collection of trees. A collection of trees is why it's called a forest. Okay? Second, it's actually a bagging technique. The algorithm we just covered was bagging operations. Okay? Now, I've covered bagging operations in great detail. But if you don't know that, you might have a little trouble with this video. I'll try to teach you from scratch, but it's still recommended that you watch the bagging video first. Okay? So, let's start with random forests. So, the first thing you should know clearly about random forests is why it's called random forests. Okay? Let's talk about why it's called random forests. So, there are two words here: random and forest. You can easily justify the word forest. Because here you train multiple decision trees together. That's why we call it a forest. So, it's basically a group of trees. And forest is a logical name for a group of trees. Second, where does the word "random" come from? The word "random" comes from the fact that random forest is a bagging-based technique. It's a bagging technique. And I told you in the bagging video that the full form of bagging is "boot strap." Aggregation. Right. Now, this " boot strap" comes from the fact that you're sampling here. What is sampling? Randomly selecting data. Right? So, this randomly selected section of data is where the word "random" comes from. Right? So, I hope you've first understood why it's called "random forest." Right? Now, it's a bagging technique. Essentially, it's a bagging technique. I taught you about the bagging technique, that you can use any base algorithm. Right? You can use KN. You can use SBM. You can use any base algorithm. But if you use a decision tree as the base algorithm in bagging, you call it a random forest. Right? So, the most important point is that this is the bagging technique. But the bagging technique has a specialization. And what is that specialization? If you're using all the models in the bagging technique as decision trees, then it becomes a random forest. There are some other minor differences, but we'll learn about them a little later. Okay? Now, for those who don't understand bagging or haven't seen a video on bagging, let me explain how it all works. Let's assume you don't understand bagging. So, I'll explain from scratch how a random forest works. Okay? So, it's very simple. Look, let's say you have a data set with 1,000 days. Okay? 1,000 days. Any number of columns. Let's say you have a data set. Okay? Now, what do you do here? You work in two steps. So, what do you do in the first step? You pick a bunch of base models. And all of these base models are decision trees. It's always a random forest, so a decision tree will be the base model. Okay? So, this is decision tree one. This is decision tree two. This is decision tree three. Dot dot dot, let's say we have 100 decision trees. So the last one is decision tree 100. Okay? Now, what you do is you give this data to each decision tree to train, but you don't give it all the data; what you do is you create samples out of your data. Okay? So, you do two ways of sampling. The first is sampling. Actually, you do sampling in three ways. The first is row sampling. Let me give you an example of row sampling. Let's say you decided to give 500 rows to each base model and each decision tree. How many rows did you have in total? 1000. But you decided to give only 500 rows to each base model. Right? And how will those 500 rows be decided? Because our data has different rows. Like 1, 2, 3, 4, 5, and so on, there are 1000 rows. But only 500 of these rows will go into this first decision tree. Which ones? We don't decide this. They are selected randomly. Right? So, randomly, we selected one, we selected 18, we selected 32, we selected 43, we selected 103. So on and on. In this way, we selected 500 different rows. We selected 500 different rows. And you can call this row, that is, this data form you created, D1. You give this D1 to the first decision tree to train. Okay? Now, the selection that's happening here also has two types. One is with sampling and without sampling. So, I guess you know, sorry, I'm sorry, I completely mispronounced "with replacement" and "without replacement." Replacement is the word. I'm sorry, with replacement and without replacement. So, let me give you an example of "with replacement." Suppose you want to give your first decision tree data of 500 rows and you're doing row sampling with replacement. Row sampling with replacement. So, suppose the first row you randomly selected was one. Now you have one in your new data set. But you returned this one row. This means it's available for selection again. When you selected it a second time, it returned 42. Then, when you selected it a third time, it returned 1. Why? Because you're using with replacement. You're picking one row and putting it back in. So, it could be selected again. This means that the data set you get here has a chance of having duplicate rows. If you're talking about using with replacement, but if you're talking about using without replacement, then there won't be any duplicate rows. Okay? So, that's what I was telling you: what you do? In the case of random forests, you take multiple base models, which are decision trees. Then, you feed data to each decision tree. That data is actually a subset of your actual data set. Okay? Now, there are three ways to generate those subsets. The first is row sampling. The second is column sampling. What you do in column sampling is you do the same thing on columns. So, suppose you have 10 columns, and for the first decision tree, you decided that each decision tree would have only five columns. Each decision tree would have only five columns. So, when you're deciding for the first decision tree, you'll randomly choose five columns from the 10. Okay? Then, for the second decision tree, you'll randomly choose five columns. And you'll do this for every decision tree. So, this sampling is done on columns. That's why it's called feature sampling. Row sampling is done on rows, feature sampling is done on features, edge sampling is done on columns. And there are two types of it: one with replacement and the other without replacement. With replacement, there may be duplicates. Without replacement, there won't be duplicates. Okay? And the third type, I guess you can guess, is a combination of these. So, you're sampling based on both. You're extracting subsets of the days, and subsets of the columns. Okay? So, what are you doing in short? Let me summarize it all. When you're training your model, what is your model made of? Multiple smaller models. And those smaller models are decision trees. Okay? So, you give each decision tree a subset of data. How that subset of data is created depends on three things: either you do row sampling, or you do column sampling, or you do combined sampling. Okay? And then you're giving each one its own respective data. Here you're giving D2. Here you're giving D3. Here you're giving D00. And you train all these decision trees. Now, since each decision tree is getting different data, each decision tree will see different data. For example, this decision tree might look like this. It might look like this. This decision tree might look like this. This decision tree might look like this. Right? Since you're feeding different data to each decision tree, each decision tree will train differently. Okay? What do you do next? Now that all your decision trees have been trained, you come to the second step. The first step was boot-stepping, which we just saw. This is bootstaping, which we just did. The second is aggregation. What you do in aggregation is that when you need to make a prediction, you use the aggregation step. So, you have all your decision trees trained. You have 100 decision trees trained. And let's say this is a classification problem. Now you have a new query point whose class you need to determine. So you give that decision point to each decision tree. Given to every decision tree. Now, since every decision tree can make a prediction, it predicted whether it should be one or zero. Like this. Okay? Right? Now, in the aggregation step, what you do is you ask how many decision trees said zero? Let's say 43 trees out of 100 said its label is zero, and 157 said it. Now, since 57 is greater than 43, most decision trees are saying that the label of this incoming query point should be one. Now you say its label will be one. And that is what aggregation is. Aggregation means the most frequent or most common thing, you assume, like democracy. Okay? If this were a regression problem, what would you do? You would again give the query point to everyone. Okay? What would happen this time? Instead of zero, one would come back. A number would come back. What would you do with that number? Calculate the mean, and you'd get your regression output. Okay? So, in a nutshell, that's what a random forest is. What I just taught you is the same thing I taught you in the previous video when I taught bagging. The only difference here is that the base models are decision trees. And there's a very important difference, which I'll cover a little later when I teach you about bagging versus random forest. But let's summarize at this point. Since we've covered a lot, let's summarize that random forest is a bagging-based technique. Bagging means boot-step aggregation. Bootstepping means you have multiple models. You give each model a subset of data. Now, how is that subset of data created? It depends on three things. First, are you using row sampling? Second, are you using column sampling? Third, are you using a combined approach? Okay? And then you train all the models on a subset of the data and then use the aggregation step to make predictions. So that's the whole thing. Random Forest is exactly similar to bagging. Nothing different. There's a small difference that we'll cover later. Before that, I want to show you a little demo of the benefits of using Random Forest. Okay? So, we'll see that next. So, guys, to explain Random Forest to you, I've created a step-by-step demo. Now, this isn't a perfect demo. Meaning, not everything I've shown here is exactly what happens inside a Random Forest. It's a loose demo to explain the concept. But everything is not true. I'll explain what's wrong. But this whole thing will give you a basic understanding of Random Forest. Okay? So, let's start with the demo. First, I've generated a data set. Okay? Using the make classification function. And this is the data set. This data set has five input columns and one output column. And this is a classification problem. Okay? Now, here I've created three different functions. One function is called sample rows. If you give it a data frame and tell it a percentage, it will randomly sample from it and give it to you. So, if you have a data frame with 100 rows and you call this function and say, "Give me 50%of the data randomly." What will this function do? It will randomly generate 50%of the rows from that data frame and give it to you. Okay? Then I created a similar function called "sample features," which will do the same thing, but on columns. And then I created another function called "combined sampling," which will do the same thing on both. So, you can extract rows, meaning subsets of rows and columns. Let me first show you using sample rows. Okay? So what am I going to do? I explained earlier that a random forest is nothing but a collection of decision trees. So, the random forest we're going to create will consist of three decision trees. So, I need to feed all three of them data. The data I have now is this, which has 100 rows and a total of six columns. Right? What am I going to do now? I'm going to create three separate data sets. How am I going to create all three? Using row sampling. Okay? Now, to do the row sampling, I'm going to call the sampleRows function. Here, I'm going to send my original data frame and specify a percentage of the original data that the new data I want should contain. So, I'm saying I only want 10%of the data. So, if my original data set had 100 rows, then the new data set I want will only have 10 rows. Okay? So as I run this, you can see that here, these 10 rows have been randomly selected. Okay? Now, this is with replacement. Meaning, there could be duplicates here. I don't see any duplicates here, but there could be. Meaning, it's not necessary that there won't be any. For example, look here, 52 and 52 appear twice. In fact, three times. Okay? There could be other duplicates here as well. So, I've done row sampling with replacement. Okay? So, for now, I'm just doing point one. So this is df1. This is the first data set that I'll give to my first decision tree. I've run it like this. Okay? Then I'm calling the same function again, giving my original data set and sending point1 again, and you can see that this time a different data set has come in. Okay? I'm calling this df2. df2, okay? And similarly, I'll generate one more data set for the third decision tree. I'll call it df3. Everything else is the same. Okay? So far, there's no problem. Now, if you extract the shape of any of these: df1: Dot Shape 10 6 df2: Dot Shape 10 6 df3: Shape 10 6 The shape will be the same. Okay? So what did I do? I called the decision tree classifier and created three objects. So far, it's exactly the same. Now what do I do? I need to train the model. So, what do I do to train the model? I'll give all the rows of df1. And where do I put the columns? I'll give the first five columns. So, I'll give them from zero to four. 4 will be the last column. And as soon as I run this, all three decision trees are trained. Then I call the plot tree function. And here is my first decision tree. This is my first decision tree. This is my second decision tree. And this is my third decision tree. And if you look, you'll start to see the differences. For example, there's a zero and a five here. Meaning, five samples came in the left node, and five samples came in the right node. Where as in this one, there are seven samples in the left node, and three samples in this one. Okay? And if we go to the top, there are seven and three here too. In fact, let's do one thing. Let's rerun the entire code again. Let's hope the tree becomes a little different. So I'll rerun the entire code and see what difference it makes. Because every time the selection is random, the decision tree will also be different. This time a combination of 64 is coming. This time a combination of 55 is coming. And look, this is a completely different decision tree. In fact, let's do one thing. For a little more visible change, what we can do is rather than having 10%a day. Let's have 20%a day. 20%20%and I'm training everything again. Here's my first decision tree. 13 plus a total of 20. 8 plus a total of 20. And 1 plus 8 plus 11. Okay? So we have three different decision trees. Okay? Now tomorrow a new point comes. Let's say a new point comes. I'll pick a point from here. Let's say this point comes. This is this point. Okay? Now its target, its prediction, should be zero. So what I'm going to do is I'm going to pass this inside the np.dot array and I'm going to put commas everywhere like this. Okay? And I'm going to reshape it to 1 5 and I'm going to put it in the CLF one. So I'm asking the first decision tree, "What should the output of this point be?" And the number of features of one matches the input. Why is the number of features four? We just wrote one second. So what did we do wrong? We wrote 0 to 4 here. So 0, 1, 2, 3, so the train is in four columns. There should be five here. My bat, we were wrong from the beginning. There should be five here. So I'll run it again. And here's my first decision tree. It's getting a little deeper now. Here's my second decision tree. It's a little different. And here's my third decision tree. It's also quite different. Okay? And I'm making it 1, 5. So, according to the first, it should be zero. According to the second, I'll copy this entire code and I'll paste it over here. And I'll run it. It should be zero. And let's see what the third one should be. It should also be one according to the third one. So since two decision trees are returning zero and one decision tree is returning one, then going by majority count, you would say the output prediction for this query point should be one, I'm sorry, zero. Okay? So that's how row sampling works. Similarly, you can do column sampling as well. Let me show you quickly. What am I doing this time? I'm going to call it "Rather Than Sample Row." I'm going to call " SampleFeatures" and I'm going to pass it "df." There are five input columns in df. And what am I doing? I'm doing it by point. 70%, so total five total. Okay, okay, okay total. There's a problem. The problem with my code is that the percentage I've calculated should be of df, dot shape -1; because you don't count the target column. That's why. Once I run this code again, it's gone. Or, so now I'm saying, let's say give me 50%columns, give me 50% columns, so I have five columns in the total input. You can see that there are five columns in the total input. So 50% is 2.5, and if you round it to an integer, it becomes two. This means that if I run this code, I'll get a new data frame with how many rows? As many as 100 in the original data frame. But how many columns? Only two. Let's see if that works. And you can see 100 rows with two columns. Okay? If I add 8 here, then 8 of five is four. So now after doing this, the data frame we get will have 100 rows but four columns. Let's see. Look, these four columns were randomly generated. Okay? Every time I run this, different things will appear. Look, column two, column one, column five, column four, c columns 1, 2, 5, 3. Okay, and now what you can do with this again is put it in df1 (). This is df1. What I'll do next is copy and paste the same code. So, copy and paste, this is my df2, and this is my df3. So now I have three different data sets. Let's repeat the whole thing by sampling the columns. Okay, one more thing, we can't put a five here because the shape of the data set we have now is a total of four columns. Only four columns are coming. So we'll enter zero to three here. We'll give three. So 0, 1, 2. Copy and paste. Paste. Model trained. Unknown. Label. Continuous. Oh, okay, there's a slight logical issue here. The problem is that the target column isn't there. What we're returning doesn't even include the target column. We need to return the target column as well. So, I need to make a few changes to this code. Ah, I'll do it, and then I'll explain it to you. So, guys, I made the changes. Just a few changes. You can see this code if you want. Now you'll always get a target column back. Let me show you. So, if I run this code again, this warning is coming up because you're making changes to the data frame. And now, look, we only have four columns in the input, but we're getting a target column as well. Okay? So, what do we do now? The next code is very simple. We'll write here: zero to four. zero to four. These are our decision trees trained. Here is our first decision tree. Since there are more rows here, it will be a very deep decision tree. Look, here is our second decision tree. It's a little different from the one above. Yes, it's quite different, and the third one will be different as well. Because you're giving different data. You're giving different columns. Okay? If you want to check, you can check who got which column. For example, df3 has these columns. I'll write "infact, df3 dot columns." I'm printing this out. Copy and paste to one, and you can see that all three data sets are different because they all have different columns. Okay? And that's why the decision tree trained is also very different. And now what will we do? We'll take a new query point again. For example, what I'll do is I'll take df3. This is DF3 and grab this query point or these query points. And the output should be one. So now I'll go to the first decision tree. This is the first decision tree. I'll pass the columns. And this will become 1/4. Look, it should be one. The first one is saying it should be one. Let's see what the second one is saying. So again, we're giving the same input to the second person. He's saying zero. Let's see what the third person is saying. The third person is also saying one. Since two people are saying one and one person is saying zero, the majority count would give you one, which is correct. Okay? So that's how it works. So first, I showed you row sampling. Then I showed you column sampling. There's another function here. Let me run that and show you. And this function is called combined sampling. Okay? So what do I do? I'll show you combined sampling. In combined sampling, you have to provide three elements of your data frame. Then, what percentage of rows do you want? I want five. So, I'll get 50 rows. 0.5 means 50 rows. Since the total number of rows was 100, it would be 50%. And I want the number of columns. 25, or five. Let's take both fives. So five and five columns will become two. Okay? So the resulting data frame I get will have 50 rows and two columns. Let's see if that happens. So you can see. If I run this and calculate its shape, it's coming out to be 50 50 3, of course, because the target column is different. The input will have two columns. The output will have one column. So the total is 50 3. So what do I do now? I'll rewrite it as df1. I'll copy this code. Paste it. This will be df2 and over here. Also, I'll write df3. So now I have three data sets. The rows are different, the columns are different, and there's more randomness. Okay? And let me show you the columns again. Each one has different columns. This one has column one, column five. This one has column five, column one. This one has column three, column two. And what do we do now? Everything will remain the same. This time, the input will be "pe2" here. Run it. The model is trained. Here's my first decision tree. It looks like this. Here's my second decision tree. It looks like this. And here's my third decision tree. It looks like this. So, these two decision trees are somewhat similar. Kind of mirror images. Now let's do one thing. Let's find out for this point. Okay, let's take a point for which we know the answer. So let's do one thing. Print DF3. So we're taking this point. Its answer should be one. Okay? So we'll go down and paste it here. The answer should be one. We know. So we asked the first decision tree. It said we'd have to add a pe2 here while reshaping. It's one. Let's ask the second decision tree. Copy it, it's saying it's zero. And this one is saying it's one. Two people are again saying one, and one is saying zero. So, the output will be one. So, loosely, random forests work this way. I'll share this notebook with you. Please give it a try. You'll get a great intuition about how bagging, or random forests, works internally. Okay? So, next, we'll go through another piece of code to see what benefits a random forest provides. Okay? We'll look at that next.
+
+
+[00:00] Hello guys, welcome to my YouTube
+[00:02] channel. In this video, we're going to
+[00:04] start with a machine learning algorithm
+[00:06] that you'll use in every project. It's
+[00:09] so powerful and so flexible that any
+[00:11] project you're doing in the machine
+[00:13] learning domain will definitely use
+[00:14] this algorithm. Right? This algorithm's
+[00:18] name is Random Forest. I hope you've
+[00:20] heard of it before. Right? Now, in this
+[00:22] video and the next two or three videos,
+[00:25] we'll learn all about Random Forest in
+[00:27] detail. So let's start the video. So,
+[00:31] the best thing about Random Forest is
+[00:33] that it's an algorithm that
+[00:34] consistently delivers excellent results
+[00:36] on every type of machine learning
+[00:38] problem. Right? This, along with
+[00:43] Gradient Boosting and XG Boost, is one
+[00:46] of two algorithms that performs well on
+[00:48] every machine learning problem. Right?
+[00:52] That's the first good part about Random
+[00:54] Forest. The second good thing is that
+[00:57] random forests can be applied to both
+[00:59] regression and classification problems.
+[01:05] The third, which is especially great
+[01:07] for beginners, is that the computer
+[01:09] scientist who created random forests (I
+[01:11] don't know their name), but he wrote in
+[01:14] his paper that random forests are an
+[01:16] algorithm that doesn't require much
+[01:17] tuning out of the box. Meaning, even if
+[01:24] you don't tinker with its settings too
+[01:26] much, its performance remains excellent
+[01:28] . In fact, you'll notice in the future
+[01:33] that if you're using random forests in
+[01:36] any project, along with other
+[01:37] algorithms, without touching any
+[01:39] parameters, random forests always give
+[01:41] you the best results most of the time.
+[01:46] Okay? Now let's talk about what you
+[01:48] need to know to study random forests.
+[01:51] So, random forests are an equivalent
+[01:53] technique. Okay? So, to study this, you
+[01:56] should first understand decision trees.
+[01:58] If you don't have an idea of a decision
+[02:00] tree, you won't understand anything
+[02:02] about random forests because a random
+[02:04] forest is basically a collection of
+[02:06] trees. A collection of trees is why
+[02:08] it's called a forest. Okay? Second,
+[02:10] it's actually a bagging technique. The
+[02:14] algorithm we just covered was bagging
+[02:16] operations. Okay? Now, I've covered
+[02:19] bagging operations in great detail. But
+[02:22] if you don't know that, you might have
+[02:24] a little trouble with this video. I'll
+[02:30] try to teach you from scratch, but it's
+[02:32] still recommended that you watch the
+[02:33] bagging video first. Okay? So, let's
+[02:38] start with random forests. So, the
+[02:42] first thing you should know clearly
+[02:44] about random forests is why it's called
+[02:46] random forests. Okay? Let's talk about
+[02:50] why it's called random forests. So,
+[02:53] there are two words here: random and
+[02:56] forest. You can easily justify the word
+[02:58] forest. Because here you train multiple
+[03:02] decision trees together. That's why we
+[03:06] call it a forest. So, it's basically a
+[03:08] group of trees. And forest is a logical
+[03:12] name for a group of trees. Second,
+[03:15] where does the word "random" come from?
+[03:19] The word "random" comes from the fact
+[03:21] that random forest is a bagging-based
+[03:23] technique. It's a bagging technique.
+[03:27] And I told you in the bagging video
+[03:29] that the full form of bagging is "boot
+[03:31] strap." Aggregation. Right. Now, this "
+[03:43] boot strap" comes from the fact that
+[03:45] you're sampling here. What is sampling?
+[03:50] Randomly selecting data. Right? So,
+[03:53] this randomly selected section of data
+[03:55] is where the word "random" comes from.
+[03:58] Right? So, I hope you've first
+[04:00] understood why it's called "random
+[04:02] forest." Right? Now, it's a bagging
+[04:05] technique. Essentially, it's a bagging
+[04:08] technique. I taught you about the
+[04:10] bagging technique, that you can use any
+[04:12] base algorithm. Right? You can use KN.
+[04:15] You can use SBM. You can use any base
+[04:18] algorithm. But if you use a decision
+[04:23] tree as the base algorithm in bagging,
+[04:25] you call it a random forest. Right? So,
+[04:29] the most important point is that this
+[04:31] is the bagging technique. But the
+[04:34] bagging technique has a specialization.
+[04:36] And what is that specialization? If
+[04:39] you're using all the models in the
+[04:41] bagging technique as decision trees,
+[04:42] then it becomes a random forest. There
+[04:46] are some other minor differences, but
+[04:47] we'll learn about them a little later.
+[04:50] Okay? Now, for those who don't
+[04:53] understand bagging or haven't seen a
+[04:55] video on bagging, let me explain how it
+[04:57] all works. Let's assume you don't
+[05:00] understand bagging. So, I'll explain
+[05:02] from scratch how a random forest works.
+[05:04] Okay? So, it's very simple. Look, let's
+[05:08] say you have a data set with 1,000 days
+[05:11] . Okay? 1,000 days. Any number of
+[05:15] columns. Let's say you have a data set.
+[05:18] Okay? Now, what do you do here? You
+[05:20] work in two steps. So, what do you do
+[05:22] in the first step? You pick a bunch of
+[05:25] base models. And all of these base
+[05:28] models are decision trees. It's always
+[05:30] a random forest, so a decision tree
+[05:32] will be the base model. Okay? So, this
+[05:34] is decision tree one. This is decision
+[05:38] tree two. This is decision tree three.
+[05:40] Dot dot dot, let's say we have 100
+[05:43] decision trees. So the last one is
+[05:45] decision tree 100. Okay? Now, what you
+[05:52] do is you give this data to each
+[05:54] decision tree to train, but you don't
+[05:56] give it all the data; what you do is
+[05:58] you create samples out of your data.
+[06:04] Okay? So, you do two ways of sampling.
+[06:06] The first is sampling. Actually, you do
+[06:09] sampling in three ways. The first is
+[06:11] row sampling. Let me give you an
+[06:14] example of row sampling. Let's say you
+[06:18] decided to give 500 rows to each base
+[06:20] model and each decision tree. How many
+[06:23] rows did you have in total? 1000. But
+[06:26] you decided to give only 500 rows to
+[06:28] each base model. Right? And how will
+[06:32] those 500 rows be decided? Because our
+[06:34] data has different rows. Like 1, 2, 3,
+[06:38] 4, 5, and so on, there are 1000 rows.
+[06:43] But only 500 of these rows will go into
+[06:45] this first decision tree. Which ones?
+[06:48] We don't decide this. They are selected
+[06:50] randomly. Right? So, randomly, we
+[06:53] selected one, we selected 18, we
+[06:56] selected 32, we selected 43, we
+[06:59] selected 103. So on and on. In this way
+[07:04] , we selected 500 different rows. We
+[07:09] selected 500 different rows. And you
+[07:13] can call this row, that is, this data
+[07:15] form you created, D1. You give this D1
+[07:19] to the first decision tree to train.
+[07:22] Okay? Now, the selection that's
+[07:25] happening here also has two types. One
+[07:29] is with sampling and without sampling.
+[07:44] So, I guess you know, sorry, I'm sorry,
+[07:46] I completely mispronounced "with
+[07:48] replacement" and "without replacement."
+[07:52] Replacement is the word. I'm sorry,
+[07:55] with replacement and without
+[07:57] replacement. So, let me give you an
+[08:01] example of "with replacement." Suppose
+[08:05] you want to give your first decision
+[08:07] tree data of 500 rows and you're doing
+[08:09] row sampling with replacement. Row
+[08:12] sampling with replacement. So, suppose
+[08:14] the first row you randomly selected was
+[08:17] one. Now you have one in your new data
+[08:20] set. But you returned this one row.
+[08:23] This means it's available for selection
+[08:25] again. When you selected it a second
+[08:28] time, it returned 42. Then, when you
+[08:31] selected it a third time, it returned
+[08:33] 1. Why? Because you're using with
+[08:35] replacement. You're picking one row and
+[08:37] putting it back in. So, it could be
+[08:39] selected again. This means that the
+[08:43] data set you get here has a chance of
+[08:45] having duplicate rows. If you're
+[08:49] talking about using with replacement,
+[08:51] but if you're talking about using
+[08:52] without replacement, then there won't
+[08:54] be any duplicate rows. Okay? So, that's
+[08:58] what I was telling you: what you do? In
+[09:00] the case of random forests, you take
+[09:02] multiple base models, which are
+[09:04] decision trees. Then, you feed data to
+[09:07] each decision tree. That data is
+[09:10] actually a subset of your actual data
+[09:12] set. Okay? Now, there are three ways to
+[09:15] generate those subsets. The first is
+[09:17] row sampling. The second is column
+[09:19] sampling. What you do in column
+[09:21] sampling is you do the same thing on
+[09:23] columns. So, suppose you have 10
+[09:26] columns, and for the first decision
+[09:29] tree, you decided that each decision
+[09:31] tree would have only five columns. Each
+[09:34] decision tree would have only five
+[09:36] columns. So, when you're deciding for
+[09:38] the first decision tree, you'll
+[09:40] randomly choose five columns from the
+[09:42] 10. Okay? Then, for the second decision
+[09:46] tree, you'll randomly choose five
+[09:48] columns. And you'll do this for every
+[09:50] decision tree. So, this sampling is
+[09:52] done on columns. That's why it's called
+[09:55] feature sampling. Row sampling is done
+[09:57] on rows, feature sampling is done on
+[09:59] features, edge sampling is done on
+[10:01] columns. And there are two types of it:
+[10:03] one with replacement and the other
+[10:05] without replacement. With replacement,
+[10:07] there may be duplicates. Without
+[10:09] replacement, there won't be duplicates.
+[10:11] Okay? And the third type, I guess you
+[10:14] can guess, is a combination of these.
+[10:17] So, you're sampling based on both.
+[10:20] You're extracting subsets of the days,
+[10:22] and subsets of the columns. Okay? So,
+[10:25] what are you doing in short? Let me
+[10:27] summarize it all. When you're training
+[10:30] your model, what is your model made of?
+[10:32] Multiple smaller models. And those
+[10:34] smaller models are decision trees. Okay
+[10:37] ? So, you give each decision tree a
+[10:39] subset of data. How that subset of data
+[10:41] is created depends on three things:
+[10:43] either you do row sampling, or you do
+[10:45] column sampling, or you do combined
+[10:47] sampling. Okay? And then you're giving
+[10:49] each one its own respective data. Here
+[10:52] you're giving D2. Here you're giving D3
+[10:54] . Here you're giving D00. And you train
+[10:57] all these decision trees. Now, since
+[10:59] each decision tree is getting different
+[11:02] data, each decision tree will see
+[11:03] different data. For example, this
+[11:06] decision tree might look like this. It
+[11:11] might look like this. This decision
+[11:13] tree might look like this. This
+[11:18] decision tree might look like this.
+[11:25] Right? Since you're feeding different
+[11:27] data to each decision tree, each
+[11:29] decision tree will train differently.
+[11:31] Okay? What do you do next? Now that all
+[11:34] your decision trees have been trained,
+[11:36] you come to the second step. The first
+[11:38] step was boot-stepping, which we just
+[11:40] saw. This is bootstaping, which we just
+[11:42] did. The second is aggregation. What
+[11:46] you do in aggregation is that when you
+[11:49] need to make a prediction, you use the
+[11:51] aggregation step. So, you have all your
+[11:53] decision trees trained. You have 100
+[11:56] decision trees trained. And let's say
+[11:58] this is a classification problem. Now
+[12:01] you have a new query point whose class
+[12:03] you need to determine. So you give that
+[12:06] decision point to each decision tree.
+[12:09] Given to every decision tree. Now,
+[12:12] since every decision tree can make a
+[12:14] prediction, it predicted whether it
+[12:16] should be one or zero. Like this. Okay?
+[12:22] Right? Now, in the aggregation step,
+[12:25] what you do is you ask how many
+[12:27] decision trees said zero? Let's say 43
+[12:31] trees out of 100 said its label is zero
+[12:34] , and 157 said it. Now, since 57 is
+[12:38] greater than 43, most decision trees
+[12:40] are saying that the label of this
+[12:42] incoming query point should be one. Now
+[12:45] you say its label will be one. And that
+[12:48] is what aggregation is. Aggregation
+[12:50] means the most frequent or most common
+[12:53] thing, you assume, like democracy. Okay
+[12:56] ? If this were a regression problem,
+[12:58] what would you do? You would again give
+[13:01] the query point to everyone. Okay? What
+[13:04] would happen this time? Instead of zero
+[13:06] , one would come back. A number would
+[13:09] come back. What would you do with that
+[13:12] number? Calculate the mean, and you'd
+[13:15] get your regression output. Okay? So,
+[13:18] in a nutshell, that's what a random
+[13:20] forest is. What I just taught you is
+[13:22] the same thing I taught you in the
+[13:24] previous video when I taught bagging.
+[13:27] The only difference here is that the
+[13:29] base models are decision trees. And
+[13:32] there's a very important difference,
+[13:34] which I'll cover a little later when I
+[13:36] teach you about bagging versus random
+[13:38] forest. But let's summarize at this
+[13:41] point. Since we've covered a lot, let's
+[13:44] summarize that random forest is a
+[13:46] bagging-based technique. Bagging means
+[13:50] boot-step aggregation. Bootstepping
+[13:53] means you have multiple models. You
+[13:56] give each model a subset of data. Now,
+[13:59] how is that subset of data created? It
+[14:01] depends on three things. First, are you
+[14:03] using row sampling? Second, are you
+[14:06] using column sampling? Third, are you
+[14:08] using a combined approach? Okay? And
+[14:11] then you train all the models on a
+[14:13] subset of the data and then use the
+[14:15] aggregation step to make predictions.
+[14:18] So that's the whole thing. Random
+[14:20] Forest is exactly similar to bagging.
+[14:23] Nothing different. There's a small
+[14:25] difference that we'll cover later.
+[14:28] Before that, I want to show you a
+[14:30] little demo of the benefits of using
+[14:32] Random Forest. Okay? So, we'll see that
+[14:35] next. So, guys, to explain Random
+[14:37] Forest to you, I've created a
+[14:39] step-by-step demo. Now, this isn't a
+[14:42] perfect demo. Meaning, not everything
+[14:46] I've shown here is exactly what happens
+[14:48] inside a Random Forest. It's a loose
+[14:51] demo to explain the concept. But
+[14:54] everything is not true. I'll explain
+[14:56] what's wrong. But this whole thing will
+[14:59] give you a basic understanding of
+[15:00] Random Forest. Okay? So, let's start
+[15:03] with the demo. First, I've generated a
+[15:06] data set. Okay? Using the make
+[15:09] classification function. And this is
+[15:11] the data set. This data set has five
+[15:14] input columns and one output column.
+[15:16] And this is a classification problem.
+[15:18] Okay? Now, here I've created three
+[15:21] different functions. One function is
+[15:24] called sample rows. If you give it a
+[15:28] data frame and tell it a percentage, it
+[15:29] will randomly sample from it and give
+[15:31] it to you. So, if you have a data frame
+[15:38] with 100 rows and you call this
+[15:40] function and say, "Give me 50%of the
+[15:42] data randomly." What will this function
+[15:46] do? It will randomly generate 50%of the
+[15:48] rows from that data frame and give it
+[15:51] to you. Okay? Then I created a similar
+[15:53] function called "sample features,"
+[15:55] which will do the same thing, but on
+[15:57] columns. And then I created another
+[16:00] function called "combined sampling,"
+[16:02] which will do the same thing on both.
+[16:06] So, you can extract rows, meaning
+[16:08] subsets of rows and columns. Let me
+[16:12] first show you using sample rows. Okay?
+[16:15] So what am I going to do? I explained
+[16:17] earlier that a random forest is nothing
+[16:19] but a collection of decision trees. So,
+[16:22] the random forest we're going to create
+[16:24] will consist of three decision trees.
+[16:26] So, I need to feed all three of them
+[16:28] data. The data I have now is this,
+[16:30] which has 100 rows and a total of six
+[16:32] columns. Right? What am I going to do
+[16:34] now? I'm going to create three separate
+[16:36] data sets. How am I going to create all
+[16:38] three? Using row sampling. Okay? Now,
+[16:41] to do the row sampling, I'm going to
+[16:43] call the sampleRows function. Here, I'm
+[16:47] going to send my original data frame
+[16:49] and specify a percentage of the
+[16:51] original data that the new data I want
+[16:53] should contain. So, I'm saying I only
+[16:58] want 10%of the data. So, if my original
+[17:01] data set had 100 rows, then the new
+[17:04] data set I want will only have 10 rows.
+[17:07] Okay? So as I run this, you can see
+[17:11] that here, these 10 rows have been
+[17:13] randomly selected. Okay? Now, this is
+[17:17] with replacement. Meaning, there could
+[17:19] be duplicates here. I don't see any
+[17:22] duplicates here, but there could be.
+[17:24] Meaning, it's not necessary that there
+[17:26] won't be any. For example, look here,
+[17:29] 52 and 52 appear twice. In fact, three
+[17:32] times. Okay? There could be other
+[17:34] duplicates here as well. So, I've done
+[17:37] row sampling with replacement. Okay? So
+[17:40] , for now, I'm just doing point one. So
+[17:44] this is df1. This is the first data set
+[17:48] that I'll give to my first decision
+[17:50] tree. I've run it like this. Okay? Then
+[17:57] I'm calling the same function again,
+[17:59] giving my original data set and sending
+[18:01] point1 again, and you can see that this
+[18:03] time a different data set has come in.
+[18:08] Okay? I'm calling this df2. df2, okay?
+[18:14] And similarly, I'll generate one more
+[18:16] data set for the third decision tree.
+[18:20] I'll call it df3. Everything else is
+[18:22] the same. Okay? So far, there's no
+[18:26] problem. Now, if you extract the shape
+[18:32] of any of these: df1: Dot Shape 10 6
+[18:35] df2: Dot Shape 10 6 df3: Shape 10 6 The
+[18:39] shape will be the same. Okay? So what
+[18:46] did I do? I called the decision tree
+[18:48] classifier and created three objects.
+[18:51] So far, it's exactly the same. Now what
+[18:55] do I do? I need to train the model. So,
+[18:57] what do I do to train the model? I'll
+[18:59] give all the rows of df1. And where do
+[19:02] I put the columns? I'll give the first
+[19:04] five columns. So, I'll give them from
+[19:06] zero to four. 4 will be the last column
+[19:12] . And as soon as I run this, all three
+[19:16] decision trees are trained. Then I call
+[19:19] the plot tree function. And here is my
+[19:23] first decision tree. This is my first
+[19:26] decision tree. This is my second
+[19:28] decision tree. And this is my third
+[19:31] decision tree. And if you look, you'll
+[19:36] start to see the differences. For
+[19:38] example, there's a zero and a five here
+[19:40] . Meaning, five samples came in the
+[19:43] left node, and five samples came in the
+[19:46] right node. Where as in this one, there
+[19:49] are seven samples in the left node, and
+[19:51] three samples in this one. Okay? And if
+[19:54] we go to the top, there are seven and
+[19:56] three here too. In fact, let's do one
+[19:58] thing. Let's rerun the entire code
+[20:00] again. Let's hope the tree becomes a
+[20:04] little different. So I'll rerun the
+[20:08] entire code and see what difference it
+[20:13] makes. Because every time the selection
+[20:15] is random, the decision tree will also
+[20:16] be different. This time a combination
+[20:19] of 64 is coming. This time a
+[20:23] combination of 55 is coming. And look,
+[20:27] this is a completely different decision
+[20:29] tree. In fact, let's do one thing. For
+[20:32] a little more visible change, what we
+[20:34] can do is rather than having 10%a day.
+[20:37] Let's have 20%a day. 20%20%and I'm
+[20:47] training everything again. Here's my
+[20:53] first decision tree. 13 plus a total of
+[20:58] 20. 8 plus a total of 20. And 1 plus 8
+[21:10] plus 11. Okay? So we have three
+[21:13] different decision trees. Okay? Now
+[21:15] tomorrow a new point comes. Let's say a
+[21:18] new point comes. I'll pick a point from
+[21:20] here. Let's say this point comes. This
+[21:24] is this point. Okay? Now its target,
+[21:26] its prediction, should be zero. So what
+[21:34] I'm going to do is I'm going to pass
+[21:36] this inside the np.dot array and I'm
+[21:38] going to put commas everywhere like
+[21:40] this. Okay? And I'm going to reshape it
+[21:44] to 1 5 and I'm going to put it in the
+[21:46] CLF one. So I'm asking the first
+[21:49] decision tree, "What should the output
+[21:51] of this point be?" And the number of
+[21:54] features of one matches the input. Why
+[21:59] is the number of features four? We just
+[22:13] wrote one second. So what did we do
+[22:19] wrong? We wrote 0 to 4 here. So 0, 1, 2
+[22:22] , 3, so the train is in four columns.
+[22:25] There should be five here. My bat, we
+[22:27] were wrong from the beginning. There
+[22:30] should be five here. So I'll run it
+[22:32] again. And here's my first decision
+[22:45] tree. It's getting a little deeper now.
+[22:49] Here's my second decision tree. It's a
+[22:52] little different. And here's my third
+[22:54] decision tree. It's also quite
+[22:56] different. Okay? And I'm making it 1,
+[22:59] 5. So, according to the first, it
+[23:02] should be zero. According to the second
+[23:07] , I'll copy this entire code and I'll
+[23:09] paste it over here. And I'll run it. It
+[23:16] should be zero. And let's see what the
+[23:19] third one should be. It should also be
+[23:23] one according to the third one. So
+[23:27] since two decision trees are returning
+[23:29] zero and one decision tree is returning
+[23:31] one, then going by majority count, you
+[23:33] would say the output prediction for
+[23:36] this query point should be one, I'm
+[23:38] sorry, zero. Okay? So that's how row
+[23:41] sampling works. Similarly, you can do
+[23:43] column sampling as well. Let me show
+[23:46] you quickly. What am I doing this time?
+[23:49] I'm going to call it "Rather Than
+[23:51] Sample Row." I'm going to call "
+[23:54] SampleFeatures" and I'm going to pass
+[23:56] it "df." There are five input columns
+[23:58] in df. And what am I doing? I'm doing
+[24:03] it by point. 70%, so total five total.
+[24:12] Okay, okay, okay total. There's a
+[24:17] problem. The problem with my code is
+[24:21] that the percentage I've calculated
+[24:23] should be of df, dot shape -1; because
+[24:25] you don't count the target column.
+[24:31] That's why. Once I run this code again,
+[24:36] it's gone. Or, so now I'm saying, let's
+[24:40] say give me 50%columns, give me 50%
+[24:42] columns, so I have five columns in the
+[24:45] total input. You can see that there are
+[24:48] five columns in the total input. So 50%
+[24:50] is 2.5, and if you round it to an
+[24:52] integer, it becomes two. This means
+[24:56] that if I run this code, I'll get a new
+[24:58] data frame with how many rows? As many
+[25:01] as 100 in the original data frame. But
+[25:03] how many columns? Only two. Let's see
+[25:06] if that works. And you can see 100 rows
+[25:09] with two columns. Okay? If I add 8 here
+[25:14] , then 8 of five is four. So now after
+[25:25] doing this, the data frame we get will
+[25:27] have 100 rows but four columns. Let's
+[25:31] see. Look, these four columns were
+[25:34] randomly generated. Okay? Every time I
+[25:37] run this, different things will appear.
+[25:39] Look, column two, column one, column
+[25:42] five, column four, c columns 1, 2, 5,
+[25:47] 3. Okay, and now what you can do with
+[25:50] this again is put it in df1 (). This is
+[25:54] df1. What I'll do next is copy and
+[25:57] paste the same code. So, copy and paste
+[26:02] , this is my df2, and this is my df3.
+[26:07] So now I have three different data sets
+[26:09] . Let's repeat the whole thing by
+[26:11] sampling the columns. Okay, one more
+[26:17] thing, we can't put a five here because
+[26:20] the shape of the data set we have now
+[26:22] is a total of four columns. Only four
+[26:27] columns are coming. So we'll enter zero
+[26:30] to three here. We'll give three. So 0,
+[26:34] 1, 2. Copy and paste. Paste. Model
+[26:42] trained. Unknown. Label. Continuous. Oh
+[26:47] , okay, there's a slight logical issue
+[26:49] here. The problem is that the target
+[26:53] column isn't there. What we're
+[26:56] returning doesn't even include the
+[26:58] target column. We need to return the
+[27:00] target column as well. So, I need to
+[27:02] make a few changes to this code. Ah,
+[27:04] I'll do it, and then I'll explain it to
+[27:06] you. So, guys, I made the changes. Just
+[27:09] a few changes. You can see this code if
+[27:12] you want. Now you'll always get a
+[27:14] target column back. Let me show you. So
+[27:18] , if I run this code again, this
+[27:20] warning is coming up because you're
+[27:22] making changes to the data frame. And
+[27:27] now, look, we only have four columns in
+[27:29] the input, but we're getting a target
+[27:31] column as well. Okay? So, what do we do
+[27:36] now? The next code is very simple.
+[27:38] We'll write here: zero to four. zero to
+[27:42] four. These are our
+[27:46] decision trees trained. Here is our
+[27:48] first decision tree. Since there are
+[27:50] more rows here, it will be a very deep
+[27:52] decision tree. Look, here is our second
+[27:54] decision tree. It's a little different
+[27:57] from the one above. Yes, it's quite
+[28:00] different, and the third one will be
+[28:02] different as well. Because you're
+[28:03] giving different data. You're giving
+[28:05] different columns. Okay? If you want to
+[28:09] check, you can check who got which
+[28:10] column. For example, df3 has these
+[28:14] columns. I'll write "infact, df3 dot
+[28:19] columns." I'm printing this out. Copy
+[28:31] and paste to one, and you can see that
+[28:40] all three data sets are different
+[28:42] because they all have different columns
+[28:44] . Okay? And that's why the decision
+[28:49] tree trained is also very different.
+[28:51] And now what will we do? We'll take a
+[28:54] new query point again. For example,
+[28:56] what I'll do is I'll take df3. This is
+[29:05] DF3 and grab this query point or these
+[29:11] query points. And the output should be
+[29:15] one. So now I'll go to the first
+[29:18] decision tree. This is the first
+[29:20] decision tree. I'll pass the columns.
+[29:28] And this will become 1/4. Look, it
+[29:33] should be one. The first one is saying
+[29:35] it should be one. Let's see what the
+[29:37] second one is saying. So again, we're
+[29:39] giving the same input to the second
+[29:40] person. He's saying zero. Let's see
+[29:49] what the third person is saying. The
+[29:55] third person is also saying one. Since
+[29:57] two people are saying one and one
+[29:59] person is saying zero, the majority
+[30:01] count would give you one, which is
+[30:02] correct. Okay? So that's how it works.
+[30:05] So first, I showed you row sampling.
+[30:07] Then I showed you column sampling.
+[30:09] There's another function here. Let me
+[30:11] run that and show you. And this
+[30:13] function is called combined sampling.
+[30:15] Okay? So what do I do? I'll show you
+[30:18] combined sampling. In combined sampling
+[30:20] , you have to provide three elements of
+[30:22] your data frame. Then, what percentage
+[30:24] of rows do you want? I want five. So,
+[30:27] I'll get 50 rows. 0.5 means 50 rows.
+[30:31] Since the total number of rows was 100,
+[30:33] it would be 50%. And I want the number
+[30:37] of columns. 25, or five. Let's take
+[30:44] both fives. So five and five columns
+[30:47] will become two. Okay? So the resulting
+[30:50] data frame I get will have 50 rows and
+[30:53] two columns. Let's see if that happens.
+[30:59] So you can see. If I run this and
+[31:05] calculate its shape, it's coming out to
+[31:07] be 50 50 3, of course, because the
+[31:09] target column is different. The input
+[31:13] will have two columns. The output will
+[31:14] have one column. So the total is 50 3.
+[31:17] So what do I do now? I'll rewrite it as
+[31:19] df1. I'll copy this code. Paste it.
+[31:31] This will be df2 and over here. Also,
+[31:37] I'll write df3. So now I have three
+[31:41] data sets. The rows are different, the
+[31:43] columns are different, and there's more
+[31:45] randomness. Okay? And let me show you
+[31:48] the columns again. Each one has
+[31:50] different columns. This one has column
+[31:52] one, column five. This one has column
+[31:54] five, column one. This one has column
+[31:56] three, column two. And what do we do
+[31:57] now? Everything will remain the same.
+[32:00] This time, the input will be "pe2" here
+[32:03] . Run it. The model is trained. Here's
+[32:10] my first decision tree. It looks like
+[32:14] this. Here's my second decision tree.
+[32:19] It looks like this. And here's my third
+[32:21] decision tree. It looks like this. So,
+[32:25] these two decision trees are somewhat
+[32:27] similar. Kind of mirror images. Now
+[32:29] let's do one thing. Let's find out for
+[32:31] this point. Okay, let's take a point
+[32:35] for which we know the answer. So let's
+[32:37] do one thing. Print DF3. So we're
+[32:44] taking this point. Its answer should be
+[32:47] one. Okay? So we'll go down and paste
+[32:51] it here. The answer should be one. We
+[32:56] know. So we asked the first decision
+[32:59] tree. It said we'd have to add a pe2
+[33:03] here while reshaping. It's one. Let's
+[33:07] ask the second decision tree. Copy it,
+[33:15] it's saying it's zero. And this one is
+[33:23] saying it's one. Two people are again
+[33:25] saying one, and one is saying zero. So,
+[33:28] the output will be one. So, loosely,
+[33:30] random forests work this way. I'll
+[33:33] share this notebook with you. Please
+[33:36] give it a try. You'll get a great
+[33:38] intuition about how bagging, or random
+[33:40] forests, works internally. Okay? So,
+[33:45] next, we'll go through another piece of
+[33:48] code to see what benefits a random
+[33:50] forest provides. Okay? We'll look at
+[33:53] that next.

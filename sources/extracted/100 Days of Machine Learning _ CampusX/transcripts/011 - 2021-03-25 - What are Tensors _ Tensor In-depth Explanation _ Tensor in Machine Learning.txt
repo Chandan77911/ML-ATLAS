@@ -1,0 +1,915 @@
+# What are Tensors | Tensor In-depth Explanation | Tensor in Machine Learning
+# https://www.youtube.com/watch?v=vVhD2EyS41Y
+
+Hello guys, welcome to my YouTube channel. This is 100 Days of Machine Learning and today is day 11. So, 10 days have passed and we have discussed many things, mostly related to the "why " and "what" parts of machine learning. The "why" and the "what," right? But from now on, from today onwards, we are going to focus on the "how" parts. How does machine learning happen? We are starting practical machine learning from today. And our topic for today is a very important one, because it is by using this that machine learning is able to function. Okay? Today we are going to study about tensors. Okay? I hope you have heard the name at some point. What are tensors? And why are we studying tensors today? I will answer these two questions for you very quickly. First, let me answer why we are studying tensors. First of all. Right? We could have studied something else. But why is the first thing we started in practical machine learning tensors? Let's discuss that. So, a tensor is basically a data structure. I mean, if I explain it to you in the simplest terms, a tensor is nothing but a data structure. A data structure means a way to store data. Now, why are we studying tensors first? The reason is that today, all machine learning systems and all the leading libraries like Scikit-learn and TensorFlow use the tensor as their most basic data structure. Meaning, whatever machine learning problem you are solving, in the machine learning space or the deep learning space, you will have to deal with tensors. So, as a beginner, I honestly skipped this topic. And later I realized that things wouldn't work without studying tensors. So, so that you don't make this mistake, we are starting with tensors. What you learn today will not only help you in machine learning but will also help you in deep learning. Okay? So, it is a very general topic. A very important topic. Let's start with the topic. Okay? So, one more thing I forgot to mention. Tensors are so important that the number one deep learning library today, Google's TensorFlow, is named after tensors. So, trust me, it is a very important concept. Okay? So, yeah, anyways, what is a tensor? Let's start the discussion from there again. A tensor is nothing but a Data structure means a way to store data. Right? And if we break down tensors into even simpler terms, a tensor is just a container where you store numbers. That's it. A tensor is nothing but a container for numbers. Sometimes you store characters or strings too. But that is very rare. Almost never do you do that. 99.99%of the time, it is going to be a container for numbers. Right? Now guess what? You have used tensors before. I mean, even if you haven't heard the name, you have used them. So if you have ever studied about vectors or matrices in your life, they are actually tensors. So when it is zero-dimensional, you call it a scalar. A single number. When there is a list of numbers, you call it a vector. When there are numbers in 2D, you call it a matrix. Right? Now think, if there are numbers in 3D, what would you call it? Or what would you call it in 4D? So that is why computer scientists, in fact, this is an area combining physics and math. They decided. Scientists decided to coin a general term. And they use, they call it a tensor. Right? So let's study more in detail about tensors. I will share my screen. So yeah, tensors are basically a container for storing numbers. We have discussed this. Let's talk about 0D tensors, which are scalars. Right? So whenever you are storing a single number somewhere like this or like this. These are basically called scalars. Right? Or you can call it a 0D tensor. Right? 0D means that the number of dimensions of this particular tensor is zero. There are no dimensions. Right? If I show you practically, what I can do is I can go to Google Colab. If you don't know Google Colab, trust me, it's a very simple tool where you can run Python code online. Right? You don't need to know more than that. I am importing a library. Called NumPy, which we will use a lot in this video, and in machine learning in general, this library is used heavily. If you want to study NumPy, I will put a link to a playlist from my own channel in the description of this video. You can study NumPy from there. NumPy is very simple. All right? Now, if you want to create a scalar using NumPy. Then you don't have to write much. You just need to write one line of code. Let's say we are creating a variable A in which we will store the scalar. This will be equal to np.array and here I put a number and ran it. And as soon as I printed A, which is on your screen, this is actually a scalar or a 0D tensor. All right? How do we know it's 0D? Whenever you are creating tensors in NumPy. See, one more thing to remember, if you are from a computer science background, then a tensor and an n-dimensional array are the same thing. An array means one-dimensional. A 2D array means an array within an array. A 3D array means an array within an array. All right? So in that way, n-dimensional array is the general term if you come from a math or physics background, it's called a tensor. So the machine learning community has adopted that term. So whenever you see an n-d array, just understand that it is a tensor. All right? So here you have a 0D array. Because there is no array at all. There is just one number. So you call this a 0D tensor. So whenever you create arrays or tensors in NumPy, you can find their dimension. You have an attribute called ndim. It's clear from the name. Number of dimensions. As soon as you run this, you get zero. From this, you understand that the dimension of this particular tensor is zero. And that is why it is a 0D tensor. All right? So I showed you a small demonstration of this. Let's quickly discuss a 1D tensor. So if you have a list of numbers like this 1, 2, 3, 4, then this is a 1D tensor, and you can also call it a vector, and in programming, you can call it a 1D array or simply an array. All right? Now, for this thing, this tensor, what will its ndim be? It would be one. Meaning, this is a tensor that has one dimension. All right? Now you need to understand one more thing, what is an axis in terms of tensors? So an axis is basically how many dimensions you have. All right? Basically, if you have two dimensions. Let's say your tensor has two dimensions. We will discuss 2D tensors a little later. So this means there are two axes there. Okay? If it is a 3D tensor, then you have three axes. Okay? So dimensions and axes are related. Okay? Whatever the D of the tensor is, whatever the dimension of the tensor is, you will have that many axes. And one more thing, the number of axes is also called rank in some places, and you also call that dimension. Okay? So, there shouldn't be any confusion here. If you go and read in different places, you will see different things. I am just letting you know. Number of axes is equal to rank, equal to the dimension of the tensor. Okay? Let me quickly show you how you can create a 1D tensor using NumPy. So, I am creating an array. And here, what I am doing is sending a Python list inside the array that contains these values. And now if I print the array, this, which is on your screen, is a 1D tensor. Okay? And if I write arr.ndim, you would see that its n-dimension is one. So, the number of axes inside it is one. Its rank is also one, and it is a 1D tensor. Okay? I guess you have no confusion up to this point. Now I will say something that might confuse you a little. But it is very important to understand. Okay? Listen carefully. This 1D tensor, you also call this a vector. This is also a vector. You can call it a vector. Okay? But if someone asks you what the dimension of this vector is? Then, since there are four numbers here, you would say the dimension of this vector is 4D. Now you will say that I just said that this is 1D. I said it is a 1D tensor. This is a 1D tensor. And since it is a 1D tensor, it means it is a vector. But how many dimensions are inside this vector? Four dimensions. Now this might seem a little confusing to you. But I will give you an example in a little while that will make this crystal clear as to what I am trying to say. At this point, just create a distinction in your mind that whenever you create a 1D tensor, it is a vector, and the number of values in that vector determines the dimension of that vector. Meaning, if I give you another example, let's say one and two, this is still a 1D tensor. And it is also a vector. But if someone asks you, how many dimensions does this vector have? Then you would say two, because there are two numbers in it. I hope you guys are following along so far. Okay? If you are following along so far, you must have also noticed one thing: if you keep adding more scalars to a scalar, then it becomes a vector. Meaning, if you added four scalars here, you got a vector. Always remember this. In the case of tensors, as you increase the dimension, how do those dimensions always increase? If you keep adding the previous dimension, you get the next dimension. Meaning, if you want a 1D tensor, basically it is a collection of multiple 0D tensors. If you want a vector, it is basically a collection of scalars. If you want matrices, it is basically a collection of vectors. So, you must always remember this fundamental. Okay? Now let me show you an example of a 2D tensor, which we also call matrices. Okay? So now let's discuss what are 2D tensors or matrices. So, imagine if you have multiple vectors, like. So If you add or collect these vectors, then we call it a matrix. Okay? Something like this. 1 2 3 4 5 6 7 8 9, so basically matrices are nothing but a collection of vectors. Okay? And obviously, its dimension is 2D because there are two axes here. Okay? This one axis is the column axis, and this one axis is the row axis. Okay? So, I hope you are understanding this. Its rank is two, which is equal to the dimension, and there are two axes: rows and columns. Let me quickly show you how this is created. It is very simple. You will use NumPy again. Let's say I am creating a variable called MAT, and MAT is equal to np.array, and here what will I do? I will pass a list of lists in Python, something like this. 1, 2, 3, then a comma; the second item itself is going to be a list 4, 5, 6. And 7, 8, 9, okay. And if we print the MAT, you will get a structure like this; this is a matrix, okay. If you calculate its MM, then as expected, it would be two. 2D Tensor. Okay, now you can easily understand that if you want to create higher dimension tensors from this, what will you do? Basically, if you want to create a 4D tensor. Sorry, if you want to create a 3D tensor, you will have a matrix that looks like this. You will take more matrices like this. This is one matrix. This is the second one. This is the third one. So, basically, suppose if all these matrices have 3 by 3 numbers and you are taking four such matrices, then you will get a 4 by 3 by 3 tensor, which you will call a 3D tensor, and this time there are three axes here. Okay? So you have a column axis. You have a row axis and you have a depth axis. Okay? This is a 3D tensor. Okay? Or you can actually see it in terms of a cuboid. Right? Something like this. Right? Now, if someone asks you what a 4D tensor would look like? What would a 4D tensor be like? So a 4D tensor is basically a collection of 3D tensors. If this is a 3D tensor, then a 4D tensor will look like this. Basically, it will be a vector of 3D tensors. See like this. Now, sorry for my drawing. But these lines have 3D tensors placed in this way. These are what you call a 4D tensor. Right? Now, if someone asks you what a 5D tensor would look like? So a 5D tensor will be a matrix of 3D tensors. Basically, more cuboids will come underneath it like this. Like, this is a 5D tensor. Right? And that is how this entire thing works. This is a 5D tensor. I mean, if you focus only on this much. If you focus only on this much, then this is a 4D tensor. But if you focus on the whole thing. Focus on this whole thing, this is a 5D tensor. Okay? And that is how this entire thing is stacked on top of each other. Now, if you make a collection of 5D, it will become 6D. If you make a collection of 6D, it will become 7D. That is the whole idea. So where you were restricted to thinking only about scalars, vectors, and matrices, now you are completely free. Because you have a general concept that we call this thing a tensor, and in terms of that tensor, you can think or do things in any number of dimensions. Okay? Now, if you talk about machine learning, you mostly revolve between zero to 5D. You won't really find tensors with higher dimensions than that. Okay? So that’s why, in today’s video, I will show you one example of each of the five tensors. Okay? To be honest, there’s no need to show an example of a scalar. So I will show you all examples from 1D up to 5D. Practical examples, the kind of examples you might encounter later on. Okay? But before we go there, I just want to tell you one more thing. This is the last concept. Although we have discussed it a little bit already. What do we call rank, axis, and shape? Okay? Let’s discuss it quickly. Rank is just that. The number of dimensions your tensor has is what is called its rank. It is also called the number of axes. Number of axes is equal to rank, is equal to the number of dimensions. These three things are the same, guys. Okay? You must always remember this. Let me explain it to you in terms of a matrix. Suppose you have this matrix. It is a 3x3 matrix. So, obviously, it has two axes. One row axis and one column axis. One more thing comes up here. Then what is shape? Shape is how many items you have in any particular axis. For example, if you talk about the row axis, how many maximum items can you store in the row axis? Three. Right? It’s 3x3, so you can only store three. So the shape of this matrix is 3x3, but you can also have a matrix like this. This is also a matrix. If you calculate its ndim or its rank, it will still be two. Because it still has a column axis and a row axis here. But this time, if you calculate the shape, it will be 2x3. Why am I saying that? Because in the row, in the row axis, how many maximum items can you store? Two. And how many can you store in the column axis? Three. Okay? Let’s take one more example. This is 4x2. Okay? There is one more thing, size. Size of a tensor. So size means how many items are in that tensor. So simply multiply its shape, all the numbers. Multiply these. 2x3 is six. Meaning there are six items inside it. If you multiply 3 here, you get nine. Meaning there are nine items here. Here, multiply 4 by 2, you get eight. Meaning there are eight items. Okay? So, whenever you want to find out how many items are in a particular tensor, which we call size, it is very simple to calculate. You just find its shape and multiply all the numbers. Okay? This is just not true for scalars. For a scalar, the size is always equal to one. It's simple. If it is a scalar, its size will be one. For tensors above that, you simply have to multiply their shape. If you have a vector, a 1D tensor, it will look something like this. So in this case, your shape will be three. Okay? Because here, in one single place, there are three items. Okay? So here, three is your number of items. Okay? I hope you are understanding. It is very simple. Once you grasp the concepts. Okay? So rank, axis, and shape, these are the three things we discussed. In fact, we also discussed size. Now, the most important part of this video: we will see practical examples of tensors from 1D to 5D that you will encounter later in your life while doing machine learning and deep learning projects. We are going to do that next. Let me now give you two practical examples of a 1D tensor that you will see everywhere in machine learning in the future. Okay? And this is where you will understand why I said a little while ago that a vector is a 1D tensor but its own dimensions are different. You will understand this now. Okay? And to explain this whole thing, I will take an example. Let's say we have a dataset about students. We have discussed this dataset before as well. We have a dataset of students. And in that dataset, we have four columns. The first column is CGPA. The second column is IQ. The third column is state. Which state are they from? West Bengal, Kerala, or whatever it is. Okay? And here it is whether they got placed or not. Which is your target column that you need to predict. Classification problem. Okay? Now, let's assume I have data for 10,000 students, and obviously, my end goal is to build a classification model, so if I provide a new student's details—meaning IQ, CGPA, and state—it should tell me whether they will be placed or not. I need to make this prediction. Right? So, what do I do here? I will show you an example of a 1D tensor. I'll show you an example of a 1D tensor or a vector. For that, you'll have to forget the 10,000 students and focus on just one student. If you focus only on the first student. Let's say our first student has a CGPA of 8.1, an IQ of 91, is from West Bengal, and they got placed. For now, we are ignoring the placement column because we are going to focus on the input columns. So, if you take their input, if you take that student's input, basically it is a set of three things. Now, let's assume for a moment that our data only contains students from two states. The first state is West Bengal, the second is Bengaluru, Karnataka. Right? And assume we are calling West Bengal zero and Karnataka one. We have performed numerical encoding. This is called label encoding. You will understand this in future videos. So, basically, instead of West Bengal, I wrote zero. So if we only talk about the first student, we have these numbers: 8.1, 91, and 0, and guess what? This is a tensor, a 1D tensor. Or you could call it a vector. This is a vector. And what is the dimension of this tensor? 1D, because it has only one axis. There is only one axis. But what is the dimension of this vector? It is a 3D vector. Why am I saying that? Because there are three axes here. There are three axes here. What is the first axis? CGPA. What is the second axis? IQ, and what is the third axis? State. And this student is somewhere here. There is that vector. This is the vector. Now, suppose if there were another student, 7.2 IQ, 102, Karnataka, no placement, so assume they would lie somewhere here, something like this. Right? They would have their own separate vector. So, basically, if you talk about it, in this three-dimensional space, you have data for 10,000 students. Data for 10,000 students. Meaning you have 10,000 vectors. Each vector represents a student in this three-dimensional coordinate space. So when you are talking about vectors, this is a 3D space. But when you represent those numbers in the form of a tensor, it is a 1D tensor. So these are two different things. Do not get confused between them. Are you talking about the dimension of the tensor or the dimension of the vector? There is a difference in that. Right? It became 3D here because you had three input columns. If you have 50 input columns, then you are working in a 50- dimensional coordinate space. But it will still remain a 1D tensor. Please, I hope you are understanding this point. Okay? One more example where you will find a 1D tensor. One example is already this. Whenever you get any machine learning tabular data, each row is actually a 1D tensor or a vector. Okay? One more example is, now think if you had data for these 10,000 students here, then everyone's output would look something like this. In this way. Now if you take out all these numbers. If you extract all these numbers and represent them in this manner as well. Then there will be a total of 10,000 numbers in it. But this is also a 1D tensor. This is also a 1D tensor. Okay? So I hope you are understanding a bit by now where you can find 1D tensors in machine learning. Okay? Now let me show you where you will find 2D tensors. Where will you find 2D tensors? It is a very simple thing, guys. What is a 2D tensor? A 2D tensor is basically a collection of 1D tensors. Right? So if you have the data we had earlier of CGPA, IQ, state, and placement. Now let's forget about placement for a moment. If we only focus on the input columns. We had data for 10,000 students. Like this. So here, every student's data is actually a vector or a 1D tensor. So a collection of 10,000 vectors would be what? A matrix, right? So you can actually write this entire thing inside a matrix. So whenever you get data in machine learning, its input —the collection of input columns— you can store all that data in a matrix. That is generally called a 2D tensor in machine learning. It is denoted by D. Okay? So it will look something like this. Data of the first student, data of the second student, data of the third student, data of 10,000 students. And this becomes your 2D tensor. Okay? Which is a collection of 10,000 vectors that are themselves 3D vectors. I hope you are understanding this so far. And this placement, whether it happened or not, is itself a 10,000-dimensional vector. And basically, it is a 1D tensor. This is a 1D tensor. Okay? This is a 2D tensor. I hope you understood this entire discussion. You will encounter this every time. If you ever work with tabular data, you are working with 1D tensors as well as 2D tensors. Basically, you are working with matrices and also with vectors. Or in summary, if I tell you, when you separate all the inputs, you can call it a matrix or a 2D tensor. And when you isolate the entire input, which is a single column, it becomes your vector or your 1D tensor. Okay? So, I guess you understand where you find 1D and 2D tensors. Now let's move on to 3D tensors. So now let's focus our attention on 3D tensors. To be honest, 3D tensors are a bit rare. Calling them rare would actually be wrong. It's just that they aren't as frequent as your 1D and 2D tensors. If you want to see a practical example of 3D tensors. In fact, I will show you two practical examples. One of them, a very intuitive and interesting practical example, is from the domain of NLP, Natural Language Processing. Meaning, if you are ever working with any textual data, you will see 3D tensors there. Let me show you how. So let's say I have some text written. Hi Nitish. Hi Rahul and Hi Ankit. These are three texts. And assume these three texts are my input. I have to give these three texts to the algorithm to train. Now, obviously, you know that machine learning algorithms are pure mathematics. They don't understand text or strings. So you will have to convert this text into numbers, or, in other words, into vectors. This entire process is actually called vectorization in the NLP domain. Where you convert a given text into numbers or vectors. So that is a very important thing. And there are many different vectorization techniques. But we are going to focus on a very simple and very intuitive technique. Let me show you. So what I will do is, I need to convert all these sentences into numbers. For that, what I will do is, I will list down all my words, all my unique words. Like 'Hi' once, 'Nitish' once, basically I wrote down my entire vocabulary. Vocabulary means the set of all unique words present in my corpus, as it is called here. Basically, in my text. Okay? Now what will we do? We will represent every word, every particular word, with a vector. For instance, if I have to represent 'Hi', then 'Hi' becomes 1 0 0 0. Whenever I find 'Hi' written anywhere, I can write this instead. If I find 'Nitish' written anywhere, I will write 0 1 0 0; that becomes 'Nitish'. Okay? If I have to represent 'Rahul', then it becomes this. And if I have to represent 'Ankit ', then it becomes this. Right? Now, if I talk about these sentences. If I talk about these sentences, let's say my first sentence is what? 'Hi Nitish'. So what is this actually? It is a set or collection of two vectors. So the first vector is 1 0 0 0 and the second vector is 0 1 0 0; this is my first sentence. If you notice carefully, then the inner vector is a 1D tensor, and there are two such 1D tensors. So it means this entire thing, the outer one, is a 2D tensor. Right? Now, if the first sentence is a 2D tensor. Then the second sentence will also be a 2D tensor. And the third sentence will also be a 2D tensor. Basically, you have a collection of three 2D tensors. So what has it basically become? A 3D tensor. Right? So if I want to write it, I will write it here again. This is my second 2D tensor and this is my third sentence. Right? And if I want to write their collection, then this became my 3D tensor. Right? If I have to write its shape, how would the shape be? We have vectors of four. Like, vectors of size four. And the matrices I have are of size 2/4. Okay? Meaning, basically two rows, four columns, and I have three such matrices. So this is the shape, guys, of my 3D tensor. There are three axes here. Meaning, it is rank three. And how many items are there? 3*2*4, 24 items, which is actually correct. Okay? So, this is one good example of a 3D tensor. Okay? I will give you one more example of a 3D tensor. Okay? Uh, watch carefully. So, another good example of a 3D tensor is time series data. Time series data means data that you collect after a frequent time period. For example, share market data that you collect on a daily basis, or sometimes you collect every hour. Depends. Okay? I will show you one example. Let's say, what data are you storing? The highest and lowest price of any stock during the day. Okay? And you are filling this data once a day for this entire stock, and you are doing this for the whole year. Okay? So the data you will have will be 365 by 2, think about it, because it will look like this: Day one, some number, some number; Day two, some number, some number; Day 365, some number, some number. Right? So basically, you have 365 on the row axis and two on the column axis, because you have two input columns. So this data you have is a 2D tensor. If you are tracking two quantities throughout the day for the whole year, then it is a 2D tensor. But what if I have 10 years of data for this same stock? I have tracked this thing for 10 years. So, how many such 2D tensors do I have? 10, so the resultant tensor will be 10 cross 365 cross 2, which is a 3D tensor. A collection of 10 2D tensors is a 3D tensor. Right? So, whenever you get time series data, it is 3D data. And the middle axis in it, this axis here, is your time axis. This is your time axis. Okay? So you will work a lot on time series later on. Most financial data, or often medical data, is time series-based data, and a lot of analysis is done on it, and it is a very important thing, and this is an example where 3D tensors are used. Okay, I hope you are understanding up to this point. Now we have 4D tensors and 5D tensors left, let's complete them, let's cover them. Now let's focus on 4D tensors. Okay, a great example of a 4D tensor is images, right? Image-based data. So, if you ever work in the domain of computer vision, or work with images, then the tensors you encounter there are 4D tensors. Let me show you how. Okay? If you have ever studied even a little bit of image processing, you might know that any image is basically a collection of pixels. Pixels look like this. There are very small pixels on your screen like this. And every pixel has a numerical value because of which you see something. Like, if this value is black, this value is black, and all these values are black, then you see a two on your screen. Everything else was one. Only these values are black. So this is a two on your screen. So by controlling these pixels, you can display any image. Now, if you want to show a color image, you take three channels like this. This is the first channel that I showed you. You take three channels like this. This is R, this is G, and this is B. Red, Green, Blue. Okay? And you stack these three on top of each other like this. Right? So suppose these three are obviously matrices. These three are actually 2D tensors. And if you combine three 2D tensors, it becomes a 3D tensor. Right? Suppose one has a shape of 1200 by 800, and you have three such channels, so combining them you get 3, 1200, 800—three channels and 1200*800 pixels in each channel, okay? So that's for one image. If you are talking about that, it is a 3D tensor, right? But what if you have multiple images? Suppose you have 50 color photographs like this. If you have 50 color images. In that case, you get a 50 by 3 by 1200 by 800 tensor. And this is your 4D tensor. So in the future, if you ever do image processing or study convolutional neural networks in deep learning, when you work with images there, you work with batches of images. And those batches of images are a great example of a 4D tensor. Okay? So I hope you understood this example as well. Now let's move on to 5D tensors. So I guess you must have already understood 5D tensors. A very good example of that is videos. Right? Because what are videos? If you think carefully. You probably already know. Videos are basically images that are passed in front of your eyes very quickly. Because they pass at such a speed, our eyes and our brain cannot distinguish that they are two separate images. Because the speed at which the images are crossed is higher than our persistence of vision. So I will show you, it is written here that our persistence of vision can only classify 12 separate images in one second. If you pass more than 12 images in front of our eyes in one second. Then it gives us a feeling of a video. Right? And this generally happens with 30fps, 60fps, 120fps; I am not sure about 120fps. But videos are passed at up to 60 frames per second. So obviously those images are passing so fast that we feel it is in continuity. It is a video. Right? So in short, videos are basically frames. Right? A collection of frames. Right? A single frame means one image. One frame means one image. Right? So let's say you have a 60- second video that was shot at 30 FPS and is 480p. 480p means its resolution is 480 by 720. Obviously, this is color, so it will have three channels. RGB. Right. So now look, a single image inside it is obviously 480. 720, 3, a single image, right. Now I have a 60- second video, shot at 30 FPS, so how many images do you have? If you want to calculate this, you are getting 30 videos in one second, 30 frames per second. In one second you are getting 30 videos, sorry, 30 images. And you have 60 seconds like that. So that means you have 1800 images. Right? If there are 30 in 1 second, then in 60... sorry, 1800, please ignore if there is any calculation mistake. You have 1800 images. Right? This is already your 4D data. Now suppose you have four video clips like this. You have got four videos. So now the data you have, this collection of four videos, is actually a 5D tensor. This is a 5D tensor. The collection of videos is a 5D tensor. Where the first thing tells you how many videos there are. This part tells you how many images are in a single video, and this is the size of each image and how many color channels it has. So, this is a 5D tensor. Now, if you multiply these numbers. If you multiply these numbers, it becomes a very large number. Right? Let me show you how large this number will be. This number will be: we have four videos multiplied by 1800 images, multiplied by 480 by 720. I want to show you the calculation I am doing. Multiplied by 3, this is the number, guys. This is the number and this is a big number. Right? Now think, if you have this many values, basically there are this many numbers here. Right? Because if you multiply all these, the tensor has that many values. That many items. So, there are this many items here. Now think, if you store each item in a float, in a float32. Basically, if you store every single item in a 32-bit float, how much total storage will you need? Multiply by 32, meaning you would need this many bits. So, how much would this number be in bytes? Divided by 8, you would need this many bytes. If I want to convert this into kilobytes, I will divide it by 1024. Here is the number in kilobytes. If I want to convert it into megabytes, I will divide it again by 1024. Such a huge megabyte. And if I divide it again by 1024, here is our GB, 27 GB. Meaning, if you want to store four 60-second videos, or process them, or run machine learning or deep learning on them, you would need 27 GB of space. Obviously, you don't do that, and that is where video codec formats come in, video encoding formats like MKV or MP4. Okay, what do they do? Whatever you are giving to a single item, they reduce it significantly, and you can then do all this work with much less data. Honestly speaking, video processing is somewhat rare, unless you are building an application like YouTube where you have to process every video before it gets uploaded. You most likely won't be working on videos, but you might if you are working in the computer vision domain. You never know, right? But yeah, you personally won't have sensors beyond 5D, there aren't really any use cases beyond that. Okay, so 5D will be the max and that's it. That's what I wanted to discuss in this video. I know it has become a quite long video, it must be around 40 minutes, I guess. So what can I say, I taught it in a bit of detail. I hope you understood it and this will provide us a good start when we do things ahead. Okay, so yeah, that's it guys. If you liked the video, please consider subscribing. If possible, do share it with someone if they are learning machine learning. And let's meet tomorrow, tomorrow we will do an end-to-end machine learning example so that you get a bird's eye overview of the whole process. So yeah, thanks for watching, will meet tomorrow, bye.
+
+
+[00:00] Hello guys, welcome to my YouTube
+[00:01] channel. This is 100 Days of Machine
+[00:03] Learning and today is day 11. So, 10
+[00:07] days have passed and we have discussed
+[00:10] many things, mostly related to the "why
+[00:12] " and "what" parts of machine learning.
+[00:16] The "why" and the "what," right? But
+[00:19] from now on, from today onwards, we are
+[00:21] going to focus on the "how" parts. How
+[00:23] does machine learning happen? We are
+[00:25] starting practical machine learning
+[00:26] from today. And our topic for today is
+[00:29] a very important one, because it is by
+[00:31] using this that machine learning is
+[00:33] able to function. Okay? Today we are
+[00:36] going to study about tensors. Okay? I
+[00:38] hope you have heard the name at some
+[00:40] point. What are tensors? And why are we
+[00:44] studying tensors today? I will answer
+[00:46] these two questions for you very
+[00:47] quickly. First, let me answer why we
+[00:49] are studying tensors. First of all.
+[00:51] Right? We could have studied something
+[00:53] else. But why is the first thing we
+[00:54] started in practical machine learning
+[00:56] tensors? Let's discuss that. So, a
+[00:59] tensor is basically a data structure. I
+[01:03] mean, if I explain it to you in the
+[01:05] simplest terms, a tensor is nothing but
+[01:07] a data structure. A data structure
+[01:09] means a way to store data. Now, why are
+[01:11] we studying tensors first? The reason
+[01:14] is that today, all machine learning
+[01:17] systems and all the leading libraries
+[01:19] like Scikit-learn and TensorFlow use
+[01:21] the tensor as their most basic data
+[01:24] structure. Meaning, whatever machine
+[01:27] learning problem you are solving, in
+[01:29] the machine learning space or the deep
+[01:31] learning space, you will have to deal
+[01:33] with tensors. So, as a beginner, I
+[01:35] honestly skipped this topic. And later
+[01:38] I realized that things wouldn't work
+[01:40] without studying tensors. So, so that
+[01:42] you don't make this mistake, we are
+[01:44] starting with tensors. What you learn
+[01:47] today will not only help you in machine
+[01:49] learning but will also help you in deep
+[01:51] learning. Okay? So, it is a very
+[01:53] general topic. A very important topic.
+[01:55] Let's start with the topic. Okay? So,
+[01:57] one more thing I forgot to mention.
+[02:00] Tensors are so important that the
+[02:02] number one deep learning library today,
+[02:05] Google's TensorFlow, is named after
+[02:08] tensors. So, trust me, it is a very
+[02:09] important concept. Okay? So, yeah,
+[02:11] anyways, what is a tensor? Let's start
+[02:13] the discussion from there again. A
+[02:14] tensor is nothing but a Data structure
+[02:17] means a way to store
+[02:19] data. Right? And if we break down
+[02:22] tensors into even simpler terms, a
+[02:24] tensor is just a container where you
+[02:25] store numbers. That's it. A tensor is
+[02:29] nothing but a container for numbers.
+[02:31] Sometimes you store characters or
+[02:33] strings too. But that is very rare.
+[02:35] Almost never do you do that. 99.99%of
+[02:38] the time, it is going to be a container
+[02:41] for numbers. Right? Now guess what? You
+[02:44] have used tensors before. I mean, even
+[02:47] if you haven't heard the name, you have
+[02:48] used them. So if you have ever studied
+[02:51] about vectors or matrices in your life,
+[02:53] they are actually tensors. So when it
+[02:56] is zero-dimensional, you call it a
+[02:58] scalar. A single number. When there is
+[03:01] a list of numbers, you call it a vector
+[03:03] . When there are numbers in 2D, you
+[03:06] call it a matrix. Right? Now think, if
+[03:09] there are numbers in 3D, what would you
+[03:10] call it? Or what would you call it in
+[03:12] 4D? So that is why computer scientists,
+[03:15] in fact, this is an area combining
+[03:17] physics and math. They decided.
+[03:20] Scientists decided to coin a general
+[03:22] term. And they use, they call it a
+[03:25] tensor. Right? So let's study more in
+[03:27] detail about tensors. I will share my
+[03:29] screen. So yeah, tensors are basically
+[03:33] a container for storing numbers. We
+[03:37] have discussed this. Let's talk about
+[03:39] 0D tensors, which are scalars. Right?
+[03:43] So whenever you are storing a single
+[03:45] number somewhere like this or like this
+[03:48] . These are basically called scalars.
+[03:52] Right? Or you can call it a 0D tensor.
+[03:58] Right? 0D means that the number of
+[04:02] dimensions of this particular tensor is
+[04:06] zero. There are no dimensions. Right?
+[04:10] If I show you practically, what I can
+[04:13] do is I can go to Google Colab. If you
+[04:16] don't know Google Colab, trust me, it's
+[04:19] a very simple tool where you can run
+[04:22] Python code online. Right? You don't
+[04:24] need to know more than that. I am
+[04:26] importing a library. Called NumPy,
+[04:28] which we will use a lot in this video,
+[04:30] and in machine learning in general,
+[04:31] this library is used heavily. If you
+[04:33] want to study NumPy, I will put a link
+[04:36] to a playlist from my own channel in
+[04:38] the description of this video. You can
+[04:40] study NumPy from there. NumPy is very
+[04:42] simple. All right? Now, if you want to
+[04:45] create a scalar using NumPy. Then you
+[04:47] don't have to write much. You just need
+[04:48] to write one line of code. Let's say we
+[04:50] are creating a variable A in which we
+[04:51] will store the scalar. This will be
+[04:54] equal to np.array and here I put a
+[04:58] number and ran it. And as soon as I
+[05:03] printed A, which is on your screen,
+[05:06] this is actually a scalar or a 0D
+[05:09] tensor. All right? How do we know it's
+[05:12] 0D? Whenever you are creating tensors
+[05:14] in NumPy. See, one more thing to
+[05:16] remember, if you are from a computer
+[05:18] science background, then a tensor and
+[05:20] an n-dimensional array are the same
+[05:22] thing. An array means one-dimensional.
+[05:24] A 2D array means an array within an
+[05:26] array. A 3D array means an array within
+[05:27] an array. All right? So
+[05:29] in that way, n-dimensional array is the
+[05:31] general term if you come from a math or
+[05:33] physics background, it's called a
+[05:35] tensor. So the machine learning
+[05:36] community has adopted that term. So
+[05:37] whenever you see an n-d array, just
+[05:40] understand that it is a tensor. All
+[05:42] right? So here you have a 0D array.
+[05:44] Because there is no array at all. There
+[05:45] is just one number. So you call this a
+[05:47] 0D tensor. So whenever you create
+[05:49] arrays or tensors in NumPy, you can
+[05:52] find their dimension. You have an
+[05:54] attribute called ndim. It's clear from
+[05:57] the name. Number of dimensions. As soon
+[05:59] as you run this, you get zero. From
+[06:02] this, you understand that the dimension
+[06:03] of this particular tensor is zero. And
+[06:06] that is why it is a 0D tensor. All
+[06:08] right? So I showed you a small
+[06:10] demonstration of this. Let's quickly
+[06:12] discuss a 1D tensor. So if you have a
+[06:15] list of numbers like this 1, 2, 3, 4,
+[06:20] then this is a 1D tensor, and you can
+[06:25] also call it a vector, and in
+[06:29] programming, you can call it a 1D array
+[06:35] or simply an array. All right? Now, for
+[06:39] this thing, this tensor, what will its
+[06:42] ndim be? It would be one. Meaning, this
+[06:46] is a tensor that has one dimension. All
+[06:48] right? Now you need to understand one
+[06:51] more thing, what is an axis in terms of
+[06:53] tensors? So an axis is basically how
+[06:56] many dimensions you have. All right?
+[06:58] Basically, if you have two dimensions.
+[07:01] Let's say your tensor has two
+[07:02] dimensions. We will discuss 2D tensors
+[07:04] a little later. So this means there are
+[07:06] two axes there. Okay? If it is a 3D
+[07:09] tensor, then you have three axes. Okay?
+[07:11] So dimensions and axes are related.
+[07:15] Okay? Whatever the D of the tensor is,
+[07:17] whatever the dimension of the tensor is
+[07:19] , you will have that many axes. And one
+[07:22] more thing, the number of axes is also
+[07:25] called rank in some places, and you
+[07:28] also call that dimension. Okay? So,
+[07:32] there shouldn't be any confusion here.
+[07:34] If you go and read in different places,
+[07:35] you will see different things. I am
+[07:37] just letting you know. Number of axes
+[07:39] is equal to rank, equal to the
+[07:40] dimension of the tensor. Okay? Let me
+[07:43] quickly show you how you can create a
+[07:46] 1D tensor using NumPy. So, I am
+[07:49] creating an array. And here, what I am
+[07:52] doing is sending a Python list inside
+[07:54] the array that contains these values.
+[07:58] And now if I print the array, this,
+[08:00] which is on your screen, is a 1D tensor
+[08:03] . Okay? And if I write arr.ndim, you
+[08:07] would see that its n-dimension is one.
+[08:11] So, the number of axes inside it is one
+[08:13] . Its rank is also one, and it is a 1D
+[08:16] tensor. Okay? I guess you have no
+[08:18] confusion up to this point. Now I will
+[08:19] say something that might confuse you a
+[08:21] little. But it is very important to
+[08:22] understand. Okay? Listen carefully.
+[08:25] This 1D tensor, you also call this a
+[08:32] vector. This is also a vector. You can
+[08:35] call it a vector. Okay? But if someone
+[08:37] asks you what the dimension of this
+[08:39] vector is? Then, since there are four
+[08:42] numbers here, you would say the
+[08:44] dimension of this vector is 4D. Now you
+[08:47] will say that I just said that this is
+[08:49] 1D. I said it is a 1D tensor. This is a
+[08:52] 1D tensor. And since it is a 1D tensor,
+[08:55] it means it is a vector. But how many
+[08:57] dimensions are inside this vector? Four
+[08:59] dimensions. Now this might seem a
+[09:01] little confusing to you. But I will
+[09:03] give you an example in a little while
+[09:04] that will make this crystal clear as to
+[09:06] what I am trying to say. At this point,
+[09:10] just create a distinction in your mind
+[09:12] that whenever you create a 1D tensor,
+[09:14] it is a vector, and the number of
+[09:16] values in that vector determines the
+[09:18] dimension of that vector. Meaning, if I
+[09:22] give you another example, let's say one
+[09:25] and two, this is still a 1D tensor. And
+[09:29] it is also a vector. But if someone
+[09:31] asks you, how many dimensions does this
+[09:32] vector have? Then you would say two,
+[09:34] because there are two numbers in it. I
+[09:35] hope you guys are following along so
+[09:38] far. Okay? If you are following along
+[09:41] so far, you must have also noticed one
+[09:43] thing: if you keep adding more scalars
+[09:46] to a scalar, then it becomes a vector.
+[09:52] Meaning, if you added four scalars here
+[09:56] , you got a vector. Always remember
+[09:59] this. In the case of tensors, as you
+[10:01] increase the dimension, how do those
+[10:03] dimensions always increase? If you keep
+[10:06] adding the previous dimension, you get
+[10:08] the next dimension. Meaning, if you
+[10:11] want a 1D tensor, basically it is a
+[10:13] collection of multiple 0D tensors. If
+[10:17] you want a vector, it is basically a
+[10:18] collection of scalars. If you want
+[10:21] matrices, it is basically a collection
+[10:23] of vectors. So, you must always
+[10:24] remember this fundamental. Okay? Now
+[10:27] let me show you an example of a 2D
+[10:28] tensor, which we also call matrices.
+[10:30] Okay? So now let's discuss what are 2D
+[10:33] tensors or matrices. So, imagine if you
+[10:37] have multiple vectors, like. So If you
+[10:47] add or collect these vectors, then we
+[10:52] call it a matrix. Okay? Something like
+[10:55] this. 1 2 3 4 5 6 7 8 9, so basically
+[11:04] matrices are nothing but a collection
+[11:07] of vectors. Okay? And obviously, its
+[11:11] dimension is 2D because there are two
+[11:14] axes here. Okay? This one axis is the
+[11:16] column axis, and this one axis is the
+[11:18] row axis. Okay? So, I hope you are
+[11:20] understanding this. Its rank is two,
+[11:23] which is equal to the dimension, and
+[11:26] there are two axes: rows and columns.
+[11:29] Let me quickly show you how this is
+[11:31] created. It is very simple. You will
+[11:34] use NumPy again. Let's say I am
+[11:36] creating a variable called MAT, and MAT
+[11:40] is equal to np.array, and here what
+[11:43] will I do? I will pass a list of lists
+[11:45] in Python, something like this. 1, 2, 3
+[11:47] , then a comma; the second item itself
+[11:50] is going to be a list 4, 5, 6. And 7, 8
+[11:56] , 9, okay. And if we print the MAT, you
+[12:00] will get a structure like this; this is
+[12:02] a matrix, okay. If you calculate its MM
+[12:06] , then as expected, it would be two. 2D
+[12:13] Tensor. Okay, now you can easily
+[12:15] understand that if you want to create
+[12:17] higher dimension tensors from this,
+[12:19] what will you do? Basically, if you
+[12:22] want to create a 4D tensor. Sorry, if
+[12:25] you want to create a 3D tensor, you
+[12:27] will have a matrix that looks like this
+[12:30] . You will take more matrices like this
+[12:35] . This is one matrix. This is the
+[12:38] second one. This is the third one. So,
+[12:42] basically, suppose if all these
+[12:44] matrices have 3 by 3 numbers and you
+[12:47] are taking four such matrices, then you
+[12:51] will get a 4 by 3 by 3 tensor, which
+[12:54] you will call a 3D tensor, and this
+[12:57] time there are three axes here. Okay?
+[13:01] So you have a column axis. You have a
+[13:04] row axis and you have a depth axis.
+[13:08] Okay? This is a 3D tensor. Okay? Or you
+[13:11] can actually see it in terms of a
+[13:13] cuboid. Right? Something like this.
+[13:19] Right? Now, if someone asks you what a
+[13:22] 4D tensor would look like? What would a
+[13:24] 4D tensor be like? So a 4D tensor is
+[13:26] basically a collection of 3D tensors.
+[13:28] If this is a 3D tensor, then a 4D
+[13:30] tensor will look like this. Basically,
+[13:36] it will be a vector of 3D tensors. See
+[13:38] like this. Now, sorry for my drawing.
+[13:42] But these lines have 3D tensors placed
+[13:45] in this way. These are what you call a
+[13:48] 4D tensor. Right? Now, if someone asks
+[13:51] you what a 5D tensor would look like?
+[13:53] So a 5D tensor will be a matrix of 3D
+[13:55] tensors. Basically, more cuboids will
+[13:59] come underneath it like this. Like,
+[14:02] this is a 5D tensor. Right? And that is
+[14:08] how this entire thing works. This is a
+[14:11] 5D tensor. I mean, if you focus only on
+[14:13] this much. If you focus only on this
+[14:16] much, then this is a 4D tensor. But if
+[14:22] you focus on the whole thing. Focus on
+[14:24] this whole thing, this is a 5D tensor.
+[14:26] Okay? And that is how this entire thing
+[14:29] is stacked on top of each other. Now,
+[14:30] if you make a collection of 5D, it will
+[14:33] become 6D. If you make a collection of
+[14:35] 6D, it will become 7D. That is the
+[14:36] whole idea. So where you were
+[14:38] restricted to thinking only about
+[14:40] scalars, vectors, and matrices, now you
+[14:42] are completely free. Because you have a
+[14:45] general concept that we call this thing
+[14:47] a tensor, and in terms of that tensor,
+[14:49] you can think or do things in any
+[14:51] number of dimensions. Okay? Now, if you
+[14:54] talk about machine learning, you mostly
+[14:56] revolve between zero to 5D. You won't
+[14:59] really find tensors with higher
+[15:00] dimensions than that. Okay? So that’s
+[15:02] why, in today’s video, I will show
+[15:04] you one example of each of the five
+[15:06] tensors. Okay? To be honest, there’s
+[15:09] no need to show an example of a scalar.
+[15:11] So I will show you all examples from 1D
+[15:13] up to 5D. Practical examples, the kind
+[15:15] of examples you might encounter later
+[15:16] on. Okay? But before we go there, I
+[15:18] just want to tell you one more thing.
+[15:20] This is the last concept. Although we
+[15:22] have discussed it a little bit already.
+[15:23] What do we call rank, axis, and shape?
+[15:25] Okay? Let’s discuss it quickly. Rank
+[15:28] is just that. The number of dimensions
+[15:30] your tensor has is what is called its
+[15:32] rank. It is also called the number of
+[15:35] axes. Number of axes is equal to rank,
+[15:40] is equal to the number of dimensions.
+[15:45] These three things are the same, guys.
+[15:46] Okay? You must always remember this.
+[15:48] Let me explain it to you in terms of a
+[15:51] matrix. Suppose you have this matrix.
+[15:53] It is a 3x3 matrix. So, obviously, it
+[15:56] has two axes. One row axis and one
+[15:59] column axis. One more thing comes up
+[16:02] here. Then what is shape? Shape is how
+[16:07] many items you have in any particular
+[16:10] axis. For example, if you talk about
+[16:13] the row axis, how many maximum items
+[16:15] can you store in the row axis? Three.
+[16:18] Right? It’s 3x3, so you can only
+[16:20] store three. So the shape of this
+[16:23] matrix is 3x3, but you can also have a
+[16:25] matrix like this. This is also a matrix
+[16:30] . If you calculate its ndim or its rank
+[16:34] , it will still be two. Because it
+[16:38] still has a column axis and a row axis
+[16:40] here. But this time, if you calculate
+[16:43] the shape, it will be 2x3. Why am I
+[16:46] saying that? Because in the row, in the
+[16:48] row axis, how many maximum items can
+[16:50] you store? Two. And how many can you
+[16:52] store in the column axis? Three. Okay?
+[16:55] Let’s take one more example. This is
+[17:00] 4x2. Okay? There is one more thing,
+[17:03] size. Size of a tensor. So size means
+[17:06] how many items are in that tensor. So
+[17:08] simply multiply its shape, all the
+[17:10] numbers. Multiply these. 2x3 is six.
+[17:14] Meaning there are six items inside it.
+[17:16] If you multiply 3 here, you get nine.
+[17:18] Meaning there are nine items here. Here
+[17:20] , multiply 4 by 2, you get eight.
+[17:21] Meaning there are eight items. Okay? So
+[17:23] , whenever you want to find out how
+[17:25] many items are in a particular tensor,
+[17:27] which we call size, it is very simple
+[17:28] to calculate. You just find its shape
+[17:30] and multiply all the numbers. Okay?
+[17:32] This is just not true for scalars. For
+[17:34] a scalar, the size is always equal to
+[17:37] one. It's simple. If it is a scalar,
+[17:39] its size will be one. For tensors above
+[17:41] that, you simply have to multiply their
+[17:43] shape. If you have a vector, a 1D
+[17:45] tensor, it will look something like
+[17:48] this. So in this case, your shape will
+[17:52] be three. Okay? Because here, in one
+[17:55] single place, there are three items.
+[17:57] Okay? So here, three is your number of
+[18:00] items. Okay? I hope you are
+[18:02] understanding. It is very simple. Once
+[18:04] you grasp the concepts. Okay? So rank,
+[18:06] axis, and shape, these are the three
+[18:08] things we discussed. In fact, we also
+[18:10] discussed size. Now, the most important
+[18:13] part of this video: we will see
+[18:14] practical examples of tensors from 1D
+[18:17] to 5D that you will encounter later in
+[18:19] your life while doing machine learning
+[18:21] and deep learning projects. We are
+[18:23] going to do that next. Let me now give
+[18:26] you two practical examples of a 1D
+[18:27] tensor that you will see everywhere in
+[18:29] machine learning in the future. Okay?
+[18:32] And this is where you will understand
+[18:34] why I said a little while ago that a
+[18:37] vector is a 1D tensor but its own
+[18:39] dimensions are different. You will
+[18:42] understand this now. Okay? And to
+[18:44] explain this whole thing, I will take
+[18:45] an example. Let's say we have a dataset
+[18:48] about students. We have discussed this
+[18:50] dataset before as well. We have a
+[18:52] dataset of students. And in that
+[18:55] dataset, we have four columns. The
+[18:57] first column is CGPA. The second column
+[19:02] is IQ. The third column is state. Which
+[19:05] state are they from? West Bengal,
+[19:07] Kerala, or whatever it is. Okay? And
+[19:09] here it is whether they got placed or
+[19:12] not. Which is your target column that
+[19:14] you need to predict. Classification
+[19:16] problem. Okay? Now, let's assume I have
+[19:20] data for 10,000 students, and obviously
+[19:22] , my end goal is to build a
+[19:25] classification model, so if I provide a
+[19:28] new student's details—meaning IQ,
+[19:30] CGPA, and state—it should tell me
+[19:33] whether they will be placed or not. I
+[19:36] need to make this prediction. Right? So
+[19:38] , what do I do here? I will show you an
+[19:41] example of a 1D tensor. I'll show you
+[19:44] an example of a 1D tensor or a vector.
+[19:47] For that, you'll have to forget the
+[19:49] 10,000 students and focus on just one
+[19:52] student. If you focus only on the first
+[19:54] student. Let's say our first student
+[19:57] has a CGPA of 8.1, an IQ of 91, is from
+[20:01] West Bengal, and they got placed. For
+[20:05] now, we are ignoring the placement
+[20:07] column because we are going to focus on
+[20:09] the input columns. So, if you take
+[20:12] their input, if you take that student's
+[20:14] input, basically it is a set of three
+[20:16] things. Now, let's assume for a moment
+[20:19] that our data only contains students
+[20:21] from two states. The first state is
+[20:23] West Bengal, the second is Bengaluru,
+[20:26] Karnataka. Right? And assume we are
+[20:29] calling West Bengal zero and Karnataka
+[20:32] one. We have performed numerical
+[20:34] encoding. This is called label encoding
+[20:35] . You will understand this in future
+[20:37] videos. So, basically, instead of West
+[20:40] Bengal, I wrote zero. So if we only
+[20:43] talk about the first student, we have
+[20:46] these numbers: 8.1, 91, and 0, and
+[20:49] guess what? This is a tensor, a 1D
+[20:52] tensor. Or you could call it a vector.
+[20:56] This is a vector. And what is the
+[20:58] dimension of this tensor? 1D, because
+[21:00] it has only one axis. There is only one
+[21:03] axis. But what is the dimension of this
+[21:05] vector? It is a 3D vector. Why am I
+[21:08] saying that? Because there are three
+[21:11] axes here. There are three axes here.
+[21:13] What is the first axis? CGPA. What is
+[21:16] the second axis? IQ, and what is the
+[21:19] third axis? State. And this student is
+[21:24] somewhere here. There is that vector.
+[21:27] This is the vector. Now, suppose if
+[21:31] there were another student, 7.2 IQ, 102
+[21:33] , Karnataka, no placement, so assume
+[21:36] they would lie somewhere here,
+[21:38] something like this. Right? They would
+[21:42] have their own separate vector. So,
+[21:45] basically, if you talk about it, in
+[21:47] this three-dimensional space, you have
+[21:49] data for 10,000 students. Data for
+[21:51] 10,000 students. Meaning you have
+[21:54] 10,000 vectors. Each vector represents
+[21:56] a student in this three-dimensional
+[21:59] coordinate space. So when you are
+[22:01] talking about vectors, this is a 3D
+[22:02] space. But when you represent those
+[22:05] numbers in the form of a tensor, it is
+[22:07] a 1D tensor. So these are two different
+[22:09] things. Do not get confused between
+[22:11] them. Are you talking about the
+[22:13] dimension of the tensor or the
+[22:15] dimension of the vector? There is a
+[22:17] difference in that. Right? It became 3D
+[22:19] here because you had three input
+[22:21] columns. If you have 50 input columns,
+[22:24] then you are working in a 50-
+[22:26] dimensional coordinate space. But it
+[22:28] will still remain a 1D tensor. Please,
+[22:31] I hope you are understanding this point
+[22:33] . Okay? One more example where you will
+[22:36] find a 1D tensor. One example is
+[22:37] already this. Whenever you get any
+[22:39] machine learning tabular data, each row
+[22:42] is actually a 1D tensor or a vector.
+[22:45] Okay? One more example is, now think if
+[22:47] you had data for these 10,000 students
+[22:49] here, then everyone's output would look
+[22:52] something like this. In this way. Now
+[22:54] if you take out all these numbers. If
+[22:57] you extract all these numbers and
+[22:59] represent them in this manner as well.
+[23:06] Then there will be a total of 10,000
+[23:09] numbers in it. But this is also a 1D
+[23:13] tensor. This is also a 1D tensor. Okay?
+[23:17] So I hope you are understanding a bit
+[23:20] by now where you can find 1D tensors in
+[23:22] machine learning. Okay? Now let me show
+[23:25] you where you will find 2D tensors.
+[23:28] Where will you find 2D tensors? It is a
+[23:30] very simple thing, guys. What is a 2D
+[23:32] tensor? A 2D tensor is basically a
+[23:34] collection of 1D tensors. Right? So if
+[23:37] you have the data we had earlier of
+[23:41] CGPA, IQ, state, and placement. Now
+[23:45] let's forget about placement for a
+[23:47] moment. If we only focus on the input
+[23:48] columns. We had data for 10,000
+[23:50] students. Like this. So here, every
+[23:55] student's data is actually a vector or
+[23:59] a 1D tensor. So a collection of 10,000
+[24:02] vectors would be what? A matrix, right?
+[24:06] So you can actually write this entire
+[24:08] thing inside a matrix. So whenever you
+[24:12] get data in machine learning, its input
+[24:15] —the collection of input columns—
+[24:18] you can store all that data in a matrix
+[24:21] . That is generally called a 2D tensor
+[24:23] in machine learning. It is denoted by
+[24:25] D. Okay? So it will look something like
+[24:28] this. Data of the first student, data
+[24:31] of the second student, data of the
+[24:34] third student, data of 10,000 students.
+[24:38] And this becomes your 2D tensor. Okay?
+[24:43] Which is a collection of 10,000 vectors
+[24:46] that are themselves 3D vectors. I hope
+[24:48] you are understanding this so far. And
+[24:51] this placement, whether it happened or
+[24:54] not, is itself a 10,000-dimensional
+[24:57] vector. And basically, it is a 1D
+[25:00] tensor. This is a 1D tensor. Okay? This
+[25:03] is a 2D tensor. I hope you understood
+[25:06] this entire discussion. You will
+[25:08] encounter this every time. If you ever
+[25:10] work with tabular data, you are working
+[25:13] with 1D tensors as well as 2D tensors.
+[25:16] Basically, you are working with
+[25:18] matrices and also with vectors. Or in
+[25:20] summary, if I tell you, when you
+[25:22] separate all the inputs, you can call
+[25:25] it a matrix or a 2D tensor. And when
+[25:28] you isolate the entire input, which is
+[25:29] a single column, it becomes your vector
+[25:31] or your 1D tensor. Okay? So, I guess
+[25:34] you understand where you find 1D and 2D
+[25:36] tensors. Now let's move on to 3D
+[25:38] tensors. So now let's focus our
+[25:40] attention on 3D tensors. To be honest,
+[25:42] 3D tensors are a bit rare. Calling them
+[25:45] rare would actually be wrong. It's just
+[25:47] that they aren't as frequent as your 1D
+[25:50] and 2D tensors. If you want to see a
+[25:52] practical example of 3D tensors. In
+[25:53] fact, I will show you two practical
+[25:55] examples. One of them, a very intuitive
+[25:57] and interesting practical example, is
+[26:00] from the domain of NLP, Natural
+[26:01] Language Processing. Meaning, if you
+[26:04] are ever working with any textual data,
+[26:07] you will see 3D tensors there. Let me
+[26:09] show you how. So let's say I have some
+[26:12] text written. Hi Nitish. Hi Rahul and
+[26:20] Hi Ankit. These are three texts. And
+[26:24] assume these three texts are my input.
+[26:27] I have to give these three texts to the
+[26:29] algorithm to train. Now, obviously, you
+[26:32] know that machine learning algorithms
+[26:33] are pure mathematics. They don't
+[26:35] understand text or strings. So you will
+[26:38] have to convert this text into numbers,
+[26:41] or, in other words, into vectors. This
+[26:43] entire process is actually called
+[26:45] vectorization in the NLP domain. Where
+[26:47] you convert a given text into numbers
+[26:50] or vectors. So that is a very important
+[26:52] thing. And there are many different
+[26:54] vectorization techniques. But we are
+[26:55] going to focus on a very simple and
+[26:57] very intuitive technique. Let me show
+[26:59] you. So what I will do is, I need to
+[27:02] convert all these sentences into
+[27:04] numbers. For that, what I will do is, I
+[27:08] will list down all my words, all my
+[27:11] unique words. Like 'Hi' once, 'Nitish'
+[27:14] once, basically I wrote down my entire
+[27:17] vocabulary. Vocabulary means the set of
+[27:20] all unique words present in my corpus,
+[27:22] as it is called here. Basically, in my
+[27:25] text. Okay? Now what will we do? We
+[27:29] will represent every word, every
+[27:31] particular word, with a vector. For
+[27:34] instance, if I have to represent 'Hi',
+[27:37] then 'Hi' becomes 1 0 0 0. Whenever I
+[27:42] find 'Hi' written anywhere, I can write
+[27:44] this instead. If I find 'Nitish'
+[27:46] written anywhere, I will write 0 1 0 0;
+[27:50] that becomes 'Nitish'. Okay? If I have
+[27:53] to represent 'Rahul', then it becomes
+[27:55] this. And if I have to represent 'Ankit
+[27:58] ', then it becomes this. Right? Now, if
+[28:01] I talk about these sentences. If I talk
+[28:03] about these sentences, let's say my
+[28:05] first sentence is what? 'Hi Nitish'. So
+[28:07] what is this actually? It is a set or
+[28:10] collection of two vectors. So the first
+[28:14] vector is 1 0 0 0 and the second vector
+[28:18] is 0 1 0 0; this is my first sentence.
+[28:24] If you notice carefully, then the inner
+[28:27] vector is a 1D tensor, and there are
+[28:30] two such 1D tensors. So it means this
+[28:32] entire thing, the outer one, is a 2D
+[28:34] tensor. Right? Now, if the first
+[28:37] sentence is a 2D tensor. Then the
+[28:40] second sentence will also be a 2D
+[28:41] tensor. And the third sentence will
+[28:43] also be a 2D tensor. Basically, you
+[28:46] have a collection of three 2D tensors.
+[28:49] So what has it basically become? A 3D
+[28:51] tensor. Right? So if I want to write it
+[28:53] , I will write it here again. This is
+[29:02] my second 2D tensor and this is my
+[29:06] third sentence. Right? And if I want to
+[29:11] write their collection, then this
+[29:15] became my 3D tensor. Right? If I have
+[29:19] to write its shape, how would the shape
+[29:21] be? We have vectors of four. Like,
+[29:27] vectors of size four. And the matrices
+[29:30] I have are of size 2/4. Okay? Meaning,
+[29:35] basically two rows, four columns, and I
+[29:38] have three such matrices. So this is
+[29:42] the shape, guys, of my 3D tensor. There
+[29:45] are three axes here. Meaning, it is
+[29:47] rank three. And how many items are
+[29:48] there? 3*2*4, 24 items, which is
+[29:52] actually correct. Okay? So, this is one
+[29:56] good example of a 3D tensor. Okay? I
+[29:59] will give you one more example of a 3D
+[30:01] tensor. Okay? Uh, watch carefully. So,
+[30:13] another good example of a 3D tensor is
+[30:15] time series data. Time series data
+[30:23] means data that you collect after a
+[30:27] frequent time period. For example,
+[30:30] share market data that you collect on a
+[30:32] daily basis, or sometimes you collect
+[30:35] every hour. Depends. Okay? I will show
+[30:37] you one example. Let's say, what data
+[30:39] are you storing? The highest and lowest
+[30:44] price of any stock during the day. Okay
+[30:51] ? And you are filling this data once a
+[30:54] day for this entire stock, and you are
+[30:57] doing this for the whole year. Okay? So
+[31:01] the data you will have will be 365 by 2
+[31:04] , think about it, because it will look
+[31:07] like this: Day one, some number, some
+[31:10] number; Day two, some number, some
+[31:13] number; Day 365, some number, some
+[31:16] number. Right? So basically, you have
+[31:19] 365 on the row axis and two on the
+[31:21] column axis, because you have two input
+[31:23] columns. So this data you have is a 2D
+[31:28] tensor. If you are tracking two
+[31:30] quantities throughout the day for the
+[31:32] whole year, then it is a 2D tensor. But
+[31:35] what if I have 10 years of data for
+[31:38] this same stock? I have tracked this
+[31:41] thing for 10 years. So, how many such
+[31:44] 2D tensors do I have? 10, so the
+[31:48] resultant tensor will be 10 cross 365
+[31:52] cross 2, which is a 3D tensor. A
+[31:58] collection of 10 2D tensors is a 3D
+[32:01] tensor. Right? So, whenever you get
+[32:04] time series data, it is 3D data. And
+[32:06] the middle axis in it, this axis here,
+[32:09] is your time axis. This is your time
+[32:12] axis. Okay? So you will work a lot on
+[32:14] time series later on. Most financial
+[32:16] data, or often medical data, is time
+[32:18] series-based data, and a lot of
+[32:20] analysis is done on it, and it is a
+[32:23] very important thing, and this is an
+[32:25] example where 3D tensors are used. Okay
+[32:28] , I hope you are understanding up to
+[32:29] this point. Now we have 4D tensors and
+[32:31] 5D tensors left, let's complete them,
+[32:33] let's cover them. Now let's focus on 4D
+[32:35] tensors. Okay, a great example of a 4D
+[32:38] tensor is images, right? Image-based
+[32:42] data. So, if you ever work in the
+[32:46] domain of computer vision, or work with
+[32:49] images, then the tensors you encounter
+[32:52] there are 4D tensors. Let me show you
+[32:55] how. Okay? If you have ever studied
+[32:58] even a little bit of image processing,
+[33:01] you might know that any image is
+[33:03] basically a collection of pixels.
+[33:06] Pixels look like this. There are very
+[33:09] small pixels on your screen like this.
+[33:12] And every pixel has a numerical value
+[33:15] because of which you see something.
+[33:18] Like, if this value is black, this
+[33:20] value is black, and all these values
+[33:23] are black, then you see a two on your
+[33:25] screen. Everything else was one. Only
+[33:28] these values are black. So this is a
+[33:31] two on your screen. So by controlling
+[33:33] these pixels, you can display any image
+[33:36] . Now, if you want to show a color
+[33:39] image, you take three channels like
+[33:42] this. This is the first channel that I
+[33:45] showed you. You take three channels
+[33:47] like this. This is R, this is G, and
+[33:49] this is B. Red, Green, Blue. Okay? And
+[33:52] you stack these three on top of each
+[33:53] other like this. Right? So suppose
+[33:56] these three are obviously matrices.
+[34:00] These three are actually 2D tensors.
+[34:03] And if you combine three 2D tensors, it
+[34:05] becomes a 3D tensor. Right? Suppose one
+[34:09] has a shape of 1200 by 800, and you
+[34:12] have three such channels, so combining
+[34:17] them you get 3, 1200, 800—three
+[34:20] channels and 1200*800 pixels in each
+[34:24] channel, okay? So that's for one image.
+[34:28] If you are talking about that, it is a
+[34:31] 3D tensor, right? But what if you have
+[34:34] multiple images? Suppose you have 50
+[34:37] color photographs like this. If you
+[34:40] have 50 color images. In that case, you
+[34:45] get a 50 by 3 by 1200 by 800 tensor.
+[34:51] And this is your 4D tensor. So in the
+[34:55] future, if you ever do image processing
+[34:57] or study convolutional neural networks
+[34:59] in deep learning, when you work with
+[35:01] images there, you work with batches of
+[35:03] images. And those batches of images are
+[35:06] a great example of a 4D tensor. Okay?
+[35:09] So I hope you understood this example
+[35:11] as well. Now let's move on to 5D
+[35:13] tensors. So I guess you must have
+[35:15] already understood 5D tensors. A very
+[35:17] good example of that is videos. Right?
+[35:22] Because what are videos? If you think
+[35:24] carefully. You probably already know.
+[35:26] Videos are basically images that are
+[35:29] passed in front of your eyes very
+[35:31] quickly. Because they pass at such a
+[35:35] speed, our eyes and our brain cannot
+[35:37] distinguish that they are two separate
+[35:40] images. Because the speed at which the
+[35:44] images are crossed is higher than our
+[35:47] persistence of vision. So I will show
+[35:50] you, it is written here that our
+[35:52] persistence of vision can only classify
+[35:55] 12 separate images in one second. If
+[35:58] you pass more than 12 images in front
+[36:01] of our eyes in one second. Then it
+[36:03] gives us a feeling of a video. Right?
+[36:06] And this generally happens with 30fps,
+[36:08] 60fps, 120fps; I am not sure about
+[36:10] 120fps. But videos are passed at up to
+[36:14] 60 frames per second. So obviously
+[36:16] those images are passing so fast that
+[36:18] we feel it is in continuity. It is a
+[36:20] video. Right? So in short, videos are
+[36:25] basically frames. Right? A collection
+[36:30] of frames. Right? A single frame means
+[36:32] one image. One frame means one image.
+[36:35] Right? So let's say you have a 60-
+[36:41] second video that was shot at 30 FPS
+[36:49] and is 480p. 480p means its resolution
+[36:54] is 480 by 720. Obviously, this is color
+[36:58] , so it will have three channels. RGB.
+[37:01] Right. So now look, a single image
+[37:04] inside it is obviously 480. 720, 3, a
+[37:09] single image, right. Now I have a 60-
+[37:14] second video, shot at 30 FPS, so how
+[37:17] many images do you have? If you want to
+[37:21] calculate this, you are getting 30
+[37:23] videos in one second, 30 frames per
+[37:25] second. In one second you are getting
+[37:28] 30 videos, sorry, 30 images. And you
+[37:30] have 60 seconds like that. So that
+[37:32] means you have 1800 images. Right? If
+[37:36] there are 30 in 1 second, then in 60...
+[37:38] sorry, 1800, please ignore if there is
+[37:41] any calculation mistake. You have 1800
+[37:45] images. Right? This is already your 4D
+[37:48] data. Now suppose you have four video
+[37:50] clips like this. You have got four
+[37:53] videos. So now the data you have, this
+[37:56] collection of four videos, is actually
+[37:58] a 5D tensor. This is a 5D tensor. The
+[38:03] collection of videos is a 5D tensor.
+[38:05] Where the first thing tells you how
+[38:07] many videos there are. This part tells
+[38:09] you how many images are in a single
+[38:11] video, and this is the size of each
+[38:13] image and how many color channels it
+[38:14] has. So, this is a 5D tensor. Now, if
+[38:17] you multiply these numbers. If you
+[38:19] multiply these numbers, it becomes a
+[38:21] very large number. Right? Let me show
+[38:23] you how large this number will be. This
+[38:27] number will be: we have four videos
+[38:30] multiplied by 1800 images, multiplied
+[38:34] by 480 by 720. I want to show you the
+[38:38] calculation I am doing. Multiplied by 3
+[38:42] , this is the number, guys. This is the
+[38:44] number and this is a big number. Right?
+[38:47] Now think, if you have this many values
+[38:49] , basically there are this many numbers
+[38:51] here. Right? Because if you multiply
+[38:54] all these, the tensor has that many
+[38:55] values. That many items. So, there are
+[38:58] this many items here. Now think, if you
+[39:01] store each item in a float, in a
+[39:04] float32. Basically, if you store every
+[39:07] single item in a 32-bit float, how much
+[39:10] total storage will you need? Multiply
+[39:14] by 32, meaning you would need this many
+[39:17] bits. So, how much would this number be
+[39:19] in bytes? Divided by 8, you would need
+[39:22] this many bytes. If I want to convert
+[39:25] this into kilobytes, I will divide it
+[39:28] by 1024. Here is the number in
+[39:31] kilobytes. If I want to convert it into
+[39:34] megabytes, I will divide it again by
+[39:37] 1024. Such a huge megabyte. And if I
+[39:41] divide it again by 1024, here is our GB
+[39:45] , 27 GB. Meaning, if you want to store
+[39:50] four 60-second videos, or process them,
+[39:54] or run machine learning or deep
+[39:57] learning on them, you would need 27 GB
+[40:01] of space. Obviously, you don't do that,
+[40:06] and that is where video codec formats
+[40:10] come in, video encoding formats like
+[40:13] MKV or MP4. Okay, what do they do?
+[40:17] Whatever you are giving to a single
+[40:19] item, they reduce it significantly, and
+[40:22] you can then do all this work with much
+[40:25] less data. Honestly speaking, video
+[40:27] processing is somewhat rare, unless you
+[40:29] are building an application like
+[40:30] YouTube where you have to process every
+[40:32] video before it gets uploaded. You most
+[40:34] likely won't be working on videos, but
+[40:36] you might if you are working in the
+[40:38] computer vision domain. You never know,
+[40:40] right? But yeah, you personally won't
+[40:42] have sensors beyond 5D, there aren't
+[40:44] really any use cases beyond that. Okay,
+[40:47] so 5D will be the max and that's it.
+[40:50] That's what I wanted to discuss in this
+[40:51] video. I know it has become a quite
+[40:53] long video, it must be around 40
+[40:55] minutes, I guess. So what can I say, I
+[40:58] taught it in a bit of detail. I hope
+[41:01] you understood it and this will provide
+[41:04] us a good start when we do things ahead
+[41:07] . Okay, so yeah, that's it guys. If you
+[41:10] liked the video, please consider
+[41:12] subscribing. If possible, do share it
+[41:14] with someone if they are learning
+[41:15] machine learning. And let's meet
+[41:17] tomorrow, tomorrow we will do an
+[41:19] end-to-end machine learning example so
+[41:21] that you get a bird's eye overview of
+[41:23] the whole process. So yeah, thanks for
+[41:25] watching, will meet tomorrow, bye.

@@ -1,0 +1,143 @@
+# Ridge Regression Part 1 | Geometric Intuition and Code | Regularized Linear Models
+# https://www.youtube.com/watch?v=aEow1QoTLo0
+
+hi guys so in this video we'll be learning about regularization okay so what is regularization and where should we use it that's the big question right so uh if you search it on google uh wikipedia may uh you will get this definition key regularization is this technique using which uh you know you induce some added information in a machine learning model so that you can reduce overfitting okay so regulations available so there was stacking uh i'm sorry there was backing there was boosting and then there was regularization okay so it's a very important concept especially when you're dealing with regression linear regression as well as logistic regression or because we use perceptron then okay the second one is lasso uh or is from l1 regulation and the third one is elastic net which is basically a combination of rich plus lasso okay so this video memory card is okay so the setup of the um is this uh this phenomena this criteria uh where a machine learning model is performing exceptionally well on training data but not so well on the testing data also performance on a different data set is giving completely different results and that is what overfitting what is does it mean okay so the answer is so the whole idea of linear regression is to find out the best fit line right y is equal to mx plus b right or is um is system is undefeated right now now m would be infinite in this case it means foreign is and the second set is test okay [Music] [Music] which you add some extra thing so that extra thing is actually this let me write it down lambda uh m square so above functions right so this is is [Music] um okay so let's calculate it for the first line right now let's talk about this term this is equal to one and m for this one is one point five so minus one point five plus square and this is the so minus 0.9 minus 1.5 over [Music] minus [Music] this is my loss for the second leg 2.03 so you can see this area it's two point two five and this line here it's two point zero three above the machine learning model m1 square is [Music] is and this is the description of the data set so actually uh there are 10 input columns 8 6 body mass index average blood pressure and six blood serum measurements okay so in total there are 10 input columns or job cut target column column 11 is a quantitative measure of [Music] uh there is this um hyper parameter alpha which is basically the lambda in the last video my discussion by value by default test data set okay and you have you can see the accuracy score is exactly same almost same actually uh point five one eight nine either way i guess uh just one second yeah five one eight it like slightly better performed ridge regression uh over linear regression on newer data sets so uh to be honest but the whole idea is key this model is slightly less complex in comparison to the previous one okay lasso regression used to you would see a significant improvement in r2 score uh when you are dealing with newer okay [Music] you can see this is the main graph so you can see this is the data set or it's not overfitting okay and the last one is alpha is equal to 200 yeah but you can see uh model over simplifying right so that is like under fitting so java you can clearly see key red is doing overfitting alpha is zero blue is doing uh under fitting matlab patterns picker mega because the alpha value is very high and the optima [Music] so thanks for watching
+
+
+[00:00] hi guys so in this video we'll be
+[00:03] learning about regularization
+[00:04] okay so what is regularization and where
+[00:07] should we use it
+[00:08] that's the big question right so uh
+[00:12] if you search it on google uh wikipedia
+[00:15] may uh you will get this definition key
+[00:16] regularization is this
+[00:18] technique using which uh you know you
+[00:21] induce some added information in a
+[00:23] machine learning model
+[00:24] so that you can reduce overfitting okay
+[00:27] so
+[00:28] regulations
+[00:57] available so there was stacking uh i'm
+[00:59] sorry there was backing there was
+[01:01] boosting and then there was regularization okay
+[01:03] so it's a very important concept
+[01:05] especially when you're dealing with
+[01:06] regression
+[01:07] linear regression as well as logistic
+[01:08] regression or because
+[01:10] we use perceptron
+[01:39] then okay the second one is lasso uh or
+[01:41] is from l1 regulation
+[01:43] and the third one is elastic net which
+[01:45] is basically a combination of rich
+[01:46] plus lasso okay so this video memory
+[01:49] card is okay so the setup of the
+[02:06] um
+[02:49] is this uh this phenomena this criteria
+[02:53] uh where a machine learning model is
+[02:55] performing exceptionally well on
+[02:57] training data
+[02:58] but not so well on the testing data
+[03:07] also performance on a different data set
+[03:08] is giving completely different results
+[03:10] and that is what overfitting
+[03:17] what is does it mean okay so the answer
+[03:20] is
+[03:21] so the whole idea of linear regression
+[03:23] is to find out the best fit line
+[03:24] right y is equal to mx plus b
+[03:27] right or is
+[04:12] um
+[04:40] is
+[05:08] system is undefeated right now
+[05:18] now m would be infinite in this case
+[05:21] it means
+[05:36] foreign
+[05:50] is
+[06:17] and the second set is test okay
+[07:20] [Music]
+[07:51] [Music]
+[08:24] which you add some extra thing so that
+[08:27] extra thing is actually this let me
+[08:28] write it down
+[08:29] lambda uh m
+[08:32] square so above functions
+[08:38] right
+[08:52] so this is
+[09:06] is
+[09:33] [Music]
+[09:34] um
+[09:46] okay so let's calculate it for the first
+[09:48] line
+[10:22] right now let's talk about this term
+[10:24] this is equal to one
+[10:26] and m for this one is one point five so
+[10:28] minus one point five plus square
+[10:30] and this is the
+[11:11] so minus 0.9 minus 1.5 over
+[11:16] [Music]
+[11:26] minus
+[11:29] [Music]
+[11:41] this is my loss for the second leg 2.03
+[11:45] so you can see this area it's two point
+[11:48] two five
+[11:49] and this line here it's two point zero
+[11:52] three
+[11:53] above the machine learning model
+[12:49] m1 square
+[13:04] is
+[13:29] [Music]
+[13:32] is
+[14:34] and this is the description of the data
+[14:36] set so actually
+[14:37] uh there are 10 input columns
+[14:41] 8 6 body mass index average blood
+[14:44] pressure
+[14:45] and six blood serum measurements okay so
+[14:48] in total there are 10 input columns
+[14:51] or job cut target column column 11 is a
+[14:55] quantitative
+[14:56] measure of
+[15:02] [Music]
+[16:10] uh there is this um
+[16:14] hyper parameter alpha which is basically
+[16:17] the lambda
+[16:18] in the last video my discussion by value
+[16:20] by default
+[16:48] test data set okay and you have you can
+[16:51] see the accuracy score is
+[16:52] exactly same almost same actually uh
+[16:55] point five one eight nine either
+[16:58] way i guess uh just one second
+[17:01] yeah five one eight it like slightly
+[17:03] better performed ridge regression
+[17:05] uh over linear regression on newer data
+[17:07] sets
+[17:08] so uh to be honest but the whole idea is
+[17:12] key
+[17:13] this model is slightly less complex
+[17:17] in comparison to the previous one okay
+[17:24] lasso regression used to you would see a
+[17:26] significant improvement in
+[17:28] r2 score uh when you are dealing with
+[17:30] newer
+[17:44] okay
+[18:06] [Music]
+[18:36] you can see this is the main graph so
+[18:38] you can see this is the data set
+[18:40] or
+[19:07] it's not overfitting okay and the last
+[19:10] one is alpha is equal to 200
+[19:12] yeah but you can see uh model over
+[19:15] simplifying
+[19:19] right so that is like under fitting so
+[19:21] java you can clearly see
+[19:23] key red is doing overfitting
+[19:26] alpha is zero blue is doing
+[19:29] uh under fitting matlab
+[19:32] patterns picker mega because the alpha
+[19:34] value is very high
+[19:36] and the optima
+[19:45] [Music]
+[19:55] so thanks for watching

@@ -1,0 +1,179 @@
+# Naive Bayes Part 9 | Handling Numerical Data
+# https://www.youtube.com/watch?v=TCgK2nBJx9o
+
+So hi, if we've noticed so far, whenever we talk about Naive Bayes, we are continuously talking about categorical data. Right? In all the examples we did in the previous videos, every column was categorical. So, if instead of a categorical column, we have a numerical column, how will our Naive Bayes work? That's what we will see in this video. Okay? So let's say I have this data. There are three columns: height, weight, and gender. Height is in centimeters, weight is in pounds, and gender is male or female. Alright? So this is the input I have as data. And now my task is to create a predictor, a machine learning model, which can predict the gender of a new incoming data point. Like, if I am asked, if the height is 185 and the weight is 170, then I have to find out what the gender of this human being is. Or what is the gender of this person? Alright? So this is the problem statement, and again, we are going to use Naive Bayes. So, let's formulate the problem first. So, obviously, if you want to find out, if you have to formulate this, you have to basically find out the probability of this guy or girl being a male given height is equal to 185. And this is intersection weight is equal to 170. We have to find this. Right? And by the formula, you already know, to calculate this, you will have to find the probability of h = 185 given male, multiplied by the probability of weight = 170 given male, and then you have to find the probability of being male. Right? We will have to calculate these three things. We have to calculate three probabilities. Similarly, we will also have to find out the same thing for being female. Right? So this is known. Alright? Now we have to find this, this, and this. To be honest, if you talk about this term. It is very simple. What is the probability of male? In my data. So you can see there are a total of eight data points, out of which four are male. So this will directly be 1/2. This is 1/2 directly, right? The rest is to find this and this, right? In categorical data, it's easy, right? We would separate and count them, but here you can notice that 185 is not anywhere in my entire data point. So if I have to find the probability of height, that means, basically, now I just have to focus on these four data points. In this, I want to ask, what is the probability of the height being 185 among these four? If you focus on these four, on the height, there is not a single data point whose probability is 185, so obviously this term will become zero. Right? Similarly, this term will also become zero and then this entire probability will become zero. So what is the solution for this? You take an assumption. Okay? So, the assumption is this, the assumption is that the height is a Gaussian distributed random variable. This is the assumption. Okay? So, what are we assuming? That ignore the female part for now. Okay? Ignore the female ones. Let's focus on the male. So here, we will assume that these four data points, these four data points, they follow the normal distribution. I hope you remember the normal distribution, this distribution, we will assume that this is a normal distribution. Okay? Now what we will do is we will first calculate the mean and standard deviation of these points, wherever there is a male, for those data points on the height column, I will find out the μ and σ, right, which is the standard deviation. Okay? Now I know this, I, I am removing this. We already know the formula for normal distribution to find out the probability of a particular data point happening is this 1/σ √2π e to the power -1/2 (x-μ/σ) whole square. Right? Now in this equation, if you see, if I have μ, as in I have the mean, and I have σ, as in I have the standard deviation, and I have x, which is this number, then I can easily find out the probability of finding x. Right? It will be some probability. Right? And this is the probability that needs to be calculated. Right? We will repeat the same work on the weight column. Okay? So what will we do? Again, we will assume that the weight column is also normally distributed. Okay? Again, we will find the μ and σ for this column wherever the gender is male. Okay? As soon as this comes, we will again put these three things into this formula. μ, σ, and x, right? And we will again get the probability of finding 170 in this data. Right? And then we will put it here. And we will multiply these three terms. We will get some probability, let's say. And similarly, we have to do the same work for the female. Exactly the same. So the only difference this time around would be. The only difference will be that now you focus on the data below, where it's female. Again, you will assume it's normally distributed. You calculate μ and σ. You calculate this value, put it here, okay? And same with this one, Right? And that is how it is done, okay? Now you might have this doubt, you could ask, but what if this assumption is wrong and it's not normally distributed, right? So, by the way, the technique we just used, we call it Gaussian. Gaussian Naive Bayes. In Scikit-learn, there is a class for this directly, you can use it directly, okay? Yeah, so coming back to your question, you can have this question that, what if this data is completely different from normal, or not normal at all, okay? In that case, what can you do? To be honest, the right approach would be to first plot the distplot to check how the data is distributed. Right? And then you can change your assumptions. You can either go with Gaussian Naive Bayes. If you feel it's close to normal. If it's not, there are various other distributions. It could be binomial. So you will use the binomial formula. And you call it binomial like this. Or you can use the Multinomial Naive Bayes. You can also use the Complement. Naive Bayes, right? So for different distributions, you will know the formula for each because everyone has a formula. You just have to find out the distribution and you just have to see which one it is close to. And then, by applying that particular distribution's formula, you can apply Naive Bayes. Right? That is the correct approach. But since it was easy to explain, I explained the entire thing using Gaussian Naive Bayes. Okay? So I hope this whole video is clear. Now in the next video, I will take the Iris dataset. Where all the columns are numerical and I will demonstrate applying these same steps on it. Okay? So thanks for watching.
+
+
+[00:00] So hi, if we've noticed so far,
+[00:02] whenever we talk about Naive Bayes, we
+[00:05] are continuously talking about
+[00:07] categorical data. Right? In all the
+[00:09] examples we did in the previous videos,
+[00:12] every column was categorical. So, if
+[00:15] instead of a categorical column, we
+[00:18] have a numerical column, how will our
+[00:20] Naive Bayes work? That's what we will
+[00:23] see in this video. Okay? So let's say I
+[00:26] have this data. There are three columns
+[00:29] : height, weight, and gender. Height is
+[00:31] in centimeters, weight is in pounds,
+[00:33] and gender is male or female. Alright?
+[00:36] So this is the input I have as data.
+[00:41] And now my task is to create a
+[00:43] predictor, a machine learning model,
+[00:45] which can predict the gender of a new
+[00:47] incoming data point. Like, if I am
+[00:51] asked, if the height is 185 and the
+[00:54] weight is 170, then I have to find out
+[00:57] what the gender of this human being is.
+[01:00] Or what is the gender of this person?
+[01:01] Alright? So this is the problem
+[01:03] statement, and again, we are going to
+[01:05] use Naive Bayes. So, let's formulate
+[01:08] the problem first. So, obviously, if
+[01:11] you want to find out, if you have to
+[01:14] formulate this, you have to basically
+[01:17] find out the probability of this guy or
+[01:20] girl being a male given height is equal
+[01:23] to 185. And this is intersection weight
+[01:30] is equal to 170. We have to find this.
+[01:34] Right? And by the formula, you already
+[01:39] know, to calculate this, you will have
+[01:43] to find the probability of h = 185
+[01:47] given male, multiplied by the
+[01:51] probability of weight = 170 given male,
+[01:56] and then you have to find the
+[01:59] probability of being male. Right? We
+[02:03] will have to calculate these three
+[02:05] things. We have to calculate three
+[02:06] probabilities. Similarly, we will also
+[02:09] have to find out the same thing for
+[02:12] being female. Right? So this is known.
+[02:15] Alright? Now we have to find this, this
+[02:18] , and this. To be honest, if you talk
+[02:21] about this term. It is very simple.
+[02:25] What is the probability of male? In my
+[02:26] data. So you can see there are a total
+[02:28] of eight data points, out of which four
+[02:30] are male. So this will directly be 1/2.
+[02:34] This is 1/2 directly, right? The rest
+[02:37] is to find this and this, right? In
+[02:40] categorical data, it's easy, right? We
+[02:43] would separate and count them, but here
+[02:46] you can notice that 185 is not anywhere
+[02:48] in my entire data point. So if I have
+[02:51] to find the probability of height, that
+[02:53] means, basically, now I just have to
+[02:55] focus on these four data points. In
+[02:58] this, I want to ask, what is the
+[03:00] probability of the height being 185
+[03:02] among these four? If you focus on these
+[03:04] four, on the height, there is not a
+[03:06] single data point whose probability is
+[03:08] 185, so obviously this term will become
+[03:10] zero. Right? Similarly, this term will
+[03:12] also become zero and then this entire
+[03:13] probability will become zero. So what
+[03:15] is the solution for this? You take an
+[03:17] assumption. Okay? So, the assumption is
+[03:21] this, the assumption is that the height
+[03:28] is a Gaussian distributed random
+[03:37] variable. This is the assumption. Okay?
+[03:43] So, what are we assuming? That ignore
+[03:46] the female part for now. Okay? Ignore
+[03:48] the female ones. Let's focus on the
+[03:50] male. So here, we will assume that
+[03:55] these four data points, these four data
+[03:57] points, they follow the normal
+[03:59] distribution. I hope you remember the
+[04:04] normal distribution, this distribution,
+[04:06] we will assume that this is a normal
+[04:09] distribution. Okay? Now what we will do
+[04:13] is we will first calculate the mean and
+[04:19] standard deviation of these points,
+[04:21] wherever there is a male, for those
+[04:24] data points on the height column, I
+[04:26] will find out the μ and σ, right,
+[04:28] which is the standard deviation. Okay?
+[04:32] Now I know this, I, I am removing this.
+[04:35] We already know the formula for normal
+[04:40] distribution to find out the
+[04:43] probability of a particular data point
+[04:48] happening is this 1/σ √2π e to the
+[04:56] power -1/2 (x-μ/σ) whole square.
+[05:05] Right? Now in this equation, if you see
+[05:09] , if I have μ, as in I have the mean,
+[05:12] and I have σ, as in I have the
+[05:15] standard deviation, and I have x, which
+[05:18] is this number, then I can easily find
+[05:21] out the probability of finding x. Right
+[05:26] ? It will be some probability. Right?
+[05:28] And this is the probability that needs
+[05:31] to be calculated. Right? We will repeat
+[05:35] the same work on the weight column.
+[05:37] Okay? So what will we do? Again, we
+[05:39] will assume that the weight column is
+[05:42] also normally distributed. Okay? Again,
+[05:46] we will find the μ and σ for this
+[05:48] column wherever the gender is male.
+[05:51] Okay? As soon as this comes, we will
+[05:53] again put these three things into this
+[05:55] formula. μ, σ, and x, right? And we
+[06:00] will again get the probability of
+[06:02] finding 170 in this data. Right? And
+[06:05] then we will put it here. And we will
+[06:09] multiply these three terms. We will get
+[06:11] some probability, let's say. And
+[06:14] similarly, we have to do the same work
+[06:16] for the female. Exactly the same. So
+[06:21] the only difference this time around
+[06:23] would be. The only difference will be
+[06:27] that now you focus on the data below,
+[06:28] where it's female. Again, you will
+[06:31] assume it's normally distributed. You
+[06:33] calculate μ and σ. You calculate this
+[06:35] value, put it here, okay? And same with
+[06:37] this one, Right? And that is how it is
+[06:43] done, okay? Now you might have this
+[06:46] doubt, you could ask, but what if this
+[06:49] assumption is wrong and it's not
+[06:51] normally distributed, right? So, by the
+[06:55] way, the technique we just used, we
+[06:57] call it Gaussian. Gaussian Naive Bayes.
+[07:04] In Scikit-learn, there is a class for
+[07:06] this directly, you can use it directly,
+[07:08] okay? Yeah, so coming back to your
+[07:10] question, you can have this question
+[07:12] that, what if this data is completely
+[07:14] different from normal, or not normal at
+[07:16] all, okay? In that case, what can you
+[07:19] do? To be honest, the right approach
+[07:22] would be to first plot the distplot to
+[07:24] check how the data is distributed.
+[07:27] Right? And then you can change your
+[07:29] assumptions. You can either go with
+[07:32] Gaussian Naive Bayes. If you feel it's
+[07:35] close to normal. If it's not, there are
+[07:38] various other distributions. It could
+[07:42] be binomial. So you will use the
+[07:46] binomial formula. And you call it
+[07:51] binomial like this. Or you can use the
+[07:53] Multinomial Naive Bayes. You can also
+[07:59] use the Complement. Naive Bayes, right?
+[08:04] So for different distributions, you
+[08:06] will know the formula for each because
+[08:08] everyone has a formula. You just have
+[08:11] to find out the distribution and you
+[08:13] just have to see which one it is close
+[08:14] to. And then, by applying that
+[08:17] particular distribution's formula, you
+[08:20] can apply Naive Bayes. Right? That is
+[08:22] the correct approach. But since it was
+[08:25] easy to explain, I explained the entire
+[08:27] thing using Gaussian Naive Bayes. Okay?
+[08:30] So I hope this whole video is clear.
+[08:32] Now in the next video, I will take the
+[08:34] Iris dataset. Where all the columns are
+[08:37] numerical and I will demonstrate
+[08:38] applying these same steps on it. Okay?
+[08:42] So thanks for watching.

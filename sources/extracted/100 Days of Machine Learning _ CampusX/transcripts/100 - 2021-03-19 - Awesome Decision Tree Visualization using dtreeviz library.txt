@@ -1,0 +1,462 @@
+# Awesome Decision Tree Visualization using dtreeviz library
+# https://www.youtube.com/watch?v=SlMZqfvl5uw
+
+Hello guys, welcome to my YouTube channel. In this video, we are going to discuss a new library by the name of DTreeViz. It's a decision tree visualization library where, whenever you train a decision tree, you can use this library to visualize it. Okay? Now you might ask, why do we need a new library? Because in Scikit-learn, you can automatically use the plot_tree method to visualize your decision tree anyway. I will show you why. Okay? Let me share my screen. So, yeah guys! Uh, if you remember, if you have ever plotted a decision tree using Scikit-learn, like I have plotted here, I trained a decision tree on the Iris dataset with max_depth equal to two. And you can see, the decision tree plotted here looks very plain. I mean, it's too vanilla, and there is a lot of information, some of which isn't required, and some information makes it hard to understand things. Like here, you see when the split happens, for the splitting criteria, instead of the column name, index numbers are shown. So obviously, if you are dealing with a big dataset, or where you don't remember the column names and index positions, there isn't much interpretability. So, DTreeViz solves these kinds of small problems. Okay? And it gives you very beautiful visualizations of your decision trees. I will show you. What do you need to do first? You need to install it using this command: pip install dtreeviz. And you will need to take some imports. Especially if you are planning to run it on a Jupyter Notebook, you will need to take these imports for Graphviz and IPython, only then will you be able to see the decision trees inside your Jupyter Notebook. Otherwise, if you are working in Python, etc., you don't need these imports. Okay? So, what have I done here? I have simply loaded my Iris dataset from Scikit-learn and trained a decision tree on it with a max depth of two. Okay? And when I ran it using plot_tree, this was my tree. Right? Now I will show you what your visualization will look like if you use DTreeViz. So here it is, guys, the visualization. Here, you have to write this code. Uh, you call this function dtreeviz and in it, you have to pass a few things. You have to provide your decision tree object. You have to specify your X and y, and you have to specify your target column. The target column, this should not be price. I am removing this. Uh, perhaps I accidentally pasted code from somewhere else here. So ignore it. We need to specify our decision tree object. We need to provide X train and y train on which my model was trained. I need to tell it the names of my features. So, I will get the feature names from iris.feature_names. Petal width, petal length, sepal width, sepal length, and I need to specify my classes, which are the output classes. And there is a thing called scale here, using which you can control how large your diagram will appear. I am doing one thing; I am removing the scale for now. So that you can start with the bare minimum. The object, data, input column names, and output column with your classes if you are dealing with a classification problem. Right? And after this code, you just print the viz, and you can see this. This is your decision tree when you plot it using dtreeviz. Right? So look here, the great thing is that two or three very good things come out of it. First of all, the exact splitting criteria, like which column it is happening on and where, is shown exactly. Second, your training data is always right in front of your eyes. Like here, you can see all your data is in front of you in the form of a bar chart, actually a histogram. You can see your Setosa is completely distinct. If you were to plot petal width in comparison to Versicolor and Virginica, if you were doing this plotting manually or deciding where to split, you would split right here around 0.8. As soon as you split around 0.8, two splits occurred; in less than 0.8, all 50 of your Setosa flowers were classified separately. And the remaining 100 flowers went into the other subtree at this point. Right? Now here, you can see there is some overlapping. So we have to make a split. So the next split that occurred was on petal width at 1.75. Right? And when it hit 1.75, you can see there was a bit of an overlapping area. That is why the two leaves were formed because you have set the max depth to only two. So, the tree won't grow any further than this. On your left side, Versicolor is in the majority with 54, meaning there are 54 points there and 46 points here. So, 54 + 46 is 100. All right? And 100 + 50 is 150, and that is your tree, guys. That is your tree. Now, if you want to make some changes to this, you can increase its scale. You can set scale equals to two. Doing this will show you a slightly larger decision tree. You can set the scale as large as you want; it's up to you. All right? If you want, you can go back and what you can do is, don't specify the max depth. Let a fully grown decision tree be created. Like I let it grow here. And now, if I remove the scale or leave it as is. And now if I run it again. You would see a fully grown decision tree created that you can properly visualize. See, this is a decision tree. The first split was on petal width. After that, another split occurred here. Then, more splits kept happening after that. All right? And eventually, if you look at the end, very small areas have been created. Like this is a leaf node that has only one item. This is a leaf node that has only three items. And the leaf nodes are always pure. Pure in the sense that there is only one class inside it. Either Virginica, or Versicolor, or Setosa. All right? Now, this has become a bit too large. That is why there is a problem visualizing it this way. So, I am removing the scale. Still, the decision tree will be quite large. And obviously, you never really grow the entire decision tree. So, it does not matter, actually. So, you can see how easily you are able to view things now. How the splits are happening. It has been given a very beautiful human touch so that you can understand it. Right? So, I am not saying the plot tree method is completely useless. But this is way too awesome. All right? When I saw this for the first time, I was blown away. And since then, whenever I study decision trees, I always use this library. All right? Now, I will show you some of its variations. How you can use it even better. Let's say if you are working on a regression problem, then everything remains the same in a regression problem. Here, I have used the load Boston data set. And I have trained a Decision Tree Regressor. And here, by calling dtreeviz again, you are providing your regression object. You are providing X_train, and providing y_train. You are specifying your target name. Basically, you are stating what your output column is and what your input column is. And as soon as you run this code, what will you get this time? You will get scatter plots. How the cuts are being made in the scatter plots, well, this will be clearly shown to you. Now this looks a bit small, so, "what I will do is, I will add a scale of two", let's make it a bit bigger. And in fact, let's do one thing, I will show you the max depth as one for now, only one split will occur. You can see, there are multiple columns here. One of those columns is called RM. In that RM, the split has occurred at the 6.94 value. Okay? And if it is less than 6.94, then the mean price of all your points is 19.93, and 430 points fell into this. And if it is greater than this, then its mean value is 37.24, and the number of points here is 76. So, if a new point comes tomorrow and it is in this region, suppose it's in this region, then you will directly say the price will be 37. If it is in this region, then you will directly say the price will be 19.93. Okay? So, visualization is happening here through a scatter plot. That is the only difference between regression and this. Okay? Now, let me quickly show you some variations that this library gives you. Uh, if you want, you can plot horizontal decision trees. You don't have to do anything. You just have to provide 'LR' in the orientation. Okay? Left to Right. And by doing this, your decision tree will look like this. It's simple. If it is becoming too big, you can use it horizontally like this. Okay? There's nothing special in this. You just have to provide a key-value pair. Okay? Uh, one more very interesting thing is that what you do is, once the decision tree is built, you give a new point to make a prediction for it. So, if you are ever working on a new query point, you can actually visualize its prediction path using this library. So, what did I do here? I took a new point by randomly picking any one row from the Iris dataset. I picked any random flower. And now look at what I did. I sent my object to the tree viz, passed the decision tree's X train and y train. This won't be the target names, I passed the feature names, class names, and the value of x. So, what is x here? The input. Okay? Now, I am back-tracking this input to see which path it follows. Right? And since this is a fully grown decision tree, this was the point I had. And look, this was actually a Virginica flower that I randomly selected; it went in here, then in here, then here, and finally reached this leaf node. And since it landed in this leaf node, that is why you are saying it is Virginica. Okay? If I run this code again, since it is random, another flower will be selected and its path will be different. Let's see. It landed in the same one again. Let's run it again. I am hoping to get a Versicolor or a Setosa. See, this time it is a Versicolor. Look, whatever point it was this time, I can actually show you by printing x. What I will do is, outside this code, I will print the value of x. So, this is x. This is the new query point. This is its sepal length. Sepal width, petal length, petal width. And you put it into this decision tree. You asked what the petal width is. Now, the petal width I guess is the fourth number, four. Since 4 is greater than 0.80, you came into this subtree. Here, you asked again, is the petal width less than 1.75? So, I guess the petal width is the fourth one. Okay? Since it is less than 1.75. You came into this subtree. Now you are asking about the petal length. Is the petal length less than 4.95? Yes, it is less. So we came into this subtree. Now here, we are asking about the petal width again. Is it less than 1.65? It is less than 1.65. So we arrived here, and the decision tree gave me the output that it is Versicolor. Okay? Let's try one more time. This time it is also Versicolor. But it specifically went into this node. Alright? So anyway, it is very interesting. You can actually take any query point and backtrack which path it followed in the decision tree. And this is a great thing. You don't have this feature in Scikit-Learn. So you can try this. Alright? Next, if you want, you can print the node numbers. Every box here is a node where the splitting is happening. So if you want, just pass this parameter. Show node labels and set it to true. Alright? So what will happen? When your decision tree is formed, the nodes will be visible there. So this is your first node, node zero. Then this is your node one. Then you came back from there. This is your node two. This is node three. This is node four. If I run this again. If I run this again. Okay. If we run it again, since the previous decision tree is fully grown. Yeah, look guys, this is a fully grown decision tree. 0 1 2 3, after three you went here to four, from four you will always complete one sub-tree then come back up and then enter the other one, just like in computer science usually. Alright? So you went from three up to four, four to five, six. Then you came up to this place. Here seven, here eight, here nine, from nine to 10 and then 11, and then came all the way back up to 12, 13, 14, 15, and then came up and here 16; alright. So you need to experiment a bit, the more you see it, the more your intuition will develop, and that is the idea. Alright, if you want, you can plot things without any graphs too. If you don't want these bar plots, histograms, or scatter plots, then what can you do? You just set fancy value to false, and as soon as you run this code, now you will only see the pie chart in the output showing what the distribution is. Only the output will be visible. The graphs will never be plotted on the nodes. So if your graph is becoming very large and you don't want that graph to be there, just put fancy equals false. That's it. Alright? What if you just want to see the prediction path? Like a little while ago, we wanted to see what path the entire decision tree took. But what if I only want to see this specific path? I don't want to see the rest that wasn't covered. In that case, what you can do is just pass this parameter: show_just_path = True. And as soon as you do that, you only see that direct path. Nothing else is visible. Okay? So again, it's up to you if you want to set this parameter. But I prefer the one above. Okay? Next is, if you want to print the path in plain English, you can do that too. Look, you had generated an 'x' point. If you run that, see, first the comparison happened on this thing. Then the comparison happened on this thing, and finally on this thing. A total of three comparisons took place, and you can see it in plain English. Okay? So you have this option as well. You don't need to print the entire tree. Okay? Next, if you want, you can print feature importance. You could anyway predict feature importance using decision trees. Through this library, you can visualize it. Let me show you. If you run this code, you can see here that among the four, the most important feature is petal width. After that is sepal length, and then petal length. Okay? I hope you understood this as well. Okay? I will show you the last two things. First is that if you want, you can plot the entire decision tree on a single graph. Like here I have a dataset called 'cars.csv', basically this dataset. Okay? Yeah, in this, this is the output, these three are inputs. Okay? Now, if you want, like I have done, I performed univariate regression, meaning I have only one input column and one output column. So x is this and y is this. Okay? This is This, weight is input and this MPG is output. Okay? Now this is a single regression, so all splits will be based on a single column only. All of this will be based on WGT only. So you can see these are all the cuts that were made. So, I visualized the entire thing on a single graph. Notice that this time we have done this. We called the 'art_tree_is_univ' function. Here, I had to pass the decision tree, X, Y, both my columns, and an 'ax'. Anyway, don't get into its complexity right now. Just see that you can do something like this. Otherwise, you just have to paste the code. There is no need for you to write the code from scratch. Okay? One interesting example, the last one, is that if you are working with 3D regression and want to see all the cuts in a single diagram, you can do that too. In the same cars dataset. This time, in my X, weight and engine both became the inputs. And MPG became my output. And this time, I called the 'art_tree_vis_bivariate_3d' function. Again, don't get into its complexity. But look at the output. This is the output and it is so beautiful that in 3D, you can see how your decision tree is making cuts on your scatter plot. Okay? Either we could have done one thing, that we look at this kind of visualization. We look at this kind of visualization where, each time, on a single axis, we see how the cuts are being made. But if you want, you can also visualize the entire decision boundary together in a single diagram. Okay? And this is a big point, guys. When I was explaining this to you in regression decision trees, if you saw that video, I was trying to draw it on the blackboard. And it was so difficult to explain there. But if I had this tool at that time, I would definitely have used this tool to show you this. Okay? So the only idea behind shooting this video is that when I saw this tool, when I saw this library, I felt powerful. I felt like, man, this is cool stuff. And if I use this in my workflow, my understanding, my intuition about decision trees grows even more. I felt this myself. So that’s why I wanted to share it with you. So, if you are also working on decision trees and feel that you don't understand where which cut is happening, and even plotting the tree doesn't help, this is the library for you; you should use this one. Okay, it is a very good library. What I will do is share the link to its official GitHub repo and a link to a blog where some more examples are discussed, where many other changes are shown, like how you can increase the font size, change the font color, and the points being plotted within the graphs. You can change their colors. You can increase their size. Such things will be provided there. You can check that out in the description once. And yeah, that's it. Thanks for watching. Okay, bye.
+
+
+[00:00] Hello guys, welcome to my YouTube
+[00:02] channel. In this video, we are going to
+[00:04] discuss a new library by the name of
+[00:07] DTreeViz. It's a decision tree
+[00:10] visualization library where, whenever
+[00:13] you train a decision tree, you can use
+[00:15] this library to visualize it. Okay? Now
+[00:19] you might ask, why do we need a new
+[00:22] library? Because in Scikit-learn, you
+[00:24] can automatically use the plot_tree
+[00:27] method to visualize your decision tree
+[00:29] anyway. I will show you why. Okay? Let
+[00:32] me share my screen. So, yeah guys! Uh,
+[00:36] if you remember, if you have ever
+[00:38] plotted a decision tree using
+[00:40] Scikit-learn, like I have plotted here,
+[00:43] I trained a decision tree on the Iris
+[00:46] dataset with max_depth equal to two.
+[00:50] And you can see, the decision tree
+[00:52] plotted here looks very plain. I mean,
+[00:55] it's too vanilla, and there is a lot of
+[00:58] information, some of which isn't
+[01:01] required, and some information makes it
+[01:04] hard to understand things. Like here,
+[01:08] you see when the split happens, for the
+[01:10] splitting criteria, instead of the
+[01:12] column name, index numbers are shown.
+[01:15] So obviously, if you are dealing with a
+[01:17] big dataset, or where you don't
+[01:19] remember the column names and index
+[01:21] positions, there isn't much
+[01:23] interpretability. So, DTreeViz solves
+[01:25] these kinds of small problems. Okay?
+[01:29] And it gives you very beautiful
+[01:30] visualizations of your decision trees.
+[01:33] I will show you. What do you need to do
+[01:35] first? You need to install it using
+[01:38] this command: pip install dtreeviz. And
+[01:41] you will need to take some imports.
+[01:44] Especially if you are planning to run
+[01:46] it on a Jupyter Notebook, you will need
+[01:48] to take these imports for Graphviz and
+[01:51] IPython, only then will you be able to
+[01:53] see the decision trees inside your
+[01:55] Jupyter Notebook. Otherwise, if you are
+[01:59] working in Python, etc., you don't need
+[02:01] these imports. Okay? So, what have I
+[02:04] done here? I have simply loaded my Iris
+[02:08] dataset from Scikit-learn and trained a
+[02:11] decision tree on it with a max depth of
+[02:14] two. Okay? And when I ran it using
+[02:17] plot_tree, this was my tree. Right? Now
+[02:21] I will show you what your visualization
+[02:24] will look like if you use DTreeViz. So
+[02:27] here it is, guys, the visualization.
+[02:29] Here, you have to write this code. Uh,
+[02:32] you call this function dtreeviz and in
+[02:34] it, you have to pass a few things. You
+[02:37] have to provide your decision tree
+[02:40] object. You have to specify your X and
+[02:44] y, and you have to specify your target
+[02:47] column. The target column, this should
+[02:52] not be price. I am removing this. Uh,
+[02:54] perhaps I accidentally pasted code from
+[02:56] somewhere else here. So ignore it. We
+[02:59] need to specify our decision tree
+[03:01] object. We need to provide X train and
+[03:04] y train on which my model was trained.
+[03:05] I need to tell it the names of my
+[03:07] features. So, I will get the feature
+[03:09] names from iris.feature_names. Petal
+[03:11] width, petal length, sepal width, sepal
+[03:13] length, and I need to specify my
+[03:14] classes, which are the output classes.
+[03:17] And there is a thing called scale here,
+[03:19] using which you can control how large
+[03:21] your diagram will appear. I am doing
+[03:23] one thing; I am removing the scale for
+[03:25] now. So that you can start with the
+[03:27] bare minimum. The object, data, input
+[03:30] column names, and output column with
+[03:32] your classes if you are dealing with a
+[03:34] classification problem. Right? And
+[03:36] after this code, you just print the viz
+[03:39] , and you can see this. This is your
+[03:41] decision tree when you plot it using
+[03:44] dtreeviz. Right? So look here, the
+[03:46] great thing is that two or three very
+[03:48] good things come out of it. First of
+[03:51] all, the exact splitting criteria, like
+[03:54] which column it is happening on and
+[03:57] where, is shown exactly. Second, your
+[04:01] training data is always right in front
+[04:02] of your eyes. Like here, you can see
+[04:06] all your data is in front of you in the
+[04:08] form of a bar chart, actually a
+[04:10] histogram. You can see your Setosa is
+[04:14] completely distinct. If you were to
+[04:16] plot petal width in comparison to
+[04:18] Versicolor and Virginica, if you were
+[04:21] doing this plotting manually or
+[04:23] deciding where to split, you would
+[04:25] split right here around 0.8. As soon as
+[04:28] you split around 0.8, two splits
+[04:30] occurred; in less than 0.8, all 50 of
+[04:32] your Setosa flowers were classified
+[04:34] separately. And the remaining 100
+[04:36] flowers went into the other subtree at
+[04:39] this point. Right? Now here, you can
+[04:41] see there is some overlapping. So we
+[04:43] have to make a split. So the next split
+[04:45] that occurred was on petal width at
+[04:47] 1.75. Right? And when it hit 1.75, you
+[04:51] can see there was a bit of an
+[04:53] overlapping area. That is why the two
+[04:55] leaves were formed because you have set
+[04:57] the max depth to only two. So, the tree
+[04:58] won't grow any further than this. On
+[05:00] your left side, Versicolor is in the
+[05:03] majority with 54, meaning there are 54
+[05:06] points there and 46 points here. So, 54
+[05:09] + 46 is 100. All right? And 100 + 50 is
+[05:12] 150, and that is your tree, guys. That
+[05:14] is your tree. Now, if you want to make
+[05:17] some changes to this, you can increase
+[05:19] its scale. You can set scale equals to
+[05:22] two. Doing this will show you a
+[05:25] slightly larger decision tree. You can
+[05:27] set the scale as large as you want;
+[05:29] it's up to you. All right? If you want,
+[05:31] you can go back and what you can do is,
+[05:34] don't specify the max depth. Let a
+[05:37] fully grown decision tree be created.
+[05:39] Like I let it grow here. And now, if I
+[05:41] remove the scale or leave it as is. And
+[05:44] now if I run it again. You would see a
+[05:47] fully grown decision tree created that
+[05:48] you can properly visualize. See, this
+[05:50] is a decision tree. The first split was
+[05:53] on petal width. After that, another
+[05:55] split occurred here. Then, more splits
+[05:57] kept happening after that. All right?
+[05:59] And eventually, if you look at the end,
+[06:02] very small areas have been created.
+[06:05] Like this is a leaf node that has only
+[06:07] one item. This is a leaf node that has
+[06:09] only three items. And the leaf nodes
+[06:11] are always pure. Pure in the sense that
+[06:14] there is only one class inside it.
+[06:16] Either Virginica, or Versicolor, or
+[06:17] Setosa. All right? Now, this has become
+[06:19] a bit too large. That is why there is a
+[06:21] problem visualizing it this way. So, I
+[06:24] am removing the scale. Still, the
+[06:26] decision tree will be quite large. And
+[06:28] obviously, you never really grow the
+[06:31] entire decision tree. So, it does not
+[06:33] matter, actually. So, you can see how
+[06:35] easily you are able to view things now.
+[06:37] How the splits are happening. It has
+[06:39] been given a very beautiful human touch
+[06:42] so that you can understand it. Right?
+[06:44] So, I am not saying the plot tree
+[06:46] method is completely useless. But this
+[06:48] is way too awesome. All right? When I
+[06:50] saw this for the first time, I was
+[06:51] blown away. And since then, whenever I
+[06:53] study decision trees, I always use this
+[06:55] library. All right? Now, I will show
+[06:56] you some of its variations. How you can
+[06:58] use it even better. Let's say if you
+[07:00] are working on a regression problem,
+[07:02] then everything remains the same in a
+[07:03] regression problem. Here, I have used
+[07:06] the load Boston data set. And I have
+[07:09] trained a Decision Tree Regressor. And
+[07:12] here, by calling dtreeviz again, you
+[07:14] are providing your regression object.
+[07:16] You are providing X_train, and
+[07:17] providing y_train. You are specifying
+[07:19] your target name. Basically, you are
+[07:20] stating what your output column is and
+[07:22] what your input column is. And as soon
+[07:25] as you run this code, what will you get
+[07:27] this time? You will get scatter plots.
+[07:30] How the cuts are being made in the
+[07:31] scatter plots, well, this will be
+[07:33] clearly shown to you. Now this looks a
+[07:35] bit small, so, "what I will do is, I
+[07:37] will add a scale of two", let's make it
+[07:39] a bit bigger. And in fact, let's do one
+[07:43] thing, I will show you the max depth as
+[07:44] one for now, only one split will occur.
+[07:47] You can see, there are multiple columns
+[07:49] here. One of those columns is called RM
+[07:51] . In that RM, the split has occurred at
+[07:55] the 6.94 value. Okay? And if it is less
+[07:59] than 6.94, then the mean price of all
+[08:01] your points is 19.93, and 430 points
+[08:04] fell into this. And if it is greater
+[08:08] than this, then its mean value is 37.24
+[08:10] , and the number of points here is 76.
+[08:13] So, if a new point comes tomorrow and
+[08:15] it is in this region, suppose it's in
+[08:17] this region, then you will directly say
+[08:19] the price will be 37. If it is in this
+[08:20] region, then you will directly say the
+[08:22] price will be 19.93. Okay? So,
+[08:24] visualization is happening here through
+[08:25] a scatter plot. That is the only
+[08:27] difference between regression and this.
+[08:28] Okay? Now, let me quickly show you some
+[08:31] variations that this library gives you.
+[08:33] Uh, if you want, you can plot
+[08:35] horizontal decision trees. You don't
+[08:36] have to do anything. You just have to
+[08:38] provide 'LR' in the orientation. Okay?
+[08:40] Left to Right. And by doing this, your
+[08:43] decision tree will look like this. It's
+[08:45] simple. If it is becoming too big, you
+[08:47] can use it horizontally like this. Okay
+[08:50] ? There's nothing special in this. You
+[08:51] just have to provide a key-value pair.
+[08:54] Okay? Uh, one more very interesting
+[08:57] thing is that what you do is, once the
+[08:59] decision tree is built, you give a new
+[09:01] point to make a prediction for it. So,
+[09:05] if you are ever working on a new query
+[09:07] point, you can actually visualize its
+[09:09] prediction path using this library. So,
+[09:12] what did I do here? I took a new point
+[09:15] by randomly picking any one row from
+[09:18] the Iris dataset. I picked any random
+[09:21] flower. And now look at what I did. I
+[09:23] sent my object to the tree viz, passed
+[09:25] the decision tree's X train and y train
+[09:28] . This won't be the target names, I
+[09:30] passed the feature names, class names,
+[09:33] and the value of x. So, what is x here?
+[09:35] The input. Okay? Now, I am
+[09:37] back-tracking this input to see which
+[09:39] path it follows. Right? And since this
+[09:42] is a fully grown decision tree, this
+[09:45] was the point I had. And look, this was
+[09:48] actually a Virginica flower that I
+[09:50] randomly selected; it went in here,
+[09:52] then in here, then here, and finally
+[09:54] reached this leaf node. And since it
+[09:57] landed in this leaf node, that is why
+[10:00] you are saying it is Virginica. Okay?
+[10:02] If I run this code again, since it is
+[10:04] random, another flower will be selected
+[10:06] and its path will be different. Let's
+[10:08] see. It landed in the same one again.
+[10:13] Let's run it again. I am hoping to get
+[10:16] a Versicolor or a Setosa. See, this
+[10:19] time it is a Versicolor. Look, whatever
+[10:22] point it was this time, I can actually
+[10:24] show you by printing x. What I will do
+[10:27] is, outside this code, I will print the
+[10:30] value of x. So, this is x. This is the
+[10:34] new query point. This is its sepal
+[10:35] length. Sepal width, petal length,
+[10:37] petal width. And you put it into this
+[10:39] decision tree. You asked what the petal
+[10:42] width is. Now, the petal width I guess
+[10:44] is the fourth number, four. Since 4 is
+[10:47] greater than 0.80, you came into this
+[10:50] subtree. Here, you asked again, is the
+[10:53] petal width less than 1.75? So, I guess
+[10:57] the petal width is the fourth one. Okay
+[10:59] ? Since it is less than 1.75. You came
+[11:02] into this subtree. Now you are asking
+[11:04] about the petal length. Is the petal
+[11:06] length less than 4.95? Yes, it is less.
+[11:10] So we came into this subtree. Now here,
+[11:12] we are asking about the petal width
+[11:13] again. Is it less than 1.65? It is less
+[11:17] than 1.65. So we arrived here, and the
+[11:19] decision tree gave me the output that
+[11:21] it is Versicolor. Okay? Let's try one
+[11:24] more time. This time it is also
+[11:30] Versicolor. But it specifically went
+[11:33] into this node. Alright? So anyway, it
+[11:36] is very interesting. You can actually
+[11:38] take any query point and backtrack
+[11:40] which path it followed in the decision
+[11:42] tree. And this is a great thing. You
+[11:44] don't have this feature in Scikit-Learn
+[11:46] . So you can try this. Alright? Next,
+[11:49] if you want, you can print the node
+[11:51] numbers. Every box here is a node where
+[11:54] the splitting is happening. So if you
+[11:57] want, just pass this parameter. Show
+[12:00] node labels and set it to true. Alright
+[12:02] ? So what will happen? When your
+[12:04] decision tree is formed, the nodes will
+[12:05] be visible there. So this is your first
+[12:07] node, node zero. Then this is your node
+[12:09] one. Then you came back from there.
+[12:11] This is your node two. This is node
+[12:12] three. This is node four. If I run this
+[12:18] again. If I run this again. Okay. If we
+[12:32] run it again, since the previous
+[12:34] decision tree is fully grown. Yeah,
+[12:36] look guys, this is a fully grown
+[12:38] decision tree. 0 1 2 3, after three you
+[12:40] went here to four, from four you will
+[12:43] always complete one sub-tree then come
+[12:45] back up and then enter the other one,
+[12:48] just like in computer science usually.
+[12:50] Alright? So you went from three up to
+[12:54] four, four to five, six. Then you came
+[12:57] up to this place. Here seven, here
+[12:59] eight, here nine, from nine to 10 and
+[13:02] then 11, and then came all the way back
+[13:05] up to 12, 13, 14, 15, and then came up
+[13:07] and here 16; alright. So you need to
+[13:10] experiment a bit, the more you see it,
+[13:11] the more your intuition will develop,
+[13:13] and that is the idea. Alright, if you
+[13:15] want, you can plot things without any
+[13:17] graphs too. If you don't want these bar
+[13:20] plots, histograms, or scatter plots,
+[13:22] then what can you do? You just set
+[13:25] fancy value to false, and as soon as
+[13:27] you run this code, now you will only
+[13:28] see the pie chart in the output showing
+[13:30] what the distribution is. Only the
+[13:32] output will be visible. The graphs will
+[13:34] never be plotted on the nodes. So if
+[13:37] your graph is becoming very large and
+[13:39] you don't want that graph to be there,
+[13:41] just put fancy equals false. That's it.
+[13:43] Alright? What if you just want to see
+[13:46] the prediction path? Like a little
+[13:49] while ago, we wanted to see what path
+[13:51] the entire decision tree took. But what
+[13:55] if I only want to see this specific
+[13:57] path? I don't want to see the rest that
+[13:59] wasn't covered. In that case, what you
+[14:03] can do is just pass this parameter:
+[14:07] show_just_path = True. And as soon as
+[14:11] you do that, you only see that direct
+[14:13] path. Nothing else is visible. Okay? So
+[14:16] again, it's up to you if you want to
+[14:17] set this parameter. But I prefer the
+[14:19] one above. Okay? Next is, if you want
+[14:22] to print the path in plain English, you
+[14:24] can do that too. Look, you had
+[14:26] generated an 'x' point. If you run that
+[14:29] , see, first the comparison happened on
+[14:32] this thing. Then the comparison
+[14:34] happened on this thing, and finally on
+[14:36] this thing. A total of three
+[14:37] comparisons took place, and you can see
+[14:39] it in plain English. Okay? So you have
+[14:41] this option as well. You don't need to
+[14:42] print the entire tree. Okay? Next, if
+[14:45] you want, you can print feature
+[14:46] importance. You could anyway predict
+[14:48] feature importance using decision trees
+[14:50] . Through this library, you can
+[14:52] visualize it. Let me show you. If you
+[14:54] run this code, you can see here that
+[14:56] among the four, the most important
+[14:58] feature is petal width. After that is
+[15:01] sepal length, and then petal length.
+[15:03] Okay? I hope you understood this as
+[15:05] well. Okay? I will show you the last
+[15:08] two things. First is that if you want,
+[15:10] you can plot the entire decision tree
+[15:13] on a single graph. Like here I have a
+[15:17] dataset called 'cars.csv', basically
+[15:20] this dataset. Okay? Yeah, in this, this
+[15:24] is the output, these three are inputs.
+[15:27] Okay? Now, if you want, like I have
+[15:29] done, I performed univariate regression
+[15:32] , meaning I have only one input column
+[15:34] and one output column. So x is this and
+[15:37] y is this. Okay? This is This, weight
+[15:43] is input and this MPG is output. Okay?
+[15:47] Now this is a single regression, so all
+[15:49] splits will be based on a single column
+[15:52] only. All of this will be based on WGT
+[15:54] only. So you can see these are all the
+[15:56] cuts that were made. So, I visualized
+[15:58] the entire thing on a single graph.
+[16:00] Notice that this time we have done this
+[16:03] . We called the 'art_tree_is_univ'
+[16:06] function. Here, I had to pass the
+[16:09] decision tree, X, Y, both my columns,
+[16:12] and an 'ax'. Anyway, don't get into its
+[16:15] complexity right now. Just see that you
+[16:17] can do something like this. Otherwise,
+[16:18] you just have to paste the code. There
+[16:20] is no need for you to write the code
+[16:21] from scratch. Okay? One interesting
+[16:23] example, the last one, is that if you
+[16:25] are working with 3D regression and want
+[16:26] to see all the cuts in a single diagram
+[16:28] , you can do that too. In the same cars
+[16:31] dataset. This time, in my X, weight and
+[16:35] engine both became the inputs. And MPG
+[16:39] became my output. And this time, I
+[16:42] called the 'art_tree_vis_bivariate_3d'
+[16:45] function. Again, don't get into its
+[16:47] complexity. But look at the output.
+[16:49] This is the output and it is so
+[16:51] beautiful that in 3D, you can see how
+[16:53] your decision tree is making cuts on
+[16:55] your scatter plot. Okay? Either we
+[16:58] could have done one thing, that we look
+[17:00] at this kind of visualization. We look
+[17:03] at this kind of visualization where,
+[17:05] each time, on a single axis, we see how
+[17:07] the cuts are being made. But if you
+[17:10] want, you can also visualize the entire
+[17:13] decision boundary together in a single
+[17:16] diagram. Okay? And this is a big point,
+[17:19] guys. When I was explaining this to you
+[17:21] in regression decision trees, if you
+[17:23] saw that video, I was trying to draw it
+[17:24] on the blackboard. And it was so
+[17:26] difficult to explain there. But if I
+[17:28] had this tool at that time, I would
+[17:30] definitely have used this tool to show
+[17:31] you this. Okay? So the only idea behind
+[17:34] shooting this video is that when I saw
+[17:37] this tool, when I saw this library, I
+[17:39] felt powerful. I felt like, man, this
+[17:41] is cool stuff. And if I use this in my
+[17:44] workflow, my understanding, my
+[17:46] intuition about decision trees grows
+[17:48] even more. I felt this myself. So
+[17:50] that’s why I wanted to share it with
+[17:52] you. So, if you are also working on
+[17:54] decision trees and feel that you don't
+[17:55] understand where which cut is happening
+[17:57] , and even plotting the tree doesn't
+[17:58] help, this is the library for you; you
+[18:00] should use this one. Okay, it is a very
+[18:03] good library. What I will do is share
+[18:06] the link to its official GitHub repo
+[18:08] and a link to a blog where some more
+[18:11] examples are discussed, where many
+[18:13] other changes are shown, like how you
+[18:16] can increase the font size, change the
+[18:18] font color, and the points being
+[18:21] plotted within the graphs. You can
+[18:24] change their colors. You can increase
+[18:26] their size. Such things will be
+[18:27] provided there. You can check that out
+[18:29] in the description once. And yeah,
+[18:31] that's it. Thanks for watching. Okay,
+[18:34] bye.

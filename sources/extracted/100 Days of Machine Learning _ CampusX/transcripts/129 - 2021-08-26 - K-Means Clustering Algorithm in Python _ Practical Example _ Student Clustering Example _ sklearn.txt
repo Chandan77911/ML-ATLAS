@@ -1,0 +1,210 @@
+# K-Means Clustering Algorithm in Python | Practical Example | Student Clustering Example | sklearn
+# https://www.youtube.com/watch?v=UPvv9SprgVo
+
+Hello guys, my name is Nitesh. Welcome to my YouTube channel. We've been studying K-means clustering. In the last video, we covered its geometric intuition. In this video, I'll show you how to apply K-means to a practical data set in Python. Okay? So, let's start the video. So, guys, let's start with the coding part. I've already created a notebook in Jupyter and loaded the data set. And here's my data set. So, let me tell you about the data. First of all, it's a toy data set. I mean, I generated this data set myself. This is data from some students. If you want to think of it as a problem statement, this is data from a group of students. Data from final year students of any college. Data from 200 students. They have their CGP and IQ values. And we have to cluster these students based on these two values. Okay? Now, if I were to print out and show you what this data looks like, we'd need to import Matplotlib. Pipe Plot Edge PLT Dot Scatter. I'm plotting CGPA on the x-axis and I'm plotting IQ on the y-axis. And you can see, here's my data. Now, obviously, this is a toy data set. I generated it, so you can see very clear-cut clusters here. In real-world data sets, you won't have such clear-cut clusters defined. But you can see that I have four different types of students. Now, I'll give this same data to my algorithm and see if it can correctly classify or cluster this data. Okay? So, first, we need to determine the number of clusters that will be formed. So, clearly, with the naked eye, we can see that four clusters will be formed. But let's try using the elbow method to see if that also produces four outputs. So, for the elbow method, we first need to import ' means' from ' sk-learn.cluster.import.kmeans'. Then, I'm creating a list called 'wcss', and 'i in the range of' from 1 to 11 (you can loop up to 20). I'm creating an object called 'km', which has a hyperparameter inside it: the number of clusters. I'm defining it as 'i'. And there's a function called km.fit.predict. I'm passing my entire data frame into it. Because my entire data frame is what I need as input. And once the data is trained, there's an attribute inside KM called inertia. We need its value, and we'll keep inserting this value. Running this code like this in WCSS, here's our WCSS. You can see it starting with a very large value and then decreasing very rapidly. Now, if we print this out using a plt () dot plot, we plotted the X-axis from 1 to 21, and our Y-axis shows WSS, and it wasn't 21, sorry, it was 11. So, guys, and you can see that it's decreasing very rapidly, and four is the elbow point where our stiffness rate suddenly decreases. Okay, so the elbow curve is also telling us what the number of clusters should be, four. Okay, so what do we do now? We'll create another KM object, with the number of clusters equal to four, and we'll write KM; before that, let's do one more thing. We'll extract a measured array of x. All rows, all columns, dot values. This measured array will be a little easier to deal with. That's why I did this. And now I'll write KM dot fit predict. What Predict does is train you and return the cluster values. Here, I'll pass in x and you'll see that all of my data is assigned a cluster. Two for the first row, one for the next, and so on. I can call this y-means. Okay? And here's the y-means. Now, what do I need to do? Plot a graph. And how will that graph be plotted? It's very simple. Here's my x, okay? All the rows are here. What do I need to do? Do Boolean indexing here, using y-means. If I give y-means equal to 0, then these are all the rows that fall into cluster number zero. These are all the rows that fall into cluster number one. These are the rows that fall into cluster number three. And these are the rows that fall into cluster number three. Okay? Now, if I want to extract the first value of all, I'll write here comma 0 (the first value has been extracted). And if I want to extract the second value (113, 110, 109), I'll write here comma 1. Okay, so this is the logic I'm using to plot the graph. Look carefully. So if I type plt dot scatter, first I'll focus on cluster zero, so I'll send zero and zero here. So what did I do in this step? I took the x coordinate of all my points falling in cluster number zero. Okay? And then copied it and took the y coordinate of all the points falling in cluster number zero. And we assigned it a color: blue. Okay? And copied it. Pasted it four times. Next time, we picked cluster one and assigned it red. The next one, green. This is the value of cluster two. After that, three. And this last one, we can assign yellow. And here's our output, guys, and you can see that our clustering algorithm is able to cluster all the students. So, if you want to look at or understand this data as a data analyst, the students in red are those who have both a high CGPA and a high IQ. This means they are both intelligent and hardworking. Okay? If you talk about the students in blue, these are students whose IQ isn't very high, but their CGPA is quite high. So, these are the students who are very hardworking. Okay? Next is the yellow one. The yellow ones are those students who have a high IQ but a low CGPA. This means these are the students who are a little more laid-back. They live a relaxed life. They are smart. Okay? And finally, you have students who have neither a high CGPA nor a high IQ. So, obviously, you have to work hard on these students. So, if you're the head of a placement training and placement cell and you need to plan training for these kids, the Reds don't need much guidance. You don't actually need much guidance for the Blues either, because they're sincere. Do you understand? You need to motivate the Yellows because they're already intelligent, and the Greens need a lot of teaching. Okay? So, this way, you can plan your approach, based on your data. Similarly, you can cluster customers, songs, movies, and images. Okay? So, I'll show you one more thing in this video. Mostly, whenever you see practical implementations of means on YouTube, they demonstrate it in 2D. I'll also demonstrate this on 3D data to show you how this entire algorithm looks and feels in 3D. So, I've already written the code for Guice 3D. I generated a data set myself using the make blobs function, where you can specify the type of clustering you want. I generated a data set where my data for x has three columns. You can see, here's x. So this time there are three different columns instead of two. And when I plotted it using Plotly, here's the data. Okay? You can see it in 3D. And this is what our data looks like. Okay? So clearly, we have four clusters here too. And we have to do everything exactly the same way. This code is exactly the same as what we did a little while ago above. We ran it, and then when we plotted the elbow curve, the graph was again very similar. We have an elbow point coming up at four. So I trained a new model with the number of clusters being four. I took the Y mean and created a data frame with X values of 0, 1, and 2, and a random number of values. And when I put it back into Plotly, here's the output of the Guice clustering. And you can see that whatever you were able to do in 2D, as it is, you can do the same in 3D, and the same thing will remain true in higher dimensions. So that's why CMEans is such a powerful algorithm that the same piece of code will work in any dimension. Okay? So, once you've worked on these data sets, develop your understanding a little. And if you liked this video, please like, share, and subscribe. Thanks for watching.
+
+
+[00:00] Hello guys, my name is Nitesh. Welcome
+[00:02] to my YouTube channel. We've been
+[00:03] studying K-means clustering. In the
+[00:05] last video, we covered its geometric
+[00:07] intuition. In this video, I'll show you
+[00:09] how to apply K-means to a practical
+[00:11] data set in Python. Okay? So, let's
+[00:13] start the video. So, guys, let's start
+[00:16] with the coding part. I've already
+[00:20] created a notebook in Jupyter and
+[00:22] loaded the data set. And here's my data
+[00:26] set. So, let me tell you about the data
+[00:28] . First of all, it's a toy data set. I
+[00:31] mean, I generated this data set myself.
+[00:33] This is data from some students. If you
+[00:35] want to think of it as a problem
+[00:37] statement, this is data from a group of
+[00:39] students. Data from final year students
+[00:42] of any college. Data from 200 students.
+[00:45] They have their CGP and IQ values. And
+[00:49] we have to cluster these students based
+[00:51] on these two values. Okay? Now, if I
+[00:55] were to print out and show you what
+[00:59] this data looks like, we'd need to
+[01:01] import Matplotlib. Pipe Plot Edge PLT
+[01:11] Dot Scatter. I'm plotting CGPA on
+[01:16] the x-axis and I'm plotting IQ on the
+[01:20] y-axis. And you can see, here's my data
+[01:25] . Now, obviously, this is a toy data
+[01:27] set. I generated it, so you can see
+[01:29] very clear-cut clusters here. In
+[01:31] real-world data sets, you won't have
+[01:33] such clear-cut clusters defined. But
+[01:36] you can see that I have four different
+[01:39] types of students. Now, I'll give this
+[01:43] same data to my algorithm and see if it
+[01:45] can correctly classify or cluster this
+[01:48] data. Okay? So, first, we need to
+[01:52] determine the number of clusters that
+[01:54] will be formed. So, clearly, with the
+[01:56] naked eye, we can see that four
+[01:57] clusters will be formed. But let's try
+[01:59] using the elbow method to see if that
+[02:01] also produces four outputs. So, for the
+[02:06] elbow method, we first need to import '
+[02:10] means' from '
+[02:11] sk-learn.cluster.import.kmeans'. Then,
+[02:19] I'm creating a list called 'wcss', and
+[02:23] 'i in the range of' from 1 to 11 (you
+[02:27] can loop up to 20). I'm creating an
+[02:32] object called 'km', which has a
+[02:34] hyperparameter inside it: the number of
+[02:37] clusters. I'm defining it as 'i'. And
+[02:41] there's a function called
+[02:43] km.fit.predict. I'm passing my entire
+[02:45] data frame into it. Because my entire
+[02:48] data frame is what I need as input. And
+[02:51] once the data is trained, there's an
+[02:54] attribute inside KM called inertia. We
+[02:58] need its value, and we'll keep
+[03:00] inserting this value. Running this code
+[03:08] like this in WCSS, here's our WCSS. You
+[03:17] can see it starting with a very large
+[03:19] value and then decreasing very rapidly.
+[03:22] Now, if we print this out using a plt (
+[03:25] ) dot plot, we plotted the X-axis from
+[03:28] 1 to 21, and our Y-axis shows WSS, and
+[03:34] it wasn't 21, sorry, it was 11. So,
+[03:38] guys, and you can see that it's
+[03:41] decreasing very rapidly, and four is
+[03:44] the elbow point where our stiffness
+[03:48] rate suddenly decreases. Okay, so the
+[03:52] elbow curve is also telling us what the
+[03:54] number of clusters should be, four.
+[03:56] Okay, so what do we do now? We'll
+[03:59] create another KM object, with the
+[04:01] number of clusters equal to four, and
+[04:05] we'll write KM; before that, let's do
+[04:08] one more thing. We'll extract a
+[04:11] measured array of x. All rows, all
+[04:16] columns, dot values. This measured
+[04:19] array will be a little easier to deal
+[04:20] with. That's why I did this. And now
+[04:23] I'll write KM dot fit predict. What
+[04:28] Predict does is train you and return
+[04:30] the cluster values. Here, I'll pass in
+[04:34] x and you'll see that all of my data is
+[04:37] assigned a cluster. Two for the first
+[04:40] row, one for the next, and so on. I can
+[04:43] call this y-means. Okay? And here's the
+[04:48] y-means. Now, what do I need to do?
+[04:51] Plot a graph. And how will that graph
+[04:54] be plotted? It's very simple. Here's my
+[04:57] x, okay? All the rows are here. What do
+[05:00] I need to do? Do Boolean indexing here,
+[05:03] using y-means. If I give y-means equal
+[05:07] to 0, then these are all the rows that
+[05:11] fall into cluster number zero. These
+[05:15] are all the rows that fall into cluster
+[05:17] number one. These are the rows that
+[05:19] fall into cluster number three. And
+[05:22] these are the rows that fall into
+[05:23] cluster number three. Okay? Now, if I
+[05:26] want to extract the first value of all,
+[05:28] I'll write here comma 0 (the first
+[05:30] value has been extracted). And if I
+[05:33] want to extract the second value (113,
+[05:36] 110, 109), I'll write here comma 1.
+[05:39] Okay, so this is the logic I'm using to
+[05:41] plot the graph. Look carefully. So if I
+[05:45] type plt dot scatter, first I'll focus
+[05:50] on cluster zero, so I'll send zero and
+[05:54] zero here. So what did I do in this
+[05:57] step? I took the x coordinate of all my
+[06:00] points falling in cluster number zero.
+[06:02] Okay? And then copied it and took the y
+[06:06] coordinate of all the points falling in
+[06:10] cluster number zero. And we assigned it
+[06:14] a color: blue. Okay? And copied it.
+[06:20] Pasted it four times. Next time, we
+[06:23] picked cluster one and assigned it red.
+[06:29] The next one, green. This is the value
+[06:34] of cluster two. After that, three. And
+[06:38] this last one, we can assign yellow.
+[06:42] And here's our output, guys, and you
+[06:44] can see that our clustering algorithm
+[06:46] is able to cluster all the students. So
+[06:49] , if you want to look at or understand
+[06:52] this data as a data analyst, the
+[06:54] students in red are those who have both
+[06:57] a high CGPA and a high IQ. This means
+[07:01] they are both intelligent and
+[07:03] hardworking. Okay? If you talk about
+[07:08] the students in blue, these are
+[07:09] students whose IQ isn't very high, but
+[07:12] their CGPA is quite high. So, these are
+[07:15] the students who are very hardworking.
+[07:17] Okay? Next is the yellow one. The
+[07:20] yellow ones are those students who have
+[07:22] a high IQ but a low CGPA. This means
+[07:24] these are the students who are a little
+[07:25] more laid-back. They live a relaxed
+[07:27] life. They are smart. Okay? And finally
+[07:30] , you have students who have neither a
+[07:32] high CGPA nor a high IQ. So, obviously,
+[07:35] you have to work hard on these students
+[07:37] . So, if you're the head of a placement
+[07:40] training and placement cell and you
+[07:42] need to plan training for these kids,
+[07:44] the Reds don't need much guidance. You
+[07:48] don't actually need much guidance for
+[07:49] the Blues either, because they're
+[07:50] sincere. Do you understand? You need to
+[07:54] motivate the Yellows because they're
+[07:56] already intelligent, and the Greens
+[07:58] need a lot of teaching. Okay? So, this
+[08:02] way, you can plan your approach, based
+[08:04] on your data. Similarly, you can
+[08:08] cluster customers, songs, movies, and
+[08:11] images. Okay? So, I'll show you one
+[08:15] more thing in this video. Mostly,
+[08:18] whenever you see practical
+[08:19] implementations of means on YouTube,
+[08:21] they demonstrate it in 2D. I'll also
+[08:24] demonstrate this on 3D data to show you
+[08:26] how this entire algorithm looks and
+[08:28] feels in 3D. So, I've already written
+[08:31] the code for Guice 3D. I generated a
+[08:35] data set myself using the make blobs
+[08:37] function, where you can specify the
+[08:40] type of clustering you want. I
+[08:44] generated a data set where my data for
+[08:47] x has three columns. You can see,
+[08:50] here's x. So this time there are three
+[08:52] different columns instead of two. And
+[08:55] when I plotted it using Plotly, here's
+[08:58] the data. Okay? You can see it in 3D.
+[09:03] And this is what our data looks like.
+[09:04] Okay? So clearly, we have four clusters
+[09:07] here too. And we have to do everything
+[09:10] exactly the same way. This code is
+[09:12] exactly the same as what we did a
+[09:14] little while ago above. We ran it, and
+[09:17] then when we plotted the elbow curve,
+[09:19] the graph was again very similar. We
+[09:23] have an elbow point coming up at four.
+[09:26] So I trained a new model with the
+[09:28] number of clusters being four. I took
+[09:31] the Y mean and created a data frame
+[09:34] with X values of 0, 1, and 2, and a
+[09:36] random number of values. And when I put
+[09:40] it back into Plotly, here's the output
+[09:42] of the Guice clustering. And you can
+[09:45] see that whatever you were able to do
+[09:47] in 2D, as it is, you can do the same in
+[09:49] 3D, and the same thing will remain true
+[09:51] in higher dimensions. So that's why
+[09:55] CMEans is such a powerful algorithm
+[09:57] that the same piece of code will work
+[10:00] in any dimension. Okay? So, once you've
+[10:03] worked on these data sets, develop your
+[10:05] understanding a little. And if you
+[10:08] liked this video, please like, share,
+[10:10] and subscribe. Thanks for watching.

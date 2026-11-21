@@ -1,0 +1,431 @@
+# AdaBoost - A Step by Step Explanation
+# https://www.youtube.com/watch?v=RT0t9a3Xnfw
+
+Hi guys, my name is Nitish and welcome to my YouTube channel. In the last video, we studied the core intuition of AdaBoost. In this video, I am going to show you how AdaBoost works step by step. You can watch this video in two parts. In the first part, I will show you all the theory on the whiteboard, and then in the second part, I will demonstrate the practical implementation of that theory through code. So let's start the video. Also, if you haven't subscribed to my channel yet, please subscribe, and now we will start this whole thing. So, to understand AdaBoost step by step, I have first taken a toy dataset with two input columns, x1 and x2, and one output column, y. This means it is a classification problem because y only contains one and zero. So now, what we will do is, first of all, we know that n = 5 here. The number of rows in the dataset is five. This is a small toy dataset. Okay? So, speaking step by step, the very first step in AdaBoost is that you initially assign a weight to each of your rows. Okay? And initially, when you assign weights, the weight of all rows should be equal. Okay? So, what will we do? To calculate that weight, we will give each row a weight of 1/5, as in 0.2. Generally, whenever you start, what do you do? You do 1/n. What is n? The total number of rows. And this is your weight. The initial weight of every row will be 1/n. If you add all these 1/n, 1/n, 1/n, n times, you will get n. I am sorry, you will get one. Okay? So, what am I doing now? I am creating a column named ' weight' here. And here I am writing 0.2, 0.2, 0.2, 0.2, and 0.2. Okay? Now, the main work starts from here. Now we will enter stage one. First of all, we will enter stage one. In stage one, the first thing you will do is train a decision tree on this dataset. The specialty of that decision tree will be that its max depth will be one. Meaning, it will be a decision stump. Okay? Now, how will it work on this? You will have to read the decision tree to know that. I can give you a rough intuition that you will make a cut on either x1 or x2. So it is possible that the decision tree stump looks like this. x1 > 5 This could be a stump. x2 < 10, this could also be a stump. So many such decision trees are possible. Decision stumps are possible on this dataset. But which one of these decision stumps will you choose? You will choose the decision stump that results in the maximum decrease in entropy or the highest information gain. Call it entropy or Gini entropy, it is the same thing. Right? So what is the first thing we did? Finalized a decision stump that was performing the best. Right? Now we have selected that model. Let's call that decision stump Model M1. Right? Now we have to do two things. The first thing we have to do is check the performance of this decision stump on this dataset. So what will we do? We will take these inputs, feed them to this decision stump, and get the output. Right? Or simply put, we will calculate y-pred. So I am creating another column here by the name of y-pred. Basically, what is this algorithm's prediction on the training data? Now let's assume the prediction is something like this. This is the prediction we got. Right? Obviously, this is not the real prediction. I am telling you this for the sake of an example. Now if you notice here, all the predictions are correct. Except for this one. This prediction came out wrong. Actually, it was one. Our algorithm says it is zero. Right? So now what do we have to do? We have to do two things. First, we have to calculate alpha 1. What is alpha 1? It is how much say Model 1 will have when making the final prediction. Right? That is alpha 1, or you can call it the weight of this model. Right? Now, what will this depend on? This alpha will depend on your error rate. What is the error rate? It is how many mistakes you made on this data. It will depend on how many mistakes your model made on this data. If your error is very high, then your alpha will be very low. Because think about it, it is logical. If your model is making too many mistakes, its say should be less when making the final prediction. If its performance is very good, its error rate will be low, so its alpha will be higher. In the final prediction, we will value its input more because it made more correct predictions. Okay? Now the question is, how do we calculate this alpha? We need a function that will calculate this alpha for us. Okay? Now, to calculate this, we will have to use our brains a little. What do we need to think about? I will tell you. Let me ask you a simple question. In the process of answering that, you will understand how alpha is calculated. Suppose we have three models. This is model A, this is model B, and this is model C. Okay? Now, model A is always correct. Meaning its error rate is zero. It never makes a mistake. Model B is never correct. It is always wrong. This means this model's error rate is 100%. See, error rate is basically one minus accuracy. If your accuracy is 90%, then your error rate will be 10%. I hope this makes sense. The third model is a bit weird. It has a 50%error rate. So, this model's accuracy is 100%, this one's is 0%, and this one's is 50%. The question is, which of these models is the most reliable? You have to answer this question. Pause the video for a moment and think about which of these three is the most reliable model. Now, I guess you can easily understand that the first model is the most reliable. Right? But if I ask you this question, if we remove that one, which of these two is more reliable? So think about which model is more reliable between these two. Between B and C. Now, if many of you thought it was C, then that is actually wrong. B is more reliable. Think about it. You have a friend who lies 50%of the time and another friend who lies 100%of the time. So whose words would you trust more? Obviously, you would trust the friend more who always lies. Whatever they say, you just take the opposite, and it becomes 100%true. Right? But this one sometimes tells the truth and sometimes tells a lie. This means this model is risky for us. We can use this model's prediction by negating it. There won't be any problem. So both these models are actually the same. This one always tells the truth. This one always tells a lie. If you reverse its logic, this model and the one above become the same. This model here is dangerous. Okay? So that means if you plot a graph. If you plot a graph. Between alpha and error. Then I hope you understand what kind of graph you need. You need a graph such that when the error is close to zero, alpha should be high. Listen carefully. If the error rate is close to zero or zero, then you want a high alpha. Because if your model makes very few mistakes, you will give it a high weightage. If you have a model that makes a lot of mistakes. Let's assume this error rate is one. The error rate varies between zero and one. So if your error rate is very close to one. Meaning this model, then you need an alpha that is very large in the negative. Something like this. And if your error rate is 50%, i.e.,.5, then what kind of alpha do you need? You don't trust it at all, so you should give it zero. Meaning you need something like this. This means you need a mathematical function that follows this graph. You need a mathematical function to calculate alpha that follows such a graph. And there is such a mathematical function, and it is 1/2 ln (1-error/error). And this is the function using which you calculate alpha. Okay? I hope you are understanding. How is the error calculated? I will tell you in a little while. But this is the formula using which you calculate the weightage or alpha of any decision stump. I hope I was able to give you the intuition as to why we use this function. This intuition is very important. So please make sure you have understood this once. So now comes the question, how is the error in this formula calculated? Or how do you determine the error of any decision stump? Okay? Now, this error is not exactly one minus accuracy. I will tell you how the error is calculated here. Before that, I am making a small change. Let's assume that until now we considered that the mistake was only at one point. To make the example even better, let's assume that mistakes are happening at two points. This is another point where a mistake is happening. Okay? Now, the error is very simple. The error is the sum of the weights of all those rows that are misclassified. It's simple. First, find out how many of your rows are misclassified. In our case, these two rows are misclassified. Take the weights of both and add them up. That is your error. So, for this first model, our first decision stump m1, the error is actually equal to.4 because it made mistakes on two rows. Now, if we put this value into the formula to calculate alpha 1, it will be 1/2 log 1 -.4 /.4 If we simplify this, it becomes 1/2 log of.6 /.4, and this value comes to around.20. Okay? You can cross-check it once. But this is the value. So, we just calculated a very important thing: how much say our first weak learner, the decision stump, has in the final prediction. Alpha 1 will be equal to.20, okay? I hope you are following along so far. Now, the next step is also very important. In it, you have to do what I explained in the previous video: stage one is now complete. In stage one, we trained a weak learner and calculated its weight. It made some mistakes. Now we need to pass those mistakes to the next stage. We discussed this in the last video as well. You increase the importance of the points that are misclassified. How do you increase importance? By using a technique called up-sampling. So, the concept is very simple. You have to tell the next model, the next decision stump, that I made a mistake on these two points, so don't you make a mistake. And the way to tell it is by increasing the weight of these two rows in the data. Increase the weights. And decrease the weights of the correctly classified points. So, in a way, I am boosting the weight of the misclassified points. And 'boosting' comes from this boosting. Okay? So, what do we have to do now? We need to update the weights. Increase the weights of the misclassified points and decrease the weights of the correctly classified ones. But the question is, how much to increase and how much to decrease? And guys, the answer is on the whiteboard. I have written a formula. And this is the weight update formula. There are two different formulas. One formula is for misclassified points. Meaning, for these two points, and one for correctly classified points. Meaning, for these three points. There isn't much difference in the formulas. If we talk about the first misclassified point, the new weight value will be the current weight multiplied by e raised to the power of alpha one. If you remember, our alpha one was. 2 Right? So if I have to calculate the new weight for these two rows, it will actually be 2*e raised to the power of 2, and for correctly classified points 2*e raised to the power of -2. Now if you do this calculation, you will find that this value comes to 244 and this value comes to 166, and you can see, the weights of the incorrectly classified points have increased, and the weights of correctly classified points have decreased. So guys, I have added the results we got to a new column called updated weights, 6 for correctly classified points, 244 for misclassified points. There is only one problem. If you add all of these up, the number is 96. The thing is, you need to make sure that the sum of your weights is always one. Just like it was here. So what we will do very simply is? Divide every weight by 96. Basically, normalize them. And I have already performed this operation. So after doing this, the weights we get are these. And when you add these weights, you will get one. Okay? So now our dataset is prepared. Almost prepared. One last step remains to move to the next stage. Okay? So what I do is? First, rub this whole whiteboard and write this dataset in a more compact way. So guys, I have rewritten the entire dataset on the screen in a compact way. Here is my X1 column, X2 column, Y column, and here are my new weights. Okay? Now I have to perform the most important step of this entire process. That is upsampling. So I told you that somehow I need to send the information to the following stages about what went wrong in this stage, and how do we do that? We kind of boost the misclassified points. And how does that boost happen? Using upsampling. How do we do upsampling? I will tell you in a little while. But to do upsampling, you will have to do one thing. And that is that you will have to create a range like this. So what I did? Depending on the weights, I created these ranges. So the first one was 0.166, so I created this range from zero. Then the next was 0.25. So I added 0.255 from here. Then I added 255 to this, then added 16 to this, and then 16 again, so it reached one. So basically, I created the ranges. Now what will I do? Now, five times I will generate random numbers between zero and one. I will generate five random numbers between zero and one. Okay? Let me generate the numbers and show you. Suppose I have a number 0.13, one is 0.43, one is 0.62, one is 0.50, and one is 0.8. Suppose these were generated randomly. Now if you look, we need to find which range these numbers fall into. Whichever range it falls into, we will pick that column and that row. See, 0.13 falls into this range, so we will now pick column/row number one. 43 Falls into this range. So we will pick row number three. Then 62 also falls into this range. We will pick three again. Then 50 also falls right here. We will pick row number three again. And then there is 8, which is this one. So we will pick four. So now, what am I doing? I am creating a completely new dataset that will only contain these numbers. These row numbers will remain. So one will be there, three will be there three times, and four will be there. Now because of this technique, you can see three is in my data more often. Meaning its weight has increased in the data. Okay? Now if you drew randomly, it could also be that one came, then three, then three, then two. There are more errors in three and two, so you will see three and two more often. So basically, with this entire technique, when you do sampling, since we are picking rows based on this range, the row with the larger range has a higher chance of being picked. Right? And this technique is called upsampling. So now, the new dataset I have for stage two will not be this dataset. It will be this dataset. I will take the first column once. Then I will take the three column three times, and then the four column. I will remove this one and this one, both these rows. Okay? And I will work on these remaining ones and after that everything will repeat. What will I do again? I will take a new decision stump and train it on this data. Obviously, the data has changed. The behavior of the decision stump will also change. I will then calculate Alpha 2 for that new decision stump. And then I will keep performing this entire upsampling stage step again. How many times will we do this? As many decision stumps as you are going to keep. So, in the end, you will have values up to Alpha 1, Alpha 2, Alpha 3, dot dot dot Alpha n. And your final prediction will be Alpha 1 times h1x + Alpha 2 times h2x dot dot Alpha n times hnx, which I explained to you in the last video. Now I know showing it by repeating it again and again is a bit boring. So let's do one thing. Let's look at this whole thing step-by-step through some code. Okay? That will give you a great understanding of how this entire process works multiple times.
+
+
+[00:00] Hi guys, my name is Nitish and welcome
+[00:02] to my YouTube channel. In the last
+[00:04] video, we studied the core intuition of
+[00:06] AdaBoost. In this video, I am going to
+[00:09] show you how AdaBoost works step by
+[00:11] step. You can watch this video in two
+[00:13] parts. In the first part, I will show
+[00:16] you all the theory on the whiteboard,
+[00:18] and then in the second part, I will
+[00:20] demonstrate the practical
+[00:21] implementation of that theory through
+[00:23] code. So let's start the video. Also,
+[00:27] if you haven't subscribed to my channel
+[00:30] yet, please subscribe, and now we will
+[00:32] start this whole thing. So, to
+[00:36] understand AdaBoost step by step, I
+[00:38] have first taken a toy dataset with two
+[00:40] input columns, x1 and x2, and one
+[00:42] output column, y. This means it is a
+[00:45] classification problem because y only
+[00:48] contains one and zero. So now, what we
+[00:51] will do is, first of all, we know that
+[00:54] n = 5 here. The number of rows in the
+[00:58] dataset is five. This is a small toy
+[01:00] dataset. Okay? So, speaking step by
+[01:04] step, the very first step in AdaBoost
+[01:07] is that you initially assign a weight
+[01:10] to each of your rows. Okay? And
+[01:14] initially, when you assign weights, the
+[01:16] weight of all rows should be equal.
+[01:18] Okay? So, what will we do? To calculate
+[01:21] that weight, we will give each row a
+[01:24] weight of 1/5, as in 0.2. Generally,
+[01:29] whenever you start, what do you do? You
+[01:32] do 1/n. What is n? The total number of
+[01:36] rows. And this is your weight. The
+[01:38] initial weight of every row will be 1/n
+[01:41] . If you add all these 1/n, 1/n, 1/n, n
+[01:44] times, you will get n. I am sorry, you
+[01:46] will get one. Okay? So, what am I doing
+[01:49] now? I am creating a column named '
+[01:52] weight' here. And here I am writing 0.2
+[01:58] , 0.2, 0.2, 0.2, and 0.2. Okay? Now,
+[02:04] the main work starts from here. Now we
+[02:06] will enter stage one. First of all, we
+[02:09] will enter stage one. In stage one, the
+[02:13] first thing you will do is train a
+[02:16] decision tree on this dataset. The
+[02:20] specialty of that decision tree will be
+[02:22] that its max depth will be one. Meaning
+[02:24] , it will be a decision stump. Okay?
+[02:27] Now, how will it work on this? You will
+[02:30] have to read the decision tree to know
+[02:31] that. I can give you a rough intuition
+[02:35] that you will make a cut on either x1
+[02:38] or x2. So it is possible that the
+[02:41] decision tree stump looks like this. x1
+[02:44] > 5 This could be a stump. x2 < 10,
+[02:51] this could also be a stump. So many
+[02:54] such decision trees are possible.
+[02:56] Decision stumps are possible on this
+[02:59] dataset. But which one of these
+[03:01] decision stumps will you choose? You
+[03:04] will choose the decision stump that
+[03:06] results in the maximum decrease in
+[03:07] entropy or the highest information gain
+[03:09] . Call it entropy or Gini entropy, it
+[03:13] is the same thing. Right? So what is
+[03:15] the first thing we did? Finalized a
+[03:18] decision stump that was performing the
+[03:21] best. Right? Now we have selected that
+[03:23] model. Let's call that decision stump
+[03:26] Model M1. Right? Now we have to do two
+[03:30] things. The first thing we have to do
+[03:34] is check the performance of this
+[03:36] decision stump on this dataset. So what
+[03:40] will we do? We will take these inputs,
+[03:42] feed them to this decision stump, and
+[03:44] get the output. Right? Or simply put,
+[03:47] we will calculate y-pred. So I am
+[03:49] creating another column here by the
+[03:53] name of y-pred. Basically, what is this
+[03:56] algorithm's prediction on the training
+[03:58] data? Now let's assume the prediction
+[04:00] is something like this. This is the
+[04:05] prediction we got. Right? Obviously,
+[04:07] this is not the real prediction. I am
+[04:08] telling you this for the sake of an
+[04:10] example. Now if you notice here, all
+[04:13] the predictions are correct. Except for
+[04:16] this one. This prediction came out
+[04:19] wrong. Actually, it was one. Our
+[04:22] algorithm says it is zero. Right? So
+[04:24] now what do we have to do? We have to
+[04:26] do two things. First, we have to
+[04:31] calculate alpha 1. What is alpha 1? It
+[04:34] is how much say Model 1 will have when
+[04:37] making the final prediction. Right?
+[04:40] That is alpha 1, or you can call it the
+[04:42] weight of this model. Right? Now, what
+[04:45] will this depend on? This alpha will
+[04:48] depend on your error rate. What is the
+[04:53] error rate? It is how many mistakes you
+[04:55] made on this data. It will depend on
+[04:58] how many mistakes your model made on
+[05:00] this data. If your error is very high,
+[05:04] then your alpha will be very low.
+[05:06] Because think about it, it is logical.
+[05:09] If your model is making too many
+[05:10] mistakes, its say should be less when
+[05:13] making the final prediction. If its
+[05:15] performance is very good, its error
+[05:17] rate will be low, so its alpha will be
+[05:19] higher. In the final prediction, we
+[05:21] will value its input more because it
+[05:23] made more correct predictions. Okay?
+[05:26] Now the question is, how do we
+[05:27] calculate this alpha? We need a
+[05:30] function that will calculate this alpha
+[05:32] for us. Okay? Now, to calculate this,
+[05:35] we will have to use our brains a little
+[05:37] . What do we need to think about? I
+[05:38] will tell you. Let me ask you a simple
+[05:40] question. In the process of answering
+[05:42] that, you will understand how alpha is
+[05:44] calculated. Suppose we have three
+[05:47] models. This is model A, this is model
+[05:51] B, and this is model C. Okay? Now,
+[05:56] model A is always correct. Meaning its
+[06:00] error rate is zero. It never makes a
+[06:03] mistake. Model B is never correct. It
+[06:08] is always wrong. This means this
+[06:11] model's error rate is 100%. See, error
+[06:13] rate is basically one minus accuracy.
+[06:15] If your accuracy is 90%, then your
+[06:17] error rate will be 10%. I hope this
+[06:19] makes sense. The third model is a bit
+[06:22] weird. It has a 50%error rate. So, this
+[06:26] model's accuracy is 100%, this one's is
+[06:28] 0%, and this one's is 50%. The question
+[06:31] is, which of these models is the most
+[06:34] reliable? You have to answer this
+[06:37] question. Pause the video for a moment
+[06:39] and think about which of these three is
+[06:42] the most reliable model. Now, I guess
+[06:45] you can easily understand that the
+[06:47] first model is the most reliable. Right
+[06:50] ? But if I ask you this question, if we
+[06:52] remove that one, which of these two is
+[06:54] more reliable? So think about which
+[06:56] model is more reliable between these
+[06:58] two. Between B and C. Now, if many of
+[07:01] you thought it was C, then that is
+[07:03] actually wrong. B is more reliable.
+[07:06] Think about it. You have a friend who
+[07:09] lies 50%of the time and another friend
+[07:12] who lies 100%of the time. So whose
+[07:15] words would you trust more? Obviously,
+[07:18] you would trust the friend more who
+[07:20] always lies. Whatever they say, you
+[07:23] just take the opposite, and it becomes
+[07:25] 100%true. Right? But this one sometimes
+[07:28] tells the truth and sometimes tells a
+[07:29] lie. This means this model is risky for
+[07:32] us. We can use this model's prediction
+[07:35] by negating it. There won't be any
+[07:37] problem. So both these models are
+[07:39] actually the same. This one always
+[07:41] tells the truth. This one always tells
+[07:42] a lie. If you reverse its logic, this
+[07:44] model and the one above become the same
+[07:46] . This model here is dangerous. Okay?
+[07:49] So that means if you plot a graph. If
+[07:52] you plot a graph. Between alpha and
+[08:00] error. Then I hope you understand what
+[08:04] kind of graph you need. You need a
+[08:06] graph such that when the error is close
+[08:09] to zero, alpha should be high. Listen
+[08:13] carefully. If the error rate is close
+[08:16] to zero or zero, then you want a high
+[08:18] alpha. Because if your model makes very
+[08:22] few mistakes, you will give it a high
+[08:24] weightage. If you have a model that
+[08:28] makes a lot of mistakes. Let's assume
+[08:31] this error rate is one. The error rate
+[08:34] varies between zero and one. So if your
+[08:36] error rate is very close to one.
+[08:39] Meaning this model, then you need an
+[08:42] alpha that is very large in the
+[08:45] negative. Something like this. And if
+[08:50] your error rate is 50%, i.e.,.5, then
+[08:53] what kind of alpha do you need? You
+[08:56] don't trust it at all, so you should
+[08:58] give it zero. Meaning you need
+[09:00] something like this. This means you
+[09:02] need a mathematical function that
+[09:04] follows this graph. You need a
+[09:07] mathematical function to calculate
+[09:09] alpha that follows such a graph. And
+[09:13] there is such a mathematical function,
+[09:18] and it is 1/2 ln (1-error/error). And
+[09:25] this is the function using which you
+[09:28] calculate alpha. Okay? I hope you are
+[09:30] understanding. How is the error
+[09:33] calculated? I will tell you in a little
+[09:35] while. But this is the formula using
+[09:38] which you calculate the weightage or
+[09:41] alpha of any decision stump. I hope I
+[09:44] was able to give you the intuition as
+[09:46] to why we use this function. This
+[09:47] intuition is very important. So please
+[09:49] make sure you have understood this once
+[09:51] . So now comes the question, how is the
+[09:53] error in this formula calculated? Or
+[09:56] how do you determine the error of any
+[09:58] decision stump? Okay? Now, this error
+[10:01] is not exactly one minus accuracy. I
+[10:03] will tell you how the error is
+[10:05] calculated here. Before that, I am
+[10:07] making a small change. Let's assume
+[10:09] that until now we considered that the
+[10:10] mistake was only at one point. To make
+[10:12] the example even better, let's assume
+[10:14] that mistakes are happening at two
+[10:15] points. This is another point where a
+[10:17] mistake is happening. Okay? Now, the
+[10:19] error is very simple. The error is the
+[10:23] sum of the weights of all those rows
+[10:25] that are misclassified. It's simple.
+[10:29] First, find out how many of your rows
+[10:31] are misclassified. In our case, these
+[10:34] two rows are misclassified. Take the
+[10:37] weights of both and add them up. That
+[10:42] is your error. So, for this first model
+[10:45] , our first decision stump m1, the
+[10:49] error is actually equal to.4 because
+[10:52] it made mistakes on two rows. Now, if
+[10:56] we put this value into the formula to
+[11:00] calculate alpha 1, it will be 1/2 log 1
+[11:04] -.4 /.4 If we simplify this, it becomes
+[11:11] 1/2 log of.6 /.4, and this value comes
+[11:18] to around.20. Okay? You can
+[11:21] cross-check it once. But this is the
+[11:23] value. So, we just calculated a very
+[11:27] important thing: how much say our first
+[11:30] weak learner, the decision stump, has
+[11:32] in the final prediction. Alpha 1 will
+[11:37] be equal to.20, okay? I hope you are
+[11:41] following along so far. Now, the next
+[11:43] step is also very important. In it, you
+[11:46] have to do what I explained in the
+[11:48] previous video: stage one is now
+[11:50] complete. In stage one, we trained a
+[11:53] weak learner and calculated its weight.
+[11:55] It made some mistakes. Now we need to
+[11:58] pass those mistakes to the next stage.
+[12:00] We discussed this in the last video as
+[12:02] well. You increase the importance of
+[12:06] the points that are misclassified. How
+[12:09] do you increase importance? By using a
+[12:11] technique called up-sampling. So, the
+[12:13] concept is very simple. You have to
+[12:16] tell the next model, the next decision
+[12:18] stump, that I made a mistake on these
+[12:19] two points, so don't you make a mistake
+[12:21] . And the way to tell it is by
+[12:25] increasing the weight of these two rows
+[12:28] in the data. Increase the weights. And
+[12:31] decrease the weights of the correctly
+[12:34] classified points. So, in a way, I am
+[12:37] boosting the weight of the
+[12:38] misclassified points. And 'boosting'
+[12:41] comes from this boosting. Okay? So,
+[12:43] what do we have to do now? We need to
+[12:46] update the weights. Increase the
+[12:49] weights of the misclassified points and
+[12:51] decrease the weights of the correctly
+[12:53] classified ones. But the question is,
+[12:55] how much to increase and how much to
+[12:57] decrease? And guys, the answer is on
+[12:59] the whiteboard. I have written a
+[13:01] formula. And this is the weight update
+[13:04] formula. There are two different
+[13:05] formulas. One formula is for
+[13:07] misclassified points. Meaning, for
+[13:09] these two points, and one for correctly
+[13:11] classified points. Meaning, for these
+[13:13] three points. There isn't much
+[13:14] difference in the formulas. If we talk
+[13:17] about the first misclassified point,
+[13:19] the new weight value will be the
+[13:21] current weight multiplied by e raised
+[13:24] to the power of alpha one. If you
+[13:27] remember, our alpha one was. 2 Right?
+[13:33] So if I have to calculate the new
+[13:35] weight for these two rows, it will
+[13:37] actually be 2*e raised to the power of
+[13:42] 2, and for correctly classified points
+[13:47] 2*e raised to the power of -2. Now if
+[13:51] you do this calculation, you will find
+[13:53] that this value comes to 244 and this
+[13:55] value comes to 166, and you can see,
+[13:57] the weights of the incorrectly
+[13:59] classified points have increased, and
+[14:01] the weights of correctly classified
+[14:03] points have decreased. So guys, I have
+[14:06] added the results we got to a new
+[14:08] column called updated weights, 6 for
+[14:11] correctly classified points, 244 for
+[14:14] misclassified points. There is only one
+[14:16] problem. If you add all of these up,
+[14:19] the number is 96. The thing is, you
+[14:24] need to make sure that the sum of your
+[14:27] weights is always one. Just like it was
+[14:31] here. So what we will do very simply is
+[14:33] ? Divide every weight by 96. Basically,
+[14:37] normalize them. And I have already
+[14:39] performed this operation. So after
+[14:40] doing this, the weights we get are
+[14:43] these. And when you add these weights,
+[14:46] you will get one. Okay? So now our
+[14:49] dataset is prepared. Almost prepared.
+[14:53] One last step remains to move to the
+[14:55] next stage. Okay? So what I do is?
+[14:57] First, rub this whole whiteboard and
+[14:59] write this dataset in a more compact
+[15:01] way. So guys, I have rewritten the
+[15:03] entire dataset on the screen in a
+[15:05] compact way. Here is my X1 column, X2
+[15:07] column, Y column, and here are my new
+[15:10] weights. Okay? Now I have to perform
+[15:13] the most important step of this entire
+[15:15] process. That is upsampling. So I told
+[15:17] you that somehow I need to send the
+[15:19] information to the following stages
+[15:21] about what went wrong in this stage,
+[15:23] and how do we do that? We kind of boost
+[15:27] the misclassified points. And how does
+[15:29] that boost happen? Using upsampling.
+[15:32] How do we do upsampling? I will tell
+[15:34] you in a little while. But to do
+[15:35] upsampling, you will have to do one
+[15:37] thing. And that is that you will have
+[15:39] to create a range like this. So what I
+[15:42] did? Depending on the weights, I
+[15:44] created these ranges. So the first one
+[15:46] was 0.166, so I created this range from
+[15:48] zero. Then the next was 0.25. So I
+[15:51] added 0.255 from here. Then I added 255
+[15:55] to this, then added 16 to this, and
+[15:57] then 16 again, so it reached one. So
+[15:59] basically, I created the ranges. Now
+[16:02] what will I do? Now, five times I will
+[16:07] generate random numbers between zero
+[16:12] and one. I will generate five random
+[16:17] numbers between zero and one. Okay? Let
+[16:19] me generate the numbers and show you.
+[16:22] Suppose I have a number 0.13, one is
+[16:25] 0.43, one is 0.62, one is 0.50, and one
+[16:29] is 0.8. Suppose these were generated
+[16:33] randomly. Now if you look, we need to
+[16:36] find which range these numbers fall
+[16:38] into. Whichever range it falls into, we
+[16:41] will pick that column and that row. See
+[16:43] , 0.13 falls into this range, so we
+[16:47] will now pick column/row number one. 43
+[16:55] Falls into this range. So we will pick
+[17:00] row number three. Then 62 also falls
+[17:03] into this range. We will pick three
+[17:06] again. Then 50 also falls right here.
+[17:10] We will pick row number three again.
+[17:12] And then there is 8, which is this one.
+[17:14] So we will pick four. So now, what am I
+[17:18] doing? I am creating a completely new
+[17:20] dataset that will only contain these
+[17:23] numbers. These row numbers will remain.
+[17:25] So one will be there, three will be
+[17:27] there three times, and four will be
+[17:28] there. Now because of this technique,
+[17:31] you can see three is in my data more
+[17:34] often. Meaning its weight has increased
+[17:36] in the data. Okay? Now if you drew
+[17:38] randomly, it could also be that one
+[17:40] came, then three, then three, then two.
+[17:43] There are more errors in
+[17:44] three and two, so you will see three
+[17:45] and two more often. So basically, with
+[17:49] this entire technique, when you do
+[17:51] sampling, since we are picking rows
+[17:54] based on this range, the row with the
+[17:56] larger range has a higher chance of
+[17:59] being picked. Right? And this technique
+[18:03] is called upsampling. So now, the new
+[18:06] dataset I have for stage two will not
+[18:08] be this dataset. It will be this
+[18:11] dataset. I will take the first column
+[18:13] once. Then I will take the three column
+[18:17] three times, and then the four column.
+[18:20] I will remove this one and this one,
+[18:23] both these rows. Okay? And I will work
+[18:25] on these remaining ones and after that
+[18:27] everything will repeat. What will I do
+[18:29] again? I will take a new decision stump
+[18:32] and train it on this data. Obviously,
+[18:35] the data has changed. The behavior of
+[18:37] the decision stump will also change. I
+[18:39] will then calculate Alpha 2 for that
+[18:41] new decision stump. And then I will
+[18:43] keep performing this entire upsampling
+[18:45] stage step again. How many times will
+[18:47] we do this? As many decision stumps as
+[18:49] you are going to keep. So, in the end,
+[18:51] you will have values up to Alpha 1,
+[18:54] Alpha 2, Alpha 3, dot dot dot Alpha n.
+[18:56] And your final prediction will be Alpha
+[19:00] 1 times h1x + Alpha 2 times h2x dot dot
+[19:04] Alpha n times hnx, which I
+[19:06] explained to you in the last video. Now
+[19:10] I know showing it by repeating it again
+[19:12] and again is a bit boring. So let's do
+[19:13] one thing. Let's look at this whole
+[19:15] thing step-by-step through some code.
+[19:17] Okay? That will give you a great
+[19:19] understanding of how this entire
+[19:20] process works multiple times.

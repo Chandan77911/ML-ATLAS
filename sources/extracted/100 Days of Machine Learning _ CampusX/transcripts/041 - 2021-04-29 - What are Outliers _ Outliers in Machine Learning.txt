@@ -1,0 +1,388 @@
+# What are Outliers | Outliers in Machine Learning
+# https://www.youtube.com/watch?v=Lln1PKgGr_M
+
+Hi guys, welcome to my YouTube channel. We are doing feature engineering, and now we will cover a very important aspect of feature engineering in the next three or four videos, which is outlier detection and removal. I hope you know about outliers. What outliers are and how they create problems in machine learning. If you don't know, it's okay. We will learn everything about outliers in the next three to four videos. What are outliers? Why do outliers appear in data? What difference do they make, and how can we remove them? We will discuss all of this in the next three to four videos. Today's video, our end goal is to learn about outliers. A quick introduction about outliers and the kind of scenarios where they can trouble you. How can we remove them? We will take an overview of these. Okay? So let's start. So, what are outliers? I guess you must have heard—whenever I take a class, I always like to explain it to students through an analogy: "Sharma ji ka beta." It's basically that guy in your class who cries even after getting 99 marks, while the rest of the class is struggling to pass; that person is an outlier. So in simpler words, a data point or an observation that behaves very differently from all other data points. And just think about how problematic this is. If you are training a machine learning model and there are outliers in your data, your machine learning model can get distracted by those outliers. I mean, it's very simple, right? Suppose everyone is sitting in a class, and we decide to find out Everyone's salary is 20,000, 30,000, 40,000, and then Bill Gates or Elon Musk sits in that class. Now imagine, what would be the mean salary of that class? In the millions, perhaps even more. But is that a true representation of your data? No. So you can see how simply outliers can come into your system and ruin it. That is why outliers are treated very carefully in machine learning; they are removed or improved. Okay? So, let me give you an example of how an outlier is problematic for your machine learning model. So let's say we have data where we have students 'data on how many hours they studied during the whole semester and how many marks they got. Let's say this is a simple regression task. And after collecting the data, we noticed that our outcome, meaning our data, is kind of linear. Here we have hours. Here we have marks. So you can see there is a linear trend in our data that the more hours you study, the higher your marks will be. But then we realized that in our data, there are one or two marks, I mean, one or two students here. Meaning these people studied very little, but they got very high marks. Basically, Einstein's kids, or whatever. I mean, there are such people who study very little and get high marks and make us jealous. But the problem here is, let's say if you were fitting a linear regression model on this, then that linear regression model without outliers would look something like this. Right? But just because your data has outliers. There is a great chance that your model might end up like this. Right? Now, obviously, this is not a correct representation of your data. These two outliers are pulling this line towards them. Because that's how linear regression works. Right? But it should have been this line. So you can clearly see that your model failed. Now, when new test data comes, something here, that linear model of yours will perform poorly. Just because when you trained it, there were outliers in the data. So outliers are quite dangerous. The worst part is that they are hidden, they aren't visible, but they will spoil your life, I mean, make your life difficult. Okay? So, there is one more thing about outliers, that outliers are not always dangerous, I mean, are outliers dangerous or not? This is also a very important point. As a data scientist, you should know when an outlier is dangerous and needs to be removed, and when it is not dangerous and is part of the data and should be kept. This is also a very important part. So let's discuss when you should definitely remove outliers. You should not think about keeping them. For example, if you take a scenario here where, let's say you were collecting age data and someone accidentally entered their age as 300. Now, this is a pure outlier; no one's age can be 300. Definitely not for human beings. So 300 is wrong. Now, is that person's age 30, or 3, or what is it? I cannot guess. Basically, I have no way left to figure out what I should put there. So in such scenarios, you should remove these outliers. But sometimes, outliers are important for the system. In fact, sometimes, like with anomaly detection algorithms. Anomaly detection algorithms. Right? Like if you want to find out if something is wrong with a credit card. If something is going wrong with credit card transactions, you actually want to catch the outliers there. So if you remove the outliers, you won't be able to see anything wrong. So that's what I'm saying, whether to keep the outliers or not is something to think about, and it requires a lot of thought regarding what the problem statement is and how the outlier entered the system; you have to consider all of this. Sometimes, outliers turn around and give you some insights. Like, if we discuss the previous example, these two students here are actually outliers. I mean, no doubt they are outliers, but they are still students studying in the college. Right? So if you want to remove the outliers here, one way could be to remove these two students, or another way could be to create a column for IQ and take readings from that as well. Then perhaps their outlier behavior can be justified by this IQ column. So I'm saying the worst part about outliers is that it's very difficult to understand what to do with them. You will know that it is an outlier. It takes a lot of effort to think about what to do with the outlier. Whether to keep it, remove it, or make changes to it. You have to look at this very carefully. Okay? So what is the effect of an outlier? On machine learning algorithms. I clearly showed you that my linear regression model, which should have gone like this, is going like that. Obviously, the performance will be poor. So there is a certain set of machine learning algorithms that are heavily impacted by outliers. Okay? Examples of those are linear regression. I just showed it to you. Logistic regression, then there is a very famous ensemble technique called AdaBoost. It also gets significantly impacted by outliers, and outliers also cause a lot of trouble in deep learning. So these are the three or four classes of algorithms where outliers create a lot of impact and cause issues. A common pattern in all these algorithms is that you calculate weights here. So, if you ever want to know if outliers will impact your machine learning algorithm or not, a simple way to think is: are you working on a weight-based algorithm? Linear regression, logistic regression, even AdaBoost and deep learning all involve calculating weights. Right? So, all of these are impacted by outliers. Okay? Then there are some algorithms, like tree-based algorithms. Decision trees, random forest, gradient boosting, XGBoost; these are not as affected by outliers. Because they actually slice your data space. Like, they cut your axes depending on the conditions. So, the impact of outliers here isn't as much as it is on linear models and such. Anyway, if you have outliers in your data, you have to treat them. You have to fix them. It is a good practice. Okay? Because you don't just apply one single algorithm to a problem. You try out all the algorithms. So in that case, you have to treat the outliers. Right? The next question is, how to treat outliers? Let's say you've found out there are outliers in the data. So, what do you do now? Precisely, you do two main things. The first is trimming. The first thing that you do is trimming. Basically, remove your outliers. Those two students were outliers. Remove both of them. Completely removing outliers from the data. Now, the problem with this approach is that if there are too many outliers, your data will become thin. Becoming thin means it will be reduced. And the advantage of this approach is that it's very fast. It is quite fast. Right? Just think about it. The second approach is called capping. Capping means, always remember one thing: your outliers are always on the lower side or the higher side. An outlier won't be in the middle. Let's talk about salary. Who will be an outlier? Someone who earns too much or someone who earns too little. An average earner cannot be an outlier. Let's talk in terms of marks. Someone with very high marks is an outlier, someone with low marks is an outlier. Someone with average marks is not an outlier. So, what you have to do is put a limit on the outliers, saying everything above this is an outlier, everything below this is an outlier, and assign this specific number to all those points beyond it. Let's say this is' one ', so you assigned' one 'to everything less than' one ', and you called this' 90 ', so you assigned' 90 'to everything more than' 90 ', that is called' capping '. Right? So this is also used a lot, uh,' trimming and capping '. And apart from this, there are one or two other techniques that are sometimes used, though not as much. The first is: treating them like missing values, meaning you consider your outliers as missing values (consider them NaN) and treat them accordingly. We have already discussed missing values quite a lot. You can apply all those techniques. Assuming outliers are missing. Right? And the fourth one is that you perform discretization. We have studied this as well. What do you do in discretization? You discretize numerical data, like age. Like zero to 10, 10 to 20, 30 to 40, and so on, so what will happen is that a bracket of 90 to 100 will be formed. So you are considering the 90 one and the 100 one as the same. So if 100 was an outlier, it has now merged into the 90 range. So it is no longer an outlier. So this is also a way. But these two are used a little less. These two, trimming and capping, are used more. Right? So in the next three-four videos, we will focus on trimming and capping. Right? We will work more on these two only. Right? Next, uh, you might think how will we know if there are outliers in the data? So there are three main ways to find out. Actually, there are other ways too. But I will tell you the three most important ways using which you can find out if there are outliers in any of your columns. The very first is if the column you are working on is normally distributed. Meaning its distribution is like this. Then it is very simple because what is the specialty of a normal distribution, that this is a normal distribution. Right? So you can see that within one standard deviation, meaning between -1 standard deviation to +1 standard deviation, there are 68%of the observations. Between your two standard deviations, uh, I guess 95%of observations are there, and between three standard deviations, 99%of observations are there. So if any particular observation of yours is outside the mean plus-minus three standard deviations. Meaning, if any of your observations are outside the range of mean (represented by μ) + 3 sigma and μ-3 sigma. If it is larger than this or smaller than this, in that case, you can treat it as an outlier. You can consider it an outlier. So, this is a very famous technique. We will study Z-score-based treatment a bit further. There you will see that we are finding outliers exactly this way and then performing treatment on them. Right? So, this is strictly applicable when your data is normally distributed or close to normally distributed. Meaning, either it's a perfect normal distribution, or it's a little bit off, which is fine. Right? The second method is, suppose your data is not normally distributed and it is somewhat skewed. Something like this. Right? Or something like this. The data is skewed. Right-skewed or left-skewed. In that case, you use the interquartile proximity rule. We have discussed this before as well. You basically plot a box plot, and in the box plot, you use this formula for the minimum value and this for the maximum value. Right? What is Q3 here? 75th percentile, and what is Q1? 25th percentile. So, your minimum value is Q1 minus 1.5 times the IQR. What is IQR? It is the interquartile range. Right? If any number is smaller than this, it is an outlier, and if any number is larger than Q3 + 1.5 IQR, you can treat that as an outlier as well. This method is also very famous and you use it when you have a skewed distribution. Right? One last method that you use sometimes is the percentile-based approach. So, you have any distribution, you can apply this approach to it; if your observation is at the 97th, or in some cases, the 99th percentile. If it is outside the 99th percentile, it is an outlier, and if it is below the 5th percentile, like 2.5 is given here, it is up to you. You can select according to the business problem. So, if it is before 2.5 or before 5, you can again treat it as an outlier. Right? So, these are the three most important ways you will mostly see whenever you study this topic. There are other techniques besides these, but they are currently outside the scope of our course. Right? Now, let me quickly tell you which techniques we are going to use. We will use three—actually, we will use four techniques. For this entire process. We will study Z-score treatment. Okay? The first one we studied, related to normal distribution. Then we will study IQR-based filtering, the second one we studied, related to box plots. After that, we will study the percentile one that we just saw as the third. And finally, we will discuss a special technique called Winsorization. Okay? This is also very famous, and we will study this as well. So, in total, we are going to do four videos after this one, covering each of these techniques. Okay? So, that's it for this video. I hope you have a bit of an introduction to what outliers are, and now we will learn how to handle them by studying each technique one by one. Okay? So, that's it for the video, guys. Thanks for watching. Bye.
+
+
+[00:00] Hi guys, welcome to my YouTube channel.
+[00:03] We are doing feature engineering, and
+[00:05] now we will cover a very important
+[00:07] aspect of feature engineering in the
+[00:09] next three or four videos, which is
+[00:11] outlier detection and removal. I hope
+[00:14] you know about outliers. What outliers
+[00:17] are and how they create problems in
+[00:19] machine learning. If you don't know,
+[00:21] it's okay. We will learn everything
+[00:23] about outliers in the next three to
+[00:25] four videos. What are outliers? Why do
+[00:27] outliers appear in data? What
+[00:30] difference do they make, and how can we
+[00:32] remove them? We will discuss all of
+[00:34] this in the next three to four videos.
+[00:36] Today's video, our end goal is to learn
+[00:40] about outliers. A quick introduction
+[00:42] about outliers and the kind of
+[00:44] scenarios where they can trouble you.
+[00:46] How can we remove them? We will take an
+[00:49] overview of these. Okay? So let's start
+[00:51] . So, what are outliers? I guess you
+[00:56] must have heard—whenever I take a
+[00:58] class, I always like to explain it to
+[01:00] students through an analogy: "Sharma ji
+[01:02] ka beta." It's basically that guy in
+[01:06] your class who cries even after getting
+[01:08] 99 marks, while the rest of the class
+[01:09] is struggling to pass; that person is
+[01:11] an outlier. So in simpler words, a data
+[01:16] point or an observation that behaves
+[01:18] very differently from all other data
+[01:21] points. And just think about how
+[01:24] problematic this is. If you are
+[01:27] training a machine learning model and
+[01:28] there are outliers in your data, your
+[01:30] machine learning model can get
+[01:31] distracted by those outliers. I mean,
+[01:34] it's very simple, right? Suppose
+[01:36] everyone is sitting in a class, and we
+[01:39] decide to find out Everyone's salary
+[01:41] is 20,000, 30,000,
+[01:44] 40,000, and then Bill Gates or Elon
+[01:46] Musk sits in that class. Now imagine,
+[01:49] what would be the mean salary of that
+[01:51] class? In the millions, perhaps even
+[01:53] more. But is that a true representation
+[01:55] of your data? No. So you can see how
+[01:58] simply outliers can come into your
+[02:01] system and ruin it. That is why
+[02:04] outliers are treated very carefully in
+[02:07] machine learning; they are removed or
+[02:10] improved. Okay? So, let me give you an
+[02:13] example of how an outlier is
+[02:14] problematic for your machine learning
+[02:16] model. So let's say we have data where
+[02:21] we have students 'data on how many
+[02:23] hours they studied during the whole
+[02:26] semester and how many marks they got.
+[02:31] Let's say this is a simple regression
+[02:34] task. And after collecting the data, we
+[02:39] noticed that our outcome, meaning our
+[02:42] data, is kind of linear. Here we have
+[02:47] hours. Here we have marks. So you can
+[02:50] see there is a linear trend in our data
+[02:53] that the more hours you study, the
+[02:55] higher your marks will be. But then we
+[02:58] realized that in our data, there are
+[03:01] one or two marks, I mean, one or two
+[03:03] students here. Meaning these people
+[03:05] studied very little, but they got very
+[03:07] high marks. Basically, Einstein's kids,
+[03:10] or whatever. I mean, there are such
+[03:13] people who study very little and get
+[03:15] high marks and make us jealous. But the
+[03:19] problem here is, let's say if you were
+[03:21] fitting a linear regression model on
+[03:23] this, then that linear regression model
+[03:24] without outliers would look something
+[03:26] like this. Right? But just because your
+[03:30] data has outliers. There is a great
+[03:33] chance that your model might end up
+[03:35] like this. Right? Now, obviously, this
+[03:37] is not a correct representation of your
+[03:39] data. These two outliers are pulling
+[03:42] this line towards them. Because that's
+[03:45] how linear regression works. Right? But
+[03:48] it should have been this line. So you
+[03:50] can clearly see that your model failed.
+[03:53] Now, when new test data comes,
+[03:55] something here, that linear model of
+[03:57] yours will perform poorly. Just because
+[04:00] when you trained it, there were
+[04:02] outliers in the data. So outliers are
+[04:04] quite dangerous. The worst part is that
+[04:07] they are hidden, they aren't visible,
+[04:09] but they will spoil your life, I mean,
+[04:11] make your life difficult. Okay? So,
+[04:15] there is one more thing about outliers,
+[04:18] that outliers are not always dangerous,
+[04:21] I mean, are outliers dangerous or not?
+[04:24] This is also a very important point. As
+[04:27] a data scientist, you should know when
+[04:29] an outlier is dangerous and needs to be
+[04:32] removed, and when it is not dangerous
+[04:34] and is part of the data and should be
+[04:36] kept. This is also a very important
+[04:38] part. So let's discuss when you should
+[04:41] definitely remove outliers. You should
+[04:44] not think about keeping them. For
+[04:46] example, if you take a scenario here
+[04:50] where, let's say you were collecting
+[04:53] age data and someone accidentally
+[04:56] entered their age as 300. Now, this is
+[05:01] a pure outlier; no one's age can be 300
+[05:04] . Definitely not for human beings. So
+[05:07] 300 is wrong. Now, is that person's age
+[05:11] 30, or 3, or what is it? I cannot guess
+[05:14] . Basically, I have no way left to
+[05:17] figure out what I should put there. So
+[05:19] in such scenarios, you should remove
+[05:22] these outliers. But sometimes, outliers
+[05:25] are important for the system. In fact,
+[05:27] sometimes, like with anomaly detection
+[05:30] algorithms. Anomaly detection
+[05:32] algorithms. Right? Like if you want to
+[05:36] find out if something is wrong with a
+[05:39] credit card. If something is going
+[05:42] wrong with credit card transactions,
+[05:44] you actually want to catch the outliers
+[05:46] there. So if you remove the outliers,
+[05:49] you won't be able to see anything wrong
+[05:52] . So that's what I'm saying, whether to
+[05:55] keep the outliers or not is something
+[05:57] to think about, and it requires a lot
+[06:00] of thought regarding what the problem
+[06:03] statement is and how the outlier
+[06:05] entered the system; you have to
+[06:07] consider all of this. Sometimes,
+[06:09] outliers turn around and give you some
+[06:12] insights. Like, if we discuss the
+[06:15] previous example, these two students
+[06:19] here are actually outliers. I mean, no
+[06:23] doubt they are outliers, but they are
+[06:25] still students studying in the college.
+[06:27] Right? So if you want to remove the
+[06:30] outliers here, one way could be to
+[06:33] remove these two students, or another
+[06:36] way could be to create a column for IQ
+[06:38] and take readings from that as well.
+[06:43] Then perhaps their outlier behavior can
+[06:46] be justified by this IQ column. So I'm
+[06:50] saying the worst part about outliers is
+[06:53] that it's very difficult to understand
+[06:55] what to do with them. You will know
+[06:59] that it is an outlier. It takes a lot
+[07:01] of effort to think about what to do
+[07:03] with the outlier. Whether to keep it,
+[07:06] remove it, or make changes to it. You
+[07:09] have to look at this very carefully.
+[07:11] Okay? So what is the effect of an
+[07:14] outlier? On machine learning algorithms
+[07:15] . I clearly showed you that my linear
+[07:17] regression model, which should have
+[07:19] gone like this, is going like that.
+[07:21] Obviously, the performance will be poor
+[07:23] . So there is a certain set of machine
+[07:26] learning algorithms that are heavily
+[07:28] impacted by outliers. Okay? Examples of
+[07:31] those are linear regression. I just
+[07:33] showed it to you. Logistic regression,
+[07:37] then there is a very famous ensemble
+[07:41] technique called AdaBoost. It also gets
+[07:46] significantly impacted by outliers, and
+[07:48] outliers also cause a lot of trouble in
+[07:51] deep learning. So these are the three
+[07:55] or four classes of algorithms where
+[07:57] outliers create a lot of impact and
+[07:59] cause issues. A common pattern in all
+[08:02] these algorithms is that you calculate
+[08:05] weights here. So, if you ever want to
+[08:09] know if outliers will impact your
+[08:10] machine learning algorithm or not, a
+[08:12] simple way to think is: are you working
+[08:15] on a weight-based algorithm? Linear
+[08:18] regression, logistic regression, even
+[08:20] AdaBoost and deep learning all involve
+[08:23] calculating weights. Right? So, all of
+[08:26] these are impacted by outliers. Okay?
+[08:29] Then there are some algorithms, like
+[08:31] tree-based algorithms. Decision trees,
+[08:34] random forest, gradient boosting,
+[08:37] XGBoost; these are not as affected by
+[08:39] outliers. Because they actually slice
+[08:42] your data space. Like, they cut your
+[08:45] axes depending on the conditions. So,
+[08:48] the impact of outliers here isn't as
+[08:51] much as it is on linear models and such
+[08:55] . Anyway, if you have outliers in your
+[08:58] data, you have to treat them. You have
+[09:01] to fix them. It is a good practice.
+[09:03] Okay? Because you don't just apply one
+[09:05] single algorithm to a problem. You try
+[09:08] out all the algorithms. So in that case
+[09:10] , you have to treat the outliers. Right
+[09:12] ? The next question is, how to treat
+[09:15] outliers? Let's say you've found out
+[09:17] there are outliers in the data. So,
+[09:19] what do you do now? Precisely, you do
+[09:22] two main things. The first is trimming.
+[09:25] The first thing that you do is trimming
+[09:28] . Basically, remove your outliers.
+[09:32] Those two students were outliers.
+[09:33] Remove both of them. Completely
+[09:35] removing outliers from the data. Now,
+[09:38] the problem with this approach is that
+[09:40] if there are too many outliers, your
+[09:42] data will become thin. Becoming thin
+[09:45] means it will be reduced. And the
+[09:47] advantage of this approach is that it's
+[09:50] very fast. It is quite fast. Right?
+[09:53] Just think about it. The second
+[09:55] approach is called capping. Capping
+[09:59] means, always remember one thing: your
+[10:02] outliers are always on the lower side
+[10:05] or the higher side. An outlier won't be
+[10:07] in the middle. Let's talk about salary.
+[10:09] Who will be an outlier? Someone who
+[10:11] earns too much or someone who earns too
+[10:13] little. An average earner cannot be an
+[10:15] outlier. Let's talk in terms of marks.
+[10:17] Someone with very high marks is an
+[10:18] outlier, someone with low marks is an
+[10:19] outlier. Someone with average marks is
+[10:21] not an outlier. So, what you have to do
+[10:24] is put a limit on the outliers, saying
+[10:26] everything above this is an outlier,
+[10:27] everything below this is an outlier,
+[10:29] and assign this specific number to all
+[10:31] those points beyond it. Let's say this
+[10:35] is' one ', so you assigned' one 'to
+[10:37] everything less than' one ', and you
+[10:39] called this' 90 ', so you assigned' 90
+[10:41] 'to everything more than' 90 ', that is
+[10:44] called' capping '. Right? So this is
+[10:47] also used a lot, uh,' trimming and
+[10:49] capping '. And apart from this, there
+[10:51] are one or two other techniques that
+[10:53] are sometimes used, though not as much.
+[10:55] The first is: treating them like
+[10:57] missing values, meaning you consider
+[11:00] your outliers as missing values (
+[11:02] consider them NaN) and treat them
+[11:04] accordingly. We have already discussed
+[11:06] missing values quite a lot. You can
+[11:08] apply all those techniques. Assuming
+[11:11] outliers are missing. Right? And the
+[11:13] fourth one is that you perform
+[11:15] discretization. We have studied this as
+[11:17] well. What do you do in discretization?
+[11:21] You discretize numerical data, like age
+[11:25] . Like zero to 10, 10 to 20, 30 to 40,
+[11:28] and so on, so what will happen is that
+[11:30] a bracket of 90 to 100 will be formed.
+[11:33] So you are considering the 90 one and
+[11:35] the 100 one as the same. So if 100 was
+[11:38] an outlier, it has now merged into the
+[11:40] 90 range. So it is no longer an outlier
+[11:42] . So this is also a way. But these two
+[11:45] are used a little less. These two,
+[11:48] trimming and capping, are used more.
+[11:51] Right? So in the next three-four videos
+[11:54] , we will focus on trimming and capping
+[11:57] . Right? We will work more on these two
+[12:00] only. Right? Next, uh, you might think
+[12:03] how will we know if there are outliers
+[12:05] in the data? So there are three main
+[12:08] ways to find out. Actually, there are
+[12:10] other ways too. But I will tell you the
+[12:12] three most important ways using which
+[12:14] you can find out if there are outliers
+[12:16] in any of your columns. The very first
+[12:20] is if the column you are working on is
+[12:24] normally distributed. Meaning its
+[12:27] distribution is like this. Then it is
+[12:31] very simple because what is the
+[12:33] specialty of a normal distribution,
+[12:35] that this is a normal distribution.
+[12:38] Right? So you can see that within one
+[12:41] standard deviation, meaning between -1
+[12:44] standard deviation to +1 standard
+[12:46] deviation, there are 68%of the
+[12:48] observations. Between your two standard
+[12:52] deviations, uh, I guess 95%of
+[12:56] observations are there, and between
+[12:58] three standard deviations, 99%of
+[13:00] observations are there. So if any
+[13:03] particular observation of yours is
+[13:06] outside the mean plus-minus three
+[13:08] standard deviations. Meaning, if any of
+[13:13] your observations are outside the range
+[13:17] of mean (represented by μ) + 3 sigma
+[13:21] and μ-3 sigma. If it is larger than
+[13:26] this or smaller than this, in that case
+[13:29] , you can treat it as an outlier. You
+[13:32] can consider it an outlier. So, this is
+[13:34] a very famous technique. We will study
+[13:36] Z-score-based treatment a bit further.
+[13:39] There you will see that we are finding
+[13:41] outliers exactly this way and then
+[13:43] performing treatment on them. Right? So
+[13:45] , this is strictly applicable when your
+[13:48] data is normally distributed or close
+[13:51] to normally distributed. Meaning,
+[13:54] either it's a perfect normal
+[13:56] distribution, or it's a little bit off,
+[13:58] which is fine. Right? The second method
+[14:03] is, suppose your data is not normally
+[14:05] distributed and it is somewhat skewed.
+[14:09] Something like this. Right? Or
+[14:10] something like this. The data is skewed
+[14:12] . Right-skewed or left-skewed. In that
+[14:15] case, you use the interquartile
+[14:17] proximity rule. We have discussed this
+[14:20] before as well. You basically plot a
+[14:23] box plot, and in the box plot, you use
+[14:25] this formula for the minimum value and
+[14:28] this for the maximum value. Right? What
+[14:31] is Q3 here? 75th percentile, and what
+[14:34] is Q1? 25th percentile. So, your
+[14:37] minimum value is Q1 minus 1.5 times the
+[14:42] IQR. What is IQR? It is the
+[14:45] interquartile range. Right? If any
+[14:48] number is smaller than this, it is an
+[14:51] outlier, and if any number is larger
+[14:54] than Q3 + 1.5 IQR, you can treat that
+[14:57] as an outlier as well. This method is
+[15:01] also very famous and you use it when
+[15:04] you have a skewed distribution. Right?
+[15:07] One last method that you use sometimes
+[15:10] is the percentile-based approach. So,
+[15:13] you have any distribution, you can
+[15:17] apply this approach to it; if your
+[15:20] observation is at the 97th, or in some
+[15:24] cases, the 99th percentile. If it is
+[15:28] outside the 99th percentile, it is an
+[15:30] outlier, and if it is below the 5th
+[15:32] percentile, like 2.5 is given here, it
+[15:34] is up to you. You can select according
+[15:37] to the business problem. So, if it is
+[15:40] before 2.5 or before 5, you can again
+[15:43] treat it as an outlier. Right? So,
+[15:46] these are the three most important ways
+[15:48] you will mostly see whenever you study
+[15:50] this topic. There are other techniques
+[15:53] besides these, but they are currently
+[15:54] outside the scope of our course. Right?
+[15:57] Now, let me quickly tell you which
+[16:00] techniques we are going to use. We will
+[16:03] use three—actually, we will use four
+[16:05] techniques. For this entire process. We
+[16:09] will study Z-score treatment. Okay? The
+[16:15] first one we studied, related to normal
+[16:17] distribution. Then we will study
+[16:20] IQR-based filtering, the second one we
+[16:24] studied, related to box plots. After
+[16:27] that, we will study the percentile one
+[16:30] that we just saw as the third. And
+[16:33] finally, we will discuss a special
+[16:36] technique called Winsorization. Okay?
+[16:39] This is also very famous, and we will
+[16:41] study this as well. So, in total, we
+[16:43] are going to do four videos after this
+[16:46] one, covering each of these techniques.
+[16:48] Okay? So, that's it for this video. I
+[16:52] hope you have a bit of an introduction
+[16:55] to what outliers are, and now we will
+[16:58] learn how to handle them by studying
+[17:00] each technique one by one. Okay? So,
+[17:03] that's it for the video, guys. Thanks
+[17:05] for watching. Bye.

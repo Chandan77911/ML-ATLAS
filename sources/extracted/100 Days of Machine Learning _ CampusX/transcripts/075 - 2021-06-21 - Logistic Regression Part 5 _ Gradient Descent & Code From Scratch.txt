@@ -1,0 +1,642 @@
+# Logistic Regression Part 5 | Gradient Descent & Code From Scratch
+# https://www.youtube.com/watch?v=ABrrSwMYWSg
+
+Hi guys, welcome to my YouTube channel. We are studying logistic regression. In the last video, we learned to calculate the loss function, and I told you there that there is no closed-form solution for that loss function. You cannot find a solution by deriving a formula. You only have one option: to apply gradient descent to find the most optimized solution. In this video, we are going to do exactly that. The loss function we calculated in the last video, in this video, we will apply gradient descent to it, calculate the most optimized solution, and then code it in Python as well. So let's start the video. Alright guys, let's get started. I have taken an example. I have taken a dataset here. Meaning, I created it myself to simplify the mathematics. We have a dataset where the number of rows is m and the number of columns is n. Here is column one, column two, column three, column n, and the output column. Okay? And you can see the first value is x1, the first row, first column value. The second is x12, first row second column, x13, first row third column, x1n, first row nth column. Similarly, what does this represent? The value of the second row, second column. Okay? So I have written it as a matrix because this format will help me later. Now we will do one thing. We will calculate y-hat. We will calculate the output value for every row. Okay? Before that, since we are working on logistic regression, you must know that you have as many coefficients as you have input columns. Meaning, according to this problem, how many coefficients should you have? W1, w2, w3 until wn, and along with that, you have an intercept term. Okay? Meaning, if you have n input columns, your number of coefficients will be n + 1, which is what I have. Now what do I need to do? I need to calculate y1-hat. The first row I need to predict the output for it using these coefficients. So you know how to do this. What will you do? First, you will write this, you will multiply w1 by x1, then multiply w2 by x12, then multiply w3 by x13, and in this way, multiply wn by x1n, and finally, add w0. Right? Right! That will be your y1-hat. This is actually not done yet; now what you will do with this whole thing is, put it into a sigmoid function. This is your y1 hat. Going by the same logic, if someone asks you to calculate y2 hat, meaning to predict the output of the second row using these coefficients, then what will you do now? You will keep everything the same. This time you will write w1 by x21, this time you will take this row, you will take this row. Right? So here we will have w2 by x22 + w3 x23 + wn x2n + then w0 again and if you take the sigmoid of this whole thing, you will get y2 hat. So guys, what have I done? Now to save time, I paused the video and created a matrix. Okay? I created a matrix and the name of this matrix is Y hat. And this Y hat is written in capital letters. Okay? Y hat is a matrix where it consists of all the predicted values of all the rows. So, what is it made of? From Y1 hat, y2 hat, to YM hat. So basically, you took every row and calculated its prediction. Okay? And I have written it here. So, this is the matrix for the first row, the prediction is the sigmoid of this term. For the second row, the prediction is the sigmoid of this term and for the last row, the sigmoid of this term will give me this matrix. Okay? Then what did I do? Since this sigmoid operation was common to the entire matrix. I took it out. I took the sigmoid out and inside only this matrix remained. w0 + w1x1 this entire matrix remained. Okay? And now I did what I was working so hard for. I expressed this entire matrix in the form of a dot product of two matrices. You can see, look here. So what did I do? If you look at this whole thing, you will understand what I am saying. So you can easily decompose this matrix into the dot product of these two matrices. Think about it. This is, you will have to pause the video once. Probably you will have to pick up a pen and paper. But if you look, you will understand that if you call this matrix A and this B and multiply these two matrices, you will get this matrix if I call it C. Okay? So now the Y matrix is equal to the sigmoid operation of the matrix multiplication of A and B and guess what? What is this B matrix? This is your matrix of coefficients. You can call this w. And this matrix here is actually your x, as in your input data. We have just added an extra column of all ones here. Uh, this column had to be added for w naught. But yeah, this is your x matrix. This means I can express this whole thing as prediction equal to y hat = σ (x*w), okay? I hope you are understanding this entire thing. Now guys, we will do what we worked so hard for. What am I going to do? We will write the loss function that we calculated in the last video in matrix form. Okay? Let me show you. How will we do that? So if you remember, we derived the loss function in the last video and it was -1/m sigma from i = 1 to m, where m represents the number of rows, yi log yi hat + 1-yi log 1-yi hat. Okay? Now what am I doing? This is not in matrix form. I will convert it into matrix form. Okay? By the way, I can also write this as -1/m sigma from i = 1 to m yi log yi hat + sigma i = 1 to m 1-yi log 1-yi hat, okay? So what will I do? I will show you how to convert this part, this part right here, into a matrix, and then I will tell you what its answer will be. Okay? Look, it's very simple. So what am I doing? I am taking this term out for a while and writing here, i = 1 to m yi log yi hat. Okay? Now what will we do? We will expand this. What will come from expanding this? y1 log y1 hat + y2 log y2 hat + y3 log y3 hat + dot dot dot ym, the last item will be m log ym hat. Okay, now think about what y1 is. y1 is the value of the output column for your first row. Similarly, what is y2? The value of the output column for your second row. Similarly, what is y1 hat indicates what prediction your model made for your first row. What is y2 hat indicating? What prediction your model made for your second row. And similarly, ym hat is indicating. What prediction your model made for your last row. So what am I doing? Let me write this whole thing in this way. y1, y2, y3, ym And I will write this as log of y1 hat, log of y2 hat, dot dot dot, log of ym hat, I've made a dot product. And what I can do is I can rewrite it as y1 y2 y3 ym log, since I have to perform it on all of them. I am taking the log outside. This will become y1 hat, y2 hat, dot dot dot, ym hat. Right? I have to take the log of this. Now this one, this is your y matrix, the target column in the actual data. And think about this, which matrix is this? A matrix in which you have stored the prediction value of every row; this is actually your y hat matrix. This is your y hat matrix. So what will you do? You can write it as y*log of y hat matrix or y transpose. What value did we derive for y hat? A while ago we derived this, y hat was sigmoid of x matrix dot product w matrix. So what am I doing? I am rewriting it as y log sigmoid of xw matrix. So this, guys, is our simplification in matrix form. And if you think about the second term, what changes will happen there? It will simply become this term, (1-y) matrix and this second term will become log of sigmoid of (1-xw). So if I want to rewrite this entire loss function, my loss function has now become 1/m times, we have eliminated the summation. Here we will have y log y hat matrix plus one minus y matrix log 1-y hat matrix where I will write here that where y hat is equal to sigmoid of x matrix dot product w matrix, whenever we need it, we will use this relationship. Okay? Now guys, we have our data. We have our loss function in matrix form. I told you in the last video that this is not solvable. Meaning, no closed-form solution exists for this. So what do you have to do? You have to apply gradient descent. Apply gradient descent. And by applying gradient descent, you have to find your W matrix. For which the value of this loss function is minimum. This is what we will do next. So guys, let's reiterate once. What do we have to do? Here is our loss function in matrix form. What do we need to do? We need to find values for the w matrix, as in all our coefficients, for which the value of this entire equation is minimum. Okay? And now, what will we do? We will apply gradient descent to solve this problem. What will you do in gradient descent? You will initialize your w matrix with some values. You can initialize it with any random values, or ones, or zeros. Then you will run a loop, for i in however many epochs you decide—10, 100, or thousands—inside the loop, what will you do? You will update your w matrix using this relationship. Okay? This is gradient descent. The new values in your W matrix will be the old values minus the learning rate times what is this? This is the gradient. Meaning, since you have terms from w naught to wn in w. You need to derive your loss function with respect to all of these. As in, find the derivation. Find the slope. And just think about the matrix that will be formed by that. If you find del L/del w naught. Then find del L/del w1. Then find del L/dw, and finally, keep doing this to find del L/dwn. Then you will have another matrix with a total of n + 1 numbers. Okay? So, what do you need to do? You need to calculate all these matrices. And collectively, we are calling this del by del W. Okay? So what we have to do is we have to calculate w using this formula. We will take the old W. We will subtract from it. Learning rate times this matrix. And what is this matrix? This is the combination of derivatives of the loss function with respect to all the coefficients. Okay? So that is what we have to do. Now the biggest question is, how will we get this? How will we get this matrix where you are storing all the derivatives? So we have to find this, and this will be our next focus: finding it. So, let's go guys, what will we do now? We will find the derivation or derivative of this loss function with respect to the W matrix. Okay? So for that, what am I doing? I am writing the loss function again. And this time, I will write the loss function in terms of y hat. Meaning, like this. y log y hat, this is the y hat matrix, plus 1-y log 1-y hat matrix. Now what do I have to do? I need to calculate dl/dw. Since we are calculating the gradient, we could have written it this way as well. But this is a more familiar term. So, let's write it in this way. So, what will we do now? We will first derive the matrix for this term separately and then we will derive for this one. Okay? So, first I will show you how to derive the first one, this one. So, what we will do is we will find out d/dw of y log y-hat, what will be its derivative? Okay? So, y is constant. y will come out, and here we will have d/dw of log y-hat matrix. Okay? Now, y-hat contains w, so first, what will we have to do? First, we have to find the derivative of log. So, this becomes y/y-hat, the derivative is 1/y, and then you have to calculate d/dw of y-hat, and what is y-hat? It is the sigmoid of x*w, so I will write that we can write this as y/ y-hat, and when you calculate d/dw, now you are actually calculating d/dw of sigmoid of wx. Okay? Now, you know that the differentiation of sigmoid is sigmoid multiplied by 1-sigmoid. So, what I can do is I can write it like y/ y-hat differentiated, so here we get this multiplied by 1-this and then, according to the chain rule, I now have to differentiate now we have to differentiate wx, okay? Now, what will happen next? By the way, what is this? This is nothing but the y-hat matrix. So, I will just rewrite this. I will rewrite this as y/y-hat. And here we will have y-hat*1-y-hat. And here, when you differentiate, you will only get x because you are differentiating with respect to w, so you will get x. Now, these two terms will cancel out, and the answer you will get is y*1-y-hat times x matrix. This is your differentiation of the first term; this is the differentiation of your first term. Let me outline this a bit. So that it becomes easier to refer to it later. We have calculated the differentiation of this term. Now, we will go after this term. Okay? Let's write this term down below. Let's write this term down. This term is 1-y log 1- y-hat; we need to perform d/dw on this. Again, 1-y is a constant, so it will come out. 1-y matrix d/dw of log (1-y). Now this will be 1-y log, and by the way, it should be y hat here, I am, I am sorry, 1-y hat d/dw of. And now what you will do is write this whole thing as 1 minus y hat, chain rule is being applied. Okay? Now when you differentiate one, it will become zero. And then differentiating y hat, so what is y hat? y hat is sigmoid of wx, so I am rewriting it. Uh, by the way, this minus term will come out. So this will be, 1-y matrix, 1-y hat matrix, d/dw of sigmoid of wx. And then you write it as, 1-y, 1-y hat, and you know what happens upon differentiation, here it will come wx, x (1-sigmoid of wx) And then finally you have to do d/dw of wx, by chain rule. Okay? Let's go down again and rewrite this. -1-y 1-y hat and what is this actually? y hat 1-this is also y hat And differentiating this will give you x, and what will happen this time? Actually, one more thing: this is y hat, so y hat will come here too, and you will cancel this and this out, and what you get is this. You will get-(uh y hat-1)*x, Okay? And this is the derivative of the second term. This is the derivative of the second term. Okay? Now if we write both of them together. If we write both together, then our differentiation, the overall differentiation, will be dl/dw = -1/m times, let's write the first one above. This is y*/1-y y*/1-y hat times x matrix, and since it was plus, it will become minus because of the second term, and here comes y hat 1-y x matrix. Okay? x matrix is common. We can take it out. So -1/m y 1-y hat-y hat 1-y times x. Now what will we do? Multiply inside. So -1/m y/y hat*y-y hat + y y hat And multiplied by x. You can see this term and this term will cancel out and you will get here -1/m times y-y hat matrix*by x matrix. So this is your dl/a dl write this, or let's write it in the proper form. This is it. Okay? This is it. So let's outline this as well. So that we remember it. And that's it guys. Now if you remember, our gradient ascent had this formula. This was the formula. So let's take this formula down and write it. So now according to gradient descent, our update will be done this way. w matrix = w matrix's old values minus since this is minus and here also is minus, it will become plus. Learning rate times 1/m y-y hat*by x This is the gradient ascent update here, everything is now in matrix form. w is a matrix which is w0, w1, dot dot dot, wn. Okay? x is a matrix that starts from one and goes up to x11, x12, dot dot dot, x1n. 1, x21, x22, dot dot dot, x2n. Dot dot, 1, xm1, xm2, dot dot dot, xmn. And your y matrix, that is nothing but y1, y2, dot dot dot, ym. And your y hat matrix, that is y1 hat, y2 hat, dot dot, ym hat. Okay? You have to remember everyone's shape, its shape is n + 1, 1. Its shape is m cross n + 1, its shape is m cross 1, its shape is m cross 1, okay? So you can see, if you want to look here, you will understand. I will show you LHS = RHS. I am writing this rule again here. w = w + learning rate times 1/m*(y-y hat)*x. Okay? Let's see. What is its shape? Its shape is n + 1, 1, we should get this much. Okay? What is the shape of this w? n + 1, 1. This whole thing is a scalar. You can ignore this. Its shape will be n + 1, 1 because y-well I made a mistake, that mistake is your w shape is not m, 1. Your W shape is (n + 1, 1), (n + 1, 1). Similarly, your W here also will have the shape (n + 1, 1). And this subtraction of these two matrices, since both have the same shape, this will be the output. And the shape of your X is (m cross n + 1). When a dot product occurs between these two, it will automatically transpose due to the broadcasting operation. This part will be transposed and you can write it as 1 cross m. Since these two are the same, you will get 1 cross n + 1, and it will again be transposed and added, and then the resulting sum will be n + 1. So yeah guys, now what do we have to do? We just have to code this, that's it, nothing else. So I know it was a bit of difficult mathematics. But if you do it step by step and bring everything into matrix form, then it becomes very easy math. I mean, once you write it down yourself using pen and paper, you will easily understand what is going on here. Okay? So next we are going to Python and we are going to code this in Python. Okay? So guys, I have already written the code. I will give you a walkthrough. This is exactly the same dataset that I have shown you so far in logistic regression using make classification. So this is the dataset and upon plotting it, you can see it looks like this. Okay? So the approach I have taken is that I first applied scikit-learn's logistic regression and then I created my own class. Actually, I didn't create a class. I created a function and then I want to show you the comparison of both. Okay? So you can see, first of all, I called logistic regression and here I have given some hyperparameter values. Such as the penalty value is none. Meaning I am not applying any regularization. By default, logistic regression applies a penalty. It applies a regularization. I am not doing that. Because the code I will write will also not have regularization. That's why I removed it. And solver is equal to sag. So there are different solvers. Like the formulation we just made, that was one of the solvers. There are other different solvers for optimization. I took the simplest one called sag. Okay? And I fitted my data to x and y, and these are my coefficients and intercept. These are the values. From that, I calculated the slope and intercept values. And I plotted this x and y which I will use to plot the line segment. Here is the main code, guys. Here is a function named GD, for gradient descent. It just needs x and y. And what did I do first here? In my x, which was my x matrix, by the way, my x looks like this. This is x, it has two columns. There are two input columns. So what did I do? First of all, the x matrix I need should have ones in the first column. So I turned this from two columns into three. By writing this code, np.insert, in x, at index zero, ones, axis equals one, by writing this, I added an extra column at the start for the intercept and this became x. Then I created a matrix called weights, where all values are one and its shape is x.shape [1], meaning as many columns as there are in the x matrix. Now, by the way, the x matrix will have one extra column after adding the ones column. So I initialized it equal to x.shape. So if I go and write both these codes here. If I go here and write both these codes. Here, by the way, I am changing x to x1. And here I am changing it to x1. If I plot this, you can see it is initializing with three values. Okay? Because my x now has three columns. Okay? So the first is w0, the second is w1, the third is w2. Now what are we doing next? We took a learning rate of 5. I was checking different values for this. You can start this with anything. Then you can try it out. Then I ran a loop for i in range of 2500. So here, my epoch value is 2500. Again, I was testing it. Now, what do I need to do first? This is my weight update rule. See, this is the weight update rule. This is the exact update rule we saw here. W matrix = W matrix plus, look here, W matrix as in weights matrix equals weights matrix plus learning rate times, learning rate times this dot product. So what did I do? First of all, I calculated this dot product. I calculated this Dot product of what? Of the y matrix. And the y hat matrix. The actual y and the predicted y. And what is x? My input. And then what did I do? I divided it by m. And what is m? The number of rows. And how to get the number of rows? x.shape [0]. Okay? So here is everything, my update rule, and now we just need to calculate one thing, that is y-hat. To make predictions for all the columns and rows in my data, I simply performed an np dot product of x and the weights. Basically the dot product of...you know, I showed you here how you calculate y, how you calculate the y-hat matrix? I wrote it somewhere here, let me show you, yes look here, the way to calculate the y-hat matrix is to take the dot product of these two matrices and then find the sigmoid of the entire matrix. So what did I do? First, I took the dot product of both. Then I created a function called sigmoid, which, if you give it a matrix, returns this result back. Right? The sigmoid formula, and I stored the result it returned inside y-hat. So this is also a matrix. y is also a matrix. y-hat is a matrix. x is also a matrix. Weights is also a matrix. Everything we decided, we implemented exactly as is. And once it's done, I first returned all the coefficients and then I returned the intercept. The first term is the intercept. All the other terms are coefficients. I ran this. Ran the sigmoid. Extracted the coefficients and the intercept. Calculated m and b. Extracted x and y. And when I ran this, look guys, the red line here is from logistic regression. And the black line is the result when we applied our own gradient descent. So you can see both are very close. There is still a slight difference. Now, I haven't quite understood the exact reason for this difference. But if you, suppose, increase the epochs here. If you increase the epochs, let's say you make it 3000, then it's getting closer. See, it's getting even closer. If I make it 5000. Then they are almost overlapping each other. So I guess it's about the epochs, or maybe their internal solver is slightly different. Maybe it's a bit optimized. Ours is not optimized. But yeah, that is the code. This is the code. The one we have applied here is batch gradient descent. We are iterating through all the rows once and performing one update. But if you want, you can also use mini-batch gradient descent here, or you can even use stochastic gradient descent. We have already studied both of those things. Okay? You can experiment and see for yourself. Which method gives you better results. But yeah, that's it. For the last five videos, we have been on a quest to figure out how to build logistic regression from scratch. That quest of ours ended today. We studied logistic regression from scratch, and now our logistic regression is working exactly like it does in scikit-learn. Okay? So, what are we going to do next? We have two or three topics left. First, we will learn about some classification metrics. Okay? Accuracy score, your F1 score, precision, recall—we will study all of these. After that, we will continue with logistic regression again. We still have one or two topics left in logistic regression. So, first, I will show you the hyperparameters. If you look at the implementation of logistic regression. There are many hyperparameters here. We will learn about these hyperparameters. After that, I will teach you about softmax regression, meaning logistic regression when you have more than two classes. Okay? Then I will show you how to perform polynomial logistic regression, and lastly, I will teach you a bit about regularization. So, there are still about four videos left. Because I really want you to do this whole thing end-to-end. So that you understand it well. Because these are really important concepts. Logistic regression is such an important concept that you have to study the exact same thing in deep learning as well. So, if your understanding is clear here, you won't have any problems in deep learning. Okay? So yeah, that's it for the video. Thanks for watching. Five
+
+
+[00:00] Hi guys, welcome to my YouTube channel.
+[00:02] We are studying logistic regression. In
+[00:05] the last video, we learned to calculate
+[00:07] the loss function, and I told you there
+[00:09] that there is no closed-form solution
+[00:11] for that loss function. You cannot find
+[00:13] a solution by deriving a formula. You
+[00:15] only have one option: to apply gradient
+[00:18] descent to find the most optimized
+[00:20] solution. In this video, we are going
+[00:22] to do exactly that. The loss function
+[00:24] we calculated in the last video, in
+[00:26] this video, we will apply gradient
+[00:28] descent to it, calculate the most
+[00:31] optimized solution, and then code it in
+[00:33] Python as well. So let's start the
+[00:35] video. Alright guys, let's get started.
+[00:38] I have taken an example. I have taken a
+[00:41] dataset here. Meaning, I created it
+[00:43] myself to simplify the mathematics. We
+[00:47] have a dataset where the number of rows
+[00:50] is m and the number of columns is n.
+[00:52] Here is column one, column two, column
+[00:55] three, column n, and the output column.
+[00:57] Okay? And you can see the first value
+[01:01] is x1, the first row, first column
+[01:04] value. The second is x12, first row
+[01:08] second column, x13, first row third
+[01:10] column, x1n, first row nth column.
+[01:13] Similarly, what does this represent?
+[01:15] The value of the second row, second
+[01:16] column. Okay? So I have written it as a
+[01:19] matrix because this format will help me
+[01:22] later. Now we will do one thing. We
+[01:25] will calculate y-hat. We will calculate
+[01:29] the output value for every row. Okay?
+[01:33] Before that, since we are working on
+[01:35] logistic regression, you must know that
+[01:37] you have as many coefficients as you
+[01:40] have input columns. Meaning, according
+[01:43] to this problem, how many coefficients
+[01:45] should you have? W1, w2, w3 until wn,
+[01:49] and along with that, you have an
+[01:53] intercept term. Okay? Meaning, if you
+[01:57] have n input columns, your number of
+[02:01] coefficients will be n + 1, which is
+[02:04] what I have. Now what do I need to do?
+[02:06] I need to calculate y1-hat. The first
+[02:09] row I need to predict the output for it
+[02:16] using these coefficients. So you know
+[02:19] how to do this. What will you do? First
+[02:22] , you will write this, you will
+[02:28] multiply w1 by x1, then multiply w2 by
+[02:34] x12, then multiply w3 by x13, and in
+[02:41] this way, multiply wn by x1n, and
+[02:46] finally, add w0. Right? Right! That
+[02:52] will be your y1-hat. This is actually
+[02:55] not done yet; now what you will do with
+[02:58] this whole thing is, put it into a
+[03:00] sigmoid function. This is your y1 hat.
+[03:05] Going by the same logic, if someone
+[03:07] asks you to calculate y2 hat, meaning
+[03:10] to predict the output of the second row
+[03:12] using these coefficients, then what
+[03:14] will you do now? You will keep
+[03:17] everything the same. This time you will
+[03:20] write w1 by x21, this time you will
+[03:26] take this row, you will take this row.
+[03:30] Right? So here we will have w2 by x22 +
+[03:38] w3 x23 + wn x2n + then w0 again and if
+[03:49] you take the sigmoid of this whole
+[03:53] thing, you will get y2 hat. So guys,
+[03:57] what have I done? Now to save time, I
+[04:00] paused the video and created a matrix.
+[04:03] Okay? I created a matrix and the name
+[04:07] of this matrix is Y hat. And this Y hat
+[04:09] is written in capital letters. Okay? Y
+[04:12] hat is a matrix where it consists of
+[04:16] all the predicted values of all the
+[04:20] rows. So, what is it made of? From Y1
+[04:23] hat, y2 hat, to YM hat. So basically,
+[04:27] you took every row and calculated its
+[04:30] prediction. Okay? And I have written it
+[04:33] here. So, this is the matrix for the
+[04:35] first row, the prediction is the
+[04:37] sigmoid of this term. For the second
+[04:41] row, the prediction is the sigmoid of
+[04:44] this term and for the last row, the
+[04:46] sigmoid of this term will give me this
+[04:49] matrix. Okay? Then what did I do? Since
+[04:52] this sigmoid operation was common to
+[04:55] the entire matrix. I took it out. I
+[04:58] took the sigmoid out and inside only
+[05:00] this matrix remained. w0 + w1x1 this
+[05:03] entire matrix remained. Okay? And now I
+[05:07] did what I was working so hard for. I
+[05:10] expressed this entire matrix in the
+[05:12] form of a dot product of two matrices.
+[05:16] You can see, look here. So what did I
+[05:19] do? If you look at this whole thing,
+[05:21] you will understand what I am saying.
+[05:24] So you can easily decompose this matrix
+[05:27] into the dot product of these two
+[05:29] matrices. Think about it. This is, you
+[05:32] will have to pause the video once.
+[05:34] Probably you will have to pick up a pen
+[05:35] and paper. But if you look, you will
+[05:38] understand that if you call this matrix
+[05:41] A and this B and multiply these two
+[05:43] matrices, you will get this matrix if I
+[05:45] call it C. Okay? So now the Y matrix is
+[05:50] equal to the sigmoid operation of the
+[05:53] matrix multiplication of A and B and
+[05:56] guess what? What is this B matrix? This
+[06:00] is your matrix of coefficients. You can
+[06:02] call this w. And this matrix here is
+[06:05] actually your x, as in your input data.
+[06:09] We have just added an extra column of
+[06:11] all ones here. Uh, this column had to
+[06:14] be added for w naught. But yeah, this
+[06:17] is your x matrix. This means I can
+[06:21] express this whole thing as prediction
+[06:27] equal to y hat = σ (x*w), okay? I hope
+[06:33] you are understanding this entire thing
+[06:35] . Now guys, we will do what we worked
+[06:38] so hard for. What am I going to do? We
+[06:40] will write the loss function that we
+[06:43] calculated in the last video in matrix
+[06:45] form. Okay? Let me show you. How will
+[06:48] we do that? So if you remember, we
+[06:52] derived the loss function in the last
+[06:56] video and it was -1/m sigma from i = 1
+[07:01] to m, where m represents the number of
+[07:06] rows, yi log yi hat + 1-yi log 1-yi hat
+[07:19] . Okay? Now what am I doing? This is
+[07:22] not in matrix form. I will convert it
+[07:25] into matrix form. Okay? By the way, I
+[07:28] can also write this as -1/m sigma from
+[07:35] i = 1 to m yi log yi hat + sigma i = 1
+[07:46] to m 1-yi log 1-yi hat, okay? So what
+[07:57] will I do? I will show you how to
+[07:59] convert this part, this part right here
+[08:02] , into a matrix, and then I will tell
+[08:05] you what its answer will be. Okay? Look
+[08:08] , it's very simple. So what am I doing?
+[08:10] I am taking this term out for a while
+[08:13] and writing here, i = 1 to m yi log yi
+[08:20] hat. Okay? Now what will we do? We will
+[08:24] expand this. What will come from
+[08:26] expanding this? y1 log y1 hat + y2 log
+[08:34] y2 hat + y3 log y3 hat + dot dot dot ym
+[08:44] , the last item will be m log ym hat.
+[08:55] Okay, now think about what y1 is. y1 is
+[09:00] the value of the output column for your
+[09:05] first row. Similarly, what is y2? The
+[09:08] value of the output column for your
+[09:10] second row. Similarly, what is y1 hat
+[09:13] indicates what prediction your
+[09:16] model made for your first row. What is
+[09:19] y2 hat indicating? What prediction your
+[09:22] model made for your second row. And
+[09:24] similarly, ym hat is indicating. What
+[09:27] prediction your model made for your
+[09:29] last row. So what am I doing? Let me
+[09:32] write this whole thing in this way. y1,
+[09:38] y2, y3, ym And I will write this as log
+[09:49] of y1 hat, log of y2 hat, dot dot dot,
+[09:54] log of ym hat, I've made a dot product.
+[10:01] And what I can do is I can rewrite it
+[10:04] as y1 y2 y3 ym log, since I have to
+[10:13] perform it on all of them. I am taking
+[10:16] the log outside. This will become y1
+[10:20] hat, y2 hat, dot dot dot, ym hat. Right
+[10:25] ? I have to take the log of this. Now
+[10:28] this one, this is your y matrix, the
+[10:31] target column in the actual data. And
+[10:34] think about this, which matrix is this?
+[10:37] A matrix in which you have stored the
+[10:39] prediction value of every row; this is
+[10:42] actually your y hat matrix. This is
+[10:44] your y hat matrix. So what will you do?
+[10:47] You can write it as y*log of y hat
+[10:52] matrix or y transpose. What value did
+[10:55] we derive for y hat? A while ago we
+[10:58] derived this, y hat was sigmoid of x
+[11:01] matrix dot product w matrix. So what am
+[11:04] I doing? I am rewriting it as y log
+[11:10] sigmoid of xw matrix. So this, guys, is
+[11:16] our simplification in matrix form. And
+[11:21] if you think about the second term,
+[11:23] what changes will happen there? It will
+[11:27] simply become this term, (1-y) matrix
+[11:30] and this second term will become log of
+[11:34] sigmoid of (1-xw). So if I want to
+[11:38] rewrite this entire loss function, my
+[11:42] loss function has now become 1/m times,
+[11:45] we have eliminated the summation. Here
+[11:49] we will have y log y hat matrix plus
+[11:57] one minus y matrix log 1-y hat matrix
+[12:02] where I will write here that where y
+[12:06] hat is equal to sigmoid of x matrix dot
+[12:11] product w matrix, whenever we need it,
+[12:16] we will use this relationship. Okay?
+[12:22] Now guys, we have our data. We have our
+[12:26] loss function in matrix form. I told
+[12:29] you in the last video that this is not
+[12:31] solvable. Meaning, no closed-form
+[12:34] solution exists for this. So what do
+[12:36] you have to do? You have to apply
+[12:39] gradient descent. Apply gradient
+[12:41] descent. And by applying gradient
+[12:45] descent, you have to find your W matrix
+[12:48] . For which the value of this loss
+[12:52] function is minimum. This is what we
+[12:56] will do next. So guys, let's reiterate
+[12:59] once. What do we have to do? Here is
+[13:01] our loss function in matrix form. What
+[13:05] do we need to do? We need to find
+[13:07] values for the w matrix, as in all our
+[13:11] coefficients, for which the value of
+[13:14] this entire equation is minimum. Okay?
+[13:20] And now, what will we do? We will apply
+[13:23] gradient descent to solve this problem.
+[13:27] What will you do in gradient descent?
+[13:30] You will initialize your w matrix with
+[13:33] some values. You can initialize it with
+[13:37] any random values, or ones, or zeros.
+[13:40] Then you will run a loop, for i in
+[13:43] however many epochs you decide—10,
+[13:46] 100, or thousands—inside the loop,
+[13:49] what will you do? You will update your
+[13:54] w matrix using this relationship. Okay?
+[14:02] This is gradient descent. The new
+[14:06] values in your W matrix will be the old
+[14:09] values minus the learning rate times
+[14:12] what is this? This is the gradient.
+[14:17] Meaning, since
+[14:20] you have terms from w naught to wn in w
+[14:24] . You need to derive your loss function
+[14:28] with respect to all of these. As in,
+[14:31] find the derivation. Find the slope.
+[14:34] And just think about the matrix that
+[14:36] will be formed by that. If you find del
+[14:40] L/del w naught. Then find del L/del w1.
+[14:47] Then find del L/dw, and finally, keep
+[14:50] doing this to find del L/dwn. Then you
+[14:55] will have another matrix with a total
+[14:59] of n + 1 numbers. Okay? So, what do you
+[15:02] need to do? You need to calculate all
+[15:04] these matrices. And collectively, we
+[15:08] are calling this del by del W. Okay? So
+[15:12] what we have to do is we have to
+[15:15] calculate w using this formula. We will
+[15:19] take the old W. We will subtract from
+[15:22] it. Learning rate times this matrix.
+[15:26] And what is this matrix? This is the
+[15:28] combination of derivatives of the loss
+[15:31] function with respect to all the
+[15:32] coefficients. Okay? So that is what we
+[15:36] have to do. Now the biggest question is
+[15:38] , how will we get this? How will we get
+[15:41] this matrix where you are storing all
+[15:44] the derivatives? So we have to find
+[15:47] this, and this will be our next focus:
+[15:49] finding it. So, let's go guys, what
+[15:52] will we do now? We will find the
+[15:54] derivation or derivative of this loss
+[15:56] function with respect to the W matrix.
+[15:59] Okay? So for that, what am I doing? I
+[16:01] am writing the loss function again. And
+[16:03] this time, I will write the loss
+[16:05] function in terms of y hat. Meaning,
+[16:08] like this. y log y hat, this is the y
+[16:16] hat matrix, plus 1-y log 1-y hat matrix
+[16:24] . Now what do I have to do? I need to
+[16:27] calculate dl/dw. Since we are
+[16:29] calculating the gradient, we could have
+[16:30] written it this way as well. But this
+[16:32] is a more familiar term. So, let's
+[16:34] write it in this way. So, what will we
+[16:36] do now? We will first derive the matrix
+[16:38] for this term separately and then we
+[16:41] will derive for this one. Okay? So,
+[16:43] first I will show you how to derive the
+[16:45] first one, this one. So, what we will
+[16:49] do is we will find out d/dw of y log
+[16:54] y-hat, what will be its derivative?
+[17:00] Okay? So, y is constant. y will come
+[17:04] out, and here we will have d/dw of log
+[17:09] y-hat matrix. Okay? Now, y-hat contains
+[17:13] w, so first, what will we have to do?
+[17:16] First, we have to find the derivative
+[17:18] of log. So, this becomes y/y-hat, the
+[17:25] derivative is 1/y, and then you have to
+[17:29] calculate d/dw of y-hat, and what is
+[17:33] y-hat? It is the sigmoid of x*w, so I
+[17:38] will write that we can write this as y/
+[17:42] y-hat, and when you calculate d/dw, now
+[17:47] you are actually calculating d/dw of
+[17:51] sigmoid of wx. Okay? Now, you know that
+[17:55] the differentiation of sigmoid is
+[17:57] sigmoid multiplied by 1-sigmoid. So,
+[18:01] what I can do is I can write it like y/
+[18:04] y-hat differentiated, so here we get
+[18:10] this multiplied by 1-this and then,
+[18:17] according to the chain rule, I now have
+[18:19] to differentiate now we have to
+[18:23] differentiate wx, okay? Now, what will
+[18:32] happen next? By the way, what is this?
+[18:36] This is nothing but the y-hat matrix.
+[18:39] So, I will just rewrite this. I will
+[18:43] rewrite this as y/y-hat. And here we
+[18:48] will have y-hat*1-y-hat. And here, when
+[18:56] you differentiate, you will only get x
+[18:58] because you are differentiating with
+[19:00] respect to w, so you will get x. Now,
+[19:04] these two terms will cancel out, and
+[19:08] the answer you will get is y*1-y-hat
+[19:13] times x matrix. This is your
+[19:17] differentiation of the first term; this
+[19:19] is the differentiation of your first
+[19:21] term. Let me outline this a bit. So
+[19:25] that it becomes easier to refer to it
+[19:28] later. We have calculated the
+[19:30] differentiation of this term. Now, we
+[19:32] will go after this term. Okay? Let's
+[19:35] write this term down below. Let's write
+[19:37] this term down. This term is 1-y log 1-
+[19:42] y-hat; we need to perform d/dw on this.
+[19:48] Again, 1-y is a constant, so it will
+[19:51] come out. 1-y matrix d/dw of log (1-y).
+[20:02] Now this will be 1-y log, and by the
+[20:05] way, it should be y hat here, I am, I
+[20:09] am sorry, 1-y hat d/dw of. And now what
+[20:19] you will do is write this whole thing
+[20:22] as 1 minus y hat, chain rule is being
+[20:24] applied. Okay? Now when you
+[20:27] differentiate one, it will become zero.
+[20:30] And then differentiating y hat, so what
+[20:33] is y hat? y hat is sigmoid of wx, so I
+[20:36] am rewriting it. Uh, by the way, this
+[20:39] minus term will come out. So this will
+[20:44] be, 1-y matrix, 1-y hat matrix, d/dw of
+[20:50] sigmoid of wx. And then you write it as
+[21:01] , 1-y, 1-y hat, and you know what
+[21:05] happens upon differentiation, here it
+[21:10] will come wx, x (1-sigmoid of wx) And
+[21:17] then finally you have to do d/dw of wx,
+[21:21] by chain rule. Okay? Let's go down
+[21:25] again and rewrite this. -1-y 1-y hat
+[21:29] and what is this actually? y hat 1-this
+[21:35] is also y hat And differentiating this
+[21:40] will give you x, and what will happen
+[21:41] this time? Actually, one more thing:
+[21:45] this is y hat, so y hat will come here
+[21:47] too, and you will cancel this and this
+[21:50] out, and what you get is this. You will
+[21:54] get-(uh y hat-1)*x, Okay? And this is
+[22:07] the derivative of the second term. This
+[22:11] is the derivative of the second term.
+[22:15] Okay? Now if we write both of them
+[22:17] together. If we write both together,
+[22:21] then our differentiation, the overall
+[22:25] differentiation, will be dl/dw = -1/m
+[22:29] times, let's write the first one above.
+[22:33] This is y*/1-y y*/1-y hat times x
+[22:40] matrix, and since it was plus, it will
+[22:43] become minus because of the second term
+[22:47] , and here comes y hat 1-y x matrix.
+[22:51] Okay? x matrix is common. We can take
+[22:53] it out. So -1/m y 1-y hat-y hat 1-y
+[23:01] times x. Now what will we do? Multiply
+[23:08] inside. So -1/m y/y hat*y-y hat + y y
+[23:18] hat And multiplied by x. You can see
+[23:25] this term and this term will cancel out
+[23:30] and you will get here -1/m times y-y
+[23:38] hat matrix*by x matrix. So this is your
+[23:43] dl/a dl write this, or let's write it
+[23:46] in the proper form. This is it. Okay?
+[23:51] This is it. So let's outline this as
+[23:58] well. So that we remember it. And
+[24:03] that's it guys. Now if you remember,
+[24:06] our gradient ascent had this formula.
+[24:10] This was the formula. So let's take
+[24:13] this formula down and write it. So now
+[24:16] according to gradient descent, our
+[24:18] update will be done this way. w matrix
+[24:21] = w matrix's old values minus since
+[24:23] this is minus and here also is minus,
+[24:26] it will become plus. Learning rate
+[24:30] times 1/m y-y hat*by x This is the
+[24:42] gradient ascent update here, everything
+[24:45] is now in matrix form. w is a matrix
+[24:50] which is w0, w1, dot dot dot, wn. Okay?
+[24:58] x is a matrix that starts from one and
+[25:03] goes up to x11, x12, dot dot dot, x1n.
+[25:08] 1, x21, x22, dot dot dot, x2n. Dot dot,
+[25:15] 1, xm1, xm2, dot dot dot, xmn. And
+[25:23] your y matrix, that is nothing but y1,
+[25:29] y2, dot dot dot, ym. And your y hat
+[25:35] matrix, that is y1 hat, y2 hat, dot dot,
+[25:39] ym hat. Okay? You have to remember
+[25:43] everyone's shape, its shape is n + 1, 1
+[25:46] . Its shape is m cross n + 1, its shape
+[25:54] is m cross 1, its shape is m cross 1,
+[26:00] okay? So you can see, if you want to
+[26:03] look here, you will understand. I will
+[26:07] show you LHS = RHS. I am writing this
+[26:11] rule again here. w = w + learning rate
+[26:17] times 1/m*(y-y hat)*x. Okay? Let's see.
+[26:24] What is its shape? Its shape is n + 1,
+[26:27] 1, we should get this much. Okay? What
+[26:31] is the shape of this w? n + 1, 1. This
+[26:36] whole thing is a scalar. You can ignore
+[26:39] this. Its shape will be n + 1, 1
+[26:46] because y-well I made a mistake, that
+[26:51] mistake is your w shape is not m, 1.
+[26:55] Your W shape is (n + 1, 1), (n + 1, 1).
+[27:02] Similarly, your W here also will have
+[27:04] the shape (n + 1, 1). And this
+[27:10] subtraction of these two matrices,
+[27:12] since both have the same shape, this
+[27:14] will be the output. And the shape of
+[27:18] your X is (m cross n + 1). When a dot
+[27:26] product occurs between these two, it
+[27:27] will automatically transpose due to the
+[27:29] broadcasting operation. This part will
+[27:32] be transposed and you can write it as 1
+[27:38] cross m. Since these two are the same,
+[27:43] you will get 1 cross n + 1, and it will
+[27:46] again be transposed and added, and then
+[27:49] the resulting sum will be n + 1. So
+[27:54] yeah guys, now what do we have to do?
+[27:57] We just have to code this, that's it,
+[28:00] nothing else. So I know it was a bit of
+[28:03] difficult mathematics. But if you do it
+[28:05] step by step and bring everything into
+[28:07] matrix form, then it becomes very easy
+[28:09] math. I mean, once you write it down
+[28:12] yourself using pen and paper, you will
+[28:14] easily understand what is going on here
+[28:16] . Okay? So next we are going to Python
+[28:20] and we are going to code this in Python
+[28:22] . Okay? So guys, I have already written
+[28:25] the code. I will give you a walkthrough
+[28:27] . This is exactly the same dataset that
+[28:30] I have shown you so far in logistic
+[28:33] regression using make classification.
+[28:35] So this is the dataset and upon
+[28:37] plotting it, you can see it looks like
+[28:40] this. Okay? So the approach I have
+[28:43] taken is that I first applied
+[28:44] scikit-learn's logistic regression and
+[28:46] then I created my own class. Actually,
+[28:48] I didn't create a class. I created a
+[28:50] function and then I want to show you
+[28:52] the comparison of both. Okay? So you
+[28:54] can see, first of all, I called
+[28:57] logistic regression and here I have
+[28:59] given some hyperparameter values. Such
+[29:02] as the penalty value is none. Meaning I
+[29:05] am not applying any regularization. By
+[29:07] default, logistic regression applies a
+[29:09] penalty. It applies a regularization. I
+[29:11] am not doing that. Because the code I
+[29:13] will write will also not have
+[29:14] regularization. That's why I removed it
+[29:16] . And solver is equal to sag. So there
+[29:19] are different solvers. Like the
+[29:21] formulation we just made, that was one
+[29:23] of the solvers. There are other
+[29:25] different solvers for optimization. I
+[29:27] took the simplest one called sag. Okay?
+[29:30] And I fitted my data to x and y, and
+[29:34] these are my coefficients and intercept
+[29:37] . These are the values. From that, I
+[29:40] calculated the slope and intercept
+[29:42] values. And I plotted this x and y
+[29:45] which I will use to plot the line
+[29:47] segment. Here is the main code, guys.
+[29:50] Here is a function named GD, for
+[29:52] gradient descent. It just needs x and y
+[29:55] . And what did I do first here? In my x
+[29:58] , which was my x matrix, by the way, my
+[30:01] x looks like this. This is x, it has
+[30:04] two columns. There are two input
+[30:06] columns. So what did I do? First of all
+[30:08] , the x matrix I need should have ones
+[30:10] in the first column. So I turned this
+[30:12] from two columns into three. By writing
+[30:16] this code, np.insert, in x, at index
+[30:20] zero, ones, axis equals one, by writing
+[30:24] this, I added an extra column at the
+[30:28] start for the intercept and this became
+[30:32] x. Then I created a matrix called
+[30:37] weights, where all values are one and
+[30:40] its shape is x.shape [1], meaning as
+[30:43] many columns as there are in the x
+[30:46] matrix. Now, by the way, the x matrix
+[30:49] will have one extra column after adding
+[30:51] the ones column. So I initialized it
+[30:54] equal to x.shape. So if I go and write
+[30:57] both these codes here. If I go here and
+[31:01] write both these codes. Here, by the
+[31:03] way, I am changing x to x1. And here I
+[31:07] am changing it to x1. If I plot this,
+[31:12] you can see it is initializing with
+[31:14] three values. Okay? Because my x now
+[31:18] has three columns. Okay? So the first
+[31:23] is w0, the second is w1, the third is
+[31:25] w2. Now what are we doing next? We took
+[31:29] a learning rate of 5. I was checking
+[31:31] different values for this. You can
+[31:33] start this with anything. Then you can
+[31:35] try it out. Then I ran a loop for i in
+[31:38] range of 2500. So here, my epoch value
+[31:41] is 2500. Again, I was testing it. Now,
+[31:45] what do I need to do first? This is my
+[31:47] weight update rule. See, this is the
+[31:49] weight update rule. This is the exact
+[31:51] update rule we saw here. W matrix = W
+[31:55] matrix plus, look here, W matrix as in
+[31:58] weights matrix equals weights matrix
+[32:00] plus learning rate times, learning rate
+[32:03] times this dot product. So what did I
+[32:07] do? First of all, I calculated this dot
+[32:09] product. I calculated this Dot product
+[32:11] of what? Of the y matrix.
+[32:13] And the y hat matrix. The actual y and
+[32:17] the predicted y. And what is x? My
+[32:20] input. And then what did I do? I
+[32:23] divided it by m. And what is m? The
+[32:25] number of rows. And how to get the
+[32:27] number of rows? x.shape [0]. Okay? So
+[32:30] here is everything, my update rule, and
+[32:33] now we just need to calculate one thing
+[32:36] , that is y-hat. To make predictions
+[32:39] for all the columns and rows in my data
+[32:42] , I simply performed an np dot product
+[32:44] of x and the weights. Basically the dot
+[32:48] product of...you know, I showed you
+[32:51] here how you calculate y, how you
+[32:54] calculate the y-hat matrix? I wrote it
+[32:57] somewhere here, let me show you, yes
+[32:59] look here, the way to calculate the
+[33:01] y-hat matrix is to take the dot product
+[33:04] of these two matrices and then find the
+[33:06] sigmoid of the entire matrix. So what
+[33:08] did I do? First, I took the dot product
+[33:11] of both. Then I created a function
+[33:14] called sigmoid, which, if you give it a
+[33:16] matrix, returns this result back. Right
+[33:19] ? The sigmoid formula, and I stored the
+[33:22] result it returned inside y-hat. So
+[33:24] this is also a matrix. y is also a
+[33:27] matrix. y-hat is a matrix. x is also a
+[33:30] matrix. Weights is also a matrix.
+[33:32] Everything we decided, we implemented
+[33:34] exactly as is. And once it's done, I
+[33:37] first returned all the coefficients and
+[33:39] then I returned the intercept. The
+[33:41] first term is the intercept. All the
+[33:43] other terms are coefficients. I ran
+[33:45] this. Ran the sigmoid. Extracted the
+[33:48] coefficients and the intercept.
+[33:50] Calculated m and b. Extracted x and y.
+[33:53] And when I ran this, look guys, the red
+[33:56] line here is from logistic regression.
+[34:00] And the black line is the result when
+[34:03] we applied our own gradient descent. So
+[34:06] you can see both are very close. There
+[34:09] is still a slight difference. Now, I
+[34:11] haven't quite understood the exact
+[34:13] reason for this difference. But if you,
+[34:15] suppose, increase the epochs here. If
+[34:19] you increase the epochs, let's say you
+[34:22] make it 3000, then it's getting closer.
+[34:25] See, it's getting even closer. If I
+[34:27] make it 5000. Then they are almost
+[34:34] overlapping each other. So I guess it's
+[34:37] about the epochs, or maybe their
+[34:38] internal solver is slightly different.
+[34:41] Maybe it's a bit optimized. Ours is not
+[34:43] optimized. But yeah, that is the code.
+[34:46] This is the code. The one we have
+[34:48] applied here is batch gradient descent.
+[34:51] We are iterating through all the rows
+[34:53] once and performing one update. But if
+[34:55] you want, you can also use mini-batch
+[34:57] gradient descent here, or you can even
+[34:59] use stochastic gradient descent. We
+[35:01] have already studied both of those
+[35:02] things. Okay? You can experiment and
+[35:04] see for yourself. Which method gives
+[35:06] you better results. But yeah, that's it
+[35:09] . For the last five videos, we have
+[35:11] been on a quest to figure out how to
+[35:14] build logistic regression from scratch.
+[35:16] That quest of ours ended today. We
+[35:20] studied logistic regression from
+[35:22] scratch, and now our logistic
+[35:24] regression is working exactly like it
+[35:27] does in scikit-learn. Okay? So, what
+[35:30] are we going to do next? We have two or
+[35:33] three topics left. First, we will learn
+[35:35] about some classification metrics. Okay
+[35:38] ? Accuracy score, your F1 score,
+[35:41] precision, recall—we will study all
+[35:43] of these. After that, we will continue
+[35:46] with logistic regression again. We
+[35:48] still have one or two topics left in
+[35:49] logistic regression. So, first, I will
+[35:52] show you the hyperparameters. If you
+[35:54] look at the implementation of logistic
+[35:56] regression. There are many
+[35:57] hyperparameters here. We will learn
+[35:59] about these hyperparameters. After that
+[36:02] , I will teach you about softmax
+[36:04] regression, meaning logistic regression
+[36:07] when you have more than two classes.
+[36:09] Okay? Then I will show you how to
+[36:11] perform polynomial logistic regression,
+[36:13] and lastly, I will teach you a bit
+[36:15] about regularization. So, there are
+[36:17] still about four videos left. Because I
+[36:20] really want you to do this whole thing
+[36:22] end-to-end. So that you understand it
+[36:24] well. Because these are really
+[36:25] important concepts. Logistic regression
+[36:27] is such an important concept that you
+[36:29] have to study the exact same thing in
+[36:31] deep learning as well. So, if your
+[36:32] understanding is clear here, you won't
+[36:34] have any problems in deep learning.
+[36:36] Okay? So yeah, that's it for the video.
+[36:39] Thanks for watching. Five

@@ -1,0 +1,711 @@
+# Principle Component Analysis (PCA) | Part 1 | Geometric Intuition
+# https://www.youtube.com/watch?v=iRbsBi5W0-c
+
+Hi guys, welcome to my YouTube channel. In the last video, we studied the curse of dimensionality and learned that having too many features in your dataset is not good for your machine learning model. Right? And if you want to eliminate the curse of dimensionality, you can use any form of dimensionality reduction. And we saw two important dimensionality reduction techniques. Feature selection and feature extraction. Right? We will study feature extraction first. So, my plan for today's video is to cover the most important and famous feature extraction technique, PCA—Principal Component Analysis—end-to-end. Right? So let's start the video. So guys, before starting the video, I'll tell you one or two points. PCA is an unsupervised machine learning problem. Right? Here, you only have input in your data. There is no output. So, this is an unsupervised machine learning problem. Second, it's a complex technique. Meaning, it's a very old technique. I believe the first paper came out before 1950 and it has been used for many years. Right? So it is a very useful, very old, and very reliable technique. But the underlying math is too complex. Meaning, it is quite difficult. So in this video, although I will teach you PCA end-to-end. I am not going to get into the mathematical aspect of it. Because if I do that, this video will be too long. Right? So my end goal is that by the end of this video, you should understand the core intuition of this algorithm and learn how to use it using Scikit-Learn. Right? So let's start our discussion now. So, as we have already established, this is a feature extraction technique. It is a feature extraction technique, and its main goal is to reduce the curse of dimensionality. Meaning, if your data has many features, when you apply PCA, your features get reduced. Right? And in short, your machine learning model starts performing better. It becomes faster. Right? So in this entire video, we first need to understand how PCA works and then we will apply it to a dataset. Right? Okay? So in order to explain, I want to give you an introduction first on how PCA works. Because many people study PCA. And use it in Scikit-Learn. But they have no idea what PCA is actually doing behind the scenes. So, I have a great analogy to explain how PCA works. So, look at this photo. In this photo, you can see there is a photographer taking a picture of a soccer match. Now, this soccer match happening is actually in a 3D environment in a stadium. Right? And the reason this photographer needs to take the photo is to publish it in a newspaper. Right? Now, as you already know, photos are 2D. Right? Photos are 2D. And the match that is happening is taking place in a 3D stadium. Now, what is this photographer's job? To show this match in his newspaper. Right? So, in a way, what he wants is to capture a 3D moment in 2D. Right? And PCA does exactly this. PCA tries to bring a higher-dimensional dataset into a lower dimension. Right? And the special thing about it is that PCA chooses the best possible lower dimension. So that you can capture the essence of the data from the higher dimension. I mean, if you notice, this photographer keeps moving around the periphery during the whole match. So that he can capture the best photo. So, if from one particular angle all the players are too close, then obviously the photo from that angle won't show the players clearly. So you will move to another place where you can see the players more spread out. So that the clarity of the data or the essence of the photograph is captured correctly. So, in short, if I explain it by connecting it to this analogy, PCA is a technique that can transform higher-dimensional data to lower-dimensional data while keeping the essence of the data. Meaning, you preserve the behavior present in the data and bring it to a lower dimension. So that when your machine learning algorithm works on it in the lower dimension, the results will still be good. That is the whole idea behind PCA. So guys, now that we understand what the core idea of PCA is. One more thing we should discuss at this point is why exactly PCA is used in any machine learning project. There are two primary reasons. Okay? So, if you want to write down the benefits of using PCA, there are two core benefits. The first one is, what does PCA actually do? PCA brings your higher-dimensional dataset into a lower dimension. This means the training data you are using to train the algorithm and perform predictions decreases in size in terms of dimensions. So, if there were 10 columns before, there might be five or three columns now. So automatically, your algorithm will run faster on the data because your data has become smaller. Right? So here I can write, fast execution of algorithms. Okay? Meaning, algorithms will run fast. Okay? And your computational cost is saved. Okay? This is the main benefit. And obviously, your performance remains the same as it would be on a normal dataset. Okay? The second core benefit is visualization. So, we human beings can see in a maximum of 3D. We plot graphs in 2D quite a lot. We sometimes plot in 3D. But we cannot see beyond 3D. But what if I have a machine learning dataset that has 10 columns? I can never plot and visualize this data. Because I cannot see beyond 3D. What will PCA do for me? PCA helps me reduce this 10D data into 3D or reduce it into 2D. And once you have reduced 10D to 3D, you can now plot its graph. Okay? Or you convert it to 2D, and you can plot its graph. Okay? So, the second benefit for which people use PCA a lot. That is visualization. What will we do in this video? We will take the MNIST dataset, which has 784 columns, and visualize it by bringing it into 3D. Okay? So these are the two core benefits, and this is why PCA is used the most in machine learning. And now that we know what PCA is. Why it should be used. Let's now dive into the geometric intuition behind this algorithm. So guys, now I have a dataset on my screen. It is very simple data about houses, and you will find the data a bit weird because it has three columns, and the first column tells how many rooms the house you are talking about has. The second tells how many grocery shops are around this house, and the third tells the price of that house. Right? Now, number of rooms, okay. I mean, whenever you go to find the price of a house, one important parameter is how many rooms there are, what the BHK is. But how many grocery shops are there nearby? That’s a very weak parameter. I mean, you’ll be like, what difference does it make? How many grocery shops are nearby. Right? I mean, it might matter, but it's not as strong a parameter as rooms. Okay? So, I chose this intentionally because I want to prove a point. I want to give you a geometric intuition of PCA, which is a feature extraction technique. But before that, I want to show you an example of feature selection to see how it works. We learned that there are dimensionality reduction techniques to reduce the curse of dimensionality. And the two most famous dimensionality reduction techniques are feature selection and feature extraction. And the most famous algorithm for feature extraction is PCA. But to understand PCA, you need to have some idea about feature selection. So what we are going to do is discuss how feature selection works. Now, the concept of feature selection is very simple. Feature selection means if you have five columns, you keep any two or three columns. You remove the rest of the columns. Basically, you select your features, reduce them, and keep those that are most important for predicting the output. So, if I tell you that there are two input columns here. We have rooms and we have this grocery shop column. And you have to remove one column, which one would you remove? I guess if you have even a little idea about real estate, you would very easily and strongly say, "Boss, I would like to keep the rooms column and I would remove the grocery column because the price will depend more on the rooms." So, if I have to keep one of the two, it will be rooms. Okay? Now, let me explain why you did that mathematically. I mean, this dataset was simple. This dataset was simple because you could see and understand that the house price would depend on the number of rooms. But as machine learning engineers and data scientists, you will find yourself in scenarios where you work on many different types of datasets. And sometimes, you won't have domain knowledge about that dataset. So, at that time, if someone tells you that you have 'n' features, 'n' columns. Remove some of those columns and keep the most important ones. So how will you do this task? I want to tell you this because you don't have domain knowledge there. So then you won't be able to decide if column A is more important or column B. So let me show you a mathematical trick on how this is decided. Okay? So let's say I am plotting this same data. On a 2D coordinate system. Here on your X-axis is the number of rooms. And your Y-axis here has grocery shops. Okay? And when I plotted this data, I realized that my data looks something like this. Something like this. Okay? Meaning that rooms are varying a lot, but the number of grocery shops aren't varying that much. In fact, there is no direct relationship between rooms and grocery shops. Now if you ever see such data or such a scatter plot and you have to select one of these two, then you would select this particular column. Why am I saying this? Because you will see which axis has a greater spread of your data. So what will I do? I will project all these points onto both axes. Meaning, I will drop all these points onto the X-axis. Just like I am dropping them now. So if I drop all these points onto the X-axis, you would see that the first point comes here and the last point comes here. So this means that the shadow of this entire data on the X-axis is this big. This much. Let's call it D. Okay? And when I do the same thing on the Y-axis, you would see that this is the first point and this is perhaps the last point. So the spread of your data on this axis, when projected onto the Y-axis, the length of the shadow, let's call it d ', you can clearly see D is greater than d'. So what will you do? You will simply look at this and say that I am going to select the X-axis, i.e., rooms. Why? Because the spread of your data on the Y-axis was less compared to the X-axis. And you will always pick the feature where your data's spread is higher. Actually, you can connect this to variance; if you have studied variance, then you select the axis where the variance is higher. I will tell you about that a little later. In fact, the next thing I am going to discuss is why we are chasing variance. But at this point, if you want to understand the trick of how this whole thing works. Then this is the trick. If you are working with data where you have no idea whether one column is better or the other. You plot it and find the projection of the data onto each column. The column on which your spread, as in variance, comes out to be the highest. You will select that very column. That column is the most important column for you. And that is how feature selection works. Feature selection works like this in a nutshell. I explained feature selection to you intentionally because I wanted to explain feature extraction, and to understand feature extraction, you need to understand this key aspect. So now, let's say, let's say there are some changes in the data. Now we are going to understand feature extraction. So let's say there are some changes in your data, and the changes in your data are such that now you have data on. Number of rooms, Number of washrooms, And what is the price of your flat? Okay? I just changed this second column. Removed grocery shops and put washrooms instead. Now if I ask you that boss, you have to keep one column and remove one, what will you do now? If you think about it, a flat's price is governed by both things: how many washrooms there are and how many rooms there are. Here you cannot say that boss, rooms are much better than washrooms. It is not like that. The price also depends on the washrooms. So now you have confusion in your mind. Here, feature selection is not that evident. And I can prove this mathematically too. Let's say you plotted this graph again. You plotted this data again and on your x-axis were rooms and on your y-axis were washrooms, and this time when you plotted the data, the data was like this, meaning there was a sort of linear relationship between your rooms and washrooms. Meaning as your rooms increase, your washrooms also increase, which is what actually happens. Okay? Now if you use this technique of projection, then you would see that if you project all the points on the X-axis, then the spread of your data on this axis is this. Let's call it D. And the spread of your data on the y-axis is something like this. This is d prime, and now you can see that d is almost comparable to d prime. So now, you are unable to decide mathematically as well which one to select and which one to remove. So this is the problem with feature selection. First of all, we understood how feature selection works, and then we understood what the problem with it is. If you get a set of columns that have equal variance, then you won't be able to decide which one to keep and which to remove, and in this case, feature extraction comes to your help, which we will study next. Next. Okay? So now let's see how feature extraction solves this problem. Feature selection is not able to reduce them. The number of columns we have remains the same. We are unable to reduce it further. Let's see how feature extraction will solve this problem. And I will explain this to you in two ways. First, I will give you a simple idea, and then I will give you the geometric intuition of feature extraction. Okay? So look, what I will do is I will just go down and state the problem again on a clearer screen. The data we have includes rooms and it includes washrooms. And we have the price. Our job is that we have to remove one column from these two input columns. Now look, if you ask a normal person who has even a little idea about real estate to remove one column. Tell me, which column is less important? Then perhaps they won't be able to tell. But let's say you go to a real estate broker and tell them your problem that, "Look brother, I have these two columns, and you have domain knowledge.""Can you help me in eliminating one column?" Then they will also think and say, " Look, these both columns are equally important.""But you can do one thing: gather this data in a new way.""And this time, you gather only one input column, which will be named size of the flat.""And one output column, price of the flat." In short, that person's suggestion is that instead of finding out rooms and washrooms separately, they are asking you to find out only one thing: what is the size of your flat? Because if you think about it, the more rooms and washrooms there are, the bigger your flat size will be. So in short, they said that we cannot remove either of these two columns. Because both seem equal. But we can do this: we can create a completely new single column that tells us something about both. Because size will also tell you about the rooms. Size will also tell you about the washrooms. All right? So, in short, what did you do? You completely changed your input columns and created a brand new column. All right? Which is the size column. And now the data you have is 1D data. Here, it was 2D data. And let's hope that in 1D as well, our response and our result come out just as good. So, in short, this is what PCA does. PCA forgets your existing features. And it creates a new set of features from those existing features. And from those new sets of features, it chooses a subset that it thinks is the most important. And that is what PCA does. In a nutshell, this is PCA. But now you might say, man, this is fine. Here, we had that real estate broker. He did it. But as a data scientist, again, if I get some data about which I have no clue. Then how will I apply this technique there? So that is why now I am going to show you the mathematical intuition. The geometric intuition of how PCA is performed. All right? So for that, I will have to draw this graph one last time. So the same graph. So this is rooms and this is washrooms and the graph is sort of linear. All right? This is our graph. Now the question is, I have to create a single column from rooms and washrooms. All right? Now the feature selection technique failed because the variance was coming out equal on both axes. So there was no significant benefit. So what will PCA do here, guys? This is really important. What will PCA do? PCA will find a new set of coordinate axes. Like this is an axis right now. This is an axis. What will PCA do? PCA will rotate your coordinate axes such that a new set of axes is formed. Like, it will move this axis here. So you got this one axis. And this axis, by rotating here, that axis came here. So you can call this axis the room-dash axis. Now this is not the room axis. This is the room-dash axis and this is your washroom-dash axis. Right? Now if you notice, if you forget the previous coordinate system and talk about this new coordinate system, then in this new coordinate system, the projection on the x-axis, or you can say the variance, is this. d, and on this axis, your variance is this. This much, this is d ', and you can clearly see d is greater than d'. So now you would say, boss, when I shifted the axis, I will keep room ', which is my axis, and remove washroom'. And by the way, when you shifted the entire coordinate axis, these new axes you got, room 'and washroom', are what you call Principal Component 1 and Principal Component 2. Okay? So, as soon as you shift the axis, you get as many principal components as the number of columns in your original data. So, if your original data had two columns, after this shift, you will get only two principal components. Okay? And then, out of these two principal components, you are choosing Principal Component 1. Because the variance of your data is higher on Principal Component 1 in comparison to Principal Component 2. So now, what will you do? You will transform your entire data according to Principal Component 1. How is it done? I will tell you in a little while. But that is the core idea. Okay? Always remember guys, the number of principal components will always be less than or equal to n, where n is the number of original features in your data. Okay? So yeah, that's it. I mean, this is the geometric intuition. What do you have to do? You need to change the coordinate axis of your data; now I am showing this in 2D. But the same thing will happen in 3D, 4D, and even ND. You have to perform the transformation of your axis in such a way that by transforming the coordinates, you create maximum variance in the data on one particular principal component. That is how you do it. How is it done? We will discuss that later. But this is the geometric intuition behind this algorithm. Okay? I hope you understood this. Now, the next thing we are going to do is answer the question: why is variance, or the spread of data we are talking about, so important? We will answer this question. Once you understand this question, you will actually start to respect the fact that yes, variance is important. Checking this spread is important. That is what we will do, that is what we will do next. Now, before understanding why variance is important. Let's quickly revise variance once. It's a very fundamental concept in statistics. But many people don't have the intuition of what exactly variance represents. We will discuss that right now. Okay? So look, variance is basically a statistical technique that you use to describe something about the data, and specifically, what do you describe? How much the data is spread out. I will give you an example. Let's talk about the mean. So, if you talk about the mean, the mean is also a statistical measure. Suppose we have three points. This is the first point. This is the second point and this is the third point. Meaning it is at five. It means it's at five on x. It's at five. It's at zero. It's at -5. So what will its mean be? -5 + 0 + 5/3, so the mean of this dataset would be equal to zero. Right? Now suppose we have this data. So I have this. I have this and I have this. So this is -10, this is still zero. And this is 10. Now, if I ask you what the mean will be now? Then the mean will still be -10 + 0 + 10/3, still 0, meaning this data. And you cannot distinguish or describe the difference between these datasets using the mean. That is not the job of the mean. The job of the mean is to indicate central tendency or to show where the center is. If you want to distinguish between these two datasets, a very good measure would be variance. What is variance? The formula for variance is σ i = 1 to n, meaning all the points (xi-x bar) ^ 2/n, okay? Meaning, how far is each point from the mean? You calculate that. You square it. I am sorry, I didn't say square. You square it and add them up. Okay? Meaning, in the first case, your variance would be 5 squared, 25 + 0 squared, 0 + 5 squared, 25. /3, okay? So basically 50/3 and in the second case, it would be -10 squared, 100 + 0 squared, 0 + 10 squared, 100/3, which is 200/3. So you can clearly see, its variance, the variance of the second one, is four times the variance of the first one. So you are able to differentiate between these two datasets, and there is a difference, a difference in the spread of these two datasets. Mind you, spread is not exactly variance. We must always remember that spread is not variance. Variance is proportional to spread. Okay? That's why people take its square root, and that is called standard deviation. It is at least in the same terms. But here you have to understand that the spread is directly proportional to the variance. Meaning, if the spread of the second one is greater, then its variance will also be greater than the first one. You have to always remember this. So this is variance. Variance is proportional to spread. It is not exactly spread. Okay? So you might ask, then why not take the spread? Because if you take the spread, let's say, there is a quantity called ' Mean Absolute Deviation', where you take the median value, meaning you take the modulus of this distance and divide it by three. So it is not used because here you are taking the absolute, as in mode, and mode as a function is not differentiable at zero. So later, when you have to apply optimization algorithms in PCA, you won't be able to, because your mode function is not differentiable. Whereas your square function is very much differentiable. That's why they prefer variance. Okay? So if someone asks you why Mean Absolute Deviation is not used in PCA instead of variance. Because that also represents the same thing, how much the spread is? Then you would say because your mode function is not differentiable at zero. So when we solve optimization problems, we won't get the solution. Okay? Anyways, I talked a bit ahead there. Coming back, if you take a two-dimensional dataset, let's assume you have this 2D data and the data looks like this. So in loose terms, you can say that if you have to calculate the variance of this data on the x-axis, what do you do? You project all these points onto this particular axis like this. Projected all the points. All these points fell here. Okay? And then you calculate its variance. So that will roughly tell you your spread. We have been talking about this since then. Okay? So now that we know what spread is? How is variance related to that? Now let’s discuss why variance is important for PCA. So, in order to understand the importance of variance, let’s look at this diagram. Okay? Right? So, in this diagram, you can see how the data is spread out on our x and y axes. We have drawn it out. This is the scatter plot. Okay? Now, let’s see why variance becomes important. So, let’s say these points are green and red. But for now, I have colored only two points as green and red. And my machine learning model's job is to differentiate between these green and red points. Right? Now, if we perform PCA and bring it down to one dimension, then look at the potential problem. So, if you talk about this axis, the x-axis, if you take the projection of all these points, then this is the spread. And the projection of this red point will come over here, right? And the projection of this green point will come here, right? Now, the actual distance between these two points in a 2D coordinate system is this much, right? And when we projected it into 1D, on this axis, it is still comparable. Right? But if we project it onto the other axis, then here is my red point at this spot. Okay? And here is my green point. At this spot, and here is their distance on the y-axis. So, you can see if we had projected our data onto the y-axis, taking it from 2D to 1D, then the actual distance between these two points would have been lost. So, if you are working on a distance-based algorithm like K-Nearest Neighbors, it would never understand that there was that much distance between them because it only sees a very small distance. Whereas when you project it onto the x-axis, a comparable distance still remains. So that is why variance is important. When you bring data from a higher dimension to a lower dimension, you have to maximize the variance to ensure that the relationship between data points is not distorted. Okay? It's like the example I gave you in the beginning about a photographer clicking photos of football players. So, if he is taking the photo from this angle, he sees all the players spread out. So, all the players will appear distinct in the photo as well. But if he goes to the other side, meaning from this side to take the photo, the gap between the two players becomes very small and your photo doesn't come out as clear. So that is why variance is so important in PCA, that when you formulate the whole problem, your end goal will be to maximize the variance. Okay? So I hope you are understanding this point.
+
+
+[00:00] Hi guys, welcome to my YouTube channel.
+[00:03] In the last video, we studied the curse
+[00:05] of dimensionality and learned that
+[00:08] having too many features in your
+[00:10] dataset is not good for your machine
+[00:12] learning model. Right? And if you want
+[00:16] to eliminate the curse of
+[00:17] dimensionality, you can use any form of
+[00:20] dimensionality reduction. And we saw
+[00:23] two important dimensionality reduction
+[00:25] techniques. Feature selection and
+[00:27] feature extraction. Right? We will
+[00:29] study feature extraction first. So, my
+[00:31] plan for today's video is to cover the
+[00:34] most important and famous feature
+[00:37] extraction technique, PCA—Principal
+[00:39] Component Analysis—end-to-end. Right?
+[00:43] So let's start the video. So guys,
+[00:45] before starting the video, I'll tell
+[00:47] you one or two points. PCA is an
+[00:50] unsupervised machine learning problem.
+[00:53] Right? Here, you only have input in
+[00:56] your data. There is no output. So, this
+[00:58] is an unsupervised machine learning
+[01:01] problem. Second, it's a complex
+[01:03] technique. Meaning, it's a very old
+[01:04] technique. I believe the first paper
+[01:07] came out before 1950 and it has been
+[01:09] used for many years. Right? So it is a
+[01:12] very useful, very old, and very
+[01:14] reliable technique. But the underlying
+[01:17] math is too complex. Meaning, it is
+[01:20] quite difficult. So in this video,
+[01:22] although I will teach you PCA
+[01:24] end-to-end. I am not going to get into
+[01:27] the mathematical aspect of it. Because
+[01:30] if I do that, this video will be too
+[01:32] long. Right? So my end goal is that by
+[01:36] the end of this video, you should
+[01:38] understand the core intuition of this
+[01:40] algorithm and learn how to use it using
+[01:43] Scikit-Learn. Right? So let's start our
+[01:47] discussion now. So, as we have already
+[01:50] established, this is a feature
+[01:52] extraction technique. It is a feature
+[01:57] extraction technique, and its main goal
+[02:00] is to reduce the curse of
+[02:02] dimensionality. Meaning, if your data
+[02:06] has many features, when you apply PCA,
+[02:09] your features get reduced. Right? And
+[02:14] in short, your machine learning model
+[02:16] starts performing better. It becomes
+[02:18] faster. Right? So in this entire video,
+[02:21] we first need to understand how PCA
+[02:24] works and then we will apply it to a
+[02:26] dataset. Right? Okay? So in order to
+[02:31] explain, I want to give you an
+[02:33] introduction first on how PCA works.
+[02:36] Because many people study PCA. And use
+[02:38] it in Scikit-Learn. But they have no
+[02:41] idea what PCA is actually doing behind
+[02:43] the scenes. So, I have a great analogy
+[02:47] to explain how PCA works. So, look at
+[02:51] this photo. In this photo, you can see
+[02:54] there is a photographer taking a
+[02:56] picture of a soccer match. Now, this
+[02:59] soccer match happening is actually in a
+[03:03] 3D environment in a stadium. Right? And
+[03:06] the reason this photographer needs to
+[03:08] take the photo is to publish it in a
+[03:10] newspaper. Right? Now, as you already
+[03:14] know, photos are 2D. Right? Photos are
+[03:18] 2D. And the match that is happening is
+[03:21] taking place in a 3D stadium. Now, what
+[03:23] is this photographer's job? To show
+[03:26] this match in his newspaper. Right? So,
+[03:32] in a way, what he wants is to capture a
+[03:36] 3D moment in 2D. Right? And PCA does
+[03:40] exactly this. PCA tries to bring a
+[03:43] higher-dimensional dataset into a lower
+[03:46] dimension. Right? And the special thing
+[03:50] about it is that PCA chooses the best
+[03:53] possible lower dimension. So that you
+[03:57] can capture the essence of the data
+[03:59] from the higher dimension. I mean, if
+[04:02] you notice, this photographer keeps
+[04:04] moving around the periphery during the
+[04:07] whole match. So that he can capture the
+[04:10] best photo. So, if from one particular
+[04:12] angle all the players are too close,
+[04:15] then obviously the photo from that
+[04:17] angle won't show the players clearly.
+[04:19] So you will move to another place where
+[04:21] you can see the players more spread out
+[04:23] . So that the clarity of the data or
+[04:26] the essence of the photograph is
+[04:28] captured correctly. So, in short, if I
+[04:32] explain it by connecting it to this
+[04:35] analogy, PCA is a technique that can
+[04:38] transform higher-dimensional data to
+[04:40] lower-dimensional data while keeping
+[04:43] the essence of the data. Meaning, you
+[04:47] preserve the behavior present in the
+[04:50] data and bring it to a lower dimension.
+[04:53] So that when your machine learning
+[04:55] algorithm works on it in the lower
+[04:57] dimension, the results will still be
+[04:58] good. That is the whole idea behind PCA
+[05:01] . So guys, now that we understand what
+[05:04] the core idea of PCA is. One more thing
+[05:07] we should discuss at this point is why
+[05:10] exactly PCA is used in any machine
+[05:12] learning project. There are two primary
+[05:14] reasons. Okay? So, if you want to write
+[05:17] down the benefits of using PCA, there
+[05:20] are two core benefits. The first one is
+[05:23] , what does PCA actually do? PCA brings
+[05:27] your higher-dimensional dataset into a
+[05:29] lower dimension. This means the
+[05:32] training data you are using to train
+[05:34] the algorithm and perform predictions
+[05:36] decreases in size in terms of
+[05:38] dimensions. So, if there were 10
+[05:40] columns before, there might be five or
+[05:42] three columns now. So automatically,
+[05:45] your algorithm will run faster on the
+[05:47] data because your data has become
+[05:49] smaller. Right? So here I can write,
+[05:54] fast execution of algorithms. Okay?
+[06:00] Meaning, algorithms will run fast. Okay
+[06:03] ? And your computational cost is saved.
+[06:07] Okay? This is the main benefit. And
+[06:09] obviously, your performance remains the
+[06:11] same as it would be on a normal dataset
+[06:13] . Okay? The second core benefit is
+[06:17] visualization. So, we human beings can
+[06:22] see in a maximum of 3D. We plot graphs
+[06:25] in 2D quite a lot. We sometimes plot in
+[06:27] 3D. But we cannot see beyond 3D. But
+[06:30] what if I have a machine learning
+[06:33] dataset that has 10 columns? I can
+[06:36] never plot and visualize this data.
+[06:39] Because I cannot see beyond 3D. What
+[06:42] will PCA do for me? PCA helps me reduce
+[06:46] this 10D data into 3D or reduce it into
+[06:49] 2D. And once you have reduced 10D to 3D
+[06:53] , you can now plot its graph. Okay? Or
+[06:56] you convert it to 2D, and you can plot
+[06:59] its graph. Okay? So, the second benefit
+[07:02] for which people use PCA a lot. That is
+[07:05] visualization. What will we do in this
+[07:07] video? We will take the MNIST dataset,
+[07:10] which has 784 columns, and visualize it
+[07:14] by bringing it into 3D. Okay? So these
+[07:18] are the two core benefits, and this is
+[07:21] why PCA is used the most in machine
+[07:24] learning. And now that we know what PCA
+[07:27] is. Why it should be used. Let's now
+[07:30] dive into the geometric intuition
+[07:32] behind this algorithm. So guys, now I
+[07:35] have a dataset on my screen. It is very
+[07:40] simple data about houses, and you will
+[07:42] find the data a bit weird because it
+[07:45] has three columns, and the first column
+[07:47] tells how many rooms the house you are
+[07:50] talking about has. The second tells how
+[07:54] many grocery shops are around this
+[07:56] house, and the third tells the price of
+[07:58] that house. Right? Now, number of rooms
+[08:02] , okay. I mean, whenever you go to find
+[08:05] the price of a house, one important
+[08:07] parameter is how many rooms there are,
+[08:09] what the BHK is. But how many grocery
+[08:11] shops are there nearby? That’s a very
+[08:14] weak parameter. I mean, you’ll be
+[08:17] like, what difference does it make? How
+[08:19] many grocery shops are nearby. Right? I
+[08:22] mean, it might matter, but it's not as
+[08:25] strong a parameter as rooms. Okay? So,
+[08:28] I chose this intentionally because I
+[08:31] want to prove a point. I want to give
+[08:34] you a geometric intuition of PCA, which
+[08:37] is a feature extraction technique. But
+[08:41] before that, I want to show you an
+[08:44] example of feature selection to see how
+[08:48] it works. We learned that there are
+[08:50] dimensionality reduction techniques to
+[08:52] reduce the curse of dimensionality. And
+[08:55] the two most famous dimensionality
+[08:56] reduction techniques are feature
+[08:58] selection and feature extraction. And
+[09:00] the most famous algorithm for feature
+[09:02] extraction is PCA. But to understand
+[09:05] PCA, you need to have some idea about
+[09:07] feature selection. So what we are going
+[09:10] to do is discuss how feature selection
+[09:13] works. Now, the concept of feature
+[09:15] selection is very simple. Feature
+[09:17] selection means if you have five
+[09:19] columns, you keep any two or three
+[09:22] columns. You remove the rest of the
+[09:24] columns. Basically, you select your
+[09:27] features, reduce them, and keep those
+[09:29] that are most important for predicting
+[09:31] the output. So, if I tell you that
+[09:35] there are two input columns here. We
+[09:38] have rooms and we have this grocery
+[09:43] shop column. And you have to remove one
+[09:47] column, which one would you remove? I
+[09:50] guess if you have even a little idea
+[09:53] about real estate, you would very
+[09:55] easily and strongly say, "Boss, I would
+[09:59] like to keep the rooms column and I
+[10:02] would remove the grocery column because
+[10:05] the price will depend more on the rooms
+[10:08] ." So, if I have to keep one of the two
+[10:11] , it will be rooms. Okay? Now, let me
+[10:15] explain why you did that mathematically
+[10:18] . I mean, this dataset was simple. This
+[10:21] dataset was simple because you could
+[10:23] see and understand that the house price
+[10:25] would depend on the number of rooms.
+[10:28] But as machine learning engineers and
+[10:30] data scientists, you will find yourself
+[10:32] in scenarios where you work on many
+[10:35] different types of datasets. And
+[10:37] sometimes, you won't have domain
+[10:39] knowledge about that dataset. So, at
+[10:41] that time, if someone tells you that
+[10:44] you have 'n' features, 'n' columns.
+[10:46] Remove some of those columns and keep
+[10:49] the most important ones. So how will
+[10:51] you do this task? I want to tell you
+[10:53] this because you don't have domain
+[10:55] knowledge there. So then you won't be
+[10:57] able to decide if column A is more
+[10:59] important or column B. So let me show
+[11:01] you a mathematical trick on how this is
+[11:04] decided. Okay? So let's say I am
+[11:07] plotting this same data. On a 2D
+[11:11] coordinate system. Here on your X-axis
+[11:16] is the number of rooms. And your Y-axis
+[11:22] here has grocery shops. Okay? And when
+[11:27] I plotted this data, I realized that my
+[11:30] data looks something like this.
+[11:35] Something like this. Okay? Meaning that
+[11:41] rooms are varying a lot, but the number
+[11:45] of grocery shops aren't varying that
+[11:48] much. In fact, there is no direct
+[11:51] relationship between rooms and grocery
+[11:54] shops. Now if you ever see such data or
+[11:58] such a scatter plot and you have to
+[12:01] select one of these two, then you would
+[12:05] select this particular column. Why am I
+[12:09] saying this? Because you will see which
+[12:14] axis has a greater spread of your data.
+[12:19] So what will I do? I will project all
+[12:21] these points onto both axes. Meaning, I
+[12:24] will drop all these points onto the
+[12:26] X-axis. Just like I am dropping them
+[12:27] now. So if I drop all these points onto
+[12:31] the X-axis, you would see that the
+[12:33] first point comes here and the last
+[12:35] point comes here. So this means that
+[12:39] the shadow of this entire data on the
+[12:43] X-axis is this big. This much. Let's
+[12:50] call it D. Okay? And when I do the same
+[12:54] thing on the Y-axis, you would see that
+[12:56] this is the first point and this is
+[12:59] perhaps the last point. So the spread
+[13:02] of your data on this axis, when
+[13:05] projected onto the Y-axis, the length
+[13:09] of the shadow, let's call it d ', you
+[13:12] can clearly see D is greater than d'.
+[13:17] So what will you do? You will simply
+[13:20] look at this and say that I am going to
+[13:22] select the X-axis, i.e., rooms. Why?
+[13:27] Because the spread of your data on the
+[13:29] Y-axis was less compared to the X-axis.
+[13:33] And you will always pick the feature
+[13:36] where your data's spread is higher.
+[13:39] Actually, you can connect this to
+[13:41] variance; if you have studied variance,
+[13:43] then you select the axis where the
+[13:46] variance is higher. I will tell you
+[13:48] about that a little later. In fact, the
+[13:49] next thing I am going to discuss is why
+[13:51] we are chasing variance. But at this
+[13:53] point, if you want to understand the
+[13:55] trick of how this whole thing works.
+[13:57] Then this is the trick. If you are
+[13:59] working with data where you have no
+[14:01] idea whether one column is better or
+[14:04] the other. You plot it and find the
+[14:07] projection of the data onto each column
+[14:09] . The column on which your spread, as
+[14:12] in variance, comes out to be the
+[14:14] highest. You will select that very
+[14:16] column. That column is the most
+[14:18] important column for you. And that is
+[14:20] how feature selection works. Feature
+[14:22] selection works like this in a nutshell
+[14:25] . I explained feature selection to you
+[14:27] intentionally because I wanted to
+[14:28] explain feature extraction, and to
+[14:30] understand feature extraction, you need
+[14:32] to understand this key aspect. So now,
+[14:34] let's say, let's say there are some
+[14:36] changes in the data. Now we are going
+[14:39] to understand feature extraction. So
+[14:41] let's say there are some changes in
+[14:43] your data, and the changes in your data
+[14:44] are such that now you have data on.
+[14:46] Number of rooms, Number of washrooms,
+[14:58] And what is the price of your flat?
+[15:02] Okay? I just changed this second column
+[15:05] . Removed grocery shops and put
+[15:07] washrooms instead. Now if I ask you
+[15:11] that boss, you have to keep one column
+[15:13] and remove one, what will you do now?
+[15:16] If you think about it, a flat's price
+[15:19] is governed by both things: how many
+[15:21] washrooms there are and how many rooms
+[15:24] there are. Here you cannot say that
+[15:27] boss, rooms are much better than
+[15:29] washrooms. It is not like that. The
+[15:31] price also depends on the washrooms. So
+[15:33] now you have confusion in your mind.
+[15:36] Here, feature selection is not that
+[15:38] evident. And I can prove this
+[15:40] mathematically too. Let's say you
+[15:42] plotted this graph again. You plotted
+[15:46] this data again and on your x-axis were
+[15:50] rooms and on your y-axis were washrooms
+[15:54] , and this time when you plotted the
+[15:57] data, the data was like this, meaning
+[16:01] there was a sort of linear relationship
+[16:05] between your rooms and washrooms.
+[16:09] Meaning as your rooms increase, your
+[16:11] washrooms also increase, which is what
+[16:14] actually happens. Okay? Now if you use
+[16:17] this technique of projection, then you
+[16:20] would see that if you project all the
+[16:23] points on the X-axis, then the spread
+[16:27] of your data on this axis is this.
+[16:31] Let's call it D. And the spread of your
+[16:34] data on the y-axis is something like
+[16:36] this. This is d prime, and now you can
+[16:40] see that d is almost comparable to d
+[16:43] prime. So now, you are unable to decide
+[16:47] mathematically as well which one to
+[16:49] select and which one to remove. So this
+[16:51] is the problem with feature selection.
+[16:53] First of all, we understood how feature
+[16:55] selection works, and then we understood
+[16:57] what the problem with it is. If you get
+[17:00] a set of columns that have equal
+[17:02] variance, then you won't be able to
+[17:05] decide which one to keep and which to
+[17:08] remove, and in this case, feature
+[17:11] extraction comes to your help, which we
+[17:14] will study next. Next. Okay? So now
+[17:19] let's see how feature extraction solves
+[17:22] this problem. Feature selection is not
+[17:24] able to reduce them. The number of
+[17:26] columns we have remains the same. We
+[17:27] are unable to reduce it further. Let's
+[17:29] see how feature extraction will solve
+[17:31] this problem. And I will explain this
+[17:33] to you in two ways. First, I will give
+[17:35] you a simple idea, and then I will give
+[17:37] you the geometric intuition of feature
+[17:39] extraction. Okay? So look, what I will
+[17:43] do is I will just go down and state the
+[17:46] problem again on a clearer screen. The
+[17:50] data we have includes rooms and it
+[17:54] includes washrooms. And we have the
+[18:00] price. Our job is that we have to
+[18:03] remove one column from these two input
+[18:06] columns. Now look, if you ask a normal
+[18:09] person who has even a little idea about
+[18:12] real estate to remove one column. Tell
+[18:15] me, which column is less important?
+[18:17] Then perhaps they won't be able to tell
+[18:18] . But let's say you go to a real estate
+[18:21] broker and tell them your problem that,
+[18:23] "Look brother, I have these two columns
+[18:25] , and you have domain knowledge.""Can
+[18:27] you help me in eliminating one column?"
+[18:30] Then they will also think and say, "
+[18:32] Look, these both columns are equally
+[18:35] important.""But you can do one thing:
+[18:38] gather this data in a new way.""And
+[18:41] this time, you gather only one input
+[18:44] column, which will be named size of the
+[18:47] flat.""And one output column, price of
+[18:51] the flat." In short, that person's
+[18:54] suggestion is that instead of finding
+[18:56] out rooms and washrooms separately,
+[18:58] they are asking you to find out only
+[19:00] one thing: what is the size of your
+[19:01] flat? Because if you think about it,
+[19:05] the more rooms and washrooms there are,
+[19:07] the bigger your flat size will be. So
+[19:10] in short, they said that we cannot
+[19:12] remove either of these two columns.
+[19:15] Because both seem equal. But we can do
+[19:18] this: we can create a completely new
+[19:20] single column that tells us something
+[19:23] about both. Because size will also tell
+[19:26] you about the rooms. Size will also
+[19:28] tell you about the washrooms. All right
+[19:30] ? So, in short, what did you do? You
+[19:33] completely changed your input columns
+[19:35] and created a brand new column. All
+[19:38] right? Which is the size column. And
+[19:41] now the data you have is 1D data. Here,
+[19:45] it was 2D data. And let's hope that in
+[19:47] 1D as well, our response and our result
+[19:50] come out just as good. So, in short,
+[19:52] this is what PCA does. PCA forgets your
+[19:57] existing features. And it creates a new
+[20:02] set of features from those existing
+[20:04] features. And from those new sets of
+[20:06] features, it chooses a subset that it
+[20:09] thinks is the most important. And that
+[20:11] is what PCA does. In a nutshell, this
+[20:14] is PCA. But now you might say, man,
+[20:16] this is fine. Here, we had that real
+[20:18] estate broker. He did it. But as a data
+[20:22] scientist, again, if I get some data
+[20:25] about which I have no clue. Then how
+[20:27] will I apply this technique there? So
+[20:30] that is why now I am going to show you
+[20:31] the mathematical intuition. The
+[20:33] geometric intuition of how PCA is
+[20:36] performed. All right? So for that, I
+[20:38] will have to draw this graph one last
+[20:41] time. So the same graph. So this is
+[20:45] rooms and this is washrooms and the
+[20:50] graph is sort of linear. All right?
+[20:56] This is our graph. Now the question is,
+[21:02] I have to create a single column from
+[21:05] rooms and washrooms. All right? Now the
+[21:08] feature selection technique failed
+[21:10] because the variance was coming out
+[21:12] equal on both axes. So there was no
+[21:14] significant benefit. So what will PCA
+[21:17] do here, guys? This is really important
+[21:19] . What will PCA do? PCA will find a new
+[21:23] set of coordinate axes. Like this is an
+[21:26] axis right now. This is an axis. What
+[21:29] will PCA do? PCA will rotate your
+[21:32] coordinate axes such that a new set of
+[21:35] axes is formed. Like, it will move this
+[21:39] axis here. So you got this one axis.
+[21:43] And this axis, by rotating here, that
+[21:47] axis came here. So you can call this
+[21:52] axis the room-dash axis. Now this is
+[21:55] not the room axis. This is the
+[21:57] room-dash axis and this is your
+[21:59] washroom-dash axis. Right? Now if you
+[22:04] notice, if you forget the previous
+[22:07] coordinate system and talk about this
+[22:09] new coordinate system, then in this new
+[22:12] coordinate system, the projection on
+[22:15] the x-axis, or you can say the variance
+[22:18] , is this. d, and on this axis, your
+[22:26] variance is this. This much, this is d
+[22:33] ', and you can clearly see d is greater
+[22:37] than d'. So now you would say, boss,
+[22:42] when I shifted the axis, I will keep
+[22:45] room ', which is my axis, and remove
+[22:48] washroom'. And by the way, when you
+[22:53] shifted the entire coordinate axis,
+[22:55] these new axes you got, room 'and
+[22:58] washroom', are what you call Principal
+[23:00] Component 1 and Principal Component 2.
+[23:05] Okay? So, as soon as you shift the axis
+[23:07] , you get as many principal components
+[23:09] as the number of columns in your
+[23:11] original data. So, if your original
+[23:13] data had two columns, after this shift,
+[23:15] you will get only two principal
+[23:17] components. Okay? And then, out of
+[23:19] these two principal components, you are
+[23:21] choosing Principal Component 1. Because
+[23:24] the variance of your data is higher on
+[23:26] Principal Component 1 in comparison to
+[23:29] Principal Component 2. So now, what
+[23:31] will you do? You will transform your
+[23:34] entire data according to Principal
+[23:38] Component 1. How is it done? I will
+[23:41] tell you in a little while. But that is
+[23:43] the core idea. Okay? Always remember
+[23:46] guys, the number of principal
+[23:48] components will always be less than or
+[23:51] equal to n, where n is the number of
+[23:54] original features in your data. Okay?
+[23:58] So yeah, that's it. I mean, this is the
+[24:01] geometric intuition. What do you have
+[24:03] to do? You need to change the
+[24:05] coordinate axis of your data; now I am
+[24:06] showing this in 2D. But the same thing
+[24:09] will happen in 3D, 4D, and even ND. You
+[24:12] have to perform the transformation of
+[24:15] your axis in such a way that by
+[24:17] transforming the coordinates, you
+[24:20] create maximum variance in the data on
+[24:23] one particular principal component.
+[24:26] That is how you do it. How is it done?
+[24:28] We will discuss that later. But this is
+[24:30] the geometric intuition behind this
+[24:32] algorithm. Okay? I hope you understood
+[24:35] this. Now, the next thing we are going
+[24:38] to do is answer the question: why is
+[24:42] variance, or the spread of data we are
+[24:45] talking about, so important? We will
+[24:49] answer this question. Once you
+[24:50] understand this question, you will
+[24:52] actually start to respect the fact that
+[24:55] yes, variance is important. Checking
+[24:57] this spread is important. That is what
+[24:59] we will do, that is what we will do
+[25:00] next. Now, before understanding why
+[25:02] variance is important. Let's quickly
+[25:05] revise variance once. It's a very
+[25:06] fundamental concept in statistics. But
+[25:09] many people don't have the intuition of
+[25:11] what exactly variance represents. We
+[25:14] will discuss that right now. Okay? So
+[25:17] look, variance is basically a
+[25:18] statistical technique that you use to
+[25:21] describe something about the data, and
+[25:23] specifically, what do you describe? How
+[25:26] much the data is spread out. I will
+[25:28] give you an example. Let's talk about
+[25:30] the mean. So, if you talk about the
+[25:33] mean, the mean is also a statistical
+[25:35] measure. Suppose we have three points.
+[25:38] This is the first point. This is the
+[25:40] second point and this is the third
+[25:41] point. Meaning it is at five. It means
+[25:45] it's at five on x. It's at five. It's
+[25:47] at zero. It's at -5. So what will its
+[25:51] mean be? -5 + 0 + 5/3, so the mean of
+[25:55] this dataset would be equal to zero.
+[25:59] Right? Now suppose we have this data.
+[26:05] So I have this. I have this and I have
+[26:08] this. So this is -10, this is still
+[26:11] zero. And this is 10. Now, if I ask you
+[26:16] what the mean will be now? Then the
+[26:20] mean will still be -10 + 0 + 10/3,
+[26:24] still 0, meaning this data. And you
+[26:30] cannot distinguish or describe the
+[26:32] difference between these datasets using
+[26:35] the mean. That is not the job of the
+[26:38] mean. The job of the mean is to
+[26:40] indicate central tendency or to show
+[26:42] where the center is. If you want to
+[26:44] distinguish between these two datasets,
+[26:47] a very good measure would be variance.
+[26:51] What is variance? The formula for
+[26:54] variance is σ i = 1 to n, meaning all
+[26:59] the points (xi-x bar) ^ 2/n, okay?
+[27:05] Meaning, how far is each point from the
+[27:07] mean? You calculate that. You square it
+[27:11] . I am sorry, I didn't say square. You
+[27:13] square it and add them up. Okay?
+[27:16] Meaning, in the first case, your
+[27:19] variance would be 5 squared, 25 + 0
+[27:23] squared, 0 + 5 squared, 25. /3, okay?
+[27:31] So basically 50/3 and in the second
+[27:34] case, it would be -10 squared, 100 + 0
+[27:38] squared, 0 + 10 squared, 100/3, which
+[27:41] is 200/3. So you can clearly see, its
+[27:46] variance, the variance of the second
+[27:49] one, is four times the variance of the
+[27:52] first one. So you are able to
+[27:56] differentiate between these two
+[27:57] datasets, and there is a difference, a
+[27:59] difference in the spread of these two
+[28:01] datasets. Mind you, spread is not
+[28:05] exactly variance. We must always
+[28:09] remember that spread is not variance.
+[28:11] Variance is proportional to spread.
+[28:14] Okay? That's why people take its square
+[28:17] root, and that is called standard
+[28:18] deviation. It is at least in the same
+[28:21] terms. But here you have to understand
+[28:23] that the spread is directly
+[28:24] proportional to the variance. Meaning,
+[28:27] if the spread of the second one is
+[28:29] greater, then its variance will also be
+[28:31] greater than the first one. You have to
+[28:33] always remember this. So this is
+[28:35] variance. Variance is proportional to
+[28:37] spread. It is not exactly spread. Okay?
+[28:40] So you might ask, then why not take the
+[28:42] spread? Because if you take the spread,
+[28:45] let's say, there is a quantity called '
+[28:48] Mean Absolute Deviation', where you
+[28:50] take the median value, meaning you take
+[28:52] the modulus of this distance and divide
+[28:55] it by three. So it is not used because
+[28:58] here you are taking the absolute, as in
+[29:01] mode, and mode as a function is not
+[29:04] differentiable at zero. So later, when
+[29:07] you have to apply optimization
+[29:09] algorithms in PCA, you won't be able to
+[29:12] , because your mode function is not
+[29:14] differentiable. Whereas your square
+[29:17] function is very much differentiable.
+[29:20] That's why they prefer variance. Okay?
+[29:23] So if someone asks you why Mean
+[29:25] Absolute Deviation is not used in PCA
+[29:27] instead of variance. Because that also
+[29:29] represents the same thing, how much the
+[29:30] spread is? Then you would say because
+[29:33] your mode function is not
+[29:34] differentiable at zero. So when we
+[29:37] solve optimization problems, we won't
+[29:40] get the solution. Okay? Anyways, I
+[29:42] talked a bit ahead there. Coming back,
+[29:45] if you take a two-dimensional dataset,
+[29:49] let's assume you have this 2D data and
+[29:53] the data looks like this. So in loose
+[29:58] terms, you can say that if you have to
+[30:01] calculate the variance of this data on
+[30:03] the x-axis, what do you do? You project
+[30:07] all these points onto this particular
+[30:10] axis like this. Projected all the
+[30:13] points. All these points fell here.
+[30:17] Okay? And then you calculate its
+[30:20] variance. So that will roughly tell you
+[30:24] your spread. We have been talking about
+[30:26] this since then. Okay? So now that we
+[30:29] know what spread is? How is variance
+[30:31] related to that? Now let’s discuss
+[30:34] why variance is important for PCA. So,
+[30:37] in order to understand the importance
+[30:39] of variance, let’s look at this
+[30:41] diagram. Okay? Right? So, in this
+[30:45] diagram, you can see how the data is
+[30:48] spread out on our x and y axes. We have
+[30:51] drawn it out. This is the scatter plot.
+[30:55] Okay? Now, let’s see why variance
+[30:58] becomes important. So, let’s say
+[31:00] these points are green and red. But for
+[31:03] now, I have colored only two points as
+[31:05] green and red. And my machine learning
+[31:08] model's job is to differentiate between
+[31:10] these green and red points. Right? Now,
+[31:15] if we perform PCA and bring it down to
+[31:18] one dimension, then look at the
+[31:20] potential problem. So, if you talk
+[31:24] about this axis, the x-axis, if you
+[31:28] take the projection of all these points
+[31:32] , then this is the spread. And the
+[31:36] projection of this red point will come
+[31:38] over here, right? And the projection of
+[31:42] this green point will come here, right?
+[31:49] Now, the actual distance between these
+[31:53] two points in a 2D coordinate system is
+[31:57] this much, right? And when we projected
+[32:03] it into 1D, on this axis, it is still
+[32:08] comparable. Right? But if we project it
+[32:11] onto the other axis, then here is my
+[32:14] red point at this spot. Okay? And here
+[32:18] is my green point. At this spot, and
+[32:24] here is their distance on the y-axis.
+[32:30] So, you can see if we had projected our
+[32:33] data onto the y-axis, taking it from 2D
+[32:35] to 1D, then the actual distance between
+[32:38] these two points would have been lost.
+[32:43] So, if you are working on a
+[32:44] distance-based algorithm like K-Nearest
+[32:46] Neighbors, it would never understand
+[32:49] that there was that much distance
+[32:50] between them because it only sees a
+[32:53] very small distance. Whereas when you
+[32:55] project it onto the x-axis, a
+[32:57] comparable distance still remains. So
+[33:01] that is why variance is important. When
+[33:04] you bring data from a higher dimension
+[33:06] to a lower dimension, you have to
+[33:09] maximize the variance to ensure that
+[33:11] the relationship between data points is
+[33:14] not distorted. Okay? It's like the
+[33:17] example I gave you in the beginning
+[33:19] about a photographer clicking photos of
+[33:21] football players. So, if he is taking
+[33:24] the photo from this angle, he sees all
+[33:25] the players spread out. So, all the
+[33:27] players will appear distinct in the
+[33:29] photo as well. But if he goes to the
+[33:31] other side, meaning from this side to
+[33:33] take the photo, the gap between the two
+[33:35] players becomes very small and your
+[33:37] photo doesn't come out as clear. So
+[33:40] that is why variance is so important in
+[33:43] PCA, that when you formulate the whole
+[33:46] problem, your end goal will be to
+[33:48] maximize the variance. Okay? So I hope
+[33:52] you are understanding this point.

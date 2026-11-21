@@ -1,0 +1,690 @@
+# Decision Trees - Hyperparameters | Overfitting and Underfitting in Decision Trees
+# https://www.youtube.com/watch?v=mDEV0Iucwz0
+
+Hello guys, welcome to my YouTube channel. We are studying decision trees. And so far we have learned many things. Like how decision trees work? What is the concept of entropy and Gini? How does information gain work? How do you work with numerical features? And many other things. Alright? Now what are we going to do? We are going to learn about all the hyperparameters in the scikit-learn implementation of decision trees. Alright? So, one thing you might already know about decision trees is that a decision tree is a great algorithm, first of all. But it has a tendency to overfit. Meaning, it gives great results on training data, but gives somewhat incorrect results on external data, on new data, which we call overfitting. Alright? Now, if you want to reduce that overfitting, you have many hyperparameters. Hyperparameters mean tuning knobs that you can tune to improve the performance of your algorithm. Alright? So first of all, I will show you which hyperparameters you get in a decision tree. After that, what will we do? We will use a web application to change the values of those hyperparameters and see what impact it has on the decision tree. Alright? And along the way, we will learn how to tune them. Alright? So let's start. So if you remember when we were reading about the theory of decision trees, we learned that a very important hyperparameter is the depth of the tree. Okay? Like here you can see we have a tree whose depth is three. Now this depth of tree, or it is also called max depth. This hyperparameter is the main thing that causes overfitting or underfitting. Okay? So what we will do is look at both these cases one by one. Okay? So let's start with overfitting. So what is overfitting? So, generally speaking, if you trained a model and it is giving very good accuracy and results on the training data. But it is performing poorly on the test data. It's a simple case of overfitting. Right? Your model has memorized the data. And whenever a new question comes in the exam, it is unable to perform. Okay? So, let me give you an example. Let's say we initially had 200 rows in the dataset. We divided it into two datasets based on the splitting criteria of a particular column. D1 and D2, and you can see there are 140 data rows in D1 and 60 in D2. Okay? Now, let's assume the 60, which is our second dataset D2, becomes a leaf node. So, we are not performing any further splitting on it. But we are performing splitting on the one with 140. Now we have 100 and 40. Let's again assume that the 40 is also a leaf node. Continuing this, let's say we reach a point where we finally get a leaf node that now contains only two rows. Right? Which means that if you are coming from top to bottom and reaching this particular node, your entire decision-making is depending only on these two points. Right? Let's assume both these points are 'No'. Right? Meaning, this is a leaf node and both points are 'No'. Now, this means any new point that satisfies these conditions and enters here, then satisfies this and enters here, eventually reaching this, means you will label it as 'No' because that is the only data you have. But what if these two points turn out to be noisy, or they are outliers, or erroneous data? Right? This means that the hard work you put in, creating all those if-else logics, is eventually relying on two points that you couldn't trust in the first place. So, your entire system will fail when you give it new data. This system will work correctly if you are working on training data. But whenever you provide new data, test data, this will not perform well. Okay? So, this is a clear-cut case of overfitting. Okay? And when you use the Decision Tree algorithm, if you have set the max depth parameter to default or 'None' yourself, then your algorithm will keep working until it extracts every leaf node. And in that particular case, there is a huge chance that this kind of overfitting will happen. Okay? In fact, let me show you this entire thing in a geometrical scenario, or let me give you its geometric intuition. So, the same thing. Okay? So, you can see we have plotted our data on two axes. Right? Now, what do decision trees basically do? We already discussed during the geometric intuition that they basically split your data by drawing lines parallel to the axes, or they are also called hyperplanes in higher dimensions. Right? So, let's say in our data, we made this split based on the x-axis. Let's say we made another split, again based on the x-axis. Right? Then we made another split based on the y-axis. Right? Similarly, we keep doing this. And you can see that as long as we aren't stopped, we keep splitting until the very end. Right? parallel to the axes. Now, focus on this arrow. And you will see that this green point, although all the points around it are red. But because we did so much splitting. We applied so many if-else conditions that eventually, we cut up our entire data to make this. Like, this is the data now. Okay? Now imagine, someday, a new query point falls into this region. Then obviously, because of this box, we have labeled this entire region as yes, green. Right? So, the new query point will also be labeled as green. But you can totally see what it should have been. Red. Right? It's like, if you have seen the KNN algorithm, then there, if k = 1, if you are considering only one nearest neighbor, the same problem occurred there too. Okay? So, I hope you are starting to understand how overfitting happens in decision trees. Okay? So now, let me show you how overfit—I'm sorry. Now let me show you how underfitting takes place in a decision tree algorithm. So let's say now we pass the value one to the max depth parameter, which basically means we will only make one split. Right? So let me show you what the scenario is. We have 200 points again, and we have 100 'yes' points and 100 'no' points. Let's say I made a split based on a particular column and two datasets were formed. So this is the first one. It has 140, 80 'yes' and 60 'no'. And the second one has 60, 20 'yes' and 40 'no'. Right? Now we aren't making any more splits. We are not creating leaf nodes because I have explicitly told my algorithm that I only want a max depth of one. Right? Now imagine a new query point comes and it satisfies this particular criteria. It doesn't go into this one, it goes into this one. Now, how is the decision-making happening? You are simply looking at the fact that here, the number of 'yes' is greater than the number of 'no'. So you will automatically assign the yes label to XQ. Right? So this is an example of underfitting. Meaning you didn't go deep, you didn't understand the data well, and you just confidently said, " No, no, it'll work out, we'll see." Its geometric intuition will be the same scenario again. You plotted your points and just made one split. Right? And confidently just said, look, all the points on this side are no, and all the points on the right-hand side are your yes. Now this is a case of underfitting. Okay? So now you just have to make sure that you neither underfit nor overfit. And how will you handle this? By tuning the parameter, the hyperparameter max_depth. If you set the max_depth value too low, it will underfit. If you set it too high, or don't set it at all, there are chances of overfitting. So I will tell you how you set the optimum parameter. But before that, I would like to show you a real-world example. Where you will actually be able to see underfitting and overfitting happening. So this is the code. I just imported the libraries here. And I hope you remember meshgrids from the kNN lecture. So I didn't do much. I have formed a meshgrid. And I sent every point of that meshgrid into my classifier. So it will either say yes or it will say no. And by the way, we are still working on that Social Networking Ads dataset. Okay? So this is my function. Now this function only needs one parameter, max_depth. Okay? So see, if I send the max_depth value as None to the analyzer function, which means I am telling the algorithm that I am not setting any value for max_depth. Do as much as you want to do. Extract all the leaf nodes. So you will notice that we are getting a graph like this. You can see that this is a clear-cut case of overfitting. Right? Meaning it is working very well on the training data. But it won't work correctly on the test data. So you can totally see this blue point, like it's totally surrounded by yellow points, yet it is classified as a blue point. This means if any point falls in this region in the future, we will call it blue. But what should it have been? It should have been labeled as yellow. Similarly, this region is yellow on all sides, but because of these three points, we labeled this whole region as blue. So, the same goes for these yellow points. Right? So you can clearly see that since we didn't provide any max_depth. The algorithm kept generating if-else statements. It kept cutting the data further. It kept cutting it into very small, into multiple smaller regions. And because of that, the chance of overfitting is very high. Right? Now let me show you what happens if I send just one, meaning I only want one split? See, here it is. This is a clear-cut case of underfitting. Because you can clearly see there are so many yellow points on the left side and yet they are labeled as blue points and vice versa, right? If you make one more split, let's say try two, look at this, now the splitting looks like this. It still doesn't look like an optimum case. If we do three, there still isn't much of a change. Let's do four. Yeah, this seems much better. I mean, this seems like an optimum value, because there are these three-four points but they are very sparse, so it considered them yellow, and in other places where it finds higher density of points in a region, it is labeling them correctly. Let's try one more, five. And even this seems good, right? It's just that for these few points, overfitting has started to appear. So again, we can try doing it manually to see if this is right, but imagine if it's big data, and this is just 2D. Meaning we are able to see it easily. What if there are tens of columns, then how would you do it? Right? So we will discuss the technique in the next video, how to select an optimum value for max_depth. But for now, it would be great if you try running this same code on your machine once. It would give you a lot of perspective about decision trees and how they work. So guys, this is the documentation for Scikit-learn's decision tree implementation and you can see there are a lot of parameters here. Criterion, splitter, max depth, min sample split, minimum sample leaf; there are a lot of examples for you. We are not going to look at everything because, to be honest, you don't use everything. I will tell you about the most relevant eight or nine hyperparameters. Okay? So I have created this web application, the link for which I will put in the description. You can go ahead and open this, and you can also perform your own experimentations, just like I am about to show you. So here you have a dataset. It's a toy dataset that I have generated myself. And you can see it's a non-linear dataset with points in two U-shaped classes. And I want to perform decision tree classification on this. Right? So now, I have got all the options here that I can tune to change the performance or behavior of my decision tree algorithm. So you can see, the things here, I have created options for them: criteria, splitter, max depth, min samples split. You can see all of them are present here. Criteria, splitter, max depth, min samples split, I have set all of this up here. Okay, now what I will do is explain the impact of each of these on the algorithm one by one. Right? Let's start with criteria. So you already know you can make a decision tree work in two ways. One is entropy, the second is Gini, Gini index, Gini impurity, whatever you want to call it. Right? Now, to be honest, there isn't much difference between the two. I will show you. If I, let's say, keep everything default. In fact, first, I will reload it once. So that all default settings are applied. And if I train my model keeping it at Gini. You would see that this is your output. This is your output. Okay? In fact, I will bring it over here. This is the output. You can see clearly that my decision tree is overfitting. Because you know, you can see these specific regions that are not very general. They are not capturing the pattern of the data. They are doing a little bit, but there are very small ones, like this blue region here, which shouldn't have been there. This should be an orange region. But it is happening. So here the accuracy is coming out to be 86, but what if I do this? If I select entropy instead of Gini and run this code again. You would see there is a very slight difference. You can also try it. There is a very slight difference with entropy. But the accuracy, in fact, the accuracy has actually decreased. It became 83%. It became 83%. Right? So it doesn't vary much, and generally speaking, Gini provides better results. From all the datasets I have checked. Gini will give you better results. And in this web app, you will get one more thing. I am also showing you the entire tree printed out. This is the entire tree. See, this is the entire tree that has been formed. Because we haven't specified the max depth. This is a fully grown tree. So it will clearly overfit. Okay? So between entropy and Gini, generally speaking, you would prefer Gini, or maybe sometimes entropy, it depends. Okay? Next is splitter. So in splitter, what happens is that when you have numerical columns, how do you decide your splitting criteria? You check with every value. You split with every value and check where the information gain is the highest. Right? But sometimes, what can you do? You can have random, meaning your splitting criteria is decided randomly. This is also a method. The advantage of this is that it reduces your overfitting. Okay? So if someone asks you what is the advantage of random in splitter? Then you would say that it reduces overfitting. Because you choose the criteria randomly, your algorithm doesn't fit the training data as well, and because of that, you get consistent results on external data. Okay? If you choose best, there is a chance of overfitting. So I will show you by selecting Gini. On selecting best, the accuracy is 86, and if I make it random, the accuracy is coming out to be 86 again, and there will just be slight changes, see these are slight changes. Again, you try running it yourself and you will understand. In most cases, it doesn't make a huge difference. Okay? You have to, you have to remember this. If you want to reduce overfitting, you can choose random. But generally, no one does that. Okay? Next is max depth. We discussed this in great detail in the last video. If max depth is very high, like by default it is None, which means you are not stopping the decision tree. It will fully grow. So in that case, the chance of overfitting increases significantly. And if you make the max depth very low, like one. In that case, the chance of underfitting increases significantly. I will show you. Like right now it is zero here, so I have written the code such that zero means None. I will show you one. And you would see that when it's one, I am keeping everything else normal. Gini and best, and I ran this. See, this is my decision tree. Here it is. Just one split occurred. And clearly, this is a case of underfitting. And your accuracy is still okay here. But on many datasets, it will perform very poorly. Okay? If we increase this a bit, say to two, then your depth will be two. So, you run this. See, it reached around.9 and here is your decision tree with a depth of two. Okay? This is one, this is two. Okay? Similarly, you can see by increasing it further, let's say to five. So, it is happening at five levels. See, it's still giving an accuracy of.9. And this is your decision tree. Okay? This is your decision tree. Right? So, always remember about max depth. Although we discussed it in the last video as well. A very small value will give you underfitting. A very large value can give you overfitting. So, you have to find the right balance. Okay? I will set this back to zero. Okay? Let's move on to the next hyperparameter, which is min samples split. What happens here is, look, let me show you what actually happens; let's say I have kept it at two here and I ran it just now. So, what happens is that you initially had 375 rows. When the split occurred on them, 216 rows went to one side and 159 rows to the other. Okay? So, the splitting keeps happening. Then 216 was split again, so 20 came here. 196 came here. In the end, if you add them all up, it will be the same as it was in the beginning. Okay? So, what can we do now? Using our min samples split parameter, we can control that a split will only happen if there are at least this many number of rows left on that node. Let me show you. Like, let's say I set it to 100. Now, if there are fewer than 100 rows at any node, then no further splitting will happen there. It will stop right there. That will become the leaf node. Let me show you. Okay? I am setting it to zero here. Meaning I want to create a fully grown decision tree. But I have placed a restriction that if there are fewer than 100 rows, you will not do any further splitting. You will stop right there. Okay? So if I run this, you can see only this much of the tree was built. Okay? Because look, here it was 78, you won't split further than that. It was 71, you won't split further than that. It was 59, you won't split further than that. It was 137, you will split because it's more than 100, and it stopped at 72 and 65. So that is again one way of pruning your decision tree—cutting and stopping your decision tree. So again, you can understand that the more you increase the value of min sample split, the higher the chance of underfitting. And the more you decrease it, the higher the chance of overfitting. Okay? If I increase this value a lot. Suppose I make it 300. Suppose I made it 301 and ran it, then see, only this much is being formed. Because after 375, there is 216 here and 159 here, so obviously no more cuts can be made, so your decision tree ended right there. So you have to remember this, a higher value of 'min sample split' will give you underfitting and a lower value will give you overfitting. Okay? I hope you are understanding this part. Min sample split is understood, I am bringing it back to one. Next is min samples leaf. So here, when you come to a leaf node, you can set a criterion that if the leaf node doesn't have this many rows, you won't allow it to split. Let me show you. Let's say I made it 100. It's not happening for me. Made it 100, 101. Okay? And ran the algorithm. Uh, there is some bug in this. Last time also something like this happened. I made it 100 and clicked on run algorithm. And you can see, now there will be no more splits on this one. See, there can be no more splits on this and this. Because when you split and go down further from here, the leaf that will be formed can never have 100 of your rows. So your min sample split and min samples leaf work in kind of a similar way. If you increase the value of min samples leaf significantly, your decision tree starts to underfit. As is happening here, and if you decrease it a lot, it starts to overfit. Okay? Both are very similar. Try running it once and see. You will understand. Okay? The next one is max features. So what can you do? Sometimes you can also control how many columns you want to give to your decision tree to work with. Okay? So what happens is that the decision tree is built at every step. Let me show you. If I do three here and run this, then in this decision tree, you see it has split the criteria on column one here. Here it has done it on column two. Here it has done it on column one. So at every level, you have both features available. Both column one and column two. But if you want, you can restrict at any node that the decision trees will only get a given number of features. It won't get more than that. So if you are working on very high-dimensional data and overfitting is happening, then what you can do is, you can reduce the number of columns you are giving to the decision tree. So what will happen is, suppose you had 100 columns and you halved the max features, meaning you gave 50 columns; so now when the node goes to make its split, it won't go into 100 features to calculate information gain, it will only calculate it on the 50 it has. Okay? Now how will those 50 be decided? Randomly. It is decided randomly. Nobody controls that. Okay? And the whole idea of doing this is to reduce overfitting. Okay? So let me show you. I only have two columns. So I can either keep two or keep one. I have to give a minimum of one. I will show you by giving one. So if I show you by giving one, you can see this is the decision tree formed by giving one. And notice here that there won't actually be any difference. Meaning it happened on column one here. It happened on column one here too. It happened on column two here. Now you might say that you were saying only one column will be used. Yes, only one will be used. But it's being decided randomly, right? This node only had the option of one column. But when it did the random selection, column two came out. Okay? So this is what I am trying to say, that you are giving only one column at every node split, and that one column is being decided randomly. So it could be column one or column two. But it doesn't have the option for both. When the split happened at this point, the information gain was only calculated for column two. It was not calculated for column one. If you had set max_features such that all columns were used, then at every point, information gain would be calculated for every column, and you would split using the column with the maximum information gain. That is not happening here. Okay? So please make sure you understand this. The whole idea is to introduce some randomness. And what happens when randomness is introduced? The behavior on training data will be slightly worse, which helps in reducing overfitting. That is the whole idea. In fact, if you study Random Forest later, exactly this concept is used there. When you study that, you will realize that yes, this parameter exists in decision trees too. Okay? Okay, I am reverting this. Next is max_leaf_nodes. You can also control how many leaves or leaf nodes will be formed in your decision tree. For example, let's say I said that only two leaf nodes can be formed. No more than that can be formed. So now if I run this algorithm. You can see only two nodes were formed. If I put four here, then only four nodes will be formed. See, only four are being formed. If I put three or five, then five nodes will be formed. Only five leaf nodes will be formed. See, one, two, three, four, and five. Okay? So you can actually control how many leaf nodes are formed. Again, a higher value means overfitting, a lower value means underfitting. Okay? You can do this. Right? And the last one is min_impurity_decrease. So, what happens? You know that everything works on information gain. So, when you make a split, you have to decrease the Gini impurity or decrease the entropy. Right? You have to increase the information gain. Right? So, you can set a number stating that only if the impurity decreases by this minimum amount, then only will a split occur. Otherwise, no split will occur. Let's say I gave 0.1. I am saying that if splitting a node results in a minimum benefit of 0.1, only then perform the split. Otherwise, there is no point in splitting. So, look, if I run this, see, we got this. So, you can actually see by subtracting here. Here the Gini is 5, here the Gini is 351, and here it's 21, so if you subtract the weighted sum of these two from its Gini, that value will be greater than one, because if it wasn't greater than one, this split wouldn't have occurred. Right? So if I increase this further, let's say if I make it one, only one split occurred because after that, no split results in enough impurity decrease, so your algorithm stops right there. So again, you can understand that if you set its value very high, it will start underfitting. The tree will finish very quickly, and if you set its value very low, it will start overfitting because the tree will become too large. Right? So, I have put this tool online. Trust me, the best way to learn or rather get a feel for the hyperparameters is to practice on this tool. Trust me, I built this because I wanted to learn it myself, and after using it, I got a very intuitive feel for this entire thing. Right? So, decision tree hyperparameters are very important, guys. I’ll tell you why they are. Because random forests are built from decision trees. Bagging is done with decision trees. Gradient boosting is done with decision trees. And in all those places, you should know which decision tree hyperparameters to tune and what the results will be. So that is why you need to focus a little extra on decision trees. Right? So yeah, that's it. That's it for the video. I hope you liked it. And guys, if you liked the video, if you like the effort I'm trying to put in here, please consider subscribing. That would be great. It motivates me. Right? So yeah, that's it. Thanks for watching. We will meet in the next video.
+
+
+[00:00] Hello guys, welcome to my YouTube
+[00:02] channel. We are studying decision trees
+[00:04] . And so far we have learned many
+[00:06] things. Like how decision trees work?
+[00:08] What is the concept of entropy and Gini
+[00:10] ? How does information gain work? How
+[00:13] do you work with numerical features?
+[00:15] And many other things. Alright? Now
+[00:17] what are we going to do? We are going
+[00:21] to learn about all the hyperparameters
+[00:23] in the scikit-learn implementation of
+[00:24] decision trees. Alright? So, one thing
+[00:29] you might already know about decision
+[00:31] trees is that a decision tree is a
+[00:33] great algorithm, first of all. But it
+[00:36] has a tendency to overfit. Meaning, it
+[00:39] gives great results on training data,
+[00:41] but gives somewhat incorrect results on
+[00:43] external data, on new data, which we
+[00:45] call overfitting. Alright? Now, if you
+[00:48] want to reduce that overfitting, you
+[00:50] have many hyperparameters.
+[00:53] Hyperparameters mean tuning knobs that
+[00:55] you can tune to improve the performance
+[00:57] of your algorithm. Alright? So first of
+[01:00] all, I will show you which
+[01:01] hyperparameters you get in a decision
+[01:03] tree. After that, what will we do? We
+[01:06] will use a web application to change
+[01:08] the values of those hyperparameters and
+[01:10] see what impact it has on the decision
+[01:12] tree. Alright? And along the way, we
+[01:15] will learn how to tune them. Alright?
+[01:18] So let's start. So if you remember when
+[01:22] we were reading about the theory of
+[01:23] decision trees, we learned that a very
+[01:25] important hyperparameter is the depth
+[01:27] of the tree. Okay? Like here you can
+[01:32] see we have a tree whose depth is three
+[01:34] . Now this depth of tree, or it is also
+[01:38] called max depth. This hyperparameter
+[01:42] is the main thing that causes
+[01:43] overfitting or underfitting. Okay? So
+[01:47] what we will do is look at both these
+[01:49] cases one by one. Okay? So let's start
+[01:52] with overfitting. So what is
+[01:54] overfitting? So, generally speaking, if
+[01:57] you trained a model and it is giving
+[01:59] very good accuracy and results on the
+[02:01] training data. But it is performing
+[02:04] poorly on the test data. It's a simple
+[02:06] case of overfitting. Right? Your model
+[02:08] has memorized the data. And whenever a
+[02:10] new question comes in the exam, it is
+[02:12] unable to perform. Okay? So, let me
+[02:15] give you an example. Let's say we
+[02:17] initially had 200 rows in the dataset.
+[02:20] We divided it into two datasets based
+[02:22] on the splitting criteria of a
+[02:24] particular column. D1 and D2, and you
+[02:27] can see there are 140 data rows in D1
+[02:29] and 60 in D2. Okay? Now, let's assume
+[02:32] the 60, which is our second dataset D2,
+[02:34] becomes a leaf node. So, we are not
+[02:36] performing any further splitting on it.
+[02:38] But we are performing splitting on the
+[02:40] one with 140. Now we have 100 and 40.
+[02:42] Let's again assume that the 40 is also
+[02:44] a leaf node. Continuing this, let's say
+[02:48] we reach a point where we finally get a
+[02:50] leaf node that now contains only two
+[02:52] rows. Right? Which means that if you
+[02:58] are coming from top to bottom and
+[02:59] reaching this particular node, your
+[03:01] entire decision-making is depending
+[03:02] only on these two points. Right? Let's
+[03:08] assume both these points are 'No'.
+[03:10] Right? Meaning, this is a leaf node and
+[03:13] both points are 'No'. Now, this means
+[03:16] any new point that satisfies these
+[03:18] conditions and enters here, then
+[03:20] satisfies this and enters here,
+[03:21] eventually reaching this, means you
+[03:23] will label it as 'No' because that is
+[03:25] the only data you have. But what if
+[03:30] these two points turn out to be noisy,
+[03:32] or they are outliers, or erroneous data
+[03:34] ? Right? This means that the hard work
+[03:39] you put in, creating all those if-else
+[03:41] logics, is eventually relying on two
+[03:42] points that you couldn't trust in the
+[03:44] first place. So, your entire system
+[03:48] will fail when you give it new data.
+[03:50] This system will work correctly if you
+[03:52] are working on training data. But
+[03:54] whenever you provide new data, test
+[03:56] data, this will not perform well. Okay?
+[03:59] So, this is a clear-cut case of
+[04:01] overfitting. Okay? And when you use the
+[04:06] Decision Tree algorithm, if you have
+[04:08] set the max depth parameter to default
+[04:10] or 'None' yourself, then your algorithm
+[04:12] will keep working until it extracts
+[04:13] every leaf node. And in that particular
+[04:18] case, there is a huge chance that this
+[04:20] kind of overfitting will happen. Okay?
+[04:23] In fact, let me show you this entire
+[04:25] thing in a geometrical scenario, or let
+[04:27] me give you its geometric intuition. So
+[04:29] , the same thing. Okay? So, you can see
+[04:33] we have plotted our data on two axes.
+[04:37] Right? Now, what do decision trees
+[04:39] basically do? We already discussed
+[04:41] during the geometric intuition that
+[04:42] they basically split your data by
+[04:44] drawing lines parallel to the axes, or
+[04:46] they are also called hyperplanes in
+[04:48] higher dimensions. Right? So, let's say
+[04:52] in our data, we made this split based
+[04:54] on the x-axis. Let's say we made
+[04:57] another split, again based on the
+[04:59] x-axis. Right? Then we made another
+[05:03] split based on the y-axis. Right?
+[05:05] Similarly, we keep doing this. And you
+[05:09] can see that as long as we aren't
+[05:10] stopped, we keep splitting until the
+[05:12] very end. Right? parallel to the axes.
+[05:15] Now, focus on
+[05:18] this arrow. And you will see that this
+[05:21] green point, although all the points
+[05:23] around it are red. But because we did
+[05:26] so much splitting. We applied so many
+[05:28] if-else conditions that eventually, we
+[05:30] cut up our entire data to make this.
+[05:32] Like, this is the data now. Okay? Now
+[05:35] imagine, someday, a new query point
+[05:37] falls into this region. Then obviously,
+[05:40] because of this box, we have labeled
+[05:42] this entire region as yes, green. Right
+[05:45] ? So, the new query point will also be
+[05:47] labeled as green. But you can totally
+[05:50] see what it should have been. Red.
+[05:52] Right? It's like, if you have seen the
+[05:55] KNN algorithm, then there, if k = 1, if
+[05:57] you are considering only one nearest
+[05:59] neighbor, the same problem occurred
+[06:01] there too. Okay? So, I hope you are
+[06:03] starting to understand how overfitting
+[06:05] happens in decision trees. Okay? So now
+[06:08] , let me show you how overfit—I'm
+[06:10] sorry. Now let me show you how
+[06:12] underfitting takes place in a decision
+[06:14] tree algorithm. So let's say now we
+[06:18] pass the value one to the max depth
+[06:20] parameter, which basically means we
+[06:21] will only make one split. Right? So let
+[06:24] me show you what the scenario is. We
+[06:26] have 200 points again, and we have 100
+[06:28] 'yes' points and 100 'no' points. Let's
+[06:31] say I made a split based on a
+[06:33] particular column and two datasets were
+[06:34] formed. So this is the first one. It
+[06:36] has 140, 80 'yes' and 60 'no'. And the
+[06:39] second one has 60, 20 'yes' and 40 'no'
+[06:42] . Right? Now we aren't making any more
+[06:44] splits. We are not creating leaf nodes
+[06:46] because I have explicitly told my
+[06:47] algorithm that I only want a max depth
+[06:49] of one. Right? Now imagine a new query
+[06:53] point comes and it satisfies this
+[06:55] particular criteria. It doesn't go into
+[06:57] this one, it goes into this one. Now,
+[06:59] how is the decision-making happening?
+[07:00] You are simply looking at the fact that
+[07:02] here, the number of 'yes' is greater
+[07:04] than the number of 'no'. So you will
+[07:07] automatically assign the yes label to
+[07:09] XQ. Right? So this is an example of
+[07:13] underfitting. Meaning you didn't go
+[07:15] deep, you didn't understand the data
+[07:17] well, and you just confidently said, "
+[07:19] No, no, it'll work out, we'll see." Its
+[07:21] geometric intuition will be the same
+[07:23] scenario again. You plotted your points
+[07:26] and just made one split. Right? And
+[07:29] confidently just said, look, all the
+[07:30] points on this side are no, and all the
+[07:32] points on the right-hand side are your
+[07:34] yes. Now this is a case of underfitting
+[07:37] . Okay? So now you just have to make
+[07:42] sure that you neither underfit nor
+[07:43] overfit. And how will you handle this?
+[07:48] By tuning the parameter, the
+[07:50] hyperparameter max_depth. If you set
+[07:52] the max_depth value too low, it will
+[07:55] underfit. If you set it too high, or
+[07:57] don't set it at all, there are chances
+[07:58] of overfitting. So I will tell you how
+[08:02] you set the optimum parameter. But
+[08:05] before that, I would like to show you a
+[08:06] real-world example. Where you will
+[08:09] actually be able to see underfitting
+[08:11] and overfitting happening. So this is
+[08:13] the code. I just imported the libraries
+[08:16] here. And I hope you remember meshgrids
+[08:18] from the kNN lecture. So I didn't do
+[08:21] much. I have formed a meshgrid. And I
+[08:24] sent every point of that meshgrid into
+[08:26] my classifier. So it will either say
+[08:28] yes or it will say no. And by the way,
+[08:30] we are still working on that Social
+[08:32] Networking Ads dataset. Okay? So this
+[08:34] is my function. Now this function only
+[08:37] needs one parameter, max_depth. Okay?
+[08:41] So see, if I send the max_depth value
+[08:43] as None to the analyzer function, which
+[08:46] means I am telling the algorithm that I
+[08:48] am not setting any value for max_depth.
+[08:52] Do as much as you want to do. Extract
+[08:55] all the leaf nodes. So you will notice
+[08:58] that we are getting a graph like this.
+[09:00] You can see that this is a clear-cut
+[09:02] case of overfitting. Right? Meaning it
+[09:03] is working very well on the training
+[09:05] data. But it won't work correctly on
+[09:08] the test data. So you can totally see
+[09:12] this blue point, like it's totally
+[09:14] surrounded by yellow points, yet it is
+[09:16] classified as a blue point. This means
+[09:19] if any point falls in this region in
+[09:21] the future, we will call it blue. But
+[09:23] what should it have been? It should
+[09:25] have been labeled as yellow. Similarly,
+[09:28] this region is yellow on all sides, but
+[09:30] because of these three points, we
+[09:32] labeled this whole region as blue. So,
+[09:34] the same goes for these yellow points.
+[09:36] Right? So you can clearly see that
+[09:39] since we didn't provide any max_depth.
+[09:41] The algorithm kept generating if-else
+[09:43] statements. It kept cutting the
+[09:45] data further. It kept cutting it into
+[09:48] very small, into multiple smaller
+[09:50] regions. And because of that, the
+[09:52] chance of overfitting is very high.
+[09:54] Right? Now let me show you what happens
+[09:57] if I send just one, meaning I only want
+[09:59] one split? See, here it is. This is a
+[10:04] clear-cut case of underfitting. Because
+[10:08] you can clearly see there are so many
+[10:10] yellow points on the left side and yet
+[10:11] they are labeled as blue points and
+[10:13] vice versa, right? If you make one more
+[10:17] split, let's say try two, look at this,
+[10:20] now the splitting looks like this. It
+[10:22] still doesn't look like an optimum case
+[10:24] . If we do three, there still isn't
+[10:28] much of a change. Let's do four. Yeah,
+[10:35] this seems much better. I mean, this
+[10:38] seems like an optimum value, because
+[10:40] there are these three-four points but
+[10:41] they are very sparse, so it considered
+[10:43] them yellow, and in other places where
+[10:45] it finds higher density of points in a
+[10:47] region, it is labeling them correctly.
+[10:50] Let's try one more, five. And even this
+[10:53] seems good, right? It's just that for
+[10:55] these few points, overfitting has
+[10:57] started to appear. So again, we can try
+[10:58] doing it manually to see if this is
+[11:00] right, but imagine if it's big data,
+[11:02] and this is just 2D. Meaning we are
+[11:04] able to see it easily. What if there
+[11:05] are tens of columns, then how would you
+[11:07] do it? Right? So we will discuss the
+[11:10] technique in the next video, how to
+[11:12] select an optimum value for max_depth.
+[11:16] But for now, it would be great if you
+[11:18] try running this same code on your
+[11:20] machine once. It would give you a lot
+[11:22] of perspective about decision trees and
+[11:24] how they work. So guys, this is the
+[11:27] documentation for Scikit-learn's
+[11:29] decision tree implementation and you
+[11:30] can see there are a lot of parameters
+[11:32] here. Criterion, splitter, max depth,
+[11:36] min sample split, minimum sample leaf;
+[11:39] there are a lot of examples for you. We
+[11:43] are not going to look at everything
+[11:44] because, to be honest, you don't use
+[11:46] everything. I will tell you about the
+[11:50] most relevant eight or nine
+[11:51] hyperparameters. Okay? So I have
+[11:54] created this web application, the link
+[11:56] for which I will put in the description
+[11:58] . You can go ahead and open this, and
+[12:00] you can also perform your own
+[12:02] experimentations, just like I am about
+[12:03] to show you. So here you have a dataset
+[12:06] . It's a toy dataset that I have
+[12:09] generated myself. And you can see it's
+[12:13] a non-linear dataset with points in two
+[12:15] U-shaped classes. And I want to perform
+[12:19] decision tree classification on this.
+[12:21] Right? So now, I have got all the
+[12:26] options here that I can tune to change
+[12:28] the performance or behavior of my
+[12:29] decision tree algorithm. So you can see
+[12:34] , the things here, I have created
+[12:36] options for them: criteria, splitter,
+[12:39] max depth, min samples split. You can
+[12:42] see all of them are present here.
+[12:43] Criteria, splitter, max depth, min
+[12:46] samples split, I have set all of this
+[12:48] up here. Okay, now what I will do is
+[12:51] explain the impact of each of these on
+[12:53] the algorithm one by one. Right? Let's
+[12:55] start with criteria. So you already
+[12:57] know you can make a decision tree work
+[12:59] in two ways. One is entropy, the second
+[13:03] is Gini, Gini index, Gini impurity,
+[13:05] whatever you want to call it. Right?
+[13:08] Now, to be honest, there isn't much
+[13:10] difference between the two. I will show
+[13:12] you. If I, let's say, keep everything
+[13:14] default. In fact, first, I will reload
+[13:16] it once. So that all default settings
+[13:18] are applied. And if I train my model
+[13:21] keeping it at Gini. You would see that
+[13:24] this is your output. This is your
+[13:27] output. Okay? In fact, I will bring it
+[13:29] over here. This is the output. You can
+[13:32] see clearly that my decision tree is
+[13:34] overfitting. Because you know, you can
+[13:37] see these specific regions that are not
+[13:39] very general. They are not capturing
+[13:41] the pattern of the data. They are doing
+[13:43] a little bit, but there are very small
+[13:44] ones, like this blue region here, which
+[13:46] shouldn't have been there. This should
+[13:47] be an orange region. But it is
+[13:49] happening. So here the accuracy is
+[13:52] coming out to be 86, but what if I do
+[13:54] this? If I select entropy instead of
+[13:57] Gini and run this code again. You would
+[14:00] see there is a very slight difference.
+[14:02] You can also try it. There is a very
+[14:04] slight difference with entropy. But the
+[14:06] accuracy, in fact, the accuracy has
+[14:08] actually decreased. It became 83%. It
+[14:11] became 83%. Right? So it doesn't vary
+[14:14] much, and generally speaking, Gini
+[14:15] provides better results. From all the
+[14:18] datasets I have checked. Gini will give
+[14:20] you better results. And in this web app
+[14:22] , you will get one more thing. I am
+[14:24] also showing you the entire tree
+[14:26] printed out. This is the entire tree.
+[14:28] See, this is the entire tree that has
+[14:30] been formed. Because we haven't
+[14:32] specified the max depth. This is a
+[14:34] fully grown tree. So it will clearly
+[14:36] overfit. Okay? So between entropy and
+[14:39] Gini, generally speaking, you would
+[14:41] prefer Gini, or maybe sometimes entropy
+[14:44] , it depends. Okay? Next is splitter.
+[14:48] So in splitter, what happens is that
+[14:50] when you have numerical columns, how do
+[14:52] you decide your splitting criteria? You
+[14:55] check with every value. You split with
+[14:59] every value and check where the
+[15:00] information gain is the highest. Right?
+[15:03] But sometimes, what can you do? You can
+[15:06] have random, meaning your splitting
+[15:08] criteria is decided randomly. This is
+[15:10] also a method. The advantage of this is
+[15:12] that it reduces your overfitting. Okay?
+[15:15] So if someone asks you what is the
+[15:16] advantage of random in splitter? Then
+[15:18] you would say that it reduces
+[15:20] overfitting. Because you choose the
+[15:22] criteria randomly, your algorithm
+[15:23] doesn't fit the training data as well,
+[15:25] and because of that, you get consistent
+[15:27] results on external data. Okay? If you
+[15:30] choose best, there is a chance of
+[15:32] overfitting. So I will show you by
+[15:33] selecting Gini. On selecting best, the
+[15:37] accuracy is 86, and if I make it random
+[15:40] , the accuracy is coming out to be 86
+[15:42] again, and there will just be slight
+[15:44] changes, see these are slight changes.
+[15:48] Again, you try running it yourself and
+[15:50] you will understand. In most cases, it
+[15:52] doesn't make a huge difference. Okay?
+[15:54] You have to, you have to remember this.
+[15:56] If you want to reduce overfitting, you
+[15:58] can choose random. But generally, no
+[16:00] one does that. Okay? Next is max depth.
+[16:02] We discussed this in great detail in
+[16:04] the last video. If max depth is very
+[16:07] high, like by default it is None, which
+[16:09] means you are not stopping the decision
+[16:11] tree. It will fully grow. So in that
+[16:14] case, the chance of overfitting
+[16:16] increases significantly. And if you
+[16:17] make the max depth very low, like one.
+[16:19] In that case, the chance of
+[16:20] underfitting increases significantly. I
+[16:22] will show you. Like right now it is
+[16:24] zero here, so I have written the code
+[16:26] such that zero means None. I will show
+[16:27] you one. And you would see that when
+[16:30] it's one, I am keeping everything else
+[16:32] normal. Gini and best, and I ran this.
+[16:36] See, this is my decision tree. Here it
+[16:39] is. Just one split occurred. And
+[16:41] clearly, this is a case of underfitting
+[16:43] . And your accuracy is still okay here.
+[16:46] But on many datasets, it will perform
+[16:48] very poorly. Okay? If we increase this
+[16:50] a bit, say to two, then your depth will
+[16:53] be two. So, you run this. See, it
+[16:57] reached around.9 and here is your
+[16:59] decision tree with a depth of two. Okay
+[17:01] ? This is one, this is two. Okay?
+[17:04] Similarly, you can see by increasing it
+[17:06] further, let's say to five. So, it is
+[17:08] happening at five levels. See, it's
+[17:11] still giving an accuracy of.9. And
+[17:13] this is your decision tree. Okay? This
+[17:15] is your decision tree. Right? So,
+[17:17] always remember about max depth.
+[17:19] Although we discussed it in the last
+[17:20] video as well. A very small value will
+[17:22] give you underfitting. A very large
+[17:24] value can give you overfitting. So, you
+[17:26] have to find the right balance. Okay? I
+[17:29] will set this back to zero. Okay? Let's
+[17:33] move on to the next hyperparameter,
+[17:35] which is min samples split. What
+[17:38] happens here is, look, let me show you
+[17:40] what actually happens; let's say I have
+[17:42] kept it at two here and I ran it just
+[17:44] now. So, what happens is that you
+[17:47] initially had 375 rows. When the split
+[17:51] occurred on them, 216 rows went to one
+[17:53] side and 159 rows to the other. Okay?
+[17:56] So, the splitting keeps happening. Then
+[17:59] 216 was split again, so 20 came here.
+[18:01] 196 came here. In the end, if you add
+[18:04] them all up, it will be the same as it
+[18:06] was in the beginning. Okay? So, what
+[18:08] can we do now? Using our min samples
+[18:12] split parameter, we can control that a
+[18:14] split will only happen if there are at
+[18:16] least this many number of rows left on
+[18:17] that node. Let me show you. Like, let's
+[18:23] say I set it to 100. Now, if there are
+[18:27] fewer than 100 rows at any node, then
+[18:29] no further splitting will happen there.
+[18:32] It will stop right there. That will
+[18:34] become the leaf node. Let me show you.
+[18:36] Okay? I am setting it to zero here.
+[18:38] Meaning I want to create a fully grown
+[18:39] decision tree. But I have placed a
+[18:42] restriction that if there are fewer
+[18:44] than 100 rows, you will not do any
+[18:45] further splitting. You will stop right
+[18:48] there. Okay? So if I run this, you can
+[18:51] see only this much of the tree was
+[18:53] built. Okay? Because look, here it was
+[18:57] 78, you won't split further than that.
+[18:59] It was 71, you won't split further than
+[19:01] that. It was 59, you won't split
+[19:03] further than that. It was 137, you will
+[19:05] split because it's more than 100, and
+[19:08] it stopped at 72 and 65. So that is
+[19:10] again one way of pruning your decision
+[19:12] tree—cutting and stopping your
+[19:14] decision tree. So again, you can
+[19:16] understand that the more you increase
+[19:18] the value of min sample split, the
+[19:20] higher the chance of underfitting. And
+[19:22] the more you decrease it, the higher
+[19:24] the chance of overfitting. Okay? If I
+[19:26] increase this value a lot. Suppose I
+[19:29] make it 300. Suppose I made it 301 and
+[19:33] ran it, then see, only this much is
+[19:35] being formed. Because after 375, there
+[19:38] is 216 here and 159 here, so obviously
+[19:41] no more cuts can be made, so your
+[19:43] decision tree ended right there. So you
+[19:46] have to remember this, a higher value
+[19:48] of 'min sample split' will give you
+[19:50] underfitting and a lower value will
+[19:51] give you overfitting. Okay? I hope you
+[19:55] are understanding this part. Min sample
+[19:57] split is understood, I am bringing it
+[19:59] back to one. Next is min samples leaf.
+[20:06] So here, when you come to a leaf node,
+[20:08] you can set a criterion that if the
+[20:10] leaf node doesn't have this many rows,
+[20:12] you won't allow it to split. Let me
+[20:17] show you. Let's say I made it 100. It's
+[20:24] not happening for me. Made it 100, 101.
+[20:27] Okay? And ran the algorithm. Uh, there
+[20:31] is some bug in this. Last time also
+[20:33] something like this happened. I made it
+[20:35] 100 and clicked on run algorithm. And
+[20:40] you can see, now there will be no more
+[20:42] splits on this one. See, there can be
+[20:45] no more splits on this and this.
+[20:51] Because when you split and go down
+[20:53] further from here, the leaf that will
+[20:54] be formed can never have 100 of your
+[20:56] rows. So your min sample split and min
+[21:03] samples leaf work in kind of a similar
+[21:04] way. If you increase the value of min
+[21:08] samples leaf significantly, your
+[21:10] decision tree starts to underfit. As is
+[21:12] happening here, and if you decrease it
+[21:14] a lot, it starts to overfit. Okay? Both
+[21:17] are very similar. Try running it once
+[21:18] and see. You will understand. Okay? The
+[21:22] next one is max features. So what can
+[21:26] you do? Sometimes you can also control
+[21:29] how many columns you want to give to
+[21:31] your decision tree to work with. Okay?
+[21:34] So what happens is that the decision
+[21:36] tree is built at every step. Let me
+[21:38] show you. If I do three here and run
+[21:40] this, then in this decision tree, you
+[21:42] see it has split the criteria on column
+[21:44] one here. Here it has done it on column
+[21:47] two. Here it has done it on column one.
+[21:49] So at every level, you have both
+[21:51] features available. Both column one and
+[21:53] column two. But if you want, you can
+[21:56] restrict at any node that the decision
+[21:58] trees will only get a given number of
+[22:00] features. It won't get more than that.
+[22:03] So if you are working on very
+[22:04] high-dimensional data and overfitting
+[22:06] is happening, then what you can do is,
+[22:08] you can reduce the number of columns
+[22:10] you are giving to the decision tree. So
+[22:14] what will happen is, suppose you had
+[22:16] 100 columns and you halved the max
+[22:18] features, meaning you gave 50 columns;
+[22:20] so now when the node goes to make its
+[22:22] split, it won't go into 100 features to
+[22:24] calculate information gain, it will
+[22:26] only calculate it on the 50 it has.
+[22:30] Okay? Now how will those 50 be decided?
+[22:32] Randomly. It is decided randomly.
+[22:35] Nobody controls that. Okay? And the
+[22:37] whole idea of doing this is to reduce
+[22:39] overfitting. Okay? So let me show you.
+[22:41] I only have two columns. So I can
+[22:43] either keep two or keep one. I have to
+[22:45] give a minimum of one. I will show you
+[22:46] by giving one. So if I show you by
+[22:50] giving one, you can see this is the
+[22:51] decision tree formed by giving one. And
+[22:55] notice here that there won't actually
+[22:57] be any difference. Meaning it happened
+[22:59] on column one here. It happened on
+[23:00] column one here too. It happened on
+[23:02] column two here. Now you might say that
+[23:04] you were saying only one column will be
+[23:06] used. Yes, only one will be used. But
+[23:08] it's being decided randomly, right?
+[23:10] This node only had the option of one
+[23:12] column. But when it did the random
+[23:14] selection, column two came out. Okay?
+[23:16] So this is what I am trying to say,
+[23:17] that you are giving only one column at
+[23:19] every node split, and that one column
+[23:21] is being decided randomly. So it could
+[23:23] be column one or column two. But it
+[23:24] doesn't have the option for both. When
+[23:26] the split happened at this point, the
+[23:28] information gain was only calculated
+[23:30] for column two. It was not calculated
+[23:32] for column one. If you had set
+[23:33] max_features such that all columns were
+[23:35] used, then at every point, information
+[23:37] gain would be calculated for every
+[23:39] column, and you would split using the
+[23:41] column with the maximum information
+[23:43] gain. That is not happening here. Okay?
+[23:45] So please make sure you understand this
+[23:47] . The whole idea is to introduce some
+[23:49] randomness. And what happens when
+[23:51] randomness is introduced? The behavior
+[23:52] on training data will be slightly worse
+[23:54] , which helps in reducing overfitting.
+[23:56] That is the whole idea. In fact, if you
+[23:58] study Random Forest later, exactly this
+[24:00] concept is used there. When you study
+[24:02] that, you will realize that yes, this
+[24:04] parameter exists in decision trees too.
+[24:05] Okay? Okay, I am reverting this. Next
+[24:09] is max_leaf_nodes. You can also control
+[24:13] how many leaves or leaf nodes will be
+[24:14] formed in your decision tree. For
+[24:16] example, let's say I said that only two
+[24:18] leaf nodes can be formed. No more than
+[24:20] that can be formed. So now if I run
+[24:22] this algorithm. You can see only two
+[24:25] nodes were formed. If I put four here,
+[24:28] then only four nodes will be formed.
+[24:31] See, only four are being formed. If I
+[24:34] put three or five, then five nodes will
+[24:36] be formed. Only five leaf nodes will be
+[24:39] formed. See, one, two, three, four, and
+[24:42] five. Okay? So you can actually control
+[24:44] how many leaf nodes are formed. Again,
+[24:46] a higher value means overfitting, a
+[24:48] lower value means underfitting. Okay?
+[24:51] You can do this. Right? And the last
+[24:53] one is min_impurity_decrease. So, what
+[24:56] happens? You know that everything works
+[24:58] on information gain. So, when you make
+[25:01] a split, you have to decrease the Gini
+[25:03] impurity or decrease the entropy. Right
+[25:06] ? You have to increase the information
+[25:09] gain. Right? So, you can set a number
+[25:13] stating that only if the impurity
+[25:14] decreases by this minimum amount, then
+[25:16] only will a split occur. Otherwise, no
+[25:19] split will occur. Let's say I gave 0.1.
+[25:25] I am saying that if splitting a node
+[25:27] results in a minimum benefit of 0.1,
+[25:29] only then perform the split. Otherwise,
+[25:32] there is no point in splitting. So,
+[25:34] look, if I run this, see, we got this.
+[25:37] So, you can actually see by subtracting
+[25:39] here. Here the Gini is 5, here the Gini
+[25:43] is 351, and here it's 21, so if you
+[25:45] subtract the weighted sum of these two
+[25:48] from its Gini, that value will be
+[25:49] greater than one, because if it wasn't
+[25:51] greater than one, this split wouldn't
+[25:54] have occurred. Right? So if I increase
+[25:59] this further, let's say if I make it
+[26:00] one, only one split occurred because
+[26:06] after that, no split results in enough
+[26:08] impurity decrease, so your algorithm
+[26:10] stops right there. So again, you can
+[26:13] understand that if you set its value
+[26:14] very high, it will start underfitting.
+[26:16] The tree will finish very quickly, and
+[26:18] if you set its value very low, it will
+[26:20] start overfitting because the tree will
+[26:22] become too large. Right? So, I have put
+[26:24] this tool online. Trust me, the best
+[26:28] way to learn or rather get a feel for
+[26:30] the hyperparameters is to practice on
+[26:32] this tool. Trust me, I built this
+[26:36] because I wanted to learn it myself,
+[26:38] and after using it, I got a very
+[26:40] intuitive feel for this entire thing.
+[26:42] Right? So, decision tree
+[26:44] hyperparameters are very important,
+[26:46] guys. I’ll tell you why they are.
+[26:47] Because random forests are built from
+[26:49] decision trees. Bagging is done with
+[26:50] decision trees. Gradient boosting is
+[26:52] done with decision trees. And in all
+[26:54] those places, you should know which
+[26:55] decision tree hyperparameters to tune
+[26:57] and what the results will be. So that
+[27:00] is why you need to focus a little extra
+[27:01] on decision trees. Right? So yeah,
+[27:04] that's it. That's it for the video. I
+[27:07] hope you liked it. And guys, if you
+[27:09] liked the video, if you like the effort
+[27:11] I'm trying to put in here, please
+[27:13] consider subscribing. That would be
+[27:16] great. It motivates me. Right? So yeah,
+[27:18] that's it. Thanks for watching. We will
+[27:20] meet in the next video.

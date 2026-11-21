@@ -1,0 +1,634 @@
+# 5 Key Points - Ridge Regression | Part 4 | Regularized Linear Models
+# https://www.youtube.com/watch?v=8osKeShYVRQ
+
+Hi guys, welcome to my YouTube channel. We're studying regression, and we've covered rich regression in great detail. Today, we'll be doing one last video regarding rich regression. Okay? So, in this video, I'm going to talk about five key understandings that you should take away from rich regression. So, we know what we're doing—how to code? How to use SciKitLearn code—but we often miss the core results and the understandings we need to achieve. So, I've made a separate video for this. I'll discuss five points with you regarding rich regression. After that, if you watch this video, I don't think you'll ever have any doubts about rich regression. Okay? So, let's start the video. So, you already know that rich regression means adding something to your loss function. We'll discuss what we'll add now. And because of that addition, regularization occurs. Regularization means overfitting is reduced. The value of your coefficients decreases. I even proved to you mathematically why this happens. So, in short, this is what happens. This is your original loss function, and you add this term to it. This term is nothing but lambda W 1² w 2² dot dot wn². Your coefficients will be as many as you have input columns. And you also call this term the shrinkage coefficient. By adding this shrinkage coefficient, your changes begin to occur, and your overfitting begins to decrease. This is the understanding of this. Okay? Now, let me discuss five things with you, which I may or may not have discussed before. But it was important to discuss them separately once. Okay? So let's start with the first understanding. The first understanding is that after applying rich regression, you can treat all these understandings as interview questions. Someone might ask you this question. This could be the first question: How are the coefficients affected? Meaning, if you apply rich regression, what effect does it have on the corresponding coefficients of all your input columns? As you increase the value of lambda, so lambda, as you know, can vary from zero to positive infinity. So, zero means applying simple linear regression. Okay? So, think about it: if you make lambda zero here, regularization will not happen, and you will be working for linear regression. So if you keep increasing lambda from zero to a very large number, you might be asked in an interview, what difference does it make to all your coefficients? The answer is, all the coefficients shrink, they decrease, toward zero. Right? But they never reach zero. They will get very close to zero, but they will never reach zero. Let me show you this using a graph. So, I plotted this graph on the loaded diabetes data set. So, I imported it first and converted it into a data frame. And in this data frame, you can see, we have these many input columns, and this is our target column. So, I did a train-test split, and then I applied rich regression on it for four different values of lambda. Once with zero, once with 10, once with 100, and once with 1000. So I gradually increased the value of lambda and stored the coefficients each time. Okay? And then I printed it using this graph. So you can see this is the output. Now you will say there isn't much difference. It's similar. For example, look at alpha = 0, if you notice carefully, this scale of y is minus 750 to -750, the coefficients are still in the range of 750. But as soon as you changed it from 0 to 10, you can see your y axis shrinks to the range of 60 to -40, and all your bars are now between 60 and -40. This means your coefficient is shrinking. Okay? We shrunk it further to 100, so you can see that it now falls in the range of 8 to -4, and then from 100 to 1000 it falls in the range of 8 to -4. So as soon as you did 1000, you can see all of these coefficients. What are all these coefficients? Each time it is talking about a particular coefficient. For example, this first time it is talking about the age coefficient. The second time it is talking about the sex coefficient. And so on. Okay? And you can see all of these coefficients after the lambda value of 1000 they are very close to zero. That's what I was telling you, if anyone asks you in an interview, tell me what will happen to the coefficients if the lambda value is made very large? This should be your answer. They will all become very small, shrink, and their values will be very close to zero, but not zero. Okay? None of these terms are going to be zero. You can see that none of the terms are going to be zero. The sex one is still a little close, but it is not zero. In rich regression, you always have to remember that the value of your coefficients is not zero. So that is the first understanding I want you to grasp regarding rich regression. Okay? Now let's move on to the second question and the second understanding. So the question here is what are the large coefficients? Suppose you have x1, x2, x3, and y. This is your data, and when you apply linear regression, normal linear regression, to it, you find that the value of w1 is 1000, the value of w2 is 10, and the value of w3 is one. This means that for calculating your y value, x1 is the subsample. w2 is the comment from that subsample, and I'm sorry, x2 is the second-most important comment, and x3 is the least important. Now, the question is, when you apply regression and you set the value of lambda very high or keep increasing it toward infinity, how will all these coefficients decrease? Right? So, the question is, what will happen if a coefficient is very high? What will happen if a coefficient is very low? So, the answer is that the larger the coefficient, like here, 1000, the faster it decreases. Understand this: if a particular coefficient is very high, it will decrease more rapidly in comparison to a coefficient that is not as large. Right? This is a very important thing that you need to understand. Let me show you again with the help of a graph. So I've taken some alphas from zero to 10,000 and I'm storing all the coefficients in the same data set. And you can see that all the coefficients here were very large. For example, look at this coefficient 516, it decreased to 07. Okay? You can see that I'm increasing the alpha value here and I've added what's happening with each particular coefficient to this data frame. Similarly, look at this 561, it's also going down a lot. Look at -895, it's also going down a lot. Okay? The edges that were smaller, like age, are okay. I mean, they didn't decrease that much. But the ones that were larger, they decreased very strongly. Okay? You can also convey this same information through a graph, which I've created here. Let me show you that graph. This is the graph. You can see some coefficients here. For example, this yellow one is the coefficient. This is our s5. Okay? So what was the initial value of s5? 861, it was quite large. And look at how rapidly lambda is increasing here on the x-axis. As you increase the value of lambda, this coefficient rapidly decreases and becomes equal to all the others. Similarly, if you look at this purple one, the purple one is s1, which is very high in the negative. 895, if you look at this one too, it decreases rapidly with lambda and moves towards the black line. What is this black line? This thick black line is the zero line. It is the line where the coefficient reaches zero. And you can see that none of your coefficients are going to be zero. They're all converging toward zero. But they will never reach the zero line. They will always be close to zero. You can see that here, when I applied lambda to 10,000, all the values were close to zero. But none became zero. Okay? These are two points you should always remember: First, as you increase lambda, the value of your coefficients decreases and approaches zero. Second, they never reach zero. And third, larger values have a greater impact of regularization compared to those coefficients whose values are not as large. Okay? I guess you understand both these points clearly. The next key point we'll discuss is the effect of regularization on bias and variance. The topic we covered before we started regularization was the bias-variance tradeoff. There, I told you that there are three techniques used in machine learning to improve the bias-variance tradeoff. And one of them was regularization, which we're currently studying. Okay? So, it should be absolutely essential that you know what happens to the bias and variance of a model when regularization is applied. Okay? So, to explain this, I'll show you this diagram. I showed you this diagram in the first video about rich regression. Here's a non-linear data set, on which I've fitted a red model, if you can see, and the degree of this model is 16. It's a polynomial. Okay? And you can see that it's trying very hard to go through every point in this data set. Meaning, it's showing a tendency toward overfitting. Okay? Overfitting means the bias is low. This means you're getting good results on the training data, but unfortunately, the variance is high. Now, as you increase the value of alpha, I've created two more curves. The green curve has an alpha value of 20. And you can see that because of that value, your model's tendency to overfit every point has reduced slightly. And the generalization error has improved. This means you're making slightly more mistakes on all two training data sets, but doing so may improve your results on the test data, meaning the variance has reduced. So, in the green case, you can clearly see that you've slightly increased the bias but reduced the variance. Right? And there's a blue line where the alpha value is very high, 200. You can see that now it's starting to underfit this data. This model has started to underfit this data. Which means that now the result will neither be good on the training data nor on the test data. And this is a case of underfitting. Meaning, both your bias and variance have become high. Okay? So, in short, the idea is that both bias and variance depend on the value of your lambda. If you keep the value of lambda very small, close to zero, your bias will decrease. Because your model is overfitting, and your variance will increase. Okay? If you increase the value of lambda too much, then your model is showing a tendency to underfit, so the bias will increase. Underfitting will occur. Not exactly underfitting. For very large values, overfitting occurs, and your variance will start decreasing. So, if you plot this on a graph, where you have lambda on the x-axis, starting from zero and it is a very large value, say 1000; So, if you talk about bias, as you increase lambda, your bias will increase. Okay? For very small values, the bias will be low, but gradually your bias will improve as it increases. And the variance will show exactly the opposite, meaning for very small values, the variance will be high, and for very large values, the variance will be low. This is the curve. This is the graph. I'll plot this same graph for you using the data. So, I already have this code. Here you can see, I also generated some non-linear data. This is the exact same non-linear data that I showed you there. Same to same. I split it into train-test and then took a polynomial of degree 15. 15 was showing better results in the graph than 16, so I chose 15. And then I used this library to calculate bias and variance. This library is called ML Extended. It's a very useful library. It has a function called Bias/Variance/Dicom. What does this function do? It calculates the bias and variance for any particular lambda value. So what I did? I took different lambda values. 100 different values ranging from zero to 30. I ran this entire calculation in a loop. Each time, I added the resulting bias and variance to a list. And then when I plotted it, you can see this is the result. This is the result. Here, your red curve, the orange curve, is the bias. So, you can see that for very small values, the bias was low. Look at this graph. This is the bias curve, as I said, meaning that for very small values, the bias is low, and for very large values, the bias of lambda becomes very high. You see the same thing here. And if you look at the variance, it was very high for very small values. But as you increased the value of lambda or alpha, the variance decreased, like this. Right? And your generalization error is always the sum of these two. So it'll float somewhere above, like this blue term is doing. Right? So if anyone asks you about the scenario of bias and variance regularization, all you have to do is remember this diagram: what happens for very small values of alpha? What happens for lambda? And what happens for very large values? If you remember this graph, trust me, you'll never make a mistake in bias-variance-related questions. Right? I'd recommend that you run this code yourself once. It's a really cool library function. You'll get the hang of it quickly. In fact, it's so simple that you could write it yourself from scratch. I'll even show you how in a video. But that's the whole idea behind this whole thing. One more thing, just by looking at this graph, you'll understand what the appropriate value for alpha or lambda, whatever you call it, should be. Right? How high should it be? For example, if you take this graph as an example, you can clearly see that this is the point where both of these curves are intersecting. Right? We need a value for lambda that has both low bias and low variance. Okay? So technically, you should choose something between this zone and this zone. Because generally, you want to keep the bias a little lower, keeping the variance low as well. So, this is the region where the variance is very close to the bias, and the bias is still low. So, technically, whatever this value is, we'll get the best results at this value for lambda. Okay? So always remember the point just before the intersecting point, where the bias is slightly lower and the variance is around. You have to choose such a point in this curve. Okay? So this curve becomes very important in that sense. Okay? So now let's move on to the next point, where we'll discuss the impact of lambda on your loss function. So you know, after applying regularization and rich regression, your loss function becomes this. We've seen this many times. This is the loss function after applying regularization. So now the question is, as you increase lambda, what happens to this loss function? This is the question. Okay? So let's try to understand it simply. So I'm taking a case where there is only one input column and one output column. Meaning, you have to calculate two coefficients: m and b. Here too, I'll assume b is constant. The value of b isn't changing. So m is just varying. This means I can rewrite this equation as this. And here, let's assume b has any value. Suppose b is 0. It can be anything. It's a constant. We'll assume it's zero. So this becomes m times xi squared, lambda m². So you can see that l is a function of m. Everything else here is constant. yi is in the data. xi is in the data. Only the value of m can increase or decrease, and you have to tune lambda as well. So what do we do? We need to create a graph where we'll put l here and m here, and then we'll plot this graph for a particular lambda. Then we'll change the value of lambda. We'll plot this graph again. We'll change the value of lambda again. We'll plot this graph again. And doing this will help us understand the impact lambda values have on the loss function. Okay? I've already created this graph. And the results are very interesting. I'd show you. Just give me a second. I'll just move this marker to this side of the page. And let's move this over here. Okay? So we did exactly the same thing. We generated this data set. We've been working with this data set for several days. A one-dimensional data set as a two-dimensional data set. And I also applied linear regression to it. So that I can find the correct values for M and B. So clearly, in this data set, the value of M should be somewhere close to 27, and the intercept value is -2.29. Okay? So what have I done now? Here, just like I assumed b to be a constant with a value of 0, I've now assumed b to be -2.29. Okay? But b is constant. b isn't varying. M is varying. And then what did I do? I created a function called calculateLoss, which, if you give it m and alpha, will calculate the loss and give you the result based on this formula. Obviously, based on this formula. And then I also created a function called predict. And this is the main graph. You can easily understand this code by patting it. It's very simple. I basically plotted the equation of l and m repeatedly for different lambda values. Okay? So you can see when lambda was zero the first time. So the graph that printed is this blue one. This blue one is the graph when lambda's value was zero. Just give me one minute. When the value of lambda is here, you can see lambda or alpha is the same thing. This is the blue curve when alpha was zero. And you can see its minima is near 27. Obviously, your 'a' on the x-axis is misspelled. This is not alpha. It has to be m. This graph is between l and m. So, you can see your minimum value in the case of lambda = 0 is somewhere close to 25, around 27. Then we increased lambda slightly to 10. So now you can see this graph is orange. It has shifted slightly. It has risen slightly and become slightly thinner. And now your minimum value is shifting slightly and moving towards zero. The minimum value of m, which is your solution, is shifting and moving towards the minimum. As you keep increasing, the green curve (for alpha = 20) shifts a little further, and you come to this side. And in doing so, when you set alpha to 100, the graph goes up sharply, and here's its value, very close to zero. Okay? So, I guess, by looking at this, you'll understand, on an intuitive level, why as you increase the value of lambda, the value of your coefficients decreases and approaches zero. Actually, your loss function gradually rises and moves toward the origin, shrinking slightly. If your loss function was like this before, then increasing the value of lambda causes it to shrink slightly, gradually rising, and yours is approaching zero. Okay? If you want to see this same case in 3D, when you have two different coefficients, you can see that through animation in this picture. Okay? So I'll just clear this whole thing out, otherwise it'll be a distraction. So you can see that here we plotted this loss function over two coefficients: beta 1 and beta 2. And you can see that gradually your loss function is rising and moving toward the center, at this point where the origin is. It's moving toward where both points are becoming zero. So obviously, when your loss function shifts in that direction, the value of your coefficients will also change. Okay? And this is what's happening over here. So this is a very important intuition. This intuition explains why the value of your coefficients decreases and approaches zero. And in both 1D and 2D, I've shown you visually what's happening. Now, I'd recommend you try running this code yourself. It's not a very difficult code. We simply ran two loops and calculated the loss value. That's it. It's very simple. But the intuition is different about how the loss function changes when you change the values of lambda or alpha, whatever you call it. Okay? So that's it. This was the fourth point. The last key point we're going to discuss is that this question is actually asked in interviews: why is regression called rich? Okay? So honestly, the answer to this is a little difficult. For this, we'll have to study something: hard constraint rich regression. So, what we've been studying so far was soft constraint rich regression. We'll have to study this new thing, and it's a little difficult. So I'm planning to shoot a separate video for this. But for now, I'd just like to give you an intuition as to why it's called rich. It's called C rich because the answer to this problem is hidden in this diagram. Okay? So, if you know, I mean, we've discussed it many times, that our loss function for regression is a combination of two things: MSC is basically the square of (yi-yi) plus lambda times this. Okay? So if you consider this a separate function and let's assume we have two coefficients, okay? Beta 1 and Beta 2, how do you rewrite this whole thing? You can rewrite this equation as σi = 1 to n yi-a, which is actually three coefficients. Beta 0 will also be there. There will also be an intercept term. So it would become beta 0 + β 1 xi 1 + β 2 xi 2. This becomes your MSC term, okay? The MSC term, and here comes your lambda times lambda times beta 1² beta 2. Okay? This will be the second term, this one. Okay? So if we plot these separately, this equation is: This circle corresponds to this term for a particular value of this radius. You have to find the value of the radius through hyperparameter tuning. And this is the contour plot of your loss function. We projected it to 2D, which was created earlier in 3D. What do you do now? If you hadn't applied regularization, this would be your solution. This point is called the OLS estimate. Because this is where your loss function is taking its minimum value for beta 1 and beta 2. Okay? But since now you have to minimize both terms. You also need to minimize this term. Therefore, you need to find a solution for this as well. Your solution will lie somewhere on the boundary of these two. So, depending on your loss function, this circle will always remain the same. Whenever you find a solution, it will lie on the perimeter of this circle. And it will always be the solution that is closest to this solution. Right? Since your solution always lies on the periphery of this circle, whether it's on the perimeter or on the rich. That's why this type of regularization technique is non-edge rich regression. That's the reason. But we'll study this in a little more detail. I know you might still have some doubts about what exactly happened? How did this circle form? And what is its radius? We'll discuss all these points in a little more detail. In fact, I'll even make this plot and show you how it's formed. But for now, understand that because your solution is always focusing on the perimeter of this circle. It's focusing on the boundary. It's focusing on ridges. And that's why we call this regression technique ridge regression. Okay? So those are the five points I wanted to discuss with you. Now, some practical tips. In fact, just one practical tip: you should mostly apply ridge regression when the number of input columns is greater than equal to two. Regression should only be applied in cases where there's only one input and one output. Ridge regression isn't as useful in these cases. Okay? So, the more input columns you have, the larger your coefficients will be, and the more coefficients you'll need to regularize. So ridge regression will be useful, but it's not as useful in cases where there are fewer. Okay? So, that's it. We've covered a lot. One more thing we'll study is a problem with hard constraints. I'll add that video to this playlist in the future. But now we're ready to move on to Lasso regression, which is the next topic. So that's it, guys. Thanks for watching. Bye.
+
+
+[00:00] Hi guys, welcome to my YouTube channel.
+[00:02] We're studying regression, and we've
+[00:04] covered rich regression in great detail
+[00:06] . Today, we'll be doing one last video
+[00:10] regarding rich regression. Okay? So, in
+[00:13] this video, I'm going to talk about
+[00:15] five key understandings that you should
+[00:17] take away from rich regression. So, we
+[00:20] know what we're doing—how to code?
+[00:24] How to use SciKitLearn code—but we
+[00:26] often miss the core results and the
+[00:28] understandings we need to achieve. So,
+[00:31] I've made a separate video for this.
+[00:34] I'll discuss five points with you
+[00:35] regarding rich regression. After that,
+[00:38] if you watch this video, I don't think
+[00:40] you'll ever have any doubts about rich
+[00:42] regression. Okay? So, let's start the
+[00:45] video. So, you already know that rich
+[00:49] regression means adding something to
+[00:51] your loss function. We'll discuss what
+[00:54] we'll add now. And because of that
+[00:58] addition, regularization occurs.
+[01:01] Regularization means overfitting is
+[01:03] reduced. The value of your coefficients
+[01:05] decreases. I even proved to you
+[01:07] mathematically why this happens. So, in
+[01:10] short, this is what happens. This is
+[01:17] your original loss function, and you
+[01:22] add this term to it. This term is
+[01:26] nothing but lambda W 1² w 2² dot dot
+[01:31] wn². Your coefficients will be as many
+[01:35] as you have input columns. And you also
+[01:37] call this term the shrinkage
+[01:39] coefficient. By adding this shrinkage
+[01:47] coefficient, your changes begin to
+[01:48] occur, and your overfitting begins to
+[01:51] decrease. This is the understanding of
+[01:56] this. Okay? Now, let me discuss five
+[01:59] things with you, which I may or may not
+[02:02] have discussed before. But it was
+[02:04] important to discuss them separately
+[02:06] once. Okay? So let's start with the
+[02:08] first understanding. The first
+[02:10] understanding is that after applying
+[02:12] rich regression, you can treat all
+[02:14] these understandings as interview
+[02:16] questions. Someone might ask you this
+[02:18] question. This could be the first
+[02:20] question: How are the coefficients
+[02:21] affected? Meaning, if you apply rich
+[02:25] regression, what effect does it have on
+[02:27] the corresponding coefficients of all
+[02:29] your input columns? As you increase the
+[02:34] value of lambda, so lambda, as you know
+[02:37] , can vary from zero to positive
+[02:39] infinity. So, zero means applying
+[02:43] simple linear regression. Okay? So,
+[02:46] think about it: if you make lambda zero
+[02:48] here, regularization will not happen,
+[02:51] and you will be working for linear
+[02:53] regression. So if you keep increasing
+[02:59] lambda from zero to a very large number
+[03:01] , you might be asked in an interview,
+[03:03] what difference does it make to all
+[03:05] your coefficients? The answer is, all
+[03:13] the coefficients shrink, they decrease,
+[03:16] toward zero. Right? But they never
+[03:21] reach zero. They will get very close to
+[03:24] zero, but they will never reach zero.
+[03:28] Let me show you this using a graph. So,
+[03:33] I plotted this graph on the loaded
+[03:36] diabetes data set. So, I imported it
+[03:39] first and converted it into a data
+[03:41] frame. And in this data frame, you can
+[03:44] see, we have these many input columns,
+[03:47] and this is our target column. So, I
+[03:53] did a train-test split, and then I
+[03:54] applied rich regression on it for four
+[03:57] different values of lambda. Once with
+[04:03] zero, once with 10, once with 100, and
+[04:06] once with 1000. So I gradually
+[04:08] increased the value of lambda and
+[04:10] stored the coefficients each time. Okay
+[04:15] ? And then I printed it using this
+[04:18] graph. So you can see this is the
+[04:22] output. Now you will say there isn't
+[04:24] much difference. It's similar. For
+[04:28] example, look at alpha = 0, if you
+[04:30] notice carefully, this scale of y is
+[04:33] minus 750 to -750, the coefficients are
+[04:36] still in the range of 750. But as soon
+[04:39] as you changed it from 0 to 10, you can
+[04:42] see your y axis shrinks to the range of
+[04:46] 60 to -40, and all your bars are now
+[04:48] between 60 and -40. This means your
+[04:52] coefficient is shrinking. Okay? We
+[04:56] shrunk it further to 100, so you can
+[04:58] see that it now falls in the range of 8
+[05:01] to -4, and then from 100 to 1000 it
+[05:04] falls in the range of 8 to -4. So as
+[05:07] soon as you did 1000, you can see all
+[05:09] of these coefficients. What are all
+[05:11] these coefficients? Each time it is
+[05:13] talking about a particular coefficient.
+[05:16] For example, this first time it is
+[05:18] talking about the age coefficient. The
+[05:21] second time it is talking about the sex
+[05:23] coefficient. And so on. Okay? And you
+[05:26] can see all of these coefficients after
+[05:28] the lambda value of 1000 they are very
+[05:31] close to zero. That's what I was
+[05:33] telling you, if anyone asks you in an
+[05:35] interview, tell me what will happen to
+[05:37] the coefficients if the lambda value is
+[05:40] made very large? This should be your
+[05:42] answer. They will all become very small
+[05:46] , shrink, and their values will be very
+[05:48] close to zero, but not zero. Okay? None
+[05:53] of these terms are going to be zero.
+[05:55] You can see that none of the terms are
+[05:57] going to be zero. The sex one is still
+[05:59] a little close, but it is not zero. In
+[06:03] rich regression, you always have to
+[06:05] remember that the value of your
+[06:06] coefficients is not zero. So that is
+[06:10] the first understanding I want you to
+[06:12] grasp regarding rich regression. Okay?
+[06:17] Now let's move on to the second
+[06:18] question and the second understanding.
+[06:23] So the question here is what are the
+[06:24] large coefficients? Suppose you have x1
+[06:29] , x2, x3, and y. This is your data, and
+[06:35] when you apply linear regression,
+[06:37] normal linear regression, to it, you
+[06:40] find that the value of w1 is 1000, the
+[06:43] value of w2 is 10, and the value of w3
+[06:45] is one. This means that for calculating
+[06:50] your y value, x1 is the subsample. w2
+[06:53] is the comment from that subsample, and
+[06:55] I'm sorry, x2 is the second-most
+[06:58] important comment, and x3 is the least
+[07:00] important. Now, the question is, when
+[07:03] you apply regression and you set the
+[07:05] value of lambda very high or keep
+[07:11] increasing it toward infinity, how will
+[07:14] all these coefficients decrease? Right?
+[07:18] So, the question is, what will happen
+[07:20] if a coefficient is very high? What
+[07:24] will happen if a coefficient is very
+[07:26] low? So, the answer is that the larger
+[07:31] the coefficient, like here, 1000, the
+[07:33] faster it decreases. Understand this:
+[07:40] if a particular coefficient is very
+[07:42] high, it will decrease more rapidly in
+[07:45] comparison to a coefficient that is not
+[07:47] as large. Right? This is a very
+[07:51] important thing that you need to
+[07:52] understand. Let me show you again with
+[07:54] the help of a graph. So I've taken some
+[08:01] alphas from zero to 10,000 and I'm
+[08:03] storing all the coefficients in the
+[08:05] same data set. And you can see that all
+[08:10] the coefficients here were very large.
+[08:13] For example, look at this coefficient
+[08:16] 516, it decreased to 07. Okay? You can
+[08:22] see that I'm increasing the alpha value
+[08:24] here and I've added what's happening
+[08:25] with each particular coefficient to
+[08:27] this data frame. Similarly, look at
+[08:30] this 561, it's also going down a lot.
+[08:33] Look at -895, it's also going down a
+[08:36] lot. Okay? The edges that were smaller,
+[08:39] like age, are okay. I mean, they didn't
+[08:42] decrease that much. But the ones that
+[08:45] were larger, they decreased very
+[08:46] strongly. Okay? You can also convey
+[08:49] this same information through a graph,
+[08:51] which I've created here. Let me show
+[08:54] you that graph. This is the graph. You
+[08:57] can see some coefficients here. For
+[08:59] example, this yellow one is the
+[09:01] coefficient. This is our s5. Okay? So
+[09:03] what was the initial value of s5? 861,
+[09:06] it was quite large. And look at how
+[09:09] rapidly lambda is increasing here on
+[09:12] the x-axis. As you increase the value
+[09:15] of lambda, this coefficient rapidly
+[09:17] decreases and becomes equal to all the
+[09:19] others. Similarly, if you look at this
+[09:22] purple one, the purple one is s1, which
+[09:24] is very high in the negative. 895, if
+[09:27] you look at this one too, it decreases
+[09:30] rapidly with lambda and moves towards
+[09:32] the black line. What is this black line
+[09:35] ? This thick black line is the zero
+[09:37] line. It is the line where the
+[09:38] coefficient reaches zero. And you can
+[09:40] see that none of your coefficients are
+[09:42] going to be zero. They're all
+[09:45] converging toward zero. But they will
+[09:47] never reach the zero line. They will
+[09:50] always be close to zero. You can see
+[09:52] that here, when I applied lambda to
+[09:55] 10,000, all the values were close to
+[09:57] zero. But none became zero. Okay? These
+[10:01] are two points you should always
+[10:03] remember: First, as you increase lambda
+[10:05] , the value of your coefficients
+[10:07] decreases and approaches zero. Second,
+[10:10] they never reach zero. And third,
+[10:13] larger values have a greater impact of
+[10:16] regularization compared to those
+[10:18] coefficients whose values are not as
+[10:20] large. Okay? I guess you understand
+[10:24] both these points clearly. The next key
+[10:28] point we'll discuss is the effect of
+[10:30] regularization on bias and variance.
+[10:34] The topic we covered before we started
+[10:36] regularization was the bias-variance
+[10:39] tradeoff. There, I told you that there
+[10:42] are three techniques used in machine
+[10:44] learning to improve the bias-variance
+[10:46] tradeoff. And one of them was
+[10:48] regularization, which we're currently
+[10:50] studying. Okay? So, it should be
+[10:53] absolutely essential that you know what
+[10:55] happens to the bias and variance of a
+[10:57] model when regularization is applied.
+[11:01] Okay? So, to explain this, I'll show
+[11:04] you this diagram. I showed you this
+[11:08] diagram in the first video about rich
+[11:10] regression. Here's a non-linear data
+[11:15] set, on which I've fitted a red model,
+[11:18] if you can see, and the degree of this
+[11:20] model is 16. It's a polynomial. Okay?
+[11:27] And you can see that it's trying very
+[11:29] hard to go through every point in this
+[11:31] data set. Meaning, it's showing a
+[11:34] tendency toward overfitting. Okay?
+[11:37] Overfitting means the bias is low. This
+[11:40] means you're getting good results on
+[11:42] the training data, but unfortunately,
+[11:44] the variance is high. Now, as you
+[11:47] increase the value of alpha, I've
+[11:49] created two more curves. The green
+[11:55] curve has an alpha value of 20. And you
+[11:58] can see that because of that value,
+[12:00] your model's tendency to overfit every
+[12:02] point has reduced slightly. And the
+[12:08] generalization error has improved. This
+[12:12] means you're making slightly more
+[12:14] mistakes on all two training data sets,
+[12:16] but doing so may improve your results
+[12:18] on the test data, meaning the variance
+[12:20] has reduced. So, in the green case, you
+[12:23] can clearly see that you've slightly
+[12:25] increased the bias but reduced the
+[12:27] variance. Right? And there's a blue
+[12:31] line where the alpha value is very high
+[12:33] , 200. You can see that now it's
+[12:35] starting to underfit this data. This
+[12:38] model has started to underfit this data
+[12:40] . Which means that now the result will
+[12:43] neither be good on the training data
+[12:45] nor on the test data. And this is a
+[12:49] case of underfitting. Meaning, both
+[12:51] your bias and variance have become high
+[12:53] . Okay? So, in short, the idea is that
+[12:59] both bias and variance depend on the
+[13:01] value of your lambda. If you keep the
+[13:08] value of lambda very small, close to
+[13:11] zero, your bias will decrease. Because
+[13:16] your model is overfitting, and your
+[13:18] variance will increase. Okay? If you
+[13:26] increase the value of lambda too much,
+[13:28] then your model is showing a tendency
+[13:31] to underfit, so the bias will increase.
+[13:35] Underfitting will occur. Not exactly
+[13:37] underfitting. For very large values,
+[13:40] overfitting occurs, and your variance
+[13:43] will start decreasing. So, if you plot
+[13:49] this on a graph, where you have lambda
+[13:52] on the x-axis, starting from zero and
+[13:55] it is a very large value, say 1000; So,
+[13:57] if you talk about bias, as you increase
+[14:00] lambda, your bias will increase. Okay?
+[14:07] For very small values, the bias will be
+[14:09] low, but gradually your bias will
+[14:11] improve as it increases. And the
+[14:15] variance will show exactly the opposite
+[14:17] , meaning for very small values, the
+[14:19] variance will be high, and for very
+[14:21] large values, the variance will be low.
+[14:25] This is the curve. This is the graph.
+[14:29] I'll plot this same graph for you using
+[14:31] the data. So, I already have this code.
+[14:35] Here you can see, I also generated some
+[14:38] non-linear data. This is the exact same
+[14:40] non-linear data that I showed you there
+[14:42] . Same to same. I split it into
+[14:46] train-test and then took a polynomial
+[14:49] of degree 15. 15 was showing better
+[14:51] results in the graph than 16, so I
+[14:54] chose 15. And then I used this library
+[14:56] to calculate bias and variance. This
+[15:00] library is called ML Extended. It's a
+[15:03] very useful library. It has a function
+[15:05] called Bias/Variance/Dicom. What does
+[15:09] this function do? It calculates the
+[15:13] bias and variance for any particular
+[15:15] lambda value. So what I did? I took
+[15:19] different lambda values. 100 different
+[15:23] values ranging from zero to 30. I ran
+[15:25] this entire calculation in a loop. Each
+[15:29] time, I added the resulting bias and
+[15:31] variance to a list. And then when I
+[15:35] plotted it, you can see this is the
+[15:37] result. This is the result. Here, your
+[15:40] red curve, the orange curve, is the
+[15:42] bias. So, you can see that for very
+[15:44] small values, the bias was low. Look at
+[15:47] this graph. This is the bias curve, as
+[15:49] I said, meaning that for very small
+[15:51] values, the bias is low, and for very
+[15:53] large values, the bias of lambda
+[15:55] becomes very high. You see the same
+[15:57] thing here. And if you look at the
+[15:59] variance, it was very high for very
+[16:01] small values. But as you increased the
+[16:04] value of lambda or alpha, the variance
+[16:07] decreased, like this. Right? And your
+[16:10] generalization error is always the sum
+[16:12] of these two. So it'll float somewhere
+[16:15] above, like this blue term is doing.
+[16:18] Right? So if anyone asks you about the
+[16:20] scenario of bias and variance
+[16:22] regularization, all you have to do is
+[16:25] remember this diagram: what happens for
+[16:27] very small values of alpha? What
+[16:29] happens for lambda? And what happens
+[16:31] for very large values? If you remember
+[16:33] this graph, trust me, you'll never make
+[16:36] a mistake in bias-variance-related
+[16:38] questions. Right? I'd recommend that
+[16:40] you run this code yourself once. It's a
+[16:44] really cool library function. You'll
+[16:47] get the hang of it quickly. In fact,
+[16:49] it's so simple that you could write it
+[16:50] yourself from scratch. I'll even show
+[16:52] you how in a video. But that's the
+[16:56] whole idea behind this whole thing. One
+[17:00] more thing, just by looking at this
+[17:02] graph, you'll understand what the
+[17:04] appropriate value for alpha or lambda,
+[17:06] whatever you call it, should be. Right?
+[17:09] How high should it be? For example, if
+[17:14] you take this graph as an example, you
+[17:16] can clearly see that this is the point
+[17:18] where both of these curves are
+[17:20] intersecting. Right? We need a value
+[17:26] for lambda that has both low bias and
+[17:29] low variance. Okay? So technically, you
+[17:34] should choose something between this
+[17:36] zone and this zone. Because generally,
+[17:40] you want to keep the bias a little
+[17:41] lower, keeping the variance low as well
+[17:44] . So, this is the region where the
+[17:47] variance is very close to the bias, and
+[17:49] the bias is still low. So, technically,
+[17:52] whatever this value is, we'll get the
+[17:54] best results at this value for lambda.
+[17:56] Okay? So always remember the point just
+[17:59] before the intersecting point, where
+[18:00] the bias is slightly lower and the
+[18:02] variance is around. You have to choose
+[18:05] such a point in this curve. Okay? So
+[18:07] this curve becomes very important in
+[18:09] that sense. Okay? So now let's move on
+[18:14] to the next point, where we'll discuss
+[18:16] the impact of lambda on your loss
+[18:18] function. So you know, after applying
+[18:24] regularization and rich regression,
+[18:26] your loss function becomes this. We've
+[18:32] seen this many times. This is the loss
+[18:36] function after applying regularization.
+[18:41] So now the question is, as you increase
+[18:43] lambda, what happens to this loss
+[18:45] function? This is the question. Okay?
+[18:50] So let's try to understand it simply.
+[18:53] So I'm taking a case where there is
+[18:55] only one input column and one output
+[18:57] column. Meaning, you have to calculate
+[19:00] two coefficients: m and b. Here too,
+[19:04] I'll assume b is constant. The value of
+[19:08] b isn't changing. So m is just varying.
+[19:13] This means I can rewrite this equation
+[19:16] as this. And here, let's assume b has
+[19:22] any value. Suppose b is 0. It can be
+[19:24] anything. It's a constant. We'll assume
+[19:27] it's zero. So this becomes m times xi
+[19:32] squared, lambda m². So you can see
+[19:37] that l is a function of m. Everything
+[19:41] else here is constant. yi is in the
+[19:43] data. xi is in the data. Only the value
+[19:46] of m can increase or decrease, and you
+[19:48] have to tune lambda as well. So what do
+[19:51] we do? We need to create a graph where
+[19:55] we'll put l here and m here, and then
+[19:57] we'll plot this graph for a particular
+[19:59] lambda. Then we'll change the value of
+[20:04] lambda. We'll plot this graph again.
+[20:07] We'll change the value of lambda again.
+[20:09] We'll plot this graph again. And doing
+[20:12] this will help us understand the impact
+[20:14] lambda values have on the loss function
+[20:16] . Okay? I've already created this graph
+[20:20] . And the results are very interesting.
+[20:24] I'd show you. Just give me a second.
+[20:27] I'll just move this marker to this side
+[20:29] of the page. And let's move this over
+[20:31] here. Okay? So we did exactly the same
+[20:35] thing. We generated this data set.
+[20:41] We've been working with this data set
+[20:43] for several days. A one-dimensional
+[20:46] data set as a two-dimensional data set.
+[20:49] And I also applied linear regression to
+[20:51] it. So that I can find the correct
+[20:54] values for M and B. So clearly, in this
+[20:56] data set, the value of M should be
+[20:59] somewhere close to 27, and the
+[21:01] intercept value is -2.29. Okay? So what
+[21:04] have I done now? Here, just like I
+[21:06] assumed b to be a constant with a value
+[21:09] of 0, I've now assumed b to be -2.29.
+[21:11] Okay? But b is constant. b isn't
+[21:13] varying. M is varying. And then what
+[21:16] did I do? I created a function called
+[21:18] calculateLoss, which, if you give it m
+[21:20] and alpha, will calculate the loss and
+[21:23] give you the result based on this
+[21:24] formula. Obviously, based on this
+[21:26] formula. And then I also created a
+[21:29] function called predict. And this is
+[21:32] the main graph. You can easily
+[21:35] understand this code by patting it.
+[21:37] It's very simple. I basically plotted
+[21:40] the equation of l and m repeatedly for
+[21:42] different lambda values. Okay? So you
+[21:45] can see when lambda was zero the first
+[21:47] time. So the graph that printed is this
+[21:51] blue one. This blue one is the graph
+[21:53] when lambda's value was zero. Just give
+[21:56] me one minute. When the value of lambda
+[22:00] is here, you can see lambda or alpha is
+[22:03] the same thing. This is the blue curve
+[22:06] when alpha was zero. And you can see
+[22:11] its minima is near 27. Obviously, your
+[22:14] 'a' on the x-axis is misspelled. This
+[22:19] is not alpha. It has to be m. This
+[22:23] graph is between l and m. So, you can
+[22:30] see your minimum value in the case of
+[22:32] lambda = 0 is somewhere close to 25,
+[22:35] around 27. Then we increased lambda
+[22:38] slightly to 10. So now you can see this
+[22:40] graph is orange. It has shifted
+[22:45] slightly. It has risen slightly and
+[22:48] become slightly thinner. And now your
+[22:50] minimum value is shifting slightly and
+[22:52] moving towards zero. The minimum value
+[22:55] of m, which is your solution, is
+[22:57] shifting and moving towards the minimum
+[22:59] . As you keep increasing, the green
+[23:01] curve (for alpha = 20) shifts a little
+[23:03] further, and you come to this side. And
+[23:07] in doing so, when you set alpha to 100,
+[23:10] the graph goes up sharply, and here's
+[23:13] its value, very close to zero. Okay? So
+[23:17] , I guess, by looking at this, you'll
+[23:19] understand, on an intuitive level, why
+[23:21] as you increase the value of lambda,
+[23:24] the value of your coefficients
+[23:25] decreases and approaches zero. Actually
+[23:30] , your loss function gradually rises
+[23:32] and moves toward the origin, shrinking
+[23:35] slightly. If your loss function was
+[23:37] like this before, then increasing the
+[23:39] value of lambda causes it to shrink
+[23:41] slightly, gradually rising, and
+[23:43] yours is
+[23:44] approaching zero. Okay? If you want to
+[23:48] see this same case in 3D, when you have
+[23:50] two different coefficients, you can see
+[23:52] that through animation in this picture.
+[23:55] Okay? So I'll just clear this whole
+[23:57] thing out, otherwise it'll be a
+[23:59] distraction. So you can see that here
+[24:03] we plotted this loss function over two
+[24:05] coefficients: beta 1 and beta 2. And
+[24:07] you can see that gradually your loss
+[24:10] function is rising and moving toward
+[24:12] the center, at this point where the
+[24:14] origin is. It's moving toward where
+[24:16] both points are becoming zero. So
+[24:20] obviously, when your loss function
+[24:22] shifts in that direction, the value of
+[24:24] your coefficients will also change.
+[24:26] Okay? And this is what's happening over
+[24:28] here. So this is a very important
+[24:30] intuition. This intuition explains why
+[24:33] the value of your coefficients
+[24:35] decreases and approaches zero. And in
+[24:39] both 1D and 2D, I've shown you visually
+[24:42] what's happening. Now, I'd recommend
+[24:44] you try running this code yourself.
+[24:46] It's not a very difficult code. We
+[24:48] simply ran two loops and calculated the
+[24:51] loss value. That's it. It's very simple
+[24:53] . But the intuition is different about
+[24:56] how the loss function changes when you
+[24:58] change the values of lambda or alpha,
+[25:00] whatever you call it. Okay? So that's
+[25:03] it. This was the fourth point. The last
+[25:08] key point we're going to discuss is
+[25:09] that this question is actually asked in
+[25:11] interviews: why is regression called
+[25:13] rich? Okay? So honestly, the answer to
+[25:18] this is a little difficult. For this,
+[25:21] we'll have to study something: hard
+[25:28] constraint rich regression. So, what
+[25:33] we've been studying so far was soft
+[25:35] constraint rich regression. We'll have
+[25:39] to study this new thing, and it's a
+[25:40] little difficult. So I'm planning to
+[25:42] shoot a separate video for this. But
+[25:45] for now, I'd just like to give you an
+[25:47] intuition as to why it's called rich.
+[25:52] It's called C rich because the answer
+[25:54] to this problem is hidden in this
+[25:55] diagram. Okay? So, if you know, I mean,
+[26:03] we've discussed it many times, that our
+[26:05] loss function for regression is a
+[26:07] combination of two things: MSC is
+[26:10] basically the square of (yi-yi) plus
+[26:12] lambda times this. Okay? So if you
+[26:20] consider this a separate function and
+[26:22] let's assume we have two coefficients,
+[26:24] okay? Beta 1 and Beta 2, how do you
+[26:30] rewrite this whole thing? You can
+[26:35] rewrite this equation as σi = 1 to n
+[26:38] yi-a, which is actually three
+[26:40] coefficients. Beta 0 will also be there
+[26:44] . There will also be an intercept term.
+[26:46] So it would become beta 0 + β 1 xi 1 +
+[26:52] β 2 xi 2. This becomes your MSC term,
+[26:57] okay? The MSC term, and here comes your
+[27:03] lambda times lambda times beta 1² beta
+[27:14] 2. Okay? This will be the second term,
+[27:17] this one. Okay? So if we plot these
+[27:22] separately, this equation is: This
+[27:28] circle corresponds to this term for a
+[27:30] particular value of this radius. You
+[27:38] have to find the value of the radius
+[27:40] through hyperparameter tuning. And this
+[27:43] is the contour plot of your loss
+[27:44] function. We projected it to 2D, which
+[27:48] was created earlier in 3D. What do you
+[27:50] do now? If you hadn't applied
+[27:52] regularization, this would be your
+[27:54] solution. This point is called the OLS
+[27:57] estimate. Because this is where your
+[28:00] loss function is taking its minimum
+[28:03] value for beta 1 and beta 2. Okay? But
+[28:05] since now you have to minimize both
+[28:07] terms. You also need to minimize this
+[28:09] term. Therefore, you need to find a
+[28:11] solution for this as well. Your
+[28:13] solution will lie somewhere on the
+[28:15] boundary of these two. So, depending on
+[28:18] your loss function, this circle will
+[28:20] always remain the same. Whenever you
+[28:23] find a solution, it will lie on the
+[28:25] perimeter of this circle. And it will
+[28:28] always be the solution that is closest
+[28:30] to this solution. Right? Since your
+[28:33] solution always lies on the periphery
+[28:35] of this circle, whether it's on the
+[28:37] perimeter or on the rich. That's why
+[28:41] this type of regularization technique
+[28:43] is non-edge rich regression. That's the
+[28:46] reason. But we'll study this in a
+[28:48] little more detail. I know you might
+[28:50] still have some doubts about what
+[28:52] exactly happened? How did this circle
+[28:54] form? And what is its radius? We'll
+[28:56] discuss all these points in a little
+[28:58] more detail. In fact, I'll even make
+[29:00] this plot and show you how it's formed.
+[29:03] But for now, understand that because
+[29:04] your solution is always focusing on the
+[29:06] perimeter of this circle. It's focusing
+[29:09] on the boundary. It's focusing on
+[29:12] ridges. And that's why we call this
+[29:14] regression technique ridge regression.
+[29:17] Okay? So those are the five points I
+[29:19] wanted to discuss with you. Now, some
+[29:23] practical tips. In fact, just one
+[29:28] practical tip: you should mostly apply
+[29:31] ridge regression when the number of
+[29:33] input columns is greater than equal to
+[29:35] two. Regression should only be applied
+[29:40] in cases where there's only one input
+[29:41] and one output. Ridge regression isn't
+[29:45] as useful in these cases. Okay? So, the
+[29:48] more input columns you have, the larger
+[29:50] your coefficients will be, and the more
+[29:53] coefficients you'll need to regularize.
+[29:56] So ridge regression will be useful, but
+[29:58] it's not as useful in cases where there
+[30:00] are fewer. Okay? So, that's it. We've
+[30:03] covered a lot. One more thing we'll
+[30:04] study is a problem with hard
+[30:06] constraints. I'll add that video to
+[30:08] this playlist in the future. But now
+[30:10] we're ready to move on to Lasso
+[30:11] regression, which is the next topic. So
+[30:14] that's it, guys. Thanks for watching.
+[30:16] Bye.

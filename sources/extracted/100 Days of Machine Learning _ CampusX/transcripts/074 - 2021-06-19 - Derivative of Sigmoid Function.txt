@@ -1,0 +1,123 @@
+# Derivative of Sigmoid Function
+# https://www.youtube.com/watch?v=awjXaFR1jOM
+
+Hi guys, welcome to my YouTube channel. In this video, we will learn how to find the derivative of the sigmoid function. The sigmoid function, if you know, is a very useful function. You will find it in many places in machine learning and deep learning. Especially if you are working on logistic regression or working on perceptrons and multilayer perceptrons. The loss function there also includes the sigmoid function. So, when you go to calculate gradient descent for that loss function, you have to calculate the derivative of the sigmoid there. Now, the derivative of the sigmoid is a bit strange. It is weird and a little difficult to calculate. So, I thought I would make a separate video for this. Where I will show you how to calculate the derivative of the sigmoid function from end to end. So, let's start. First of all, you already know on the screen, this is the graph of the sigmoid function. The sigmoid function is a function that squashes any large number, positive or negative, into a range of zero to one. Okay? It brings it there. The equation for the sigmoid function is 1/1 + e to the power-x. Now, if you want to find its differentiation, if you want to find this, you need to know the reciprocal rule of differentiation. I will tell you what the reciprocal rule of differentiation is. Let's say you want to differentiate 1/x, then you actually need to differentiate x to the power -1, and its differentiation is negative of x squared, or you could say its differentiation is this. This is the differentiation rule of derivative. Oh, I am sorry, the reciprocal rule of derivative. Now, what will we do? We will apply this same logic to this entire thing. Okay? So, what do we need to do first? I will write here that I have to calculate d/dx of 1/1 + e to the power-x. Now, I will treat this whole thing as a common term and move it to the top. So this would become d/ dx of 1 + e to the power-x to the power -1. Okay? Now we will apply the reciprocal rule, and what will happen? Here we will get-1/(1 + e to the power- x) ²; okay? And after applying the chain rule, you will have to calculate the derivative of e to the power-x. Okay? Now you know that the derivative of e to the power-x is basically a summation of these two terms. The derivative of one will be zero, and we will have to calculate the derivative of this. So it will actually become 1 + e power-x whole squared d/dx of e power -x because the derivative of one is zero anyway. Now you know that the derivative of e power-x is e power-x. So, we will write it like this-e power- x/(1 + e power-x) whole squared. And applying the chain rule, now we need to differentiate-x, and you know the derivative of-x would be -1. So, this -1 will cancel this negative, and what you have left is this. So we are almost there. Now we just need to do a little bit of mathematical simplification. So what I would do is I would write it like this. Right? Or I can write it like this 1/(1 + e power-x) multiplied by e power-x/(1 + e power-x). Now if you see, what is this? This is actually the sigmoid function itself. So we can write it like this. We can write σ of x multiplied by e to the power-x/(1 + e to the power-x), okay? We need a little more simplification. So σ x, we can write the numerator as 1 + e power-x-1/ (1 + e power-x), okay? We did a little bit of manipulation. σ x Now we are separating the terms. (1 + e power-x)/(1 + e power-x)-1/(1 + e power-x). Now you can clearly see that these two terms will cancel out, and here we will get σ x (1-and if you look closely again, what is this? This is the sigmoid again. So here we will get σ of x again. And that's it guys. The derivative of the sigmoid function is actually sigmoid of x multiplied by 1- sigmoid of x, so it is one of those functions that includes itself in its derivative. Okay? So this is the derivative of the sigmoid function. And this is a very useful derivative. It will help you in many machine learning and deep learning scenarios. You just need to remember that the derivative of sigmoid is sigmoid multiplied by 1- sigmoid. That's it. If I show you the graph, then this is the graph of the sigmoid function. This is the sigmoid function graph and this is the graph of its derivative. Okay? If you want, you can plot the values in NumPy and see. But this will be the graph of the sigmoid function. Okay? So yeah, that's it for this video. Thanks for watching.
+
+
+[00:00] Hi guys, welcome to my YouTube channel.
+[00:03] In this video, we will learn how to
+[00:05] find the derivative of the sigmoid
+[00:06] function. The sigmoid function, if you
+[00:09] know, is a very useful function. You
+[00:11] will find it in many places in machine
+[00:13] learning and deep learning. Especially
+[00:16] if you are working on logistic
+[00:18] regression or working on perceptrons
+[00:20] and multilayer perceptrons. The loss
+[00:23] function there also includes the
+[00:26] sigmoid function. So, when you go to
+[00:29] calculate gradient descent for that
+[00:31] loss function, you have to calculate
+[00:33] the derivative of the sigmoid there.
+[00:35] Now, the derivative of the sigmoid is a
+[00:38] bit strange. It is weird and a little
+[00:41] difficult to calculate. So, I thought I
+[00:43] would make a separate video for this.
+[00:45] Where I will show you how to calculate
+[00:47] the derivative of the sigmoid function
+[00:48] from end to end. So, let's start. First
+[00:51] of all, you already know on the screen,
+[00:53] this is the graph of the sigmoid
+[00:54] function. The sigmoid function is a
+[00:57] function that squashes any large number
+[01:00] , positive or negative, into a range of
+[01:03] zero to one. Okay? It brings it there.
+[01:06] The equation for the sigmoid function
+[01:10] is 1/1 + e to the power-x. Now, if you
+[01:14] want to find its differentiation, if
+[01:18] you want to find this, you need to know
+[01:21] the reciprocal rule of differentiation.
+[01:26] I will tell you what the reciprocal
+[01:28] rule of differentiation is. Let's say
+[01:30] you want to differentiate 1/x, then you
+[01:34] actually need to differentiate x to the
+[01:37] power -1, and its differentiation is
+[01:41] negative of x squared, or you could say
+[01:45] its differentiation is this. This is
+[01:48] the differentiation rule of derivative.
+[01:50] Oh, I am sorry, the reciprocal rule of
+[01:52] derivative. Now, what will we do? We
+[01:53] will apply this same logic to this
+[01:55] entire thing. Okay? So, what do we need
+[01:57] to do first? I will write here that I
+[02:00] have to calculate d/dx of 1/1 + e to
+[02:03] the power-x. Now, I will treat this
+[02:06] whole thing as a common term and move
+[02:09] it to the top. So this would become d/
+[02:13] dx of 1 + e to the power-x to the power
+[02:16] -1. Okay? Now we will apply the
+[02:20] reciprocal rule, and what will happen?
+[02:22] Here we will get-1/(1 + e to the power-
+[02:28] x) ²; okay? And after applying the
+[02:32] chain rule, you will have to calculate
+[02:35] the derivative of e to the power-x.
+[02:37] Okay? Now you know that the derivative
+[02:39] of e to the power-x is basically a
+[02:41] summation of these two terms. The
+[02:43] derivative of one will be zero, and we
+[02:44] will have to calculate the derivative
+[02:46] of this. So it will actually become 1 +
+[02:51] e power-x whole squared d/dx of e power
+[02:58] -x because the derivative of one is
+[03:01] zero anyway. Now you know that the
+[03:04] derivative of e power-x is e power-x.
+[03:07] So, we will write it like this-e power-
+[03:11] x/(1 + e power-x) whole squared. And
+[03:15] applying the chain rule, now we need to
+[03:18] differentiate-x, and you know the
+[03:20] derivative of-x would be -1. So, this
+[03:24] -1 will cancel this negative, and what
+[03:26] you have left is this. So we are almost
+[03:32] there. Now we just need to do a little
+[03:34] bit of mathematical simplification. So
+[03:36] what I would do is I would write it
+[03:38] like this. Right? Or I can write it
+[03:48] like this 1/(1 + e power-x) multiplied
+[03:53] by e power-x/(1 + e power-x). Now if
+[03:57] you see, what is this? This is actually
+[04:01] the sigmoid function itself. So we can
+[04:03] write it like this. We can write σ of
+[04:08] x multiplied by e to the power-x/(1 + e
+[04:13] to the power-x), okay? We need a little
+[04:17] more simplification. So σ x, we can
+[04:21] write the numerator as 1 + e power-x-1/
+[04:26] (1 + e power-x), okay? We did a little
+[04:30] bit of manipulation. σ x Now we are
+[04:34] separating the terms. (1 + e power-x)/(
+[04:38] 1 + e power-x)-1/(1 + e power-x). Now
+[04:43] you can clearly see that these two
+[04:46] terms will cancel out, and here we will
+[04:50] get σ x (1-and if you look closely
+[04:54] again, what is this? This is the
+[04:57] sigmoid again. So here we will get σ
+[05:00] of x again. And that's it guys. The
+[05:07] derivative of the sigmoid function is
+[05:10] actually sigmoid of x multiplied by 1-
+[05:13] sigmoid of x, so it is one of those
+[05:15] functions that includes itself in its
+[05:18] derivative. Okay? So this is the
+[05:21] derivative of the sigmoid function. And
+[05:23] this is a very useful derivative. It
+[05:26] will help you in many machine learning
+[05:28] and deep learning scenarios. You just
+[05:31] need to remember that the derivative of
+[05:33] sigmoid is sigmoid multiplied by 1-
+[05:35] sigmoid. That's it. If I show you the
+[05:38] graph, then this is the graph of the
+[05:40] sigmoid function. This is the sigmoid
+[05:42] function graph and this is the graph of
+[05:44] its derivative. Okay? If you want, you
+[05:47] can plot the values in NumPy and see.
+[05:50] But this will be the graph of the
+[05:51] sigmoid function. Okay? So yeah, that's
+[05:54] it for this video. Thanks for watching.

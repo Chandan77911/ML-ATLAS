@@ -1,0 +1,478 @@
+# Multiple Linear Regression | Geometric Intuition & Code
+# https://www.youtube.com/watch?v=ashGekqstl8
+
+Hi guys, welcome to my YouTube channel. We studied simple linear regression just a couple of videos ago. After that, we covered regression metrics. Now this is a good time to learn about multiple linear regression. That is what we will talk about in today's video. So let's start the video. So guys, if you remember, I told you about linear regression having three main types. One of them is simple linear regression. The second one is multiple linear regression, and the third one is polynomial regression. We didn't talk about polynomial regression because it's a topic for a bit later. We talked about simple linear regression, where if you have a dataset with only one input column and one output column, and your output column is a numerical column, then it becomes a case of simple linear regression. What did you use to do here? Just a quick revision. You would plot the x-quantity here. You would plot the y-quantity here and see if the relationship between these two quantities was linear or not. If it was linear, you would draw a line, which you called the best-fit line. And the best-fit line was your regression line. To draw this line, you needed the equation of the line, which is mx + b. So basically, you had to find m and b, and we saw in great detail in the last video how to find that. Now comes the question: what is multiple linear regression? So the case for multiple linear regression arises when you have a dataset where you have more than one input column. For instance, I will give you an example. Let's say you have x1, x2, x3, and then y. So x1, x2, and x3 are your three input columns, or independent columns. And y is your dependent column, or output column. This is a case where multiple linear regression will be applied. So let's look at a quick example. Just like we took an example in simple linear regression where CGPA was the input and Lakhs Per Annum was our output. Here, a transformed version could be that you also have information on CGPA. You also have information on gender. You also have information on IQ. And then you have to predict the LPA. Okay? So this is just a simple distinction. There isn't anything special left to explain here. So, if you ever have more than one input variable, that is multiple linear regression. And honestly, most of the time when you work with real-world data, you will have to apply multiple linear regression. Because the data you receive will mostly have more than one input column. Okay? So, a question might have come to your mind: why did we study simple linear regression then? Why study it if it’s not that useful? We studied it because what you learned in simple linear regression is applicable as-is in multiple linear regression. It happens that if you can think about and understand things in lower dimensions, you can visualize them in higher dimensions. That is why I taught you the concept of simple linear regression first, and now I will teach you multiple linear regression. Okay? So, multiple linear regression is just an extension of simple linear regression. Or you can say the opposite, that simple linear regression is just a specialization of multiple linear regression. Meaning, if multiple linear regression has only one variable, it becomes simple linear regression. Okay? So now the question arises: if I have multiple linear regression, what do I need to do to solve the problem? It is very simple. You do exactly what you do in simple linear regression. Just to simplify things. I am removing x3 and I am removing gender from here. So, it means the data I have looks like this. x1, x2, y; I have two input columns. One output column. And if we talk in terms of understanding it, CGPA is our x1. IQ is our x2 and LPA is our y. This is the data set we have. Why did I remove a column? Because I want to show you in 3D. We human beings can see a maximum of 3D. This data would become 4D, and if it were 4D, I wouldn't be able to show you how it works. Okay? So, see, the funda is very simple. What will you do again? You will plot the data. This time you plot it on a 3D graph. Okay? You will plot it on a 3D graph. I am not very good. At drawing at a 3D level. Okay? You will draw like this. This is your CGPA, this is your IQ, and this is your LPA. Okay? Now, what do you need to do again? Think, if you are making a prediction by drawing a line in 2D, what would be the equivalent in 3D? I guess you are understanding. It would be a plane. So what will you do in the case of 3D? You will draw a plane. Which will intersect all this data. So understand it this way, some points will be above this plane, some below. I mean, imagine your room. In that room, points are in the air. And what are you doing? You are cutting through all those points with a flat sheet. And the whole idea is that the sheet, that flat sheet, will try to stay very close to all the points. There could be a lot of sheets. You can place sheets in many ways. I don't have anything right now except my drawing board. So you can have a lot of sheets, right? It could be like this, it could be like that. In this 3D plane, there can be any kind of sheet. But you will try to draw such a sheet or a plane that stays very close to all the points. Okay? So that is the whole idea when you are working in 3D, and you have to imagine 4D as well if you are in 4D. Suppose you had one more column in the input, then this data would move into 4D. So the thing you would have in 4D is what we call a hyperplane. Hyperplane. In 5D too, it is called a hyperplane. In ND too, it is called a hyperplane. Okay? So now the question is, what equation are we deriving mathematically? So if you remember, when we were working in 2D with simple linear regression, we were solving this equation. y = mx + b, okay? And what did we need to find? m and b. When you bring this to 3D, this equation becomes y equals...this time your y is not just dependent on x. Now your y depends on both x1 and x2. So you will write m x1 + m x2 + b. For a bit more consistent behavior, what do you write? You write it this way: instead of B, you write beta 0. I am explaining the literature to you a bit. After that, you write beta 1 x1 + beta 2 x2. This, guys, is your equation for the plane. Okay? I mean, in this case, you have to find three things. You have to find the value of beta 0. You need to find the value of beta 1 and you need to find the value of beta 2. All right? So here, the m has now become beta 1 and your b has become beta 0, and there's an extra term, beta 2, because we have an additional column. All right? Now imagine, if I had data in 4D, what equation would I be looking for? I would be looking for this equation. Beta 0 + beta 1 x1 + beta 2 x2 + beta 3 x3, and in this case, I would try to find four things: beta 0, beta 1, beta 2, and beta 3, all right? Now you can easily extend this to an n-dimensional dataset where you have n input columns. How would you write it there? You would write y = beta 0 + beta 1 x1 + beta 2 x2 dot dot dot + beta n xn, all right, or you would write it like this: beta 0 + sigma i = 1 to n beta xi, this would be your equation. It goes into n dimensions, but the concept is the same. If your value of n is one, then you just write it in one dimension: y = beta 0 + beta 1 x1, which is this equation. All right? So this is a general equation. So this is what you do in linear regression. You try to find the coefficients in this equation. If you have one input column, you will get two coefficients. If there are two input columns, you will get three coefficients. If there are three columns, you will get four coefficients. So if you have n columns, you find n + 1 coefficients using linear regression. All right? Now, let me quickly give you a more human interpretation of things. I gave this to you in simple linear regression as well, that if you have n columns, then your hyperplane equation—well, let's not talk about the hyperplane yet. Let's talk about the 3D equation. So your equation becomes beta 0 + beta 1 x1 + beta 2 x2, and here, what is x1? CGPA And what is x2? IQ, so you can rewrite this equation, and by the way, what is y? LPA. So if you want to calculate any student's LPA value and you have beta 0, beta 1, and beta 2 after training, then this equation is simply multiplying beta 1. By CGPA, and multiplying beta 2 by IQ. This is the equation. For any new student, if I want to figure out what their package will be. Then I just need their IQ. I need the CGPA. I need the values of beta 0, beta 1, and beta 2, and my work will be done. Okay? Now, what do these coefficients represent? We discussed this earlier as well. These coefficients are like weights. These coefficients are like weights. Like, what is beta 2 telling us in this equation? In this equation, beta 2 tells us how much weight IQ has in calculating the LPA. So, if beta 2 is very low, it means that IQ is not really needed to calculate the LPA. Or you could say that the LPA value does not depend that much on IQ. Okay? If the value of beta 1 is very low, you would say that CGPA is not really needed to calculate the LPA, or that the LPA does not depend that much on CGPA. If beta 1 is greater than beta 2, you would say that the CGPA value is more important in calculating the LPA compared to IQ; these weights tell you which of your input columns are more valuable. Okay? And then I told you what this beta naught represents. So, this beta 0 is the offset. So, tomorrow, if your CGPA is zero and your IQ is also zero, what would the LPA value be? That is decided by this offset, the intercept value. Okay? So, this intercept value stays even in high dimensions. Okay? So, I will recommend something for you to watch. I will put a link to my own video in this video's description about how to find the equation of a line, or rather, how to find the equation of a hyperplane in n dimensions. Okay? You should watch that video a little. That video will give you a lot of perspective on how lines behave in higher dimensions. Okay? Please watch that video. Okay? So that's it, guys. This is what linear regression is. What do you have to do in the end? You have to find the equation of a hyperplane that passes closest to all your points. Okay? The idea you learned in simple linear regression, just extend that exact same idea. Okay? Now, I will cover this entire topic in three separate parts. In this part, I gave you the basic intuition and I will show you a code running. Okay? In the next video, I will show you how to build the entire mathematical model from scratch, including how you calculate these values from beta 0 to beta n from scratch. And in the third video, we will build our own class from scratch that will perform linear regression on data of any dimension. All right? So we will learn this in three parts. And honestly, it's a bit difficult. But I will try to explain it in a very easy way. I think you will be able to understand it. All right? So in this video, we are just doing one more thing, and that is running whatever we just saw through code. All right? So let's go to the browser. So guys, this is the code. And here you can see that I have created a dataset myself. I haven't picked a dataset from anyone else. I created a dataset myself using this function called make_regression. This is a function that comes within scikit-learn. Using this, you can generate a linear regression dataset of any dimension. I would recommend you check its documentation once and understand its usage. All right? So what have I done? I have generated a dataset of 100 rows with two input columns and one output column. Meaning the shape of this data will be 100 rows, three columns. Why three columns? Two input columns, one output column. All right? So this is my dataset. I intentionally converted that dataset into a DataFrame. So that I can show you what is going on. All right? In fact, I will do one thing, I will run it along with you. So that you can see. So here is my DataFrame. So this is the DataFrame. If I show you the shape, the shape would be 100, 3 as I told you. All right? So here is my feature one, here is my feature two, and here is my target variable. All right? So the matter has entered 3D space, and this is an example of multiple linear regression. All right? So now what am I doing? I will first show you how this entire data looks in 3D. All right? For that, I have used this library. Plotly is a very famous library. If you want to read a little bit about it. Although it is very simple. But if you want to read, you will find a one-hour video about it on my channel. An hour or two-hour video. I have explained Plotly from scratch there. I will try to put a link. I mean, I will have to search for it. But I will put a link over there. Okay? So when I plotted this in 3D, here is the data, guys. See, this is the data in 3D. This is the data. Let me rotate it a little to show you. See, look, this is your x-axis. This is the y-axis, and the one going upwards is the z-axis. And this is how your data is aligned. So you can see a linear sort of...I mean, imagine your room. If you want to perceive this dataset well, to understand it, then imagine your room. Wherever you are sitting and watching this video right now. Imagine there that points are floating in the air, and imagine the axes, that this is feature one, this is feature two, and the one going up is our target feature. Right? Now, what do we have to do? We have to draw a plane over it. A sheet, we have to draw a sheet that passes as close as possible to all the points. Right? So we don't have to do anything manually or practically ourselves. What will we do? We will simply use the entire flow that we have studied before. So the first thing that we will do is a train-test split. Because we need to calculate accuracy and such later. Not accuracy, we have to calculate the R2 score. We have to calculate mean squared error. We have to calculate mean absolute error. So I divided it into a train-test split. After that, I imported the linear regression class. I created an object for it. And after that, in this step, I trained the model. lr.fit, I provided my X_train. I provided my X_test. I am sorry, I provided y_train, and my model is trained. So why did it train so fast? Because we have very little data. And then what did I do? I calculated my y_pred by passing X_test into lr.predict. And using y_pred, I calculated my mean absolute error, mean squared error, and R2 score. And you can see the output is coming out to be somewhere around 71. Right? It means these two input columns together are able to explain 71%of the variance of my target column. Right? 33 is my MAE. 1659 is my mean squared error, because it comes in squared terms, so it will be higher. Right? Now, guys, ignore the rest of the code at this point. To be honest, I had to put in a lot of thought to write this code. And at this point, I would highly discourage you. Trust me. Highly discourage you. Don't get into these things right now. Just enjoy the visualization I am showing you. So what have I done in the next step? I have drawn that plane. I showed you a regression line in the first simple linear regression video. Similarly, here in 3D, that line becomes a plane. I’ve written all the code just to draw that plane. Just ignore it. Don't pay attention to what the code inside is right now. What is the logic? Just focus on the output. This is the output, guys. See, this is the output. So, we saw those points above. Look, this is that plane. See, internalize this completely, that this is how 3D works. See, some points are above. Some points are below. And what is this plane trying to do? This plane is trying to cut through your points and stay as close as possible to all of them. And that is what linear regression does in higher dimensions. See, okay, I will share this notebook with this video. Your job will be to look at it and nothing else. You just have to watch, and trust me, when you watch these things, you understand a lot through visualization. Much more than what a static image can help you understand. You will understand a lot more from these kinds of visualizations. Right? So you can clearly see how multiple linear regression is working in the case of 3D data. Right? Obviously, I couldn't give you an example in higher dimensions than this because then this graph couldn't be plotted. But I would encourage you to pick up higher-dimensional data from Kaggle or some other website. Five input columns or 10 input columns or 50 input columns and try applying regression on top of it. Right? That would give you some solid understanding. Right? So this is a brilliant visualization; when I drew it, I really felt nice that something quite correct was made. So yeah, one last thing I want to show you is that if you write lr.coefficient, this time you will see two numbers. Last time when we used coefficient, we only got the value of m. This time, this is beta 1. This value and this value is beta 2. Right? And this time also, if you calculate lr.intercept, you will see only one value. This is your beta 0, this is beta 1, this is beta 2. If you took more input columns, say three input columns, then you would also have beta 3. Okay? So that's it. Behind the scenes. This is the geometric intuition. This is the intuition of multiple linear regression. Now in the next video, we will build the mathematical formulation behind this from scratch and see how these values are calculated. Okay? So that's it for the video. I hope you liked it. Thanks for watching. Bye.
+
+
+[00:00] Hi guys, welcome to my YouTube channel.
+[00:03] We studied simple linear regression
+[00:05] just a couple of videos ago. After that
+[00:08] , we covered regression metrics. Now
+[00:11] this is a good time to learn about
+[00:12] multiple linear regression. That is
+[00:14] what we will talk about in today's
+[00:16] video. So let's start the video. So
+[00:18] guys, if you remember, I told you about
+[00:21] linear regression having three main
+[00:23] types. One of them is simple linear
+[00:26] regression. The second one is multiple
+[00:31] linear regression, and the third one is
+[00:35] polynomial regression. We didn't talk
+[00:38] about polynomial regression because
+[00:40] it's a topic for a bit later. We talked
+[00:44] about simple linear regression, where
+[00:47] if you have a dataset with only one
+[00:50] input column and one output column, and
+[00:53] your output column is a numerical
+[00:56] column, then it becomes a case of
+[00:58] simple linear regression. What did you
+[01:02] use to do here? Just a quick revision.
+[01:05] You would plot the x-quantity here. You
+[01:08] would plot the y-quantity here and see
+[01:10] if the relationship between these two
+[01:12] quantities was linear or not. If it was
+[01:16] linear, you would draw a line, which
+[01:19] you called the best-fit line. And the
+[01:22] best-fit line was your regression line.
+[01:26] To draw this line, you needed the
+[01:28] equation of the line, which is mx + b.
+[01:31] So basically, you had to find m and b,
+[01:34] and we saw in great detail in the last
+[01:37] video how to find that. Now comes the
+[01:40] question: what is multiple linear
+[01:42] regression? So the case for multiple
+[01:45] linear regression arises when you have
+[01:48] a dataset where you have more than one
+[01:51] input column. For instance, I will give
+[01:53] you an example. Let's say you have x1,
+[01:57] x2, x3, and then y. So x1, x2, and x3
+[02:02] are your three input columns, or
+[02:04] independent columns. And y is your
+[02:07] dependent column, or output column.
+[02:10] This is a case where multiple linear
+[02:13] regression will be applied. So let's
+[02:16] look at a quick example. Just like we
+[02:20] took an example in simple linear
+[02:21] regression where CGPA was the input and
+[02:23] Lakhs Per Annum was our output. Here, a
+[02:27] transformed version could be that you
+[02:29] also have information on CGPA. You also
+[02:32] have information on gender. You also
+[02:35] have information on IQ. And then you
+[02:37] have to predict the LPA. Okay? So this
+[02:40] is just a simple distinction. There
+[02:42] isn't anything special left to explain
+[02:43] here. So, if you ever have more than
+[02:46] one input variable, that is multiple
+[02:48] linear regression. And honestly, most
+[02:50] of the time when you work with
+[02:53] real-world data, you will have to apply
+[02:55] multiple linear regression. Because the
+[02:58] data you receive will mostly have more
+[03:01] than one input column. Okay? So, a
+[03:04] question might have come to your mind:
+[03:05] why did we study simple linear
+[03:06] regression then? Why study it if it’s
+[03:09] not that useful? We studied it because
+[03:11] what you learned in simple linear
+[03:13] regression is applicable as-is in
+[03:15] multiple linear regression. It happens
+[03:17] that if you can think about and
+[03:19] understand things in lower dimensions,
+[03:21] you can visualize them in higher
+[03:22] dimensions. That is why I taught you
+[03:24] the concept of simple linear regression
+[03:26] first, and now I will teach you
+[03:27] multiple linear regression. Okay? So,
+[03:30] multiple linear regression is just an
+[03:32] extension of simple linear regression.
+[03:35] Or you can say the opposite, that
+[03:37] simple linear regression is just a
+[03:39] specialization of multiple linear
+[03:41] regression. Meaning, if multiple linear
+[03:43] regression has only one variable, it
+[03:45] becomes simple linear regression. Okay?
+[03:47] So now the question arises: if I have
+[03:50] multiple linear regression, what do I
+[03:52] need to do to solve the problem? It is
+[03:55] very simple. You do exactly what you do
+[03:57] in simple linear regression. Just to
+[04:00] simplify things. I am removing x3 and I
+[04:03] am removing gender from here. So, it
+[04:05] means the data I have looks like this.
+[04:07] x1, x2, y; I have two input columns.
+[04:11] One output column. And if we talk in
+[04:14] terms of understanding it, CGPA is our
+[04:17] x1. IQ is our x2 and LPA is our y. This
+[04:22] is the data set we have. Why did I
+[04:24] remove a column? Because I want to show
+[04:26] you in 3D. We human beings can see a
+[04:29] maximum of 3D. This data would become
+[04:31] 4D, and if it were 4D, I wouldn't be
+[04:33] able to show you how it works. Okay? So
+[04:35] , see, the funda is very simple. What
+[04:37] will you do again? You will plot the
+[04:40] data. This time you plot it on a 3D
+[04:43] graph. Okay? You will plot it on a 3D
+[04:47] graph. I am not very good. At drawing
+[04:51] at a 3D level. Okay? You will draw like
+[04:55] this. This is your CGPA, this is your
+[05:00] IQ, and this is your LPA. Okay? Now,
+[05:04] what do you need to do again? Think, if
+[05:07] you are making a prediction by drawing
+[05:11] a line in 2D, what would be the
+[05:14] equivalent in 3D? I guess you are
+[05:18] understanding. It would be a plane. So
+[05:21] what will you do in the case of 3D? You
+[05:23] will draw a plane. Which will intersect
+[05:27] all this data. So understand it this
+[05:30] way, some points will be above this
+[05:33] plane, some below. I mean, imagine your
+[05:36] room. In that room, points are in the
+[05:38] air. And what are you doing? You are
+[05:40] cutting through all those points with a
+[05:42] flat sheet. And the whole idea is that
+[05:45] the sheet, that flat sheet, will try to
+[05:47] stay very close to all the points.
+[05:50] There could be a lot of sheets. You can
+[05:52] place sheets in many ways. I don't have
+[05:55] anything right now except my drawing
+[05:57] board. So you can have a lot of sheets,
+[06:00] right? It could be like this, it could
+[06:01] be like that. In this 3D plane, there
+[06:03] can be any kind of sheet. But you will
+[06:05] try to draw such a sheet or a plane
+[06:07] that stays very close to all the points
+[06:10] . Okay? So that is the whole idea when
+[06:13] you are working in 3D, and you have to
+[06:16] imagine 4D as well if you are in 4D.
+[06:19] Suppose you had one more column in the
+[06:21] input, then this data would move into
+[06:22] 4D. So the thing you would have in 4D
+[06:25] is what we call a hyperplane.
+[06:27] Hyperplane. In 5D too, it is called a
+[06:30] hyperplane. In ND too, it is called a
+[06:32] hyperplane. Okay? So now the question
+[06:34] is, what equation are we deriving
+[06:37] mathematically? So if you remember,
+[06:40] when we were working in 2D with simple
+[06:43] linear regression, we were solving this
+[06:45] equation. y = mx + b, okay? And what
+[06:52] did we need to find? m and b. When you
+[06:55] bring this to 3D, this equation becomes
+[06:59] y equals...this time your y is not just
+[07:02] dependent on x. Now your y depends on
+[07:06] both x1 and x2. So you will write m x1
+[07:10] + m x2 + b. For a bit more consistent
+[07:14] behavior, what do you write? You write
+[07:18] it this way: instead of B, you write
+[07:21] beta 0. I am explaining the literature
+[07:23] to you a bit. After that, you write
+[07:27] beta 1 x1 + beta 2 x2. This, guys, is
+[07:31] your equation for the plane. Okay? I
+[07:35] mean, in this case, you have to find
+[07:37] three things. You have to find the
+[07:39] value of beta 0. You need to find the
+[07:41] value of beta 1 and you need to find
+[07:43] the value of beta 2. All right? So here
+[07:45] , the m has now become beta 1 and your
+[07:48] b has become beta 0, and there's an
+[07:50] extra term, beta 2, because we have an
+[07:53] additional column. All right? Now
+[07:55] imagine, if I had data in 4D, what
+[07:58] equation would I be looking for? I
+[08:00] would be looking for this equation.
+[08:01] Beta 0 + beta 1 x1 + beta 2 x2 + beta 3
+[08:11] x3, and in this case, I would try to
+[08:14] find four things: beta 0, beta 1, beta
+[08:17] 2, and beta 3, all right? Now you can
+[08:21] easily extend this to an n-dimensional
+[08:24] dataset where you have n input columns.
+[08:27] How would you write it there? You would
+[08:30] write y = beta 0 + beta 1 x1 + beta 2
+[08:35] x2 dot dot dot + beta n xn, all right,
+[08:40] or you would write it like this: beta 0
+[08:45] + sigma i = 1 to n beta xi, this would
+[08:50] be your equation. It goes into n
+[08:54] dimensions, but the concept is the same
+[08:56] . If your value of n is one, then you
+[09:00] just write it in one dimension: y =
+[09:04] beta 0 + beta 1 x1, which is this
+[09:07] equation. All right? So this is a
+[09:10] general equation. So this is what you
+[09:12] do in linear regression. You try to
+[09:14] find the coefficients in this equation.
+[09:17] If you have one input column, you will
+[09:19] get two coefficients. If there are two
+[09:21] input columns, you will get three
+[09:22] coefficients. If there are three
+[09:24] columns, you will get four coefficients
+[09:25] . So if you have n columns, you find n
+[09:28] + 1 coefficients using linear
+[09:30] regression. All right? Now, let me
+[09:33] quickly give you a more human
+[09:35] interpretation of things. I gave this
+[09:39] to you in simple linear regression as
+[09:42] well, that if you have n columns, then
+[09:44] your hyperplane equation—well, let's
+[09:46] not talk about the hyperplane yet.
+[09:49] Let's talk about the 3D equation. So
+[09:51] your equation becomes beta 0 + beta 1
+[09:55] x1 + beta 2 x2, and here, what is x1?
+[09:59] CGPA And what is x2? IQ, so you can
+[10:03] rewrite this equation, and by the way,
+[10:06] what is y? LPA. So if you want to
+[10:09] calculate any student's LPA value and
+[10:12] you have beta 0, beta 1, and beta 2
+[10:15] after training, then this equation is
+[10:18] simply multiplying beta 1. By CGPA, and
+[10:23] multiplying beta 2 by IQ. This is the
+[10:27] equation. For any new student, if I
+[10:29] want to figure out what their package
+[10:31] will be. Then I just need their IQ. I
+[10:33] need the CGPA. I need the values of
+[10:36] beta 0, beta 1, and beta 2, and my work
+[10:37] will be done. Okay? Now, what do these
+[10:40] coefficients represent? We discussed
+[10:41] this earlier as well. These
+[10:43] coefficients are like weights. These
+[10:46] coefficients are like weights. Like,
+[10:49] what is beta 2 telling us in this
+[10:50] equation? In this equation, beta 2
+[10:53] tells us how much weight IQ has in
+[10:56] calculating the LPA. So, if beta 2 is
+[11:00] very low, it means that IQ is not
+[11:02] really needed to calculate the LPA. Or
+[11:06] you could say that the LPA value does
+[11:08] not depend that much on IQ. Okay? If
+[11:12] the value of beta 1 is very low, you
+[11:14] would say that CGPA is not really
+[11:16] needed to calculate the LPA, or that
+[11:18] the LPA does not depend that much on
+[11:21] CGPA. If beta 1 is greater than beta 2,
+[11:24] you would say that the CGPA value is
+[11:27] more important in calculating the LPA
+[11:30] compared to IQ; these weights tell you
+[11:33] which of your input columns are more
+[11:36] valuable. Okay? And then I told you
+[11:38] what this beta naught represents. So,
+[11:41] this beta 0 is the offset. So, tomorrow
+[11:44] , if your CGPA is zero and your IQ is
+[11:47] also zero, what would the LPA value be?
+[11:50] That is decided by this offset, the
+[11:51] intercept value. Okay? So, this
+[11:53] intercept value stays even in high
+[11:55] dimensions. Okay? So, I will recommend
+[11:58] something for you to watch. I will put
+[12:02] a link to my own video in this video's
+[12:05] description about how to find the
+[12:07] equation of a line, or rather, how to
+[12:09] find the equation of a hyperplane in n
+[12:12] dimensions. Okay? You should watch that
+[12:15] video a little. That video will give
+[12:16] you a lot of perspective on how lines
+[12:18] behave in higher dimensions. Okay?
+[12:20] Please watch that video. Okay? So
+[12:22] that's it, guys. This is what linear
+[12:25] regression is. What do you have to do
+[12:27] in the end? You have to find the
+[12:31] equation of a hyperplane that passes
+[12:36] closest to all your points. Okay? The
+[12:42] idea you learned in simple linear
+[12:43] regression, just extend that exact same
+[12:46] idea. Okay? Now, I will cover this
+[12:49] entire topic in three separate parts.
+[12:52] In this part, I gave you the basic
+[12:54] intuition and I will show you a code
+[12:56] running. Okay? In the next video, I
+[12:59] will show you how to build the entire
+[13:02] mathematical model from scratch,
+[13:04] including how you calculate these
+[13:06] values from beta 0 to beta n from
+[13:08] scratch. And in the third video, we
+[13:11] will build our own class from scratch
+[13:13] that will perform linear regression on
+[13:15] data of any dimension. All right? So we
+[13:18] will learn this in three parts. And
+[13:19] honestly, it's a bit difficult. But I
+[13:22] will try to explain it in a very easy
+[13:24] way. I think you will be able to
+[13:26] understand it. All right? So in this
+[13:28] video, we are just doing one more thing
+[13:31] , and that is running whatever we just
+[13:33] saw through code. All right? So let's
+[13:37] go to the browser. So guys, this is the
+[13:41] code. And here you can see that I have
+[13:45] created a dataset myself. I haven't
+[13:48] picked a dataset from anyone else. I
+[13:50] created a dataset myself using this
+[13:52] function called make_regression. This
+[13:55] is a function that comes within
+[13:57] scikit-learn. Using this, you can
+[13:59] generate a linear regression dataset of
+[14:02] any dimension. I would recommend you
+[14:04] check its documentation once and
+[14:06] understand its usage. All right? So
+[14:08] what have I done? I have generated a
+[14:11] dataset of 100 rows with two input
+[14:14] columns and one output column. Meaning
+[14:17] the shape of this data will be 100 rows
+[14:20] , three columns. Why three columns? Two
+[14:22] input columns, one output column. All
+[14:24] right? So this is my dataset. I
+[14:26] intentionally converted that dataset
+[14:29] into a DataFrame. So that I can show
+[14:32] you what is going on. All right? In
+[14:34] fact, I will do one thing, I will run
+[14:36] it along with you. So that you can see.
+[14:40] So here is my DataFrame. So this is the
+[14:44] DataFrame. If I show you the shape, the
+[14:48] shape would be 100, 3 as I told you.
+[14:55] All right? So here is my feature one,
+[14:57] here is my feature two, and here is my
+[14:59] target variable. All right? So the
+[15:01] matter has entered 3D space, and this
+[15:02] is an example of multiple linear
+[15:04] regression. All right? So now what am I
+[15:06] doing? I will first show you how this
+[15:09] entire data looks in 3D. All right? For
+[15:12] that, I have used this library. Plotly
+[15:15] is a very famous library. If you want
+[15:17] to read a little bit about it. Although
+[15:19] it is very simple. But if you want to
+[15:21] read, you will find a one-hour video
+[15:22] about it on my channel. An hour or
+[15:24] two-hour video. I have explained Plotly
+[15:26] from scratch there. I will try to put a
+[15:29] link. I mean, I will have to search for
+[15:30] it. But I will put a link over there.
+[15:32] Okay? So when I plotted this in 3D,
+[15:35] here is the data, guys. See, this is
+[15:39] the data in 3D. This is the data. Let
+[15:44] me rotate it a little to show you. See,
+[15:46] look, this is your x-axis. This is the
+[15:50] y-axis, and the one going upwards is
+[15:52] the z-axis. And this is how your data
+[15:54] is aligned. So you can see a linear
+[15:55] sort of...I mean, imagine your room. If
+[15:58] you want to perceive this dataset well,
+[16:00] to understand it, then imagine your
+[16:02] room. Wherever you are sitting and
+[16:03] watching this video right now. Imagine
+[16:06] there that points are floating in the
+[16:08] air, and imagine the axes, that this is
+[16:10] feature one, this is feature two, and
+[16:13] the one going up is our target feature.
+[16:16] Right? Now, what do we have to do? We
+[16:18] have to draw a plane over it. A sheet,
+[16:21] we have to draw a sheet that passes as
+[16:24] close as possible to all the points.
+[16:26] Right? So we don't have to do anything
+[16:28] manually or practically ourselves. What
+[16:29] will we do? We will simply use the
+[16:32] entire flow that we have studied before
+[16:34] . So the first thing that we will do is
+[16:36] a train-test split. Because we need to
+[16:38] calculate accuracy and such later. Not
+[16:40] accuracy, we have to calculate the R2
+[16:42] score. We have to calculate mean
+[16:43] squared error. We have to calculate
+[16:44] mean absolute error. So I divided it
+[16:46] into a train-test split. After that, I
+[16:49] imported the linear regression class. I
+[16:52] created an object for it. And after
+[16:55] that, in this step, I trained the model
+[16:57] . lr.fit, I provided my X_train. I
+[16:59] provided my X_test. I am sorry, I
+[17:02] provided y_train, and my model is
+[17:04] trained. So why did it train so fast?
+[17:06] Because we have very little data. And
+[17:08] then what did I do? I calculated my
+[17:10] y_pred by passing X_test into
+[17:12] lr.predict. And using y_pred, I
+[17:15] calculated my mean absolute error, mean
+[17:18] squared error, and R2 score. And you
+[17:22] can see the output is coming out to be
+[17:24] somewhere around 71. Right? It means
+[17:26] these two input columns together are
+[17:29] able to explain 71%of the variance of
+[17:31] my target column. Right? 33 is my MAE.
+[17:36] 1659 is my mean squared error, because
+[17:37] it comes in squared terms, so it will
+[17:39] be higher. Right? Now, guys, ignore the
+[17:43] rest of the code at this point. To be
+[17:46] honest, I had to put in a lot of
+[17:47] thought to write this code. And at this
+[17:49] point, I would highly discourage you.
+[17:51] Trust me. Highly discourage you. Don't
+[17:53] get into these things right now. Just
+[17:55] enjoy the visualization I am showing
+[17:57] you. So what have I done in the next
+[17:58] step? I have drawn that plane. I showed
+[18:01] you a regression line in the first
+[18:04] simple linear regression video.
+[18:07] Similarly, here in 3D, that line
+[18:09] becomes a plane. I’ve written all the
+[18:12] code just to draw that plane. Just
+[18:14] ignore it. Don't pay attention to what
+[18:16] the code inside is right now. What is
+[18:18] the logic? Just focus on the output.
+[18:20] This is the output, guys. See, this is
+[18:27] the output. So, we saw those points
+[18:29] above. Look, this is that plane. See,
+[18:34] internalize this completely, that this
+[18:36] is how 3D works. See, some points are
+[18:39] above. Some points are below. And what
+[18:42] is this plane trying to do? This plane
+[18:45] is trying to cut through your points
+[18:46] and stay as close as possible to all of
+[18:48] them. And that is what linear
+[18:51] regression does in higher dimensions.
+[18:53] See, okay, I will share this notebook
+[18:57] with this video. Your job will be to
+[19:01] look at it and nothing else. You just
+[19:04] have to watch, and trust me, when you
+[19:06] watch these things, you understand a
+[19:08] lot through visualization. Much more
+[19:10] than what a static image can help you
+[19:13] understand. You will understand a lot
+[19:15] more from these kinds of visualizations
+[19:16] . Right? So you can clearly see how
+[19:19] multiple linear regression is working
+[19:22] in the case of 3D data. Right?
+[19:24] Obviously, I couldn't give you an
+[19:26] example in higher dimensions than this
+[19:27] because then this graph couldn't be
+[19:29] plotted. But I would encourage you to
+[19:32] pick up higher-dimensional data from
+[19:34] Kaggle or some other website. Five
+[19:36] input columns or 10 input columns or 50
+[19:38] input columns and try applying
+[19:40] regression on top of it. Right? That
+[19:42] would give you some solid understanding
+[19:44] . Right? So this is a brilliant
+[19:47] visualization; when I drew it, I really
+[19:49] felt nice that something quite correct
+[19:52] was made. So yeah, one last thing I
+[19:57] want to show you is that if you write
+[20:02] lr.coefficient, this time you will see
+[20:07] two numbers. Last time when we used
+[20:10] coefficient, we only got the value of m
+[20:12] . This time, this is beta 1. This value
+[20:15] and this value is beta 2. Right? And
+[20:18] this time also, if you calculate
+[20:20] lr.intercept, you will see only one
+[20:23] value. This is your beta 0, this is
+[20:25] beta 1, this is beta 2.
+[20:28] If you took more input columns, say
+[20:30] three input columns, then you would
+[20:32] also have beta 3. Okay? So that's it.
+[20:35] Behind the scenes. This is the
+[20:37] geometric intuition. This is the
+[20:38] intuition of multiple linear regression
+[20:41] . Now in the next video, we will build
+[20:44] the mathematical formulation behind
+[20:46] this from scratch and see how these
+[20:48] values are calculated. Okay? So that's
+[20:51] it for the video. I hope you liked it.
+[20:54] Thanks for watching. Bye.

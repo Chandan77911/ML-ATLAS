@@ -1,0 +1,211 @@
+# Naive Bayes Classifier | Part 1 | Conditional Probability
+# https://www.youtube.com/watch?v=Ty7knppVo9E
+
+Hi. So, in this video, we're going to learn about conditional probability. It's a very important concept in probability uh which basically says that if there are two events A and B, right? Then, probability of A given B can be written as probability of A intersection B divided by probability of B. Given probability of B is not equal to zero. Conditional probability is a very fundamental concept in probability. But So, let's see some examples So, let's say we are taking an event. We are actually taking two events uh of rolling two dice together. So, there is this die one and there is this die two. And we are rolling them together, okay? So, the sample space is something like this. 1 {comma} 1 1 {comma} 2 2 {comma} 1 2 {comma} 2 and 6 {comma} 6. So, there will be in total 36 outcomes are possible, right? This is the sample space, okay? Now, uh let's do one thing. Uh let's draw a chart. Let's draw a chart so that we can answer some questions. So, if this is the possibility of D1, let's say 1 2 3 4 5 and 6. This is D1. And let's say uh this is D2. So basically we are drawing the entire sample space. So writing down the sum of these two things would be 2 3 4 5 6 7 3 4 5 6 7 8 4 5 6 7 8 9 10 6 7 8 9 10 11 and 12. Right? So this is the entire sample space. Now let's say we start asking questions. So let's say the first question is What is the probability that the value attained by die one is five? Now I'm asking what is the probability that die one will have five? Right? If you look at the table, there is only one possible outcome where die one will have a value of five out of 36 values. So you can write probability of A where A is basically five value. It's basically one out of 36. So you can see it's very simple. We have two dice that we have rolled together and we are asking what is the probability that die one will have five? Right? Only one out of 36. So the outcome is one outcome one out of 36. Okay? Now let's ask The second question is what is the probability that die one plus die two is less than equal to 10. So, if you see Don't you think only this much is not included. Otherwise, apart from that, everything is included. There's only three There are only three values where uh the sum is not less than equal to 10. So, probability of B probability of D1 plus D2 less than equal to 10 is actually 33 out of 36. So, you can write 11 by 12. That's the probability. Right? So, uh to be honest, conditional probability we haven't even talked Let's Let me ask you this question. Uh the question is this. Uh you have to find out the probability of die one to be equal to five given D1 plus D2 is less than equal to 10. Right? Now, think carefully. Like, this is D2. This is D1. My question is, you have to find out the probability of die one having a value of five given this thing has happened. P of A given B. So, you have to obviously this will become B and this is A. So, in a way I'm writing P of D1 equal to 5 given D1 plus D2 is less than equal to 10. This is given. So, this means this entire space, like this entire space. I was in 33 values and this is given. Right? So, obviously the probability of this A by B denominator obviously because I reduced sample size sample size 33. A like this one, this one, this one, this one, and this one. So, I'm sorry. Let me tell you. Uh D1 equal to 5 so you know you know what? Minus eight should be this. There are only five cases in this sample space. Okay, so I'm going to put it like this. 5 by 33 Right? Or to this formula say I'll show you guys. So, the answer that we got was 5 by 33. The probability of A given B was coming out to be 5 by 33. Now uh this formula through this So, according to this formula first we have to find out dono ka sath mein hone ka probability kya hai? Theek hai? Dono ka sath mein hone ka matlab event A is D1 is equal to five and event B is D1 plus D2 is less than equal to 10. Right? So, ye dono sath mein ho aisa probability nikalna hai. Theek hai? So, we are finding out P of A intersection B. Dono ka sath mein hone ka probability. Theek hai? Obviously, the entire sample space is considered. Ab bas mujhe pata lagna hai ki ye dono sath mein kitni bar hue. So, the answer is uh kuch soch ke dekho ek do teen char panch bar hi aisa hua jab D1 ka value five bhi tha matlab ye condition bhi true tha aur ye D1 plus D2 less than 10 bhi tha. Yahi to tha. So, total kya ho gaya? 5 by 36. Right? Now, let's find out the probability of happening of B. Or probability of B you already know is 33 divided by 36. So, this term and this term cancels out and the answer that we have got is 5 by 33. Right? So, I hope ye discussion samajh mein aa raha hai. Uh it's very easy to be honest. It's just ki ye bahut jagah implement hota hai aur isi liye bahut important ho jata hai. Iske bad hum log jab base theorem padhenge, that is totally based upon conditional probability. So, I hope se thoda sa aur uh research kar lo. Conditional probability ke upar kuch problems laga lo so that concepts concrete ho jaye and then uh we can move forward ki ye pura concept kaise use ho raha hai in naive base Thanks for watching.
+
+
+[00:00] Hi. So, in this video, we're going to
+[00:02] learn about conditional probability.
+[00:04] It's a very important concept in
+[00:06] probability
+[00:07] uh which basically says that if there
+[00:09] are two events A and B,
+[00:12] right?
+[00:13] Then, probability of A given B can be
+[00:18] written as probability of A intersection
+[00:21] B
+[00:23] divided by probability of B. Given
+[00:29] probability of B
+[00:31] is not equal to zero.
+[00:34] Conditional probability
+[00:36] is a very fundamental concept in
+[00:37] probability. But
+[00:48] So,
+[00:50] let's see some examples
+[00:55] So, let's say we are taking an event. We
+[00:58] are actually taking two events uh of
+[01:00] rolling two dice together. So, there is
+[01:03] this die one
+[01:05] and there is this die two. And we are
+[01:07] rolling them together, okay? So, the
+[01:10] sample space
+[01:11] is something like this. 1 {comma} 1
+[01:14] 1 {comma} 2
+[01:16] 2 {comma} 1
+[01:18] 2 {comma} 2
+[01:20] and 6 {comma} 6. So, there will be in
+[01:22] total 36 outcomes are possible, right?
+[01:26] This is the sample space, okay? Now, uh
+[01:29] let's do one thing. Uh let's draw a
+[01:31] chart. Let's draw a chart so that we can
+[01:34] answer some questions. So,
+[01:36] if this is the possibility of D1, let's
+[01:39] say 1
+[01:43] 2
+[01:45] 3
+[01:47] 4
+[01:49] 5
+[01:51] and 6. This is D1.
+[01:55] And let's say
+[01:57] uh this is D2.
+[02:06] So basically we are drawing the entire
+[02:08] sample space.
+[02:10] So writing down the sum of these two
+[02:13] things would be 2
+[02:15] 3 4 5 6 7
+[02:19] 3 4 5
+[02:23] 6 7 8
+[02:26] 4 5 6 7 8 9
+[02:31] 10
+[02:36] 6
+[02:38] 7 8 9 10 11
+[02:42] and 12. Right? So this is
+[02:49] the entire sample space.
+[02:51] Now let's say we start asking questions.
+[02:53] So let's say the first question is
+[02:56] What is the probability that the value
+[02:59] attained by die one is five?
+[03:05] Now I'm asking what is the probability
+[03:07] that die one will have five? Right?
+[03:10] If you look at the table,
+[03:12] there is only one possible outcome where
+[03:15] die
+[03:17] one will have a value of five out of
+[03:19] 36 values. So you can write probability
+[03:22] of A
+[03:23] where A is basically
+[03:25] five value. It's basically one out of
+[03:28] 36. So you can see it's very simple. We
+[03:31] have two dice that we have rolled
+[03:32] together and we are asking what is the
+[03:34] probability that die one will have five?
+[03:35] Right?
+[03:37] Only one out of 36. So the outcome is
+[03:40] one outcome one out of 36. Okay? Now
+[03:43] let's ask The second question
+[03:45] is what is the
+[03:47] probability that
+[03:49] die one plus die two is less than equal
+[03:53] to 10.
+[04:07] So,
+[04:08] if you see
+[04:11] Don't you think
+[04:12] only this much
+[04:18] is not included. Otherwise, apart from
+[04:21] that, everything is included.
+[04:31] There's only three There are only three
+[04:32] values where
+[04:34] uh the sum is not less than equal to 10.
+[04:42] So, probability of B
+[04:46] probability of D1 plus D2 less than
+[04:49] equal to 10 is actually 33 out of
+[04:53] 36. So, you can write 11 by
+[04:56] 12.
+[04:57] That's the probability.
+[04:58] Right? So,
+[05:00] uh to be honest, conditional probability
+[05:02] we haven't even talked Let's Let me ask you this
+[05:04] question. Uh the question is this.
+[05:08] Uh you have to find out
+[05:11] the probability
+[05:14] of die one
+[05:16] to be equal to five
+[05:19] given
+[05:20] D1 plus D2 is less than equal to
+[05:24] 10.
+[05:26] Right?
+[05:27] Now, think carefully. Like, this is D2.
+[05:30] This is D1. My question is, you have to
+[05:33] find out the probability of die one
+[05:37] having a value of five given this thing
+[05:40] has happened.
+[05:42] P of A given B. So, you have to
+[05:44] obviously this will become
+[05:47] B and this is A. So, in a way I'm
+[05:50] writing
+[05:51] P of
+[05:53] D1 equal to 5
+[05:55] given D1 plus D2 is less than equal to
+[06:00] 10.
+[06:04] This is given. So, this means this
+[06:06] entire space, like this entire space.
+[06:11] I was
+[06:13] in 33 values
+[06:15] and this is given.
+[06:17] Right?
+[06:23] So, obviously
+[06:24] the probability of this A by B
+[06:28] denominator obviously
+[06:31] because I reduced sample size sample
+[06:33] size 33.
+[06:40] A
+[06:41] like this one,
+[06:43] this one, this one, this one,
+[06:46] and this one.
+[06:47] So,
+[06:48] I'm sorry. Let me tell you.
+[06:50] Uh
+[06:51] D1 equal to 5
+[06:53] so you know you know what?
+[06:57] Minus eight should be this.
+[07:01] There are only five cases in this sample
+[07:05] space.
+[07:07] Okay, so I'm going to put it like this.
+[07:11] 5 by 33
+[07:13] Right? Or
+[07:17] to this formula say
+[07:20] I'll show you guys.
+[07:26] So, the answer that we got was 5 by 33.
+[07:30] The probability of A given B
+[07:32] was coming out to be 5 by 33. Now
+[07:37] uh
+[07:38] this formula through this
+[07:40] So, according to this formula first we
+[07:43] have to find out dono ka sath mein hone
+[07:45] ka probability kya hai?
+[07:47] Theek hai? Dono ka sath mein hone ka
+[07:48] matlab
+[07:51] event A is
+[07:53] D1 is equal to five
+[07:55] and event B is
+[07:57] D1 plus D2 is less than equal to 10.
+[08:00] Right? So, ye dono sath mein ho
+[08:03] aisa probability nikalna hai. Theek hai?
+[08:05] So, we are finding out P of A
+[08:08] intersection B. Dono ka sath mein hone
+[08:10] ka probability. Theek hai? Obviously,
+[08:12] the entire sample space is considered.
+[08:14] Ab bas mujhe pata lagna hai ki ye dono
+[08:17] sath mein kitni bar hue.
+[08:18] So, the answer is uh
+[08:21] kuch soch ke dekho ek do teen char panch
+[08:24] bar hi aisa hua
+[08:26] jab D1 ka value five bhi tha matlab ye
+[08:28] condition bhi true tha
+[08:30] aur
+[08:31] ye
+[08:33] D1 plus D2 less than 10 bhi tha. Yahi to
+[08:35] tha. So, total kya ho gaya? 5 by 36.
+[08:38] Right? Now, let's find out the
+[08:41] probability of happening of B.
+[08:43] Or probability of B you already know is
+[08:46] 33
+[08:47] divided by 36.
+[08:50] So, this term and this term cancels out
+[08:52] and the answer that we have got is 5 by
+[08:55] 33.
+[08:56] Right? So, I hope ye discussion samajh
+[08:59] mein aa raha hai.
+[09:00] Uh it's very easy to be honest. It's
+[09:02] just ki ye bahut jagah implement hota
+[09:03] hai aur isi liye bahut important ho jata
+[09:05] hai. Iske bad hum log jab base theorem
+[09:06] padhenge, that is totally based upon
+[09:08] conditional probability. So, I hope se
+[09:10] thoda sa aur uh research kar lo.
+[09:12] Conditional probability ke upar kuch
+[09:13] problems laga lo so that concepts
+[09:15] concrete ho jaye and then uh
+[09:18] we can move forward ki ye pura concept
+[09:20] kaise use ho raha hai in naive base
+[09:21] Thanks for watching.

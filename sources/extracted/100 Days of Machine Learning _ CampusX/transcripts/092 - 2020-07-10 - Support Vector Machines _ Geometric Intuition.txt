@@ -1,0 +1,305 @@
+# Support Vector Machines | Geometric Intuition
+# https://www.youtube.com/watch?v=ugTxMLjLS8M
+
+Hi guys, the next algorithm that we are going to do is Support Vector Machines. To be honest, let me tell you a little bit about Support Vector Machines first. This is one algorithm that actually gets a lot of respect in the machine learning community because this is a very, very good algorithm. It is very robust and it is kind of applicable to a lot of scenarios. Okay? So it was conceptualized in the late 90s, and since then, along with Random Forest, this algorithm is actually used in quite a few scenarios. Okay, so you can keep this in the logistic regression family, and in fact, it is said that if you are going to do Support Vector Machines, you should have a good idea about logistic regression because what do Support Vector Machines do? They improve the idea of logistic regression a little bit. Right? So what we are going to do is understand Support Vector Machines from scratch. Okay? So there will be multiple videos. This is just the first video where we will discuss the geometric intuition behind the algorithm. Okay? So I have drawn this figure. There are two different classes of points, the green points and the red points, and these are linearly separable, as you can see you can draw a line to classify. Okay? So I have drawn two planes here. You can call them planes, or if it's 2D, you can call them line segments. So I have drawn two planes here. π1, π2. You can call them L1 and L2. Now, if I ask you this question, both of these are classifying the data with 100%accuracy. If you think about it. If you look at the black one, it is able to classify all the red points correctly and all the green points correctly. And the same goes for the blue hyperplane. Okay? But what if I ask you this question: which of these would you select as your classifier? Because if you think about it, if you were doing logistic regression, for logistic regression, both are equal because both are doing their job. But not for SVM; SVM says I will select the better line, the better hyperplane out of these two. Can you tell me which of these will act as a better hyperplane? The answer is this black one, and I guess you all can think of it yourselves, right? You must also be doing the calculations in your head and arriving at the answer that Pi 1 is better than Pi 2. Now comes the answer, now comes the answer as to why this is the case. The reason is that if you have studied logistic regression, you would know that whenever you draw a line segment, what you do is calculate this distance, which is basically W transpose XI, where XI is this point, right? And here, we are ignoring the B term by imagining that it passes through the origin. And then what do you do? You pass it through the sigmoid function. And this is your probability. The probability of y being one. Right? And y being -1. Right? Now, the smaller this distance is, the closer this probability will be to zero. Meaning, if it is very close to this line, it means the probability of it being positive is also very low. But if a point is very far away, right? It is very far, so this distance will be large and the probability that it could be one will also be very high. Right? So what is SVM saying? Or what does SVM want to do? It wants to classify the data. But by selecting that hyper-plane which classifies all these points as widely as possible. Right? You want to increase this distance. You want to increase this gap. So that when you get new unseen data in the future, this line will perform better in comparison to this line. And that is the core idea behind SVM. The core idea is—I’ll sort of revise. The core idea is to maximize this distance, this gap, because of which you are able to classify these points as widely as possible. Okay? And that is why this plane will not be selected; this plane will be selected if you use support vector machines. Okay? Now what we will do is, we will actually see geometrically why and how you will select this plane and not select this one. What is the core logic behind this? That is what we are going to discuss. Okay? So I will rub the board. Okay? So now that we know the core idea. What do we need to do? We need to find a hyper-plane that maximizes this margin. So that the model you create is very generalized. Meaning, it behaves very well on unseen data too. Okay? So this gap, you can also call it a margin. Right? You can call this a margin. And we are trying to find a plane that will increase this margin. Right? And that is why we sometimes call it the margin maximizing hyperplane. Okay? So in SVM, the core idea, the thing you are working towards, is actually to find a hyperplane that can act as the margin-maximizing hyperplane. Meaning, when it classifies the data, it should maximize this margin. So that your model becomes a very generalized model and performs well on unseen data too. Right? But the question is, how? How will you do this? Right? So now I will get into the mathematical formulation. I will show you through geometry how this happens. So the whole idea is very simple. What you do is you go parallel to this. First, you select a hyperplane. Let's say you selected a hyperplane. Okay? Now let's say you randomly selected a hyperplane. This is a hyperplane. Now what you do is you go in the positive direction parallel to this hyperplane. What do you do? You keep drawing hyperplanes in the parallel direction above it until you reach the first green point. As soon as you find a hyperplane that is parallel to pi and it touches the first green point, you stop there. You stop right there. Right? This line, this hyperplane, is parallel to pi. And this is the first hyperplane that touches the first green point, and this is a red flag. You will stop here. Okay? And you call this hyperplane pi positive. Right? Then you do the same thing in the opposite direction. You move in the negative direction parallel to pi and you will stop once you reach the first red point. Okay? So you stop here. Right? And you call this hyper... Obviously, both of these are hyperplanes. Right? These are like line segments. If you are talking about 2D, these are both lines. Actually, all three are lines. Okay? And you call this hyperplane pi minus. Okay? So you are finding...first you randomly selected this hyperplane. Then for this hyperplane, you found this pi positive and this pi negative. Right? Now what do you do? Now you calculate the margin. What is the margin? Margin is defined as the shortest distance between pi positive and pi minus. Both are parallel. Right? If pi plus is parallel to pi, and pi minus is parallel to pi, then pi minus and pi plus are parallel. So what you do is you calculate the shortest distance. You calculate this distance, right? And you call this distance margin and you denote it with 'd', right? So first step, select a hyperplane. Step two, find out pi positive and pi negative hyperplanes, then calculate this distance. And then you find out, then you do this step with a bunch of other hyperplanes. You will calculate for all hyperplanes. For them, you will find pi plus and pi minus and calculate 'd' for all of them. And then you find out, then you decide, uh, you will select that particular plane for which the value of 'd' is higher. That is what this algorithm is giving. You are selecting a hyperplane, you are finding positive, negative, you are finding this 'd', and then you are selecting that hyperplane for which this 'd' is maximum. So mathematically if you put this, then you want to find out, you are actually trying to maximize this 'd', uh, by finding out obviously the equation of the plane, you know, w transpose x + b, right? So what you are actually trying to do is, you are actually trying to find out w and b values for which this 'd' will be maximum. This is what we are trying to do and it actually works very well. Uh, you can actually test it. Uh, let's say you created another line segment. Uh This is the one. Okay? Now for this, if you, let's call this ' d prime'. Now for this, if you, uh, find out the positive and negative planes. Then this is the first point where it touches. Right? I will draw it. Right? And similarly this point is over here, right? And you can see this gap, this margin, let's call it 'd prime'. 'd prime' is less than 'd', and if you are asked to choose between these two, then obviously Support Vector Machine will choose 'pi' over ' pi prime' because of the logic. Okay? I guess you understood the whole thing. Right? So how to do this? We will look at that. We are just taking a geometric intuition. Now I would like to discuss one important concept that will be used a lot later. The concept of support vectors. Support vectors. This is a very important concept. So important that the name of this algorithm itself is Support Vector Machines. Okay? So I will completely, I will draw a completely new diagram just to explain what are support vectors. So let's say we have these two classes of points again. Right? So you draw a hyperplane and then you create the negative as well as positive hyperplanes. Right? Now, do you know when you have to stop? Like when you find the first positive and negative points. Right? Meaning this point and these two points. Right? Now, these three points are what you call support vectors. So, this logic of yours, these planes only stop when they find the support vectors. Okay? And these are what we call support vectors, and they are important in driving this whole thing, and we will see that in future videos. I hope support vectors are clear. Two points that I would like to discuss: first, about support vector machines. Obviously, support vector machines are very robust to outliers. You will see this in a later video, unlike other machine learning algorithms that are heavily impacted by outliers. SVMs are actually solid when you talk about outliers; they are able to handle outliers quite well. Okay? So that is the first benefit of using SVMs. The second benefit is that it can also work on, or rather it can also work in the case of non-linear data. Like this is a very clear-cut case. You have linear data. You are able to classify it very easily. But what if you had data like this? Something like this. Obviously, you could not classify this with a single line. Right? So in such cases, you would see there is a thing in SVM called kernels. Using these kernels, you can actually solve this kind of problem. Okay? And the third point is that SVMs can be implemented for both classification as well as regression problems. Okay? So, I guess you understood this entire introduction. From the next video onwards, we will actually try to mathematically formulate how to calculate these distances. How these planes will be derived. And then, what will be the equation that you need to optimize to find the value of the w and b equation. Okay? So, I know it shouldn't feel too difficult, I guess, because it's not that difficult; at least the core idea is not that difficult. Yes, when you go to implement it in math, it feels a bit difficult. But for now, I think this entire thing is clear. So, that's it for the video, guys. Thanks for watching.
+
+
+[00:00] Hi guys, the next algorithm that we are
+[00:02] going to do is Support Vector Machines.
+[00:04] To be honest, let me tell you a little
+[00:06] bit about Support Vector Machines first
+[00:08] . This is one algorithm that actually
+[00:11] gets a lot of respect in the machine
+[00:14] learning community because this is a
+[00:16] very, very good algorithm. It is very
+[00:20] robust and it is kind of applicable to
+[00:22] a lot of scenarios. Okay? So it was
+[00:25] conceptualized in the late 90s, and
+[00:27] since then, along with Random Forest,
+[00:29] this algorithm is actually used in
+[00:31] quite a few scenarios. Okay, so you can
+[00:34] keep this in the logistic regression
+[00:36] family, and in fact, it is said that if
+[00:38] you are going to do Support Vector
+[00:39] Machines, you should have a good idea
+[00:41] about logistic regression because what
+[00:42] do Support Vector Machines do? They
+[00:45] improve the idea of logistic regression
+[00:46] a little bit. Right? So what we are
+[00:49] going to do is understand Support
+[00:50] Vector Machines from scratch. Okay? So
+[00:53] there will be multiple videos. This is
+[00:55] just the first video where we will
+[00:56] discuss the geometric intuition behind
+[00:58] the algorithm. Okay? So I have drawn
+[01:01] this figure. There are two different
+[01:04] classes of points, the green points and
+[01:06] the red points, and these are linearly
+[01:08] separable, as you can see you can draw
+[01:10] a line to classify. Okay? So I have
+[01:13] drawn two planes here. You can call
+[01:16] them planes, or if it's 2D, you can
+[01:17] call them line segments. So I have
+[01:19] drawn two planes here. π1, π2. You
+[01:21] can call them L1 and L2. Now, if I ask
+[01:23] you this question, both of these are
+[01:26] classifying the data with 100%accuracy.
+[01:29] If you think about it. If you look at
+[01:30] the black one, it is able to classify
+[01:32] all the red points correctly and all
+[01:34] the green points correctly. And the
+[01:35] same goes for the blue hyperplane. Okay
+[01:37] ? But what if I ask you this question:
+[01:40] which of these would you select as your
+[01:42] classifier? Because if you think about
+[01:44] it, if you were doing logistic
+[01:46] regression, for logistic regression,
+[01:47] both are equal because both are doing
+[01:49] their job. But not for SVM; SVM says I
+[01:51] will select the better line, the better
+[01:53] hyperplane out of these two. Can you
+[01:56] tell me which of these will act as a
+[01:58] better hyperplane? The answer is this
+[02:01] black one, and I guess you all can
+[02:03] think of it yourselves, right? You must
+[02:05] also be doing the calculations in your
+[02:06] head and arriving at the answer that Pi
+[02:08] 1 is better than Pi 2. Now comes the
+[02:10] answer, now comes the answer as to why
+[02:12] this is the case. The reason is that if
+[02:15] you have studied logistic regression,
+[02:17] you would know that whenever you draw a
+[02:19] line segment, what you do is calculate
+[02:21] this distance, which is basically W
+[02:23] transpose XI, where XI is this point,
+[02:25] right? And here, we are ignoring the B
+[02:27] term by imagining that it passes
+[02:29] through the origin. And then what do
+[02:31] you do? You pass it through the sigmoid
+[02:33] function. And this is your probability.
+[02:34] The probability of y being one. Right?
+[02:37] And y being -1. Right? Now, the smaller
+[02:40] this distance is, the closer this
+[02:41] probability will be to zero. Meaning,
+[02:44] if it is very close to this line, it
+[02:46] means the probability of it being
+[02:48] positive is also very low. But if a
+[02:50] point is very far away, right? It is
+[02:53] very far, so this distance will be
+[02:55] large and the probability that it could
+[02:57] be one will also be very high. Right?
+[03:00] So what is SVM saying? Or what does SVM
+[03:02] want to do? It wants to classify the
+[03:05] data. But by selecting that hyper-plane
+[03:09] which classifies all these points as
+[03:12] widely as possible. Right? You want to
+[03:15] increase this distance. You want to
+[03:16] increase this gap. So that when you get
+[03:19] new unseen data in the future, this
+[03:21] line will perform better in comparison
+[03:23] to this line. And that is the core idea
+[03:26] behind SVM. The core idea is—I’ll
+[03:28] sort of revise. The core idea is to
+[03:31] maximize this distance, this gap,
+[03:33] because of which you are able to
+[03:35] classify these points as widely as
+[03:38] possible. Okay? And that is why this
+[03:40] plane will not be selected; this plane
+[03:42] will be selected if you use support
+[03:43] vector machines. Okay? Now what we will
+[03:46] do is, we will actually see
+[03:48] geometrically why and how you will
+[03:50] select this plane and not select this
+[03:52] one. What is the core logic behind this
+[03:53] ? That is what we are going to discuss.
+[03:55] Okay? So I will rub the board. Okay? So
+[03:58] now that we know the core idea. What do
+[04:00] we need to do? We need to find a
+[04:03] hyper-plane that maximizes this margin.
+[04:07] So that the model you create is very
+[04:10] generalized. Meaning, it behaves very
+[04:12] well on unseen data too. Okay? So this
+[04:15] gap, you can also call it a margin.
+[04:18] Right? You can call this a margin. And
+[04:20] we are trying to find a plane that will
+[04:22] increase this margin. Right? And that
+[04:26] is why we sometimes call it the margin
+[04:31] maximizing hyperplane. Okay? So in SVM,
+[04:37] the core idea, the thing you are
+[04:40] working towards, is actually to find a
+[04:42] hyperplane that can act as the
+[04:45] margin-maximizing hyperplane. Meaning,
+[04:47] when it classifies the data, it should
+[04:49] maximize this margin. So that your
+[04:52] model becomes a very generalized model
+[04:54] and performs well on unseen data too.
+[04:57] Right? But the question is, how? How
+[05:00] will you do this? Right? So now I will
+[05:02] get into the mathematical formulation.
+[05:04] I will show you through geometry how
+[05:06] this happens. So the whole idea is very
+[05:08] simple. What you do is you go parallel
+[05:11] to this. First, you select a hyperplane
+[05:13] . Let's say you selected a hyperplane.
+[05:15] Okay? Now let's say you randomly
+[05:16] selected a hyperplane. This is a
+[05:18] hyperplane. Now what you do is you go
+[05:20] in the positive direction parallel to
+[05:22] this hyperplane. What do you do? You
+[05:25] keep drawing hyperplanes in the
+[05:26] parallel direction above it until you
+[05:28] reach the first green point. As soon as
+[05:31] you find a hyperplane that is parallel
+[05:34] to pi and it touches the first green
+[05:36] point, you stop there. You stop right
+[05:39] there. Right? This line, this
+[05:42] hyperplane, is parallel to pi. And this
+[05:45] is the first hyperplane that touches
+[05:46] the first green point, and this is a
+[05:48] red flag. You will stop here. Okay? And
+[05:51] you call this hyperplane pi positive.
+[05:54] Right? Then you do the same thing in
+[05:56] the opposite direction. You move in the
+[05:59] negative direction parallel to pi and
+[06:01] you will stop once you reach the first
+[06:03] red point. Okay? So you stop here.
+[06:08] Right? And you call this hyper...
+[06:10] Obviously, both of these are
+[06:11] hyperplanes. Right? These are like line
+[06:13] segments. If you are talking about 2D,
+[06:15] these are both lines. Actually, all
+[06:16] three are lines. Okay? And you call
+[06:18] this hyperplane pi minus. Okay? So you
+[06:21] are finding...first you randomly
+[06:23] selected this hyperplane. Then for this
+[06:25] hyperplane, you found this pi positive
+[06:27] and this pi negative. Right? Now what
+[06:30] do you do? Now you calculate the margin
+[06:32] . What is the margin? Margin is defined
+[06:34] as the shortest distance between pi
+[06:36] positive and pi minus. Both are
+[06:37] parallel. Right? If pi plus is parallel
+[06:39] to pi, and pi minus is parallel to pi,
+[06:41] then pi minus and pi plus are parallel.
+[06:43] So what you do is you calculate the
+[06:44] shortest distance. You calculate this
+[06:47] distance, right? And you call this
+[06:51] distance margin and you denote it with
+[06:55] 'd', right? So first step, select a
+[06:59] hyperplane. Step two, find out pi
+[07:01] positive and pi negative hyperplanes,
+[07:03] then calculate this distance. And then
+[07:06] you find out, then you do this step
+[07:07] with a bunch of other hyperplanes. You
+[07:09] will calculate for all hyperplanes. For
+[07:11] them, you will find pi plus and pi
+[07:13] minus and calculate 'd' for all of them
+[07:15] . And then you find out, then you
+[07:17] decide, uh, you will select that
+[07:19] particular plane for which the value of
+[07:22] 'd' is higher. That is what this
+[07:24] algorithm is giving. You are selecting
+[07:26] a hyperplane, you are finding positive,
+[07:28] negative, you are finding this 'd', and
+[07:30] then you are selecting that hyperplane
+[07:32] for which this 'd' is maximum. So
+[07:34] mathematically if you put this, then
+[07:36] you want to find out, you are actually
+[07:38] trying to maximize this 'd', uh, by
+[07:40] finding out obviously the equation of
+[07:42] the plane, you know, w transpose x + b,
+[07:44] right? So what you are actually trying
+[07:46] to do is, you are actually trying to
+[07:48] find out w and b values for which this
+[07:50] 'd' will be maximum. This is what we
+[07:52] are trying to do and it actually works
+[07:55] very well. Uh, you can actually test it
+[07:58] . Uh, let's say you created another
+[08:00] line segment. Uh This is the one. Okay?
+[08:06] Now for this, if you, let's call this '
+[08:09] d prime'. Now for this, if you, uh,
+[08:12] find out the positive and negative
+[08:13] planes. Then this is the first point
+[08:16] where it touches. Right? I will draw it
+[08:19] . Right? And similarly this point is
+[08:23] over here, right? And you can see this
+[08:26] gap, this margin, let's call it 'd
+[08:28] prime'. 'd prime' is less than 'd', and
+[08:32] if you are asked to choose between
+[08:34] these two, then obviously Support
+[08:37] Vector Machine will choose 'pi' over '
+[08:39] pi prime' because of the logic. Okay? I
+[08:43] guess you understood the whole thing.
+[08:45] Right? So how to do this? We will look
+[08:48] at that. We are just taking a geometric
+[08:50] intuition. Now I would like to discuss
+[08:52] one important concept that will be used
+[08:54] a lot later. The concept of support
+[08:56] vectors. Support vectors. This is a
+[09:00] very important concept. So important
+[09:02] that the name of this algorithm itself
+[09:04] is Support Vector Machines. Okay? So I
+[09:07] will completely, I will draw a
+[09:08] completely new diagram just to explain
+[09:11] what are support vectors. So let's say
+[09:14] we have these two classes of points
+[09:16] again. Right? So you draw a hyperplane
+[09:20] and then you create the negative as
+[09:23] well as positive hyperplanes. Right?
+[09:28] Now, do you know when you have to stop?
+[09:29] Like when you find the first positive
+[09:31] and negative points. Right? Meaning
+[09:34] this point and these two points. Right?
+[09:38] Now, these three points are what you
+[09:40] call support vectors. So, this logic of
+[09:43] yours, these planes only stop when they
+[09:46] find the support vectors. Okay? And
+[09:48] these are what we call support vectors,
+[09:50] and they are important in driving this
+[09:51] whole thing, and we will see that in
+[09:53] future videos. I hope support vectors
+[09:55] are clear. Two points that I would like
+[09:58] to discuss: first, about support vector
+[10:00] machines. Obviously, support vector
+[10:04] machines are very robust to outliers.
+[10:10] You will see this in a later video,
+[10:11] unlike other machine learning
+[10:13] algorithms that are heavily impacted by
+[10:15] outliers. SVMs are actually solid when
+[10:18] you talk about outliers; they are able
+[10:20] to handle outliers quite well. Okay? So
+[10:24] that is the first benefit of using SVMs
+[10:26] . The second benefit is that it can
+[10:28] also work on, or rather it can also
+[10:31] work in the case of non-linear data.
+[10:34] Like this is a very clear-cut case. You
+[10:36] have linear data. You are able to
+[10:38] classify it very easily. But what if
+[10:40] you had data like this? Something like
+[10:44] this. Obviously, you could not classify
+[10:47] this with a single line. Right? So in
+[10:50] such cases, you would see there is a
+[10:53] thing in SVM called kernels. Using
+[10:56] these kernels, you can actually solve
+[10:57] this kind of problem. Okay? And the
+[11:00] third point is that SVMs can be
+[11:02] implemented for both classification as
+[11:05] well as regression problems. Okay? So,
+[11:08] I guess you understood this entire
+[11:10] introduction. From the next video
+[11:13] onwards, we will actually try to
+[11:15] mathematically formulate how to
+[11:17] calculate these distances. How these
+[11:19] planes will be derived. And then, what
+[11:22] will be the equation that you need to
+[11:25] optimize to find the value of the w and
+[11:28] b equation. Okay? So, I know it
+[11:31] shouldn't feel too difficult, I guess,
+[11:33] because it's not that difficult; at
+[11:34] least the core idea is not that
+[11:36] difficult. Yes, when you go to
+[11:37] implement it in math, it feels a bit
+[11:39] difficult. But for now, I think this
+[11:41] entire thing is clear. So, that's it
+[11:43] for the video, guys. Thanks for
+[11:45] watching.

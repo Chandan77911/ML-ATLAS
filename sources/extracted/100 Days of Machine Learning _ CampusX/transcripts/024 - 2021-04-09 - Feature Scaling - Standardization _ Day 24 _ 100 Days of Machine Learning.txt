@@ -1,0 +1,784 @@
+# Feature Scaling - Standardization | Day 24 | 100 Days of Machine Learning
+# https://www.youtube.com/watch?v=1Yw9sC0PNwY
+
+Hi guys, welcome to my YouTube channel. In this video, we are going to discuss feature scaling. So, we studied about feature engineering, and we learned that feature engineering is such an important step in building a machine learning model. And there, we also saw that there are many other substeps in feature engineering. Okay? And one of those substeps is feature scaling. Right? Generally speaking, feature scaling is the last thing that you do in a feature engineering pipeline. Meaning, after doing everything, like if data is missing, imputing it, or if you need to apply any transformations. If you need to handle categorical variables. After doing all of this, and just before feeding your data to the machine learning model, you perform feature scaling. The good part about feature scaling is that it is one of the easiest steps in feature engineering. So in today's video, we will talk about feature scaling, and we will discuss the most important technique of feature scaling, which we call standardization. Okay? So let's start this video. So let's start with the formal definition of feature scaling. Feature scaling is a technique to standardize the independent features present in the data into a fixed range. This means that if you have a dataset, generally you have two things in the dataset. One is your input features, and the other is your target variable that you want to predict. So, you have your input features, let's say your input features are IQ and CGPA, and your output is in LPA, meaning what the placement package will be in lakhs per annum. So here, bringing these independent features, IQ and CGPA, into a smaller range is what is called feature scaling. That is the core idea. Okay? Let's say your IQ is in the range of 100, and your CGPA is in the range of 10. So when you perform feature scaling, both of these come into a similar range. Right? And trust me, it is extremely important for certain machine learning algorithms. Let's discuss why. We are going to discuss why do we need feature scaling? What is the need for feature scaling? We discussed this point briefly as well. I am discussing this point again. So here, we have a dataset that has a column for age and a column for salary. Okay? Now, suppose we have a predicted, or rather a target column, let's say, whether they will purchase or not. Its value will be either one or zero. Okay? Now, assume the age on one side is, let's say, 50, and the other is 27, and the salary is 83,000 for one and, let's say, 48,000 for the other. Right, now let's say you are solving this classification problem and using an algorithm like KNN for it. Now, I'm not sure if you have studied KNN yet or not. But the simple concept of KNN is that it calculates the distance between points to do its job. Now, you will have to study KNN in depth to understand what I am saying. But you can understand that to do its job, KNN needs to calculate the distances between any two points. Now here, you can see that if you go to calculate the distance, this is one point. This is another point. If we create a coordinate system where age is on the x-axis and salary is here. Then these are our two points. This is the first point and this is the second point. Okay? And now I need to calculate the distance between these two. So, if you go to calculate the distance, you could see that when you are calculating the distance in terms of salaries. Basically, here is the formula for calculating distance. So, let x be salary and y be age. So when you calculate this difference, it is coming out to be such a big number. And the one you are calculating for age, that is coming out to be 529. So, this factor will dominate, and your KNN will not be able to perform very well. And this is just one example. You will find many such examples of different algorithms in machine learning. We will also discuss this after a while. Where what happens is that if you don't scale your values, your results are not good. I will also show you a demonstration of this in today's video. Okay? So, I hope you are understanding why feature scaling is important. Because if the scale of your independent variables is not the same, the logic of some of our machine learning models is created in such a way that they will not function properly. This is the core idea. Okay? Now, what are the types of feature scaling available? If someone asks you what the types of feature scaling are. Then basically, there are only two types. There are only two types. One is standardization. Right? And one is normalization. Which we will see in the next video. Okay? So, there are many techniques in normalization as well. The main one is the Min-Max Scaler. Besides that, there is also the Robust Scaler. It works very well on outliers. Apart from that, there are one or two more scalers. We will discuss them in a third video. But today our focus is on standardization. We need to understand this technique in and out. We need to code it and see how we achieve feature scaling through it. That is the core idea of this video. Okay? So I hope you understand the setup so far. Now let's start our discussion around standardization. Okay? One more thing, sometimes in machine learning literature, standardization is also called Z-score normalization. Why is it called that? We will discuss that in a while. But let's talk about standardization now. Okay? Discussing standardization is very simple. Let's say you have an input column called Age. So what will the values in Age be like? Something like this. Right, I have taken some sample values like this. Suppose you have 50 or 500 values in this way. Basically, you have age data for 500 customers. Now, what do you have to do? Let's say you also had salary data here. Now, let's say you want to standardize the age. So, what is the formula for standardizing? You will create a new column called Age dash from this age. There, you will transform every value here. And what will be the formula for transforming? The formula will be xi minus x bar sigma, this is x prime, okay? xi prime, actually. Okay? So if we are calling this column xi, then you can denote every item in it as xi. Like this is x1, this is x2, this is x3. Now, let's say you want to transform this x1. So what will you have to do? If you want to calculate xi prime, you take the xi value, 27, minus what is this? This is your mean. Mean of what? The mean of all these 500 values. Suppose the mean is 32. So you will write 32 here. And then what does this sigma denote? This is the standard deviation. Now, suppose the standard deviation is 10, so 10 will go here, and instead of 27, this value will come here, whatever you calculate. Similarly, for the second one, instead of 15, what will come: 15- mean (which stays the same) 32/10, that value will come here. Similarly, 33, 63, 90, and this is how simple it is. Okay? You simply have to take every value from this column and put it into this formula in place of xi, and that will be your xi prime. Okay? Now, the good part is, what needs to be understood here is that when you standardize using this formula, you get a new number. Suppose it's 2.3 or -1.2. In this way, you will get a lot of numbers. Around five, exactly 500 numbers will be obtained because you transformed all 500 numbers. Now, the mean of these new 500 numbers will be equal to 0 and their standard deviation —we actually represent the mean with μ. So I will just write it: μ will be equal to 0, and the standard deviation will be one. So, this is what happens in standardization; you put any column into this formula to transform and scale it, and the new values you get after scaling definitely have one characteristic: the mean of that new series is always zero, and its standard deviation is always one. I will demonstrate this to you with some code as well. Okay? Now let's try to understand one more thing: what is the geometric intuition of this? Like, what is the geometric intuition? I mean, how does the whole thing work? Now, we are taking an example for this. We have two columns: age and salary. And we have data for 500 people. Okay? So if you think about it, if I plot age on the x-axis and salary here, then all the data will look something like this; all 500 rows are basically a point on this coordinate system, something like this. Okay? Now what do we need to do? We need to transform this. Basically, transform these coordinates. Meaning, transform age as well, and transform salary as well. And we have to move it to a new coordinate system. Where we can call this Age dash and we can call this Salary dash. Okay? Now notice one thing, its mean will be somewhere here. Meaning this is the mean of Age and this is your mean of Salary. Right? And this is the spread of your data, which actually talks roughly about standard deviation. This is the spread on your Age axis and this spread, this is your Salary axis. Okay? This is the data spread. Now what do you have to do? First of all, think about it. When you perform standardization, when you do standardization, the first thing is that your mean—mean of both things. Mean of Age as well as mean of Salary. The mean of both should become zero. Meaning that this entire data, this whole block, should move and come here. Something like this. They drew it a bit quickly, but I guess you get the idea. Now the mean has come here. Meaning the mean of both Age and Salary are now at zero. Okay? This is the first thing. You are always lifting this whole thing and centering it. This is called mean centering, by the way. Mean centering. Okay? Second, what is the second thing? Suppose the standard deviation earlier was five. Okay? And in terms of salary, the standard deviation was six. So what will happen now? The standard deviation in terms of both, basically this data spread on both axes will reduce, not exactly to one, but it will reduce. So that the sigma in terms of Age, meaning standard deviation in terms of Age, will become one, and the standard deviation in terms of Salary will also become one. So basically, it will look a bit like this. Okay? So in a way, what did you do? First, you took this whole thing and brought it to the center, which we call mean centering, and then you converted it to the standard deviation scale. Basically, if the standard deviation was more than one, you performed squashing. Meaning you pushed this whole thing inward. You pushed this whole thing inward. If the standard deviation was low, say it was 0.5, you would push the whole thing outward. You would expand the whole thing. This thing would grow and spread out like this. But if your standard deviation is more than one, you do squashing, you compress it. Okay? So if you want to understand it geometrically, you are doing two things. You are scaling down in terms of standard deviation. Right? If you were already very small, you are scaling up. But you are going only up to a range. One-one is the range. Right? And you are centering it in terms of the mean. You are doing mean centering. So, there are two things in standard deviation. The first is mean centering. And the second is scaling by the factor of standard deviation. These are the two things you do. This is the geometric intuition of standardization. Right? So I hope you have understood this entire discussion so far. Now, what will we do in the next step? We will do two things. First, we will look at an example. On a dataset. On a real-world dataset, how standardization really works and why it is needed? We will look at both, and then we will look at one more thing: what if my data has outliers? Meaning, if my data is like this, and then there is one data point here. So, when we are bringing it here. Bringing it to this spot. Then what will happen to this outlier? We will answer this question. Right? And then, lastly, we will discuss one final point: when exactly should standardization be used? So that you get all this knowledge together. Right? So now, let's discuss an example. Right? So I have already prepared a notebook for you all. This is the notebook, and this is the dataset. I mean, I have imported three or four libraries. You all know this. This is my dataset. I downloaded it from Social Network Ads Kaggle. And this is my data, guys. I have done a little processing on the data. Removed a few columns. I kept only the columns that were needed. Age, estimated salary, purchased— whether they will buy or not. Classification problem. Now look, whenever you have to do feature scaling, whether you do standardization or normalization. In both cases, you should always do a train-test split first. This is recommended. You can do it without doing this too. But it is recommended that you do a train-test split. So I have performed a train-test split here. And now, after performing the train-test split, in fact, let me do one thing. I will run the things for you right in front of you. So here is my data, and here is my X train shape after the train-test split, 280 rows by two columns, and 120 rows by two columns. The train-test split is done. Okay? Now, in scikit-learn, you have a StandardScaler class that does exactly what we discussed here. It takes every value and transforms it. Using which formula? X i-mean divided by standard deviation. If you want, you can even build this class yourself. I mean, I can show you how to do it. But you should try it yourself. It's the same thing. Okay? You created an object of this class called scaler. And what is the first thing you do? You run fit on X train. Basically, you learn from X train what the values are like. Okay? Once learned, you store everything here. You store the mean value and the standard deviation value right here. Just like you are fitting this. The basic meaning of fitting is doing two things. First, calculating the mean. Of both columns. Since you are passing X train, you are actually passing two columns. Right? In fact, I will show you by running this. So if I write scaler dot mean, look guys, it has remembered that this mean is for age and this mean is for salary, and similarly, it stored the standard deviation too. So this fitting here means exactly that. And as soon as you fit, what are you doing now? You are transforming. So now you are taking every point of X train, applying that formula, and storing the resulting values in a variable called X train scaled. Okay? And similarly, you are scaling the X test as well. Okay? So you learn on the training data, but you transform both. Always remember this. You don't learn from both. You only learn from the training set. You transform both the test and the train. Always remember this. Okay? Next. Now, one more thing, what is a problem with StandardScaler is that if you give it a dataframe, which I gave it, a dataframe. This X train is actually a dataframe. It takes a dataframe, but it returns a numpy array, so it’s a bit hard to view. So I just did this here; the scaled data I received, NumPy, basically let me show you. I sent X_train, I sent X_train which is a NumPy, I'm sorry, a Pandas dataframe, and when I applied the scaling operation, the X_train_scaled I got is a NumPy array. This is a problem. Okay? This is a problem. So to solve this, I did nothing. I converted X_train_scaled into a dataframe. Simple. Right? And as soon as I converted it to a dataframe. Now, if I show you, this is what X_train_scaled looks like. And you can see these age values are transformed. They are scaled. Right? Similarly, the salary values are also scaled. Right? We understand up to this point. What did I do next? I was just showing you using the describe function that if you take the original X_train and apply describe to it. So if you talk about the age column, your mean is 37.9 and the mean salary of the original dataset is 69,000, standard deviation 10, 34,000, but when I do the same thing for X_train_scaled, when I apply it to X_train_scaled, now look here, how much is the age mean? Zero. And how much is the salary mean? Zero. And how much is the standard deviation for both? One. So this is what I wanted to show you, that scaling has actually happened, and now you have both distributions, age and estimated salary, where the mean is zero and the standard deviation is one. So we have proven this. Right? Now let's see what happened because of scaling. So I have written some code here. You can look at it easily; there is nothing special about this code. I have done nothing. I just created a scatter plot before scaling. Focus on the first graph. If you focus on the first graph, what did I do before scaling? I kept age on the x-axis. I placed salary on the y-axis and plotted all the data points. I plotted all of the data points. And these are all training points. Right? I plotted it. And then I did the same thing after scaling. Meaning, the first time I used X_train to plot. And the second time, I used X_train_scaled to plot. And if you see, there is no difference. The points are exactly the same. They are at the same distance. Everything looks exactly the same. Basically, the shape of the data remains the same. But if you look at the scale down here, the mean age was around 40. Here, it's zero. Okay? Similarly, you can see here it's zero too. So what happened to the data? It became centered. Meaning the origin is somewhere over here now. The origin is at this spot. Right where I am moving my cursor. The origin was here previously. So your data became mean-centered, and you kind of restricted it within the standard deviation. Okay? So this is the first thing that I wanted to show you. You should go and explore it a bit more as well. Next is, if you want to see the real benefit of scaling, what can you do? You can look at this graph. So, what have I done here? I have plotted the PDF. The probability density function for both age and estimated salary. So, focus on the first graph first. Here I have plotted the PDF for age and estimated salary. Now you can clearly see that I only see one blue line, which is actually The PDF of age. This is weird. Ah, yes, alright. Okay. All right. The PDF is of age. And this orange one is your estimated salary, which is spread out quite a lot. Okay? And this is obviously because age is in a very small range. Just think about it, age is in a very small range. Probably from 20 to 60 years. That is the range. So, all the age data is in a very small range. That is why this value has peaked so much. It went very high. Whereas the salaries are spread over a very large area. So, it's resulting in a very flat curve. Basically, I want to show you that there is no comparison between the two because their scales are so different. However, if you focus on the right side, you will see that once you applied scaling and standardization, both distributions are now comparable, which means you can apply whatever operations you want. Since both things are on the same scale, your algorithms will perform much better. Okay? So this was something worth seeing. Okay? Next, if you talk individually about the impact on age and the impact on estimated salary? So look again, I have plotted this graph for the age distribution before scaling. And focus on these numbers at the bottom. These are the original ones. Right? This was the distribution. This was the shape of the distribution. And even after we scaled it, the distribution looks exactly the same. Only the scale has changed. So you must remember that the distribution remains retained. There is no issue with that. The data looks exactly as it did before. Right? And the same goes for this one, salary. So the salary distribution before standardization was this. But after the distribution, it is again the same. Only the scale has changed. Right? So this is one thing you need to learn, that when you apply standardization, it doesn't make a difference. At least, the shape of the distribution remains unchanged. It stays as it is. You are just changing the scale; your mean becomes zero. Your standard deviation becomes one. Right? Now, here is an interesting thing we discussed: scaling isn't...So what did I do here? I have used an algorithm, Logistic Regression. This is an algorithm you will study in the future and understand that it is important to provide scaled values to Logistic Regression. If you don't provide scaled values, your results won't be good. So that is what I did. I am showing you an experiment. I created two Logistic Regression objects. One is a normal Logistic Regression, the other is LR Scaled. I trained the first object on unscaled values. And I trained the second one on scaled values. I want to compare the performance of both for you. And here, I did the predictions, and when I calculated the accuracy score, it was actually interesting. When you were using the actual data without scaling, without standardization, your accuracy was 65%, just 65%, and when you scaled it, look, your accuracy increased to 86%. So you can see this experiment proves to you how important scaling is. Especially in certain algorithms. First of all, there is no harm in scaling. I mean, generally, if you scale, you won't suffer any loss. Yes, depending on the algorithm, you might get a benefit. Now, like there is another algorithm, Decision Tree. Scaling makes no difference in that. When you study Decision Tree a bit, you will understand. Oh, that is why scaling is not needed. But let me show you an example again. What did I do again? Same, everything is the same. I trained the decision tree this time. Both separately, once unstandardized and once standardized. So this time look, the result that came is the same. Right? Because decision tree is an algorithm that is not affected by scaling. Standardization doesn't make a difference. You will learn this gradually when you study decision trees and logistic regression; you'll remember this video and understand. Oh, so that's why it doesn't matter. I am not going into the technicalities of decision trees right now. If you want, you can go to my channel and watch the playlist for both these algorithms. Then you will understand why standardization doesn't matter in the case of a decision tree. Okay? Now a last point, the last point is this that I want to show you what happens if there are outliers in your data. So what did I do? I forced it myself, I first studied what the range of age and estimated salary is in the original data. So I found out that the minimum value of age is 18 and the maximum value is 60. Similarly, the minimum value of salary is 15,000 and the maximum is 1.5 lakhs. What did I do intentionally? I added some outliers. Like I added the data of these three people. One person's age is 5 years. One is 90 and one is 95. And the estimated salary for the child is 1,000 and for both the old people is 2.5 lakhs and 3.5 lakhs. And the first one won't buy, the other two will. This is outlier data. What did I do with it? I appended it to the original dataframe. Okay? So now I have 403 rows instead of 400. Okay? It is not visible here right now. I mean, you can run this notebook and see. And then what did I do? I did everything the same, I did the plotting again. And this time if you notice, all this data is here. And these are your three outlier points. Okay? Now let's see what happens to these outliers when you apply standardization here. I hope you are able to understand what will happen. But if you do everything the same again. I did the train-test split again. I called the Standard Scaler class again. I created the scaled X-train and X-test again. Converted them into a dataframe. And when I plotted the graph after that, the before scaling and after scaling one. Basically, as soon as I plotted this graph, as soon as I plotted this graph, I saw this. See, this is only the X-train data, so you are only seeing two outliers. One outlier went into the test set, so don't get confused. But you can see that even now, the factor, the outlier is still an outlier. Meaning, the impact of the outlier did not reduce. The outlier is still behaving like an outlier. Okay? This is the biggest thing you need to notice and remember: if you ever apply standardization to a column with outliers, the impact of the outliers is not reduced. Outliers behave just as they always behave. So, you will have to handle outliers explicitly. I did this extra thing intentionally to show you this point. But I hope you understood this. Okay? So now, going back to the last point, which is when to use standardization. By now, you must have understood that there is no harm in using standardization at any time. Like here, when I applied standardization in the decision tree, it didn't happen that your accuracy decreased or increased. Okay? It was the same. So, generally, standardization will not cause you any harm. But I will tell you when you should apply it. There are four or five cases. Actually, these are the names of some algorithms. Whenever you encounter these algorithms and are working on them, apply standardization with your eyes closed. Okay? Like the first one is K-Means or K-Nearest Neighbors. In both these algorithms, you calculate Euclidean distances. And wherever you are calculating distances, if the scale of your variable is very high, you won't get good results. So, you should do standardization here. Okay? A very important feature extraction technique is PCA. In PCA, you need to control variance and perform mean centering, and for that, you should do standardization. Look here, it's written "try to get the feature with maximum variance," and here you should also perform mean centering. So, when you study PCA, you will understand this. Again, if you want to understand PCA, there is a video on my channel for that too. Okay? Now, one more thing: gradient descent. Gradient descent is a very famous thing in machine learning. It's basically that you have a function like this, and you want to find its minimum value, so you start from here and reach here by jumping along the way. Okay? Now this is in 2D, it could also be in 3D. Meaning, imagine it like a mountain valley, or it could even be in 4D. So, this technique of calculating the minimum is called gradient descent. And in machine learning, it's a very famous technique. Many algorithms rely on gradient descent to do their job. Linear regression, logistic regression, your entire deep learning, every single algorithm in deep learning depends on gradient descent to do its job, and in gradient descent, you initially initialize some weights. Right? You initialize some weights, and you generally start those weights from zero. So, if the scales of your two variables are different, then the two separate weights improve in different ways. So, one's scale becomes very large, and one becomes very small. So, you actually aren't able to converge here. I know it might sound very technical at this point, and you should watch the gradient descent video. Again, it's on my channel, you can watch it. So, there you will understand why it is important to standardize. Because if you don't, if you have multiple weights, they are initialized with the same value but they will change differently, and you will never be able to converge at this point. So basically, your algorithm will never converge. You won't get the best values, and you will be left crying. So that's why, for gradient descent and the entirety of neural networks, what do you do? You use standardization. There are some algorithms where you don't need to use it. I will tell you their names for standardization. In the future, when you study, you will remember decision trees, because in a decision tree, what do you do? You ask a question like a > b, so in this kind of comparison, the scale isn't really necessary. I mean, if you say 1500 > 1000, I'm actually saying it the wrong way. We don't do calculations in this manner. Just understand that you make comparisons. Rather than calculating distances or updating weights. What you do is you do comparisons. You basically make cuts in the data. So, for making these cuts, you don't need to change the scale. Right? So, decision trees are one algorithm, random forest, which is again a tree-based algorithm, and you have other famous algorithms like gradient boosting, XGBoost; in all these, you don't need to do scaling. Even if you do it here, it won't make any difference. It won't make a difference even if you don't. But if you are dealing with such algorithms. If you are dealing with these five or six types of algorithms, then standard deviation is a must, guys. It's a must. Okay? So yeah, that's it about standardization. In tomorrow's video, we will study normalization and see how it differs from standardization. And we will also look at where normalization should be used instead of standardization. So I hope you liked the video. If so, guys, please consider subscribing, liking, and sharing. So yeah, that's it. Thanks for watching, bye.
+
+
+[00:00] Hi guys, welcome to my YouTube channel.
+[00:02] In this video, we are going to discuss
+[00:05] feature scaling. So, we studied about
+[00:07] feature engineering, and we learned
+[00:09] that feature engineering is such an
+[00:11] important step in building a machine
+[00:13] learning model. And there, we also saw
+[00:16] that there are many other substeps in
+[00:18] feature engineering. Okay? And one of
+[00:21] those substeps is feature scaling.
+[00:24] Right? Generally speaking, feature
+[00:26] scaling is the last thing that you do
+[00:28] in a feature engineering pipeline.
+[00:30] Meaning, after doing everything, like
+[00:32] if data is missing, imputing it, or if
+[00:35] you need to apply any transformations.
+[00:38] If you need to handle categorical
+[00:39] variables. After doing all of this, and
+[00:43] just before feeding your data to the
+[00:45] machine learning model, you perform
+[00:47] feature scaling. The good part about
+[00:50] feature scaling is that it is one of
+[00:52] the easiest steps in feature
+[00:54] engineering. So in today's video, we
+[00:57] will talk about feature scaling, and we
+[01:00] will discuss the most important
+[01:02] technique of feature scaling, which we
+[01:05] call standardization. Okay? So let's
+[01:09] start this video. So let's start with
+[01:11] the formal definition of feature
+[01:13] scaling. Feature scaling is a technique
+[01:16] to standardize the independent features
+[01:18] present in the data into a fixed range.
+[01:21] This means that if you have a dataset,
+[01:25] generally you have two things in the
+[01:28] dataset. One is your input features,
+[01:31] and the other is your target variable
+[01:33] that you want to predict. So, you have
+[01:36] your input features, let's say your
+[01:39] input features are IQ and CGPA, and
+[01:42] your output is in LPA, meaning what the
+[01:45] placement package will be in lakhs per
+[01:48] annum. So here, bringing these
+[01:51] independent features, IQ and CGPA, into
+[01:54] a smaller range is what is called
+[01:57] feature scaling. That is the core idea.
+[02:00] Okay? Let's say your IQ is in the range
+[02:03] of 100, and your CGPA is in the range
+[02:06] of 10. So when you perform feature
+[02:08] scaling, both of these come into a
+[02:09] similar range. Right? And trust me, it
+[02:12] is extremely important for certain
+[02:14] machine learning algorithms. Let's
+[02:16] discuss why. We are going to discuss
+[02:18] why do we need feature scaling? What is
+[02:21] the need for feature scaling? We
+[02:23] discussed this point briefly as well. I
+[02:25] am discussing this point again. So here
+[02:28] , we have a dataset that has a column
+[02:32] for age and a column for salary. Okay?
+[02:37] Now, suppose we have a predicted, or
+[02:40] rather a target column, let's say,
+[02:43] whether they will purchase or not. Its
+[02:45] value will be either one or zero. Okay?
+[02:48] Now, assume the age on one side is,
+[02:51] let's say, 50, and the other is 27, and
+[02:55] the salary is 83,000 for one and, let's
+[02:58] say, 48,000 for the other. Right, now
+[03:03] let's say you are solving this
+[03:06] classification problem and using an
+[03:09] algorithm like KNN for it. Now, I'm not
+[03:12] sure if you have studied KNN yet or not
+[03:14] . But the simple concept of KNN is that
+[03:17] it calculates the distance between
+[03:20] points to do its job. Now, you will
+[03:23] have to study KNN in depth to
+[03:25] understand what I am saying. But you
+[03:27] can understand that to do its job, KNN
+[03:29] needs to calculate the distances
+[03:31] between any two points. Now here, you
+[03:33] can see that if you go to calculate the
+[03:36] distance, this is one point. This is
+[03:38] another point. If we create a
+[03:39] coordinate system where age is on the
+[03:42] x-axis and salary is here. Then these
+[03:45] are our two points. This is the first
+[03:47] point and this is the second point.
+[03:49] Okay? And now I need to calculate the
+[03:52] distance between these two. So, if you
+[03:54] go to calculate the distance, you could
+[03:56] see that when you are calculating the
+[03:58] distance in terms of salaries.
+[04:00] Basically, here is the formula for
+[04:01] calculating distance. So, let x be
+[04:04] salary and y be age. So when you
+[04:07] calculate this difference, it is coming
+[04:10] out to be such a big number. And the
+[04:13] one you are calculating for age, that
+[04:14] is coming out to be 529. So, this
+[04:17] factor will dominate, and your KNN will
+[04:21] not be able to perform very well. And
+[04:24] this is just one example. You will find
+[04:27] many such examples of different
+[04:28] algorithms in machine learning. We will
+[04:31] also discuss this after a while. Where
+[04:33] what happens is that if you don't scale
+[04:36] your values, your results are not good.
+[04:39] I will also show you a demonstration of
+[04:40] this in today's video. Okay? So, I hope
+[04:42] you are understanding why feature
+[04:44] scaling is important. Because if the
+[04:46] scale of your independent variables is
+[04:48] not the same, the logic of some of our
+[04:50] machine learning models is created in
+[04:52] such a way that they will not function
+[04:53] properly. This is the core idea. Okay?
+[04:57] Now, what are the types of feature
+[04:59] scaling available? If someone asks you
+[05:02] what the types of feature scaling are.
+[05:06] Then basically, there are only two
+[05:09] types. There are only two types. One is
+[05:14] standardization. Right? And one is
+[05:22] normalization. Which we will see in the
+[05:25] next video. Okay? So, there are many
+[05:28] techniques in normalization as well.
+[05:29] The main one is the Min-Max Scaler.
+[05:35] Besides that, there is also the Robust
+[05:37] Scaler. It works very well on outliers.
+[05:40] Apart from that, there are one or two
+[05:41] more scalers. We will discuss them in a
+[05:43] third video. But today our focus is on
+[05:46] standardization. We need to understand
+[05:49] this technique in and out. We need to
+[05:51] code it and see how we achieve feature
+[05:54] scaling through it. That is the core
+[05:56] idea of this video. Okay? So I hope you
+[05:58] understand the setup so far. Now let's
+[06:00] start our discussion around
+[06:02] standardization. Okay? One more thing,
+[06:05] sometimes in machine learning
+[06:07] literature, standardization is also
+[06:09] called Z-score normalization. Why is it
+[06:12] called that? We will discuss that in a
+[06:13] while. But let's talk about
+[06:15] standardization now. Okay? Discussing
+[06:18] standardization is very simple. Let's
+[06:20] say you have an input column called Age
+[06:24] . So what will the values in Age be
+[06:25] like? Something like this. Right, I
+[06:30] have taken some sample values like this
+[06:32] . Suppose you have 50 or 500 values in
+[06:37] this way. Basically, you have age data
+[06:40] for 500 customers. Now, what do you
+[06:42] have to do? Let's say you also had
+[06:45] salary data here. Now, let's say you
+[06:48] want to standardize the age. So, what
+[06:51] is the formula for standardizing? You
+[06:53] will create a new column called Age
+[06:57] dash from this age. There, you will
+[07:00] transform every value here. And what
+[07:02] will be the formula for transforming?
+[07:04] The formula will be xi minus x bar
+[07:09] sigma, this is x prime, okay? xi prime,
+[07:15] actually. Okay? So if we are calling
+[07:18] this column xi, then you can denote
+[07:21] every item in it as xi. Like this is x1
+[07:24] , this is x2, this is x3. Now, let's
+[07:28] say you want to transform this x1. So
+[07:30] what will you have to do? If you want
+[07:32] to calculate xi prime, you take the xi
+[07:35] value, 27, minus what is this? This is
+[07:38] your mean. Mean of what? The mean of
+[07:42] all these 500 values. Suppose the mean
+[07:44] is 32. So you will write 32 here. And
+[07:48] then what does this sigma denote? This
+[07:50] is the standard deviation. Now, suppose
+[07:53] the standard deviation is 10, so 10
+[07:55] will go here, and instead of 27, this
+[07:58] value will come here, whatever you
+[08:00] calculate. Similarly, for the second
+[08:03] one, instead of 15, what will come: 15-
+[08:05] mean (which stays the same) 32/10, that
+[08:08] value will come here. Similarly, 33, 63
+[08:11] , 90, and this is how simple it is.
+[08:15] Okay? You simply have to take every
+[08:18] value from this column and put it into
+[08:20] this formula in place of xi, and that
+[08:23] will be your xi prime. Okay? Now, the
+[08:26] good part is, what needs to be
+[08:28] understood here is that when you
+[08:31] standardize using this formula, you get
+[08:34] a new number. Suppose it's 2.3 or -1.2.
+[08:39] In this way, you will get a lot of
+[08:40] numbers. Around five, exactly 500
+[08:42] numbers will be obtained because you
+[08:45] transformed all 500 numbers. Now, the
+[08:47] mean of these new 500 numbers will be
+[08:51] equal to 0 and their standard deviation
+[08:55] —we actually represent the mean with
+[08:59] μ. So I will just write it: μ will be
+[09:03] equal to 0, and the standard deviation
+[09:06] will be one. So, this is what happens
+[09:10] in standardization; you put any column
+[09:14] into this formula to transform and
+[09:17] scale it, and the new values you get
+[09:21] after scaling definitely have one
+[09:24] characteristic: the mean of that new
+[09:27] series is always zero, and its standard
+[09:31] deviation is always one. I will
+[09:34] demonstrate this to you with some code
+[09:36] as well. Okay? Now let's try to
+[09:38] understand one more thing: what is the
+[09:41] geometric intuition of this? Like, what
+[09:43] is the geometric intuition? I mean, how
+[09:45] does the whole thing work? Now, we are
+[09:47] taking an example for this. We have two
+[09:50] columns: age and salary. And we have
+[09:54] data for 500 people. Okay? So if you
+[09:59] think about it, if I plot age on the
+[10:02] x-axis and salary here, then all the
+[10:06] data will look something like this; all
+[10:10] 500 rows are basically a point on this
+[10:14] coordinate system, something like this.
+[10:19] Okay? Now what do we need to do? We
+[10:21] need to transform this. Basically,
+[10:24] transform these coordinates. Meaning,
+[10:26] transform age as well, and transform
+[10:28] salary as well. And we have to move it
+[10:30] to a new coordinate system. Where we
+[10:33] can call this Age dash and we can call
+[10:36] this Salary dash. Okay? Now notice one
+[10:39] thing, its mean will be somewhere here.
+[10:42] Meaning this is the mean of Age and
+[10:46] this is your mean of Salary. Right? And
+[10:50] this is the spread of your data, which
+[10:52] actually talks roughly about standard
+[10:55] deviation. This is the spread on your
+[11:00] Age axis and this spread, this is your
+[11:05] Salary axis. Okay? This is the data
+[11:09] spread. Now what do you have to do?
+[11:11] First of all, think about it. When you
+[11:13] perform standardization, when you do
+[11:16] standardization, the first thing is
+[11:19] that your mean—mean of both things.
+[11:23] Mean of Age as well as mean of Salary.
+[11:25] The mean of both should become zero.
+[11:29] Meaning that this entire data, this
+[11:32] whole block, should move and come here.
+[11:36] Something like this. They drew it a bit
+[11:43] quickly, but I guess you get the idea.
+[11:46] Now the mean has come here. Meaning the
+[11:49] mean of both Age and Salary are now at
+[11:52] zero. Okay? This is the first thing.
+[11:54] You are always lifting this whole thing
+[11:56] and centering it. This is called mean
+[11:58] centering, by the way. Mean centering.
+[12:02] Okay? Second, what is the second thing?
+[12:05] Suppose the standard deviation earlier
+[12:08] was five. Okay? And in terms of salary,
+[12:12] the standard deviation was six. So what
+[12:15] will happen now? The standard deviation
+[12:18] in terms of both, basically this data
+[12:20] spread on both axes will reduce, not
+[12:22] exactly to one, but it will reduce. So
+[12:25] that the sigma in terms of Age, meaning
+[12:27] standard deviation in terms of Age,
+[12:28] will become one, and the standard
+[12:30] deviation in terms of Salary will also
+[12:32] become one. So basically, it will look
+[12:35] a bit like this. Okay? So in a way,
+[12:37] what did you do? First, you took this
+[12:39] whole thing and brought it to the
+[12:41] center, which we call mean centering,
+[12:43] and then you converted it to the
+[12:44] standard deviation scale. Basically, if
+[12:47] the standard deviation was more than
+[12:48] one, you performed squashing. Meaning
+[12:50] you pushed this whole thing inward. You
+[12:52] pushed this whole thing inward. If the
+[12:55] standard deviation was low, say it was
+[12:57] 0.5, you would push the whole thing
+[12:58] outward. You would expand the whole
+[13:00] thing. This thing would grow and spread
+[13:02] out like this. But if your standard
+[13:04] deviation is more than one, you do
+[13:05] squashing, you compress it. Okay? So if
+[13:08] you want to understand it geometrically
+[13:10] , you are doing two things. You are
+[13:12] scaling down in terms of standard
+[13:15] deviation. Right? If you were already
+[13:17] very small, you are scaling up. But you
+[13:19] are going only up to a range. One-one
+[13:21] is the range. Right? And you are
+[13:23] centering it in terms of the mean. You
+[13:26] are doing mean centering. So, there are
+[13:28] two things in standard deviation. The
+[13:30] first is mean centering. And the second
+[13:33] is scaling by the factor of standard
+[13:37] deviation. These are the two things you
+[13:39] do. This is the geometric intuition of
+[13:42] standardization. Right? So I hope you
+[13:44] have understood this entire discussion
+[13:46] so far. Now, what will we do in the
+[13:48] next step? We will do two things. First
+[13:50] , we will look at an example. On a
+[13:53] dataset. On a real-world dataset, how
+[13:56] standardization really works and why it
+[14:00] is needed? We will look at both, and
+[14:03] then we will look at one more thing:
+[14:05] what if my data has outliers? Meaning,
+[14:08] if my data is like this, and then there
+[14:10] is one data point here. So, when we are
+[14:13] bringing it here. Bringing it to this
+[14:16] spot. Then what will happen to this
+[14:18] outlier? We will answer this question.
+[14:20] Right? And then, lastly, we will
+[14:23] discuss one final point: when exactly
+[14:25] should standardization be used? So that
+[14:27] you get all this knowledge together.
+[14:29] Right? So now, let's discuss an example
+[14:33] . Right? So I have already prepared a
+[14:36] notebook for you all. This is the
+[14:39] notebook, and this is the dataset. I
+[14:43] mean, I have imported three or four
+[14:44] libraries. You all know this. This is
+[14:47] my dataset. I downloaded it from Social
+[14:49] Network Ads Kaggle. And this is my data
+[14:52] , guys. I have done a little processing
+[14:53] on the data. Removed a few columns. I
+[14:56] kept only the columns that were needed.
+[14:58] Age, estimated salary, purchased—
+[15:00] whether they will buy or not.
+[15:02] Classification problem. Now look,
+[15:04] whenever you have to do feature scaling
+[15:06] , whether you do standardization or
+[15:09] normalization. In both cases, you
+[15:11] should always do a train-test split
+[15:13] first. This is recommended. You can do
+[15:16] it without doing this too. But it is
+[15:18] recommended that you do a train-test
+[15:20] split. So I have performed a train-test
+[15:22] split here. And now, after performing
+[15:24] the train-test split, in fact, let me
+[15:26] do one thing. I will run the things for
+[15:29] you right in front of you. So here is
+[15:32] my data, and here is my X train shape
+[15:36] after the train-test split, 280 rows by
+[15:40] two columns, and 120 rows by two
+[15:44] columns. The train-test split is done.
+[15:46] Okay? Now, in scikit-learn, you have a
+[15:49] StandardScaler class that does exactly
+[15:52] what we discussed here. It takes every
+[15:54] value and transforms it. Using which
+[15:57] formula? X i-mean divided by standard
+[16:01] deviation. If you want, you can even
+[16:03] build this class yourself. I mean, I
+[16:04] can show you how to do it. But you
+[16:06] should try it yourself. It's the same
+[16:07] thing. Okay? You created an object of
+[16:09] this class called scaler. And what is
+[16:11] the first thing you do? You run fit on
+[16:14] X train. Basically, you learn from X
+[16:16] train what the values are like. Okay?
+[16:18] Once learned, you store everything here
+[16:21] . You store the mean value and the
+[16:23] standard deviation value right here.
+[16:26] Just like you are fitting this. The
+[16:27] basic meaning of fitting is doing two
+[16:29] things. First, calculating the mean. Of
+[16:31] both columns. Since you are passing X
+[16:33] train, you are actually passing two
+[16:35] columns. Right? In fact, I will show
+[16:37] you by running this. So if I write
+[16:39] scaler dot mean, look guys, it has
+[16:42] remembered that this mean is for age
+[16:45] and this mean is for salary, and
+[16:48] similarly, it stored the standard
+[16:51] deviation too. So this fitting here
+[16:54] means exactly that. And as soon as you
+[16:56] fit, what are you doing now? You are
+[16:58] transforming. So now you are taking
+[17:00] every point of X train, applying that
+[17:02] formula, and storing the resulting
+[17:04] values in a variable called X train
+[17:06] scaled. Okay? And similarly, you are
+[17:09] scaling the X test as well. Okay? So
+[17:11] you learn on the training data, but you
+[17:13] transform both. Always remember this.
+[17:16] You don't learn from both. You only
+[17:18] learn from the training set. You
+[17:20] transform both the test and the train.
+[17:22] Always remember this. Okay? Next. Now,
+[17:25] one more thing, what is a problem with
+[17:27] StandardScaler is that if you give it a
+[17:30] dataframe, which I gave it, a dataframe
+[17:32] . This X train is actually a dataframe.
+[17:34] It takes a dataframe, but it returns a
+[17:37] numpy array, so it’s a bit hard to
+[17:40] view. So I just did this here; the
+[17:44] scaled data I received, NumPy,
+[17:47] basically let me show you. I sent
+[17:52] X_train, I sent X_train which is a
+[17:56] NumPy, I'm sorry, a Pandas dataframe,
+[18:01] and when I applied the scaling
+[18:04] operation, the X_train_scaled I got is
+[18:09] a NumPy array. This is a problem. Okay?
+[18:13] This is a problem. So to solve this, I
+[18:16] did nothing. I converted X_train_scaled
+[18:19] into a dataframe. Simple. Right? And as
+[18:23] soon as I converted it to a dataframe.
+[18:25] Now, if I show you, this is what
+[18:27] X_train_scaled looks like. And you can
+[18:29] see these age values are transformed.
+[18:31] They are scaled. Right? Similarly, the
+[18:34] salary values are also scaled. Right?
+[18:36] We understand up to this point. What
+[18:38] did I do next? I was just showing you
+[18:41] using the describe function that if you
+[18:44] take the original X_train and apply
+[18:47] describe to it. So if you talk about
+[18:51] the age column, your mean is 37.9 and
+[18:53] the mean salary of the original dataset
+[18:56] is 69,000, standard deviation 10,
+[18:58] 34,000, but when I do the same thing
+[19:00] for X_train_scaled, when I apply it to
+[19:03] X_train_scaled, now look here, how much
+[19:06] is the age mean? Zero. And how much is
+[19:09] the salary mean? Zero. And how much is
+[19:11] the standard deviation for both? One.
+[19:14] So this is what I wanted to show you,
+[19:16] that scaling has actually happened, and
+[19:19] now you have both distributions, age
+[19:21] and estimated salary, where the mean is
+[19:24] zero and the standard deviation is one.
+[19:27] So we have proven this. Right? Now
+[19:30] let's see what happened because of
+[19:33] scaling. So I have written some code
+[19:35] here. You can look at it easily; there
+[19:37] is nothing special about this code. I
+[19:38] have done nothing. I just created a
+[19:41] scatter plot before scaling. Focus on
+[19:43] the first graph. If you focus on the
+[19:45] first graph, what did I do before
+[19:47] scaling? I kept age on the x-axis. I
+[19:49] placed salary on the y-axis and plotted
+[19:51] all the data points. I plotted all of
+[19:53] the data points. And these are all
+[19:56] training points. Right? I plotted it.
+[19:58] And then I did the same thing after
+[20:00] scaling. Meaning, the first time I used
+[20:03] X_train to plot. And the second time, I
+[20:06] used X_train_scaled to plot. And if you
+[20:08] see, there is no difference. The points
+[20:11] are exactly the same. They are at the
+[20:13] same distance. Everything looks exactly
+[20:15] the same. Basically, the shape of the
+[20:17] data remains the same. But if you look
+[20:21] at the scale down here, the mean age
+[20:23] was around 40. Here, it's zero. Okay?
+[20:27] Similarly, you can see here it's zero
+[20:29] too. So what happened to the data? It
+[20:31] became centered. Meaning the origin is
+[20:32] somewhere over here now. The origin is
+[20:34] at this spot. Right where I am moving
+[20:36] my cursor. The origin was here
+[20:37] previously. So your data became
+[20:39] mean-centered, and you kind of
+[20:41] restricted it within the standard
+[20:43] deviation. Okay? So this is the first
+[20:45] thing that I wanted to show you. You
+[20:47] should go and explore it a bit more as
+[20:49] well. Next is, if you want to see the
+[20:51] real benefit of scaling, what can you
+[20:53] do? You can look at this graph. So,
+[20:56] what have I done here? I have plotted
+[20:58] the PDF. The probability density
+[21:00] function for both age and estimated
+[21:02] salary. So, focus on the first graph
+[21:04] first. Here I have plotted the PDF for
+[21:07] age and estimated salary. Now you can
+[21:10] clearly see that I only see one blue
+[21:12] line, which is actually The PDF of age.
+[21:15] This is weird. Ah, yes,
+[21:20] alright. Okay. All right. The PDF is of
+[21:23] age. And this orange one is your
+[21:25] estimated salary, which is spread out
+[21:28] quite a lot. Okay? And this is
+[21:31] obviously because age is in a very
+[21:33] small range. Just think about it, age
+[21:35] is in a very small range. Probably from
+[21:38] 20 to 60 years. That is the range. So,
+[21:41] all the age data is in a very small
+[21:43] range. That is why this value has
+[21:45] peaked so much. It went very high.
+[21:47] Whereas the salaries are spread over a
+[21:50] very large area. So, it's resulting in
+[21:52] a very flat curve. Basically, I want to
+[21:55] show you that there is no comparison
+[21:56] between the two because their scales
+[21:58] are so different. However, if you focus
+[22:01] on the right side, you will see that
+[22:03] once you applied scaling and
+[22:05] standardization, both distributions are
+[22:07] now comparable, which means you can
+[22:10] apply whatever operations you want.
+[22:12] Since both things are on the same scale
+[22:15] , your algorithms will perform much
+[22:17] better. Okay? So this was something
+[22:19] worth seeing. Okay? Next, if you talk
+[22:22] individually about the impact on age
+[22:24] and the impact on estimated salary? So
+[22:27] look again, I have plotted this graph
+[22:29] for the age distribution before scaling
+[22:31] . And focus on these numbers at the
+[22:33] bottom. These are the original ones.
+[22:35] Right? This was the distribution. This
+[22:37] was the shape of the distribution. And
+[22:39] even after we scaled it, the
+[22:41] distribution looks exactly the same.
+[22:44] Only the scale has changed. So you must
+[22:46] remember that the distribution remains
+[22:48] retained. There is no issue with that.
+[22:50] The data looks exactly as it did before
+[22:52] . Right? And the same goes for this one
+[22:54] , salary. So the salary distribution
+[22:57] before standardization was this. But
+[23:00] after the distribution, it is again the
+[23:03] same. Only the scale has changed. Right
+[23:05] ? So this is one thing you need to
+[23:06] learn, that when you apply
+[23:08] standardization, it doesn't make a
+[23:09] difference. At least, the shape of the
+[23:11] distribution remains unchanged. It
+[23:13] stays as it is. You are just changing
+[23:15] the scale; your mean becomes zero. Your
+[23:17] standard deviation becomes one. Right?
+[23:20] Now, here is an interesting thing we
+[23:22] discussed: scaling isn't...So what did
+[23:25] I do here? I have used an algorithm,
+[23:28] Logistic Regression. This is an
+[23:30] algorithm you will study in the future
+[23:32] and understand that it is important to
+[23:34] provide scaled values to Logistic
+[23:36] Regression. If you don't provide scaled
+[23:39] values, your results won't be good. So
+[23:41] that is what I did. I am showing you an
+[23:43] experiment. I created two Logistic
+[23:45] Regression objects. One is a normal
+[23:48] Logistic Regression, the other is LR
+[23:49] Scaled. I trained the first object on
+[23:53] unscaled values. And I trained the
+[23:55] second one on scaled values. I want to
+[23:58] compare the performance of both for you
+[24:00] . And here, I did the predictions, and
+[24:04] when I calculated the accuracy score,
+[24:06] it was actually interesting. When you
+[24:10] were using the actual data without
+[24:12] scaling, without standardization, your
+[24:15] accuracy was 65%, just 65%, and when
+[24:17] you scaled it, look, your accuracy
+[24:20] increased to 86%. So you can see this
+[24:23] experiment proves to you how important
+[24:25] scaling is. Especially in certain
+[24:28] algorithms. First of all, there is no
+[24:30] harm in scaling. I mean, generally, if
+[24:32] you scale, you won't suffer any loss.
+[24:33] Yes, depending on the algorithm, you
+[24:35] might get a benefit. Now, like there is
+[24:37] another algorithm, Decision Tree.
+[24:38] Scaling makes no difference in that.
+[24:40] When you study Decision Tree a bit, you
+[24:41] will understand. Oh, that is why
+[24:43] scaling is not needed. But let me show
+[24:45] you an example again. What did I do
+[24:47] again? Same, everything is the same. I
+[24:49] trained the decision tree this time.
+[24:51] Both separately, once unstandardized
+[24:53] and once standardized. So this time
+[24:55] look, the result that came is the same.
+[24:59] Right? Because decision tree is an
+[25:01] algorithm that is not affected by
+[25:03] scaling. Standardization doesn't make a
+[25:05] difference. You will learn this
+[25:06] gradually when you study decision trees
+[25:08] and logistic regression; you'll
+[25:10] remember this video and understand. Oh,
+[25:12] so that's why it doesn't matter. I am
+[25:13] not going into the technicalities of
+[25:15] decision trees right now. If you want,
+[25:16] you can go to my channel and watch the
+[25:18] playlist for both these algorithms.
+[25:20] Then you will understand why
+[25:21] standardization doesn't matter in the
+[25:23] case of a decision tree. Okay? Now a
+[25:26] last point, the last point is this that
+[25:29] I want to show you what happens if
+[25:31] there are outliers in your data. So
+[25:35] what did I do? I forced it myself, I
+[25:38] first studied what the range of age and
+[25:41] estimated salary is in the original
+[25:44] data. So I found out that the minimum
+[25:47] value of age is 18 and the maximum
+[25:49] value is 60. Similarly, the minimum
+[25:52] value of salary is 15,000 and the
+[25:54] maximum is 1.5 lakhs. What did I do
+[25:57] intentionally? I added some outliers.
+[25:59] Like I added the data of these three
+[26:01] people. One person's age is 5 years.
+[26:02] One is 90 and one is 95. And the
+[26:05] estimated salary for the child is 1,000
+[26:07] and for both the old people is 2.5
+[26:09] lakhs and 3.5 lakhs. And the first one
+[26:11] won't buy, the other two will. This is
+[26:13] outlier data. What did I do with it? I
+[26:15] appended it to the original dataframe.
+[26:18] Okay? So now I have 403 rows instead of
+[26:22] 400. Okay? It is not visible here right
+[26:24] now. I mean, you can run this notebook
+[26:26] and see. And then what did I do? I did
+[26:29] everything the same, I did the plotting
+[26:31] again. And this time if you notice, all
+[26:33] this data is here. And these are your
+[26:35] three outlier points. Okay? Now let's
+[26:37] see what happens to these outliers when
+[26:39] you apply standardization here. I hope
+[26:41] you are able to understand what will
+[26:42] happen. But if you do everything the
+[26:44] same again. I did the train-test split
+[26:46] again. I called the Standard Scaler
+[26:48] class again. I created the scaled
+[26:50] X-train and X-test again. Converted
+[26:53] them into a dataframe. And when I
+[26:56] plotted the graph after that, the
+[26:59] before scaling and after scaling one.
+[27:02] Basically, as soon as I plotted this
+[27:04] graph, as soon as I plotted this graph,
+[27:07] I saw this. See, this is only the
+[27:09] X-train data, so you are only seeing
+[27:12] two outliers. One outlier went into the
+[27:14] test set, so don't get confused. But
+[27:16] you can see that even now, the factor,
+[27:19] the outlier is still an outlier.
+[27:22] Meaning, the impact of the outlier did
+[27:25] not reduce. The outlier is still
+[27:27] behaving like an outlier. Okay? This is
+[27:30] the biggest thing you need to notice
+[27:33] and remember: if you ever apply
+[27:36] standardization to a column with
+[27:39] outliers, the impact of the outliers is
+[27:42] not reduced. Outliers behave just as
+[27:45] they always behave. So, you will have
+[27:47] to handle outliers explicitly. I did
+[27:50] this extra thing intentionally to show
+[27:52] you this point. But I hope you
+[27:53] understood this. Okay? So now, going
+[27:56] back to the last point, which is when
+[28:00] to use standardization. By now, you
+[28:03] must have understood that there is no
+[28:05] harm in using standardization at any
+[28:08] time. Like here, when I applied
+[28:11] standardization in the decision tree,
+[28:13] it didn't happen that your accuracy
+[28:15] decreased or increased. Okay? It was
+[28:18] the same. So, generally,
+[28:19] standardization will not cause you any
+[28:21] harm. But I will tell you when you
+[28:23] should apply it. There are four or five
+[28:26] cases. Actually, these are the names of
+[28:28] some algorithms. Whenever you encounter
+[28:30] these algorithms and are working on
+[28:32] them, apply standardization with your
+[28:34] eyes closed. Okay? Like the first one
+[28:37] is K-Means or K-Nearest Neighbors. In
+[28:40] both these algorithms, you calculate
+[28:42] Euclidean distances. And wherever you
+[28:45] are calculating distances, if the scale
+[28:46] of your variable is very high, you
+[28:47] won't get good results. So, you should
+[28:50] do standardization here. Okay? A very
+[28:52] important feature extraction technique
+[28:55] is PCA. In PCA, you need to control
+[28:59] variance and perform mean centering,
+[29:02] and for that, you should do
+[29:04] standardization. Look here, it's
+[29:06] written "try to get the feature with
+[29:08] maximum variance," and here you should
+[29:10] also perform mean centering. So, when
+[29:12] you study PCA, you will understand this
+[29:14] . Again, if you want to understand PCA,
+[29:15] there is a video on my channel for that
+[29:17] too. Okay? Now, one more thing:
+[29:19] gradient descent. Gradient descent is a
+[29:21] very famous thing in machine learning.
+[29:24] It's basically that you have a function
+[29:26] like this, and you want to find its
+[29:28] minimum value, so you start from here
+[29:30] and reach here by jumping along the way
+[29:33] . Okay? Now this is in 2D, it could
+[29:35] also be in 3D. Meaning, imagine it like
+[29:37] a mountain valley, or it could even be
+[29:40] in 4D. So, this technique of
+[29:41] calculating the minimum is called
+[29:43] gradient descent. And in machine
+[29:45] learning, it's a very famous technique.
+[29:47] Many algorithms rely on gradient
+[29:49] descent to do their job. Linear
+[29:51] regression, logistic regression, your
+[29:54] entire deep learning, every single
+[29:56] algorithm in deep learning depends on
+[29:59] gradient descent to do its job, and in
+[30:01] gradient descent, you initially
+[30:04] initialize some weights. Right? You
+[30:07] initialize some weights, and you
+[30:08] generally start those weights from zero
+[30:10] . So, if the scales of your two
+[30:13] variables are different, then the two
+[30:15] separate weights improve in different
+[30:18] ways. So, one's scale becomes very
+[30:19] large, and one becomes very small. So,
+[30:21] you actually aren't able to converge
+[30:22] here. I know it might sound very
+[30:24] technical at this point, and you should
+[30:25] watch the gradient descent video. Again
+[30:27] , it's on my channel, you can watch it.
+[30:29] So, there you will understand why it is
+[30:31] important to standardize. Because if
+[30:34] you don't, if you have multiple weights
+[30:36] , they are initialized with the same
+[30:38] value but they will change differently,
+[30:40] and you will never be able to converge
+[30:42] at this point. So basically, your
+[30:45] algorithm will never converge. You
+[30:47] won't get the best values, and you will
+[30:49] be left crying. So that's why, for
+[30:51] gradient descent and the entirety of
+[30:54] neural networks, what do you do? You
+[30:56] use standardization. There are some
+[30:58] algorithms where you don't need to use
+[31:00] it. I will tell you their names for
+[31:03] standardization. In the future, when
+[31:05] you study, you will remember decision
+[31:07] trees, because in a decision tree, what
+[31:09] do you do? You ask a question like a >
+[31:12] b, so in this kind of comparison, the
+[31:14] scale isn't really necessary. I mean,
+[31:17] if you say 1500 > 1000, I'm actually
+[31:21] saying it the wrong way. We don't do
+[31:23] calculations in this manner. Just
+[31:25] understand that you make comparisons.
+[31:27] Rather than calculating distances or
+[31:29] updating weights. What you do is you do
+[31:33] comparisons. You basically make cuts in
+[31:35] the data. So, for making these cuts,
+[31:38] you don't need to change the scale.
+[31:41] Right? So, decision trees are one
+[31:44] algorithm, random forest, which is
+[31:47] again a tree-based algorithm, and you
+[31:50] have other famous algorithms like
+[31:52] gradient boosting, XGBoost; in all
+[31:55] these, you don't need to do scaling.
+[31:58] Even if you do it here, it won't make
+[31:59] any difference. It won't make a
+[32:01] difference even if you don't. But if
+[32:02] you are dealing with such algorithms.
+[32:06] If you are dealing with these five or
+[32:08] six types of algorithms, then standard
+[32:10] deviation is a must, guys. It's a must.
+[32:13] Okay? So yeah, that's it about
+[32:16] standardization. In tomorrow's video,
+[32:19] we will study normalization and see how
+[32:21] it differs from standardization. And we
+[32:24] will also look at where normalization
+[32:26] should be used instead of
+[32:28] standardization. So I hope you liked
+[32:30] the video. If so, guys, please consider
+[32:32] subscribing, liking, and sharing. So
+[32:34] yeah, that's it. Thanks for watching,
+[32:36] bye.

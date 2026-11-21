@@ -1,0 +1,850 @@
+# Working with CSV files | Day 15 | 100 Days of Machine Learning
+# https://www.youtube.com/watch?v=a_XrmKlaGTs
+
+Hello guys, welcome to my YouTube channel. This is 100 Days of Machine Learning and today is day 15. So, we are now gradually moving forward in the machine learning process. In the last video, we saw how to frame a machine learning problem. And now, starting from today's video, for the next three-four videos, we will focus on data gathering. So, as you already know, in machine learning, everything is about data. In fact, if you give a very good algorithm less data, its performance will be worse than a bad algorithm to which you give a lot of data. So data is very important, right? So what we are going to do is learn to fetch data from different sources. Okay, so that in the future, if you are given any problem statement and you need data, you can fetch that data. Okay? So I will share my screen and I will show you what sources we are going to learn to fetch data from. Okay? So let's start. So yeah guys, we will divide this entire task into a total of four videos. So we are doing data gathering step by step. Sorry for the handwriting. First of all, in this video, we will work with CSV files. So when you start your machine learning journey, the data format you have to work with the most, at least initially, is the CSV file format. If you go to Kaggle and search for any dataset, there is a 90%chance that you will only find the CSV file format. Okay? And honestly, getting a CSV file makes things easy. In comparison to other data gathering techniques. So this is the easiest one. We will cover this first and it will be used the most. At least in your initial journey; gradually, as you tackle difficult problems, then different data sources will start appearing. But yeah, this is the first one. Okay? Second, we are going to focus on JSON JSON and SQL data. So if you go to Kaggle, another file format you will see a lot is JSON, the full form of which is JavaScript Object Notation, and generally, whenever you fetch data via APIs, it is in JSON format. It's a universally accepted format for data; if two programming languages need to communicate, JSON is generally used. Okay? And SQL, I guess you must already know. Basically, you are directly extracting data from your database, that is SQL. All right? So, these two file formats are also used a lot on Kaggle. So, we will first get comfortable with these three. After that, we will learn two more things. We will learn how to fetch data from an API. We will pull data from an actual website's server and modify it according to our requirements. This will help you a lot later on because you might need to work with APIs in the future. All right? And the last one would be Web scraping. So, sometimes it will happen that you won't have a data source, and the data will be on some other website that doesn't want to give it to you. There is no API. All right? In that case, you are left with only one option. That is to scrape the website. In data, you mean you run a parser on that website in Python or any other language, and what does that parser do? It navigates the HTML code of that website and extracts the useful things for you. All right? So, this will be video one, this will be video two that we will watch tomorrow. This will be three and this will be four. All right? So, for now, I am focusing on these four things only. Now, there are some things besides this as well. Like there is something called Google BigQuery. You can work on that. You can work on how to fetch data from there by building a data warehouse. Apart from this, there are NoSQL databases. You can also learn how to fetch data from them. But I feel that since you are just starting now. If you learn these four things, you can solve 90%of your problems. In fact, you can solve 95%of your problems. Beyond that, you can keep learning on the go. All right? Or I will find a way to handle that. All right? So anyways, this is the plan. So let's start with today's video. Today we are going to focus on CSV. All right? So I have a notebook over here. And this is my setup, guys. I have created a notebook called 'Working with CSV'. This is my Jupyter notebook, and I have uploaded some files here in advance. These are different CSV files. Except for this one, this is a TSV file. I will tell you about all of these. So first, let me tell you once what a CSV is. If you don't know, then first you should know what a CSV looks like. So, what you see on your screen, guys, is the CSV file format. Alright? I mean, the data here—first of all, CSV stands for Comma Separated Values. So, if you look here, every row is on one line, and the separation between two values is actually by a comma. Alright? So, this is a very famous file format that is used a lot in Machine Learning and Data Science. And we will learn to work on this first. Alright? Now, you might be seeing here that there is something called TSV as well. TSV means Tab Separated Values. Everything is almost the same. It's just that there are tabs in between. There are tabs between two values. So, TSV is not as famous. But sometimes we do come across such datasets. So, how to handle that, we will also see in this video. Alright? So, this is my notebook. Here, I have created topics in order. See, we will mainly focus on this function. If you have watched my Pandas videos, you might recall me talking about the read_csv function in the very first video. Whenever you get data in CSV format, this is the function you will use. Honestly, I could have just shown you by running a single function. But I have made this very long notebook. The reason for this is that your read_csv function has many parameters and it can help you in many ways. But what beginners usually do, or the videos you generally see on YouTube, they explain only one or two things and leave it at that. But what I want is for this video to serve as a reference for you, so that if you get stuck with any CSV file in the future, you can come back and refer to this video. So, I am going to discuss a lot of parameters; I will discuss about 15-16 parameters. So, the video might be a bit long, but if you watch it, you will never have problems with CSV files in the future. Alright? Let me first show you that if you look at the documentation for read_csv in Pandas, you will have to go to this website. And if you notice here, there are so many parameters. There are a lot of parameters. They have written code to handle many types of cases. And if you study these parameters properly, then you won't have any problems with CSV files. Alright? So, I am not covering all of them because, to be honest, there is no need to cover everything. I myself have never really had that many problems. I will tell you about the problems that I have actually faced. Alright? So, I will come back to my notebook and we will start the video from here. Okay? So first of all, a CSV file—I mean, read_csv can load your CSV file. Whether the CSV file is on your machine or you have its URL, you can still do this. Alright? So first, I am showing you if this file is stored on your machine. As you can see here, this file is stored right here. august_trincs, so loading it is very simple. Since this file and that file are both in the same folder, I just have to write the file name directly. Otherwise, I would have given a relative path if the file was inside some folder. Alright? You probably know that. You just have to write this code: pd.read, the CSV file path, and then you just have to print the df, and look guys, your file is loaded! This loaded locally from your machine, alright? Now, if you want, let's say I have this CSV file at this URL, okay? It is actually on Git, someone has put it there, some Git user, and I got the URL. I want to open this particular CSV file in my Python code on my machine. Now obviously, this is on the Git server. So for this, you have to put in a little bit of effort. This is a code snippet. To be honest, you don't need to write any code yourself. I will give you the Git link for this notebook. You can keep this in any of your folders. In the future, whenever you need to load CSV file data from a server. You just copy-paste this code snippet. What do you have to do here? You have to import a module called requests. By doing requests.get, what can you do? You can fetch all the content of the file from that particular URL like this, and all that content gets stored in the request. Alright? So what are you doing now? You are fetching only the text from all of that content. So all this text comes through, and then you are reading it. All right? If you focus a little on this part here, you have basically passed the headers. Whenever you work with the requests module, what are you actually doing? You are acting like a client. As if your program is a user hitting that URL and requesting the content. So here you are just stating that the request went out with these headers. All right? Is that okay? It's not that important. You only care about this code snippet. And you just need to copy this URL and paste it here inside this variable. That's it. If you ever want to use this code in the future. You just need to paste the URL. And as soon as you run this much code, it takes a little time because you are loading from a server, and it also depends on how large the data is. So you can see this is my dataset with 194 rows and two columns. So, until now, I have just told you that you can load CSV files from your local machine, and you can also load them from a server if you want. The code for both is in front of you. All right? Now let's move on to the next topic. Uh, now there is a sep parameter here. All right? The sep parameter is in this function of yours. For example, let me show you something. Like here, this function, this data is movie_titles_metadata.tsv, now this is a tab-separated value file. All right? Now, the default value, if you look— let me show you. Um, if you press Shift + Tab, you will see here that the default value for sep is a comma, which is why read_csv loads CSV files by default. Now, this can sometimes be a problem. Especially if you are dealing with TSV-type files where the values are not separated by commas. So, look here, if I run this code. If I run this code in read_csv. See what happens? See, everything got messed up because it didn't find the comma, and that's why everything ended up in a single line. All right? So, what do you need to do in such cases? You just have to override the value of the sep parameter here to backslash t. Backslash t means tabs. So you are saying that rather than finding commas, find tabs. And create columns based on that. Okay? And as soon as you run this code, see, this is your output, guys. Okay? Here is your output. Now, if you notice here, one thing has gone wrong, which is that you don't have the column names. You don't have the column names. Instead, the first row has become the columns. Okay? This happens sometimes. So, what do you have to do in this case? See, what you will do is, if you look here, our function's parameter list has another parameter by the name of names. If you don't have the column names here, you can pass a list of column names yourself, and it will automatically handle things. Like, what am I basically saying? Here, you will pass a parameter called names. You will pass a list. Where you will give names to all these columns. Okay? Now, you will have to think of the names yourself. Obviously, if you can understand the data by looking at it, you will write them down. Okay? Like the first one here looks like a serial number to me. The second one looks like the movie name to me. The third one looks like the release year. release_year. The fourth one looks like the rating to me. And then I guess this is the number of votes, maybe. And at the end are the genres. Right? And as soon as I run this code, you can see that the first row which had become the header is back to normal, and all your column names are here. Okay? So, in the future, if you ever get stuck where the data you have doesn't have column names defined and your first row has become the column names. Then you can use this code snippet. Okay? I hope you understood this part. Now next is the index_col parameter. So let me show you what it does. So if you look at this data here, august_s_tr_inc, whatever this data is, I don't know what it is. If you notice here, there is a column called EID. Okay? Now there is an index here, and there is this EID here as well. There is no need to keep two indices. Sometimes you might have a column that won't be useful in your analysis. So, if you want, you can convert it into an index. Right, like this. You just need to write index_col here and paste the column name. Okay? And now if you run this, you can see that your default Pandas index, which is generated automatically, has been replaced by this. Okay? It's not very important, but you can do it if you want. Okay? So, this is one parameter. Next is the header parameter. This is a bit important because I have faced this problem sometimes. So, I have a test.csv file here. When I run this, what's happening is that your first row is actually the column name. But since whoever generated this CSV put a zero in front of the column name, in front of that row. So now Pandas is unable to understand that this is not a normal row. These are your column headers. Okay? So if you want to convert this into column names and start your dataframe from here, you simply have to write header = 0, oh, header = 1, I guess we have to write one. Your first, I mean your first row is starting from one. Okay? You have to specify this, so automatically this thing becomes your column name. Okay? So these are two different problems. One when you don't have column names at all, and second when your column names are being treated as rows, so in both these cases you can use these two code snippets. Okay? I hope you understood this as well. Next is the usecols parameter. So, like this data I have here. Now there are quite a few columns in it. Right? Now, what happens in machine learning is that when you get a dataset, it's not necessarily the case that you will use all the columns. This happens very often. In fact, you know from the start that I don't need some columns, or I only need a few specific columns. So in this case, what you can do is that at the time of importing the data itself, you can specify the names of the columns you need. All other columns will automatically be removed. For example, I will give you an example. Let's say I need enroll_id, gender. And education_level, I only need these three columns. We could have taken more, but we are taking three as an example. What do you just have to do here? Using usecols, you need to provide a list containing the names of all the columns you want. Like this Gender and Education level. Education level, and as soon as you run this code, instead of the full data frame, you will get a data frame with just these three columns. Okay? So you can do this to filter out. You have other options as well in Pandas. But this is an easy way. Eliminated right at the beginning. Okay? So this was a small thing I wanted to tell you. Next is the squeeze parameter. So sometimes it happens that you only need one single column. This happens very rarely. I mean, I use it as an example to teach students. So I thought I'd teach it to you. Like if I only need one column. And if you set squeeze equal to true, then instead of becoming a Pandas data frame, it becomes a Pandas series. That's all that happens here. If I run this, only the enroll_id comes up. And if I had written gender here, then only gender would appear, and this is a Pandas series object. Okay? It's not a data frame. So, it's not that useful honestly, but since we are studying, I taught it to you. Okay? So next is skiprows and nrows. Okay? From the name skiprows, you must be understanding. The values you give in this, those particular rows will be skipped. You will not bring them into your Python code. Like, here I have this data. Let's say I don't want this first and second row. Okay? So what can I do? I can write here skiprows equal to 0, 1. Okay? Now notice that both of these should not appear, and the output should be this. Okay? 11 561 the third one. I guess I didn't pay attention. Yeah, see, it started from here. So here, it is not necessary to give consecutive numbers. If you want, let's say you want to remove zero and you want to remove two, then you can also write skiprows equal to 0, 2. So you can see 61 still came because Uh It's weird. It shouldn't have come. skiprows equal to 0, 5 So zero was removed and five was also removed. I don't know, something went wrong, guys. You guys check it once. If you go to the documentation here, you will see that you can use this in many different ways. For instance, an interesting use case here is that you can call a function, and based on the logic you write inside that function, you can skip rows. Like, one logic could be that I only want to remove the rows that are multiples of five. Or, I only want to keep the odd rows. Remove the even rows. So, you can implement this kind of logic here if you want. And you should try this yourself. You should at least do this much. Okay? So, this is skip rows. The next is n rows. So, what n rows does is that whatever value you provide in n rows, you are importing only that many rows. Like, if I set n rows to 100 here, then at this point, if you look, there are 19,000 rows. But as soon as I set n rows to 100. Now, only 100 rows will appear. So, it restricts the number of rows that you are importing. When is this beneficial? Let me tell you. If you are working with very large datasets that have 1 million or 10 million rows, and you are unable to load them all into memory at once because your RAM is low. Then in such scenarios, you can intelligently use n rows to manipulate your data. Okay? So, both of these are also useful. Sometimes they come in handy. So, you should know about them. Okay? Next is the encoding parameter. This is one thing that really bothered me when I started machine learning. On Kaggle, you will find some datasets whose encoding is not UTF-8, which is the default encoding. Uh, what did I do? Yes, if you go here, there is a parameter called encoding, which I don't see right now. Anyways, UTF-8 is the most normal one generally, and many of your datasets will work normally because they are UTF-8 encoded. But then, sometimes you will find some datasets where they will be encoded differently. With a different character set. Okay? Like an emoji dataset, which has a different encoding, or if you are importing a dataset in a specific language, like Hindi and all. Then it is possible that the character encoding there might be something else. If it is something other than UTF-8. In that case, what will happen is, for example, if there is a dataset like Zomato.csv, which is a very famous dataset that I have worked on. And as soon as you load it for the first time, you will see this error. As soon as you see this error, you should understand that the encoding of that dataset is not UTF-8, so you have two options. Either you go into an editor like Sublime Text and change its encoding, or the second option is that you find out what its encoding is and pass that same value into the encoding parameter. Like here, the value is 'latin-1'. This is an encoding format, and now as soon as you run it, it starts running. So, if you find this, then it's great. If you don't find it, you can go into any code editor and change its encoding, it's up to you. Okay? Now, if it is meant to happen, it will. Now, if you have used characters there that cannot be encoded in UTF-8, they will be skipped or they will appear kind of like a blank. Okay? So anyways, I wanted to show you this because I was quite frustrated with this when I started all this. Okay? Okay. Next is 'skip bad lines'. So sometimes it happens that you will get some datasets where some rows in between will be messed up. What does ' messed up' mean? That your entire CSV file has five columns. Meaning there are five values in every row. But then in between, some rows have six values, nine values, 10 values. So Pandas is unable to read that. Okay? So for example, look at a dataset here. I downloaded this dataset while building a book recommendation system. This is a books dataset. Now, the separator here, CSV means it should normally be comma-separated values. Here it is a semicolon. Because whoever created this created it a bit differently, and here the encoding is 'latin-1'. But as soon as you run it, a parser error will come, and if you read the error, it will say 'expected 8 fields in line 6452, saw 9'. This means that it was bringing the entire data into memory. And then in row number 6452, it realized that instead of eight columns, there are nine values. So it failed. Your goal. So in this case, what do you have to do? There is a parameter here called error_bad_lines. You have to set it to False. So those lines get skipped. Whichever lines have issues will be skipped. And look at your output, all these lines were problematic. These are getting skipped. This line also had an issue. This line also had an issue. There were issues in this many lines. These lines were skipped and the rest of your data loaded. Okay? So if you ever see a ParserError, there is a great chance that you are facing this kind of problem. Okay? In that case, you have to use error_bad_lines and it will solve your problem. Okay? Now let's move forward and let's discuss the dtype parameter. So the deal with dtypes is, as the name suggests, data types. What happens is when your read_csv function looks at a CSV file and its data, it analyzes column-wise what type of values are stored in that column. So all of this is by default. But if you want, you can override this behavior and it comes in very handy sometimes. Okay? Let me show you when. For example, we had some data here that we used just a little while ago. It was named, I will just open it. train.csv. Now, if you notice here, the last column is named target, and the values in target are actually floats, but the values are just one and zero. But I mean, you could easily represent this as an integer. But whoever created the data represented it as a float there. So float is being used unnecessarily. It will take up more memory. There is no point. So first of all, let me show you that it really is a float. You can call the info function and in training, look, it's showing float64. So if you don't want this and you want to convert it to an integer, what can you do? You can use the dtype parameter. Here, you have to provide the column name inside a dictionary. The column name is target. Yes, target, and what data type to convert it to—integer. Okay? Now as soon as you run this, you would see your last column is now an integer. Okay? If I run info on this, you will see here that it has been converted to int32. Right? So, it comes in handy sometimes. You can analyze it right at the beginning. If you can save memory, then save it. Right? So, it comes in handy sometimes. Now next, this is very important. So what happens is whenever you use read_csv, by default all date columns are read as strings. They are read as strings. So if the date becomes a string, you won't be able to use its date-specific functionalities. Meaning, you cannot fetch which month it is, which day it is, or which year it is. You have to keep it in the datetime format. So what do you do to accomplish this? Let me first show you, I have a dataset, pd.read_csv. And it's basically an IPL dataset, and if you notice here, this is the date; information about which day every IPL match took place is in this column. Now, if I show it using info, you would see that the date has come as an object. If you have studied Pandas, you would know that an object means a string in Pandas. So if you want to parse this into a normal datetime, you get a parameter here called parse_dates. Here, inside a list, you enter the names of those columns which you want to parse as dates. So now if I run this, you won't see any change in the output. But if you run info, you would see it is datetime64. Right? And this is very useful. Now it will be treated exactly like a date. You can apply filters on the date. After this date, between this date and this date. You can apply these kinds of filters, which will help you a lot. If this were a string, you would not have been able to implement date-based logic. Right? Now, try one more thing. If you go to the parse_dates section in the Pandas documentation, you will see there that you can enter the names of columns inside a list. If you have multiple columns that are dates, you will pass names in this format or pass the index of the column. But what if you have a dataset where the month is separate, the day is separate, and the year is separate? So if you want, you can merge them into a single column as well. Its syntax is this. You need to pass another list inside this list containing the column names and indices. The names and indices of all the columns. And what will this do? It will combine columns one and three and parse as a single date column. This is a very useful thing. Sometimes, this might happen in some datasets. So this will really help you in merging them. Okay? You can do the same thing with a dictionary as well. You don't have to do much. Just pass a dictionary. Here, inside the list, put all those columns that need to be joined to form a single date column and then what to Call it 'foo'. So, we called it 'foo'. Okay? So, you guys try this out if you come across such a dataset. I didn't find one. If I had, I would have shown you. Okay? So, this was handling dates. So guys, next is converters. And converters are actually a very powerful feature of read_csv. And I'll let you know why. Sometimes it happens that you want to apply some transformations on your columns even before you have loaded the dataset. Okay? Like, I will give you one example. For instance, we have this dataset of the IPL. This is the dataset. Now here, you can see that the team names are given. Okay? Now let's say I don't want these full names. What I want is short names. Like in the case of RCB, meaning for Royal Challengers Bangalore, I want RCB, and for Mumbai Indians, I want MI, rather than these. So what can I do? I can actually create a function, let's call it rename (), which if you give a name, it will check 'if name is equal to let's say RCB copy', so if it finds this, then it will return RCB, else the name will be returned as it is. Assume this is our function. Okay? This is our function. So if you see, if I pass RCB to rename, I get to see the text RCB. Okay? Now I need to apply this transformation. So what I will do is, I will write converters. Here, I will pass a dictionary, and inside the dictionary, I have to write the name of the column on which I want to apply the transformation. Team 1, and then I have to provide the name of the function. That is rename, and as soon as I run this code, you can see that in team one, wherever there was RCB, that transformation has been applied everywhere. And in this way, you can apply as many transformations as you want on any number of columns. Okay? So this is a very powerful technique that you can use in the future. Okay? So this was another thing I wanted to show. Now, only two things are left. One is the na_values parameter. What is the main concept here? First, let me load the dataset and show you. read_csv, and we can use this same dataset. Now, what's here? If you notice, these are NaN values. NaN values mean missing values. Okay? Now, if these missing values are identified, that's good because there are built-in functions for that like fillna or dropna to remove or fill them; the problem arises when in some datasets, instead of NaN, there is a hyphen placed there. So that hyphen is neither NaN nor is it a proper value. So those types of values cause a lot of trouble. Okay? That is why you can specify right at the beginning what kind of things you want to consider as NaN values. For example, let's assume here that this 'male' means a hyphen. We don't want that. So what I can do is I can just write na_values. And in na_values, what can I do? I can pass a list containing all the values that my read_csv function will consider empty. It will consider them as NaN. Okay? So, as soon as I run this, you can see that wherever there was 'male', it all became 'NaN', and what was already 'NaN' is still 'NaN'. And was there no 'female' at all? I don't know, maybe there wasn't any ' female'. Yes, 'male' was visible everywhere here, so it also started considering that as an 'empty' value. So obviously, you wouldn't do that for 'male'. If there is a 'hyphen' or ' percentages' somewhere, or if there are any 'placeholders' anywhere that you want to detect as 'empty', you will use na_values there. You can pass more values here separated by commas. It's up to you. Okay? So that was one thing. It comes in handy sometimes. Now for the last thing, which I personally find very interesting. So sometimes what happens is that you are working with a very large dataset and if you apply an operation on it all at once, it doesn't work because there isn't enough space in the memory. Meaning there isn't enough space left in the RAM. So that's where dividing it into chunks comes in useful. Like, let me show you an example. I am using the same dataset again. I am using this same dataset. And Look here, there are 19,000 rows. Now imagine there are 1.9 million rows here for an example. So what you can do is that while loading, you can divide this dataset into chunks. How? You just have to write chunk size here. And you have to specify the number of rows. How many you want to make chunks of. So let's say I have 19,000 rows. I want to make chunks of 5,000. So my first chunk will have 5,000 rows. After that the next 5,000, then the next 5,000; okay. And I am storing this in a variable, which I am naming dff (data frames); okay. Now what you can do is, if you want to do anything on your datasets, on your data frames, then you will do it inside a loop. You write this code: "for chunks in dfs, print every chunk's size". Now here, every chunk, guys, is a data frame. Okay? And look, why did I do size? I didn't mean to do size. I meant to write shape. I wanted to show you how many rows went into each. So you can see it was divided equally. 4158, 4158, 4158 and all have the same number of columns. Okay? Now if you want to apply something to all of them, let's say you want to do a group by operation or you want to do anything else, what will you have to do? You just have to put it inside a loop and run that operation. Okay? I am going to make a video on this and add it to my Pandas playlist. I only found out about six or eight months ago that we can handle things this way. Because 6 or 8 months ago, I got a data set that was huge, and my machine couldn't handle it. So, that's where this function came in very handy for me. Alright? So, this is very useful too. If you ever get stuck with a very large data set, this is how you will handle the problem. Okay? So with that, yes, we have completed this topic. And I guess the video got long again, must be around 30 minutes, but trust me, I've told you almost everything. You shouldn't have any problems with read_csv (). Now tomorrow, we will learn how to work with JSON and SQL data, okay? So, I hope you liked the video. If so, please consider subscribing and sharing, okay? Let's meet tomorrow, bye!
+
+
+[00:00] Hello guys, welcome to my YouTube
+[00:01] channel. This is 100 Days of Machine
+[00:03] Learning and today is day 15. So, we
+[00:06] are now gradually moving forward in the
+[00:08] machine learning process. In the last
+[00:09] video, we saw how to frame a machine
+[00:11] learning problem. And now, starting
+[00:13] from today's video, for the next
+[00:15] three-four videos, we will focus on
+[00:17] data gathering. So, as you already know
+[00:19] , in machine learning, everything is
+[00:21] about data. In fact, if you give a very
+[00:25] good algorithm less data, its
+[00:26] performance will be worse than a bad
+[00:28] algorithm to which you give a lot of
+[00:30] data. So data is very important, right?
+[00:35] So what we are going to do is learn to
+[00:37] fetch data from different sources. Okay
+[00:40] , so that in the future, if you are
+[00:42] given any problem statement and you
+[00:44] need data, you can fetch that data.
+[00:47] Okay? So I will share my screen and I
+[00:49] will show you what sources we are going
+[00:51] to learn to fetch data from. Okay? So
+[00:53] let's start. So yeah guys, we will
+[00:56] divide this entire task into a total of
+[00:59] four videos. So we are doing data
+[01:03] gathering step by step. Sorry for the
+[01:07] handwriting. First of all, in this
+[01:09] video, we will work with CSV files. So
+[01:13] when you start your machine learning
+[01:15] journey, the data format you have to
+[01:17] work with the most, at least initially,
+[01:19] is the CSV file format. If you go to
+[01:22] Kaggle and search for any dataset,
+[01:24] there is a 90%chance that you will only
+[01:27] find the CSV file format. Okay? And
+[01:30] honestly, getting a CSV file makes
+[01:32] things easy. In comparison to other
+[01:35] data gathering techniques. So this is
+[01:37] the easiest one. We will cover this
+[01:39] first and it will be used the most. At
+[01:41] least in your initial journey;
+[01:42] gradually, as you tackle difficult
+[01:44] problems, then different data sources
+[01:45] will start appearing. But yeah, this is
+[01:47] the first one. Okay? Second, we are
+[01:50] going to focus on JSON JSON and SQL
+[01:57] data. So if you go to Kaggle, another
+[02:02] file format you will see a lot is JSON,
+[02:04] the full form of which is JavaScript
+[02:07] Object Notation, and generally,
+[02:09] whenever you fetch data via APIs, it is
+[02:11] in JSON format. It's a universally
+[02:16] accepted format for data; if two
+[02:18] programming languages need to
+[02:20] communicate, JSON is generally used.
+[02:23] Okay? And SQL, I guess you must already
+[02:26] know. Basically, you are directly
+[02:27] extracting data from your database,
+[02:29] that is SQL. All right? So, these two
+[02:31] file formats are also used a lot on
+[02:33] Kaggle. So, we will first get
+[02:35] comfortable with these three. After
+[02:37] that, we will learn two more things. We
+[02:40] will learn how to fetch data from an
+[02:42] API. We will pull data from an actual
+[02:47] website's server and modify it
+[02:49] according to our requirements. This
+[02:53] will help you a lot later on because
+[02:55] you might need to work with APIs in the
+[02:57] future. All right? And the last one
+[02:59] would be Web scraping. So, sometimes it
+[03:05] will happen that you won't have a data
+[03:07] source, and the data will be on some
+[03:09] other website that doesn't want to give
+[03:11] it to you. There is no API. All right?
+[03:14] In that case, you are left with only
+[03:16] one option. That is to scrape the
+[03:18] website. In data, you mean you run a
+[03:21] parser on that website in Python or any
+[03:24] other language, and what does that
+[03:26] parser do? It navigates the HTML code
+[03:29] of that website and extracts the useful
+[03:32] things for you. All right? So, this
+[03:34] will be video one, this will be video
+[03:36] two that we will watch tomorrow. This
+[03:39] will be three and this will be four.
+[03:41] All right? So, for now, I am focusing
+[03:43] on these four things only. Now, there
+[03:45] are some things besides this as well.
+[03:47] Like there is something called Google
+[03:49] BigQuery. You can work on that. You can
+[03:53] work on how to fetch data from there by
+[03:55] building a data warehouse. Apart from
+[03:57] this, there are NoSQL databases. You
+[04:00] can also learn how to fetch data from
+[04:01] them. But I feel that since you are
+[04:03] just starting now. If you learn these
+[04:05] four things, you can solve 90%of your
+[04:07] problems. In fact, you can solve 95%of
+[04:10] your problems. Beyond that, you can
+[04:12] keep learning on the go. All right? Or
+[04:14] I will find a way to handle that. All
+[04:16] right? So anyways, this is the plan. So
+[04:19] let's start with today's video. Today
+[04:21] we are going to focus on CSV. All right
+[04:24] ? So I have a notebook over here. And
+[04:30] this is my setup, guys. I have created
+[04:32] a notebook called 'Working with CSV'.
+[04:36] This is my Jupyter notebook, and I have
+[04:38] uploaded some files here in advance.
+[04:41] These are different CSV files. Except
+[04:44] for this one, this is a TSV file. I
+[04:46] will tell you about all of these. So
+[04:48] first, let me tell you once what a CSV
+[04:51] is. If you don't know, then first you
+[04:53] should know what a CSV looks like. So,
+[04:55] what you see on your screen, guys, is
+[04:58] the CSV file format. Alright? I mean,
+[05:00] the data here—first of all, CSV
+[05:03] stands for Comma Separated Values. So,
+[05:06] if you look here, every row is on one
+[05:09] line, and the separation between two
+[05:11] values is actually by a comma. Alright?
+[05:15] So, this is a very famous file format
+[05:17] that is used a lot in Machine Learning
+[05:19] and Data Science. And we will learn to
+[05:21] work on this first. Alright? Now, you
+[05:22] might be seeing here that there is
+[05:24] something called TSV as well. TSV means
+[05:26] Tab Separated Values. Everything is
+[05:28] almost the same. It's just that there
+[05:30] are tabs in between. There are tabs
+[05:31] between two values. So, TSV is not as
+[05:34] famous. But sometimes we do come across
+[05:36] such datasets. So, how to handle that,
+[05:38] we will also see in this video. Alright
+[05:40] ? So, this is my notebook. Here, I have
+[05:44] created topics in order. See, we will
+[05:48] mainly focus on this function. If you
+[05:51] have watched my Pandas videos, you
+[05:53] might recall me talking about the
+[05:55] read_csv function in the very first
+[05:57] video. Whenever you get data in CSV
+[05:59] format, this is the function you will
+[06:01] use. Honestly, I could have just shown
+[06:04] you by running a single function. But I
+[06:07] have made this very long notebook. The
+[06:11] reason for this is that your read_csv
+[06:14] function has many parameters and it can
+[06:16] help you in many ways. But what
+[06:20] beginners usually do, or the videos you
+[06:22] generally see on YouTube, they explain
+[06:25] only one or two things and leave it at
+[06:27] that. But what I want is for this video
+[06:29] to serve as a reference for you, so
+[06:31] that if you get stuck with any CSV file
+[06:33] in the future, you can come back and
+[06:35] refer to this video. So, I am going to
+[06:37] discuss a lot of parameters; I will
+[06:39] discuss about 15-16 parameters. So, the
+[06:42] video might be a bit long, but if you
+[06:44] watch it, you will never have problems
+[06:46] with CSV files in the future. Alright?
+[06:52] Let me first show you that if you look
+[06:54] at the documentation for read_csv in
+[06:56] Pandas, you will have to go to this
+[06:58] website. And if you notice here, there
+[07:05] are so many parameters. There are a lot
+[07:07] of parameters. They have written code
+[07:09] to handle many types of cases. And if
+[07:12] you study these parameters properly,
+[07:14] then you won't have any problems with
+[07:16] CSV files. Alright? So, I am not
+[07:18] covering all of them because, to be
+[07:20] honest, there is no need to cover
+[07:22] everything. I myself have never really
+[07:24] had that many problems. I will tell you
+[07:26] about the problems that I have actually
+[07:28] faced. Alright? So, I will come back to
+[07:30] my notebook and we will start the video
+[07:32] from here. Okay? So first of all, a CSV
+[07:37] file—I mean, read_csv can load your
+[07:40] CSV file. Whether the CSV file is on
+[07:44] your machine or you have its URL, you
+[07:47] can still do this. Alright? So first, I
+[07:51] am showing you if this file is stored
+[07:53] on your machine. As you can see here,
+[07:55] this file is stored right here.
+[07:57] august_trincs, so loading it is very
+[08:00] simple. Since this file and that file
+[08:05] are both in the same folder, I just
+[08:06] have to write the file name directly.
+[08:10] Otherwise, I would have given a
+[08:12] relative path if the file was inside
+[08:14] some folder. Alright? You probably know
+[08:16] that. You just have to write this code:
+[08:20] pd.read, the CSV file path, and then
+[08:22] you just have to print the df, and look
+[08:25] guys, your file is loaded! This loaded
+[08:28] locally from your machine, alright? Now
+[08:31] , if you want, let's say I have this
+[08:34] CSV file at this URL, okay? It is
+[08:38] actually on Git, someone has put it
+[08:40] there, some Git user, and I got the URL
+[08:42] . I want to open this particular CSV
+[08:45] file in my Python code on my machine.
+[08:47] Now obviously, this is on the Git
+[08:49] server. So for this, you have to put in
+[08:51] a little bit of effort. This is a code
+[08:52] snippet. To be honest, you don't need
+[08:54] to write any code yourself. I will give
+[08:56] you the Git link for this notebook. You
+[08:58] can keep this in any of your folders.
+[09:00] In the future, whenever you need to
+[09:03] load CSV file data from a server. You
+[09:05] just copy-paste this code snippet. What
+[09:07] do you have to do here? You have to
+[09:09] import a module called requests. By
+[09:11] doing requests.get, what can you do?
+[09:15] You can fetch all the content of the
+[09:17] file from that particular URL like this
+[09:19] , and all that content gets stored in
+[09:21] the request. Alright? So what are you
+[09:24] doing now? You are fetching only the
+[09:26] text from all of that content. So all
+[09:28] this text comes through, and then you
+[09:30] are reading it. All right? If you focus
+[09:32] a little on this part here, you have
+[09:34] basically passed the headers. Whenever
+[09:36] you work with the requests module, what
+[09:38] are you actually doing? You are acting
+[09:40] like a client. As if your program is a
+[09:44] user hitting that URL and requesting
+[09:46] the content. So here you are just
+[09:49] stating that the request went out with
+[09:51] these headers. All right? Is that okay?
+[09:54] It's not that important. You only care
+[09:56] about this code snippet. And you just
+[09:58] need to copy this URL and paste it here
+[10:01] inside this variable. That's it. If you
+[10:03] ever want to use this code in the
+[10:05] future. You just need to paste the URL.
+[10:07] And as soon as you run this much code,
+[10:09] it takes a little time because you are
+[10:11] loading from a server, and it also
+[10:12] depends on how large the data is. So
+[10:14] you can see this is my dataset with 194
+[10:17] rows and two columns. So, until now, I
+[10:19] have just told you that you can load
+[10:21] CSV files from your local machine, and
+[10:23] you can also load them from a server if
+[10:25] you want. The code for both is in front
+[10:27] of you. All right? Now let's move on to
+[10:30] the next topic. Uh, now there is a sep
+[10:33] parameter here. All right? The sep
+[10:35] parameter is in this function of yours.
+[10:37] For example, let me show you something.
+[10:39] Like here, this function, this data is
+[10:43] movie_titles_metadata.tsv, now this is
+[10:46] a tab-separated value file. All right?
+[10:50] Now, the default value, if you look—
+[10:53] let me show you. Um, if you press Shift
+[10:58] + Tab, you will see here that the
+[11:00] default value for sep is a comma, which
+[11:03] is why read_csv loads CSV files by
+[11:06] default. Now, this can sometimes be a
+[11:09] problem. Especially if you are dealing
+[11:11] with TSV-type files where the values
+[11:13] are not separated by commas. So, look
+[11:15] here, if I run this code. If I run this
+[11:18] code in read_csv. See what happens? See
+[11:22] , everything got messed up because it
+[11:24] didn't find the comma, and that's why
+[11:26] everything ended up in a single line.
+[11:28] All right? So, what do you need to do
+[11:30] in such cases? You just have to
+[11:32] override the value of the sep parameter
+[11:34] here to backslash t. Backslash t means
+[11:37] tabs. So you are saying that rather
+[11:39] than finding commas, find tabs. And
+[11:42] create columns based on that. Okay? And
+[11:45] as soon as you run this code, see, this
+[11:47] is your output, guys. Okay? Here is
+[11:50] your output. Now, if you notice here,
+[11:54] one thing has gone wrong, which is that
+[11:56] you don't have the column names. You
+[12:00] don't have the column names. Instead,
+[12:03] the first row has become the columns.
+[12:06] Okay? This happens sometimes. So, what
+[12:08] do you have to do in this case? See,
+[12:13] what you will do is, if you look here,
+[12:15] our function's parameter list has
+[12:17] another parameter by the name of names.
+[12:24] If you don't have the column names here
+[12:26] , you can pass a list of column names
+[12:28] yourself, and it will automatically
+[12:30] handle things. Like, what am I
+[12:33] basically saying? Here, you will pass a
+[12:36] parameter called names. You will pass a
+[12:39] list. Where you will give names to all
+[12:42] these columns. Okay? Now, you will have
+[12:44] to think of the names yourself.
+[12:45] Obviously, if you can understand the
+[12:47] data by looking at it, you will write
+[12:48] them down. Okay? Like the first one
+[12:50] here looks like a serial number to me.
+[12:52] The second one looks like the movie
+[12:54] name to me. The third one looks like
+[12:57] the release year. release_year. The
+[13:03] fourth one looks like the rating to me.
+[13:07] And then I guess this is the number of
+[13:09] votes, maybe. And at the end are the
+[13:12] genres. Right? And as soon as I run
+[13:17] this code, you can see that the first
+[13:19] row which had become the header is back
+[13:21] to normal, and all your column names
+[13:22] are here. Okay? So, in the future, if
+[13:26] you ever get stuck where the data you
+[13:28] have doesn't have column names defined
+[13:30] and your first row has become the
+[13:31] column names. Then you can use this
+[13:34] code snippet. Okay? I hope you
+[13:37] understood this part. Now next is the
+[13:40] index_col parameter. So let me show you
+[13:44] what it does. So if you look at this
+[13:46] data here, august_s_tr_inc, whatever
+[13:49] this data is, I don't know what it is.
+[13:52] If you notice here, there is a column
+[13:54] called EID. Okay? Now there is an index
+[13:58] here, and there is this EID here as
+[14:00] well. There is no need to keep two
+[14:02] indices. Sometimes you might have a
+[14:05] column that won't be useful in your
+[14:07] analysis. So, if you want, you can
+[14:09] convert it into an index. Right, like
+[14:11] this. You just need to write index_col
+[14:16] here and paste the column name. Okay?
+[14:21] And now if you run this, you can see
+[14:23] that your default Pandas index, which
+[14:25] is generated automatically, has been
+[14:27] replaced by this. Okay? It's not very
+[14:31] important, but you can do it if you
+[14:33] want. Okay? So, this is one parameter.
+[14:36] Next is the header parameter. This is a
+[14:38] bit important because I have faced this
+[14:40] problem sometimes. So, I have a
+[14:43] test.csv file here. When I run this,
+[14:49] what's happening is that your first row
+[14:51] is actually the column name. But since
+[14:58] whoever generated this CSV put a zero
+[15:00] in front of the column name, in front
+[15:02] of that row. So now Pandas is unable to
+[15:06] understand that this is not a normal
+[15:08] row. These are your column headers.
+[15:11] Okay? So if you want to convert this
+[15:17] into column names and start your
+[15:19] dataframe from here, you simply have to
+[15:21] write header = 0, oh, header = 1, I
+[15:23] guess we have to write one. Your first,
+[15:30] I mean your first row is starting from
+[15:32] one. Okay? You have to specify this, so
+[15:36] automatically this thing becomes your
+[15:38] column name. Okay? So these are two
+[15:41] different problems. One when you don't
+[15:44] have column names at all, and second
+[15:46] when your column names are being
+[15:47] treated as rows, so in both these cases
+[15:49] you can use these two code snippets.
+[15:51] Okay? I hope you understood this as
+[15:53] well. Next is the usecols parameter. So
+[15:56] , like this data I have here. Now there
+[15:59] are quite a few columns in it. Right?
+[16:01] Now, what happens in machine learning
+[16:03] is that when you get a dataset, it's
+[16:05] not necessarily the case that you will
+[16:07] use all the columns. This happens very
+[16:09] often. In fact, you know from the start
+[16:11] that I don't need some columns, or I
+[16:13] only need a few specific columns. So in
+[16:15] this case, what you can do is that at
+[16:17] the time of importing the data itself,
+[16:19] you can specify the names of the
+[16:21] columns you need. All other columns
+[16:23] will automatically be removed. For
+[16:24] example, I will give you an example.
+[16:26] Let's say I need enroll_id, gender. And
+[16:30] education_level, I only need these
+[16:32] three columns. We could have taken more
+[16:34] , but we are taking three as an example
+[16:36] . What do you just have to do here?
+[16:39] Using usecols, you need to provide a
+[16:41] list containing the names of all the
+[16:43] columns you want. Like this Gender and
+[16:56] Education level. Education level, and
+[17:02] as soon as you run this code, instead
+[17:04] of the full data frame, you will get a
+[17:06] data frame with just these three
+[17:08] columns. Okay? So you can do this to
+[17:11] filter out. You have other options as
+[17:14] well in Pandas. But this is an easy way
+[17:16] . Eliminated right at the beginning.
+[17:18] Okay? So this was a small thing I
+[17:20] wanted to tell you. Next is the squeeze
+[17:22] parameter. So sometimes it happens that
+[17:25] you only need one single column. This
+[17:27] happens very rarely. I mean, I use it
+[17:29] as an example to teach students. So I
+[17:31] thought I'd teach it to you. Like if I
+[17:33] only need one column. And if you set
+[17:35] squeeze equal to true, then instead of
+[17:37] becoming a Pandas data frame, it
+[17:39] becomes a Pandas series. That's all
+[17:41] that happens here. If I run this, only
+[17:43] the enroll_id comes up. And if I had
+[17:46] written gender here, then only gender
+[17:49] would appear, and this is a Pandas
+[17:51] series object. Okay? It's not a data
+[17:53] frame. So, it's not that useful
+[17:55] honestly, but since we are studying, I
+[17:57] taught it to you. Okay? So next is
+[18:00] skiprows and nrows. Okay? From the name
+[18:03] skiprows, you must be understanding.
+[18:05] The values you give in this, those
+[18:07] particular rows will be skipped. You
+[18:11] will not bring them into your Python
+[18:12] code. Like, here I have this data.
+[18:17] Let's say I don't want this first and
+[18:19] second row. Okay? So what can I do? I
+[18:24] can write here skiprows equal to 0, 1.
+[18:27] Okay? Now notice that both of these
+[18:32] should not appear, and the output
+[18:33] should be this. Okay? 11 561 the third
+[18:38] one. I guess I didn't pay attention.
+[18:40] Yeah, see, it started from here. So
+[18:43] here, it is not necessary to give
+[18:45] consecutive numbers. If you want, let's
+[18:50] say you want to remove zero and you
+[18:52] want to remove two, then you can also
+[18:55] write skiprows equal to 0, 2. So you
+[18:57] can see 61 still came because Uh It's
+[19:07] weird. It shouldn't have come. skiprows
+[19:13] equal to 0, 5 So zero was removed and
+[19:20] five was also removed. I don't know,
+[19:22] something went wrong, guys. You guys
+[19:24] check it once. If you go to the
+[19:25] documentation here, you will see that
+[19:27] you can use this in many different ways
+[19:29] . For instance, an interesting use case
+[19:32] here is that you can call a function,
+[19:34] and based on the logic you write inside
+[19:36] that function, you can skip rows. Like,
+[19:41] one logic could be that I only want to
+[19:43] remove the rows that are multiples of
+[19:45] five. Or, I only want to keep the odd
+[19:47] rows. Remove the even rows. So, you can
+[19:50] implement this kind of logic here if
+[19:51] you want. And you should try this
+[19:53] yourself. You should at least do this
+[19:55] much. Okay? So, this is skip rows. The
+[19:58] next is n rows. So, what n rows does is
+[20:00] that whatever value you provide in n
+[20:02] rows, you are importing only that many
+[20:04] rows. Like, if I set n rows to 100 here
+[20:07] , then at this point, if you look,
+[20:09] there are 19,000 rows. But as soon as I
+[20:12] set n rows to 100. Now, only 100 rows
+[20:15] will appear. So, it restricts the
+[20:17] number of rows that you are importing.
+[20:20] When is this beneficial? Let me tell
+[20:22] you. If you are working with very large
+[20:26] datasets that have 1 million or 10
+[20:27] million rows, and you are unable to
+[20:29] load them all into memory at once
+[20:31] because your RAM is low. Then in such
+[20:36] scenarios, you can intelligently use n
+[20:38] rows to manipulate your data. Okay? So,
+[20:40] both of these are also useful.
+[20:42] Sometimes they come in handy. So, you
+[20:44] should know about them. Okay? Next is
+[20:46] the encoding parameter. This is one
+[20:48] thing that really bothered me when I
+[20:50] started machine learning. On Kaggle,
+[20:53] you will find some datasets whose
+[20:55] encoding is not UTF-8, which is the
+[20:58] default encoding. Uh, what did I do?
+[21:06] Yes, if you go here, there is a
+[21:07] parameter called encoding, which I
+[21:09] don't see right now. Anyways, UTF-8 is
+[21:17] the most normal one generally, and many
+[21:20] of your datasets will work normally
+[21:22] because they are UTF-8 encoded. But
+[21:27] then, sometimes you will find some
+[21:29] datasets where they will be encoded
+[21:31] differently. With a different character
+[21:33] set. Okay? Like an emoji dataset, which
+[21:36] has a different encoding, or if you are
+[21:38] importing a dataset in a specific
+[21:40] language, like Hindi and all. Then it
+[21:42] is possible that the character encoding
+[21:44] there might be something else. If it is
+[21:46] something other than UTF-8. In that
+[21:48] case, what will happen is, for example,
+[21:50] if there is a dataset like Zomato.csv,
+[21:52] which is a very famous dataset that I
+[21:54] have worked on. And as soon as you load
+[21:56] it for the first time, you will see
+[21:58] this error. As soon as you see this
+[22:01] error, you should understand that the
+[22:03] encoding of that dataset is not UTF-8,
+[22:05] so you have two options. Either you go
+[22:08] into an editor like Sublime Text and
+[22:10] change its encoding, or the second
+[22:12] option is that you find out what its
+[22:14] encoding is and pass that same value
+[22:16] into the encoding parameter. Like here,
+[22:20] the value is 'latin-1'. This is an
+[22:24] encoding format, and now as soon as you
+[22:26] run it, it starts running. So, if you
+[22:30] find this, then it's great. If you
+[22:33] don't find it, you can go into any code
+[22:35] editor and change its encoding, it's up
+[22:37] to you. Okay? Now, if it is meant to
+[22:40] happen, it will. Now, if you have used
+[22:42] characters there that cannot be encoded
+[22:44] in UTF-8, they will be skipped or they
+[22:46] will appear kind of like a blank. Okay?
+[22:49] So anyways, I wanted to show you this
+[22:51] because I was quite frustrated with
+[22:53] this when I started all this. Okay?
+[22:56] Okay. Next is 'skip bad lines'. So
+[23:00] sometimes it happens that you will get
+[23:02] some datasets where some rows in
+[23:04] between will be messed up. What does '
+[23:07] messed up' mean? That your entire CSV
+[23:10] file has five columns. Meaning there
+[23:12] are five values in every row. But then
+[23:14] in between, some rows have six values,
+[23:17] nine values, 10 values. So Pandas is
+[23:19] unable to read that. Okay? So for
+[23:21] example, look at a dataset here. I
+[23:23] downloaded this dataset while building
+[23:25] a book recommendation system. This is a
+[23:28] books dataset. Now, the separator here,
+[23:30] CSV means it should normally be
+[23:32] comma-separated values. Here it is a
+[23:35] semicolon. Because whoever created this
+[23:37] created it a bit differently, and here
+[23:39] the encoding is 'latin-1'. But as soon
+[23:41] as you run it, a parser error will come
+[23:44] , and if you read the error, it will
+[23:47] say 'expected 8 fields in line 6452,
+[23:50] saw 9'. This means that it was bringing
+[23:53] the entire data into memory. And then
+[23:56] in row number 6452, it realized that
+[23:59] instead of eight columns, there are
+[24:01] nine values. So it failed. Your goal.
+[24:04] So in this case, what do you have to do
+[24:06] ? There is a parameter here called
+[24:09] error_bad_lines. You have to set it to
+[24:13] False. So those lines get skipped.
+[24:16] Whichever lines have issues will be
+[24:17] skipped. And look at your output, all
+[24:20] these lines were problematic. These are
+[24:22] getting skipped. This line also had an
+[24:24] issue. This line also had an issue.
+[24:25] There were issues in this many lines.
+[24:27] These lines were skipped and the rest
+[24:29] of your data loaded. Okay? So if you
+[24:32] ever see a ParserError, there is a
+[24:34] great chance that you are facing this
+[24:36] kind of problem. Okay? In that case,
+[24:39] you have to use error_bad_lines and it
+[24:41] will solve your problem. Okay? Now
+[24:44] let's move forward and let's discuss
+[24:45] the dtype parameter. So the deal with
+[24:49] dtypes is, as the name suggests, data
+[24:51] types. What happens is when your
+[24:54] read_csv function looks at a CSV file
+[24:57] and its data, it analyzes column-wise
+[24:59] what type of values are stored in that
+[25:02] column. So all of this is by default.
+[25:04] But if you want, you can override this
+[25:06] behavior and it comes in very handy
+[25:08] sometimes. Okay? Let me show you when.
+[25:10] For example, we had some data here that
+[25:12] we used just a little while ago. It was
+[25:16] named, I will just open it. train.csv.
+[25:23] Now, if you notice here, the last
+[25:25] column is named target, and the values
+[25:27] in target are actually floats, but the
+[25:29] values are just one and zero. But I
+[25:34] mean, you could easily represent this
+[25:36] as an integer. But whoever created the
+[25:39] data represented it as a float there.
+[25:42] So float is being used unnecessarily.
+[25:44] It will take up more memory. There is
+[25:46] no point. So first of all, let me show
+[25:48] you that it really is a float. You can
+[25:50] call the info function and in training,
+[25:52] look, it's showing float64. So if you
+[25:55] don't want this and you want to convert
+[25:57] it to an integer, what can you do? You
+[26:00] can use the dtype parameter. Here, you
+[26:04] have to provide the column name inside
+[26:06] a dictionary. The column name is target
+[26:08] . Yes, target, and what data type to
+[26:13] convert it to—integer. Okay? Now as
+[26:18] soon as you run this, you would see
+[26:20] your last column is now an integer.
+[26:23] Okay? If I run info on this, you will
+[26:27] see here that it has been converted to
+[26:29] int32. Right? So, it comes in handy
+[26:31] sometimes. You can analyze it right at
+[26:33] the beginning. If you can save memory,
+[26:35] then save it. Right? So, it comes in
+[26:38] handy sometimes. Now next, this is very
+[26:41] important. So what happens is whenever
+[26:45] you use read_csv, by default all date
+[26:48] columns are read as strings. They are
+[26:51] read as strings. So if the date becomes
+[26:54] a string, you won't be able to use its
+[26:56] date-specific functionalities. Meaning,
+[26:59] you cannot fetch which month it is,
+[27:01] which day it is, or which year it is.
+[27:03] You have to keep it in the datetime
+[27:05] format. So what do you do to accomplish
+[27:07] this? Let me first show you, I have a
+[27:11] dataset, pd.read_csv. And it's
+[27:17] basically an IPL dataset, and if you
+[27:19] notice here, this is the date;
+[27:21] information about which day every IPL
+[27:24] match took place is in this column. Now
+[27:27] , if I show it using info, you would
+[27:29] see that the date has come as an object
+[27:31] . If you have studied Pandas, you would
+[27:34] know that an object means a string in
+[27:36] Pandas. So if you want to parse this
+[27:41] into a normal datetime, you get a
+[27:43] parameter here called parse_dates. Here
+[27:49] , inside a list, you enter the names of
+[27:51] those columns which you want to parse
+[27:54] as dates. So now if I run this, you
+[27:57] won't see any change in the output. But
+[28:01] if you run info, you would see it is
+[28:03] datetime64. Right? And this is very
+[28:07] useful. Now it will be treated exactly
+[28:09] like a date. You can apply filters on
+[28:11] the date. After this date, between this
+[28:13] date and this date. You can apply these
+[28:15] kinds of filters, which will help you a
+[28:16] lot. If this were a string, you would
+[28:18] not have been able to implement
+[28:20] date-based logic. Right? Now, try one
+[28:22] more thing. If you go to the
+[28:25] parse_dates section in the Pandas
+[28:27] documentation, you will see there that
+[28:29] you can enter the names of columns
+[28:31] inside a list. If you have multiple
+[28:35] columns that are dates, you will pass
+[28:37] names in this format or pass the index
+[28:39] of the column. But what if you have a
+[28:42] dataset where the month is separate,
+[28:44] the day is separate, and the year is
+[28:46] separate? So if you want, you can merge
+[28:49] them into a single column as well. Its
+[28:51] syntax is this. You need to pass
+[28:53] another list inside this list
+[28:55] containing the column names and indices
+[28:57] . The names and indices of all the
+[28:59] columns. And what will this do? It will
+[29:01] combine columns one and three and parse
+[29:03] as a single date column. This is a very
+[29:05] useful thing. Sometimes, this might
+[29:06] happen in some datasets. So this will
+[29:08] really help you in merging them. Okay?
+[29:10] You can do the same thing with a
+[29:12] dictionary as well. You don't have to
+[29:13] do much. Just pass a dictionary. Here,
+[29:15] inside the list, put all those columns
+[29:17] that need to be joined to form a single
+[29:19] date column and then what to Call it
+[29:21] 'foo'. So, we called it 'foo'.
+[29:24] Okay? So, you guys try this out if you
+[29:26] come across such a dataset. I didn't
+[29:27] find one. If I had, I would have shown
+[29:29] you. Okay? So, this was handling dates.
+[29:32] So guys, next is converters. And
+[29:34] converters are actually a very powerful
+[29:37] feature of read_csv. And I'll let you
+[29:40] know why. Sometimes it happens that you
+[29:43] want to apply some transformations on
+[29:45] your columns even before you have
+[29:47] loaded the dataset. Okay? Like, I will
+[29:50] give you one example. For instance, we
+[29:52] have this dataset of the IPL. This is
+[29:56] the dataset. Now here, you can see that
+[29:59] the team names are given. Okay? Now
+[30:02] let's say I don't want these full names
+[30:04] . What I want is short names. Like in
+[30:07] the case of RCB, meaning for Royal
+[30:09] Challengers Bangalore, I want RCB, and
+[30:12] for Mumbai Indians, I want MI, rather
+[30:15] than these. So what can I do? I can
+[30:20] actually create a function, let's call
+[30:22] it rename (), which if you give a name,
+[30:24] it will check 'if name is equal to
+[30:27] let's say RCB copy', so if it finds
+[30:38] this, then it will return RCB, else the
+[30:41] name will be returned as it is. Assume
+[30:45] this is our function. Okay? This is our
+[30:48] function. So if you see, if I pass RCB
+[30:53] to rename, I get to see the text RCB.
+[30:57] Okay? Now I need to apply this
+[30:59] transformation. So what I will do is, I
+[31:02] will write converters. Here, I will
+[31:05] pass a dictionary, and inside the
+[31:06] dictionary, I have to write the name of
+[31:08] the column on which I want to apply the
+[31:10] transformation. Team 1, and then I have
+[31:13] to provide the name of the function.
+[31:16] That is rename, and as soon as I run
+[31:19] this code, you can see that in team one
+[31:21] , wherever there was RCB, that
+[31:23] transformation has been applied
+[31:25] everywhere. And in this way, you can
+[31:28] apply as many transformations as you
+[31:30] want on any number of columns. Okay? So
+[31:32] this is a very powerful technique that
+[31:34] you can use in the future. Okay? So
+[31:36] this was another thing I wanted to show
+[31:38] . Now, only two things are left. One is
+[31:41] the na_values parameter. What is the
+[31:44] main concept here? First, let me load
+[31:46] the dataset and show you. read_csv, and
+[31:50] we can use this same dataset. Now,
+[31:53] what's here? If you notice, these are
+[31:56] NaN values. NaN values mean missing
+[31:58] values. Okay? Now, if these missing
+[32:02] values are identified, that's good
+[32:04] because there are built-in functions
+[32:06] for that like fillna or dropna to
+[32:08] remove or fill them; the problem arises
+[32:11] when in some datasets, instead of NaN,
+[32:13] there is a hyphen placed there. So that
+[32:18] hyphen is neither NaN nor is it a
+[32:20] proper value. So those types of values
+[32:22] cause a lot of trouble. Okay? That is
+[32:26] why you can specify right at the
+[32:27] beginning what kind of things you want
+[32:29] to consider as NaN values. For example,
+[32:33] let's assume here that this 'male'
+[32:35] means a hyphen. We don't want that. So
+[32:38] what I can do is I can just write
+[32:41] na_values. And in na_values, what can I
+[32:45] do? I can pass a list containing all
+[32:47] the values that my read_csv function
+[32:50] will consider empty. It will consider
+[32:52] them as NaN. Okay? So, as soon as I run
+[32:54] this, you can see that wherever there
+[32:57] was 'male', it all became 'NaN', and
+[32:59] what was already 'NaN' is still 'NaN'.
+[33:02] And was there no 'female' at all? I
+[33:04] don't know, maybe there wasn't any '
+[33:06] female'. Yes, 'male' was visible
+[33:09] everywhere here, so it also started
+[33:11] considering that as an 'empty' value.
+[33:13] So obviously, you wouldn't do that for
+[33:16] 'male'. If there is a 'hyphen' or '
+[33:19] percentages' somewhere, or if there are
+[33:22] any 'placeholders' anywhere that you
+[33:24] want to detect as 'empty', you will use
+[33:27] na_values there. You can pass more
+[33:30] values here separated by commas. It's
+[33:33] up to you. Okay? So that was one thing.
+[33:36] It comes in handy sometimes. Now for
+[33:38] the last thing, which I personally find
+[33:40] very interesting. So sometimes what
+[33:43] happens is that you are working with a
+[33:45] very large dataset and if you apply an
+[33:46] operation on it all at once, it doesn't
+[33:48] work because there isn't enough space
+[33:50] in the memory. Meaning there isn't
+[33:52] enough space left in the RAM. So that's
+[33:54] where dividing it into chunks comes in
+[33:56] useful. Like, let me show you an
+[33:58] example. I am using the same dataset
+[34:00] again. I am using this same dataset.
+[34:04] And Look here, there are 19,000 rows.
+[34:10] Now imagine there are 1.9 million rows
+[34:13] here for an example. So what you can do
+[34:15] is that while loading, you can divide
+[34:17] this dataset into chunks. How? You just
+[34:20] have to write chunk size here. And you
+[34:23] have to specify the number of rows. How
+[34:25] many you want to make chunks of. So
+[34:26] let's say I have 19,000 rows. I want to
+[34:29] make chunks of 5,000. So my first chunk
+[34:32] will have 5,000 rows. After that the
+[34:34] next 5,000, then the next 5,000; okay.
+[34:37] And I am storing this in a variable,
+[34:40] which I am naming dff (data frames);
+[34:42] okay. Now what you can do is, if you
+[34:45] want to do anything on your datasets,
+[34:47] on your data frames, then you will do
+[34:48] it inside a loop. You write this code:
+[34:53] "for chunks in dfs, print every chunk's
+[35:00] size". Now here, every chunk, guys, is
+[35:03] a data frame. Okay? And look, why did I
+[35:07] do size? I didn't mean to do size. I
+[35:12] meant to write shape. I wanted to show
+[35:15] you how many rows went into each. So
+[35:17] you can see it was divided equally.
+[35:19] 4158, 4158, 4158 and all have the same
+[35:22] number of columns. Okay? Now if you
+[35:24] want to apply something to all of them,
+[35:26] let's say you want to do a group by
+[35:28] operation or you want to do anything
+[35:30] else, what will you have to do? You
+[35:32] just have to put it inside a loop and
+[35:34] run that operation. Okay? I am going to
+[35:37] make a video on this and add it to my
+[35:38] Pandas playlist. I only found out about
+[35:41] six or eight months ago that we can
+[35:43] handle things this way. Because 6 or 8
+[35:45] months ago, I got a data set that was
+[35:47] huge, and my machine couldn't handle it
+[35:49] . So, that's where this function came
+[35:51] in very handy for me. Alright? So, this
+[35:54] is very useful too. If you ever get
+[35:56] stuck with a very large data set, this
+[35:58] is how you will handle the problem.
+[36:00] Okay? So with that, yes, we have
+[36:04] completed this topic. And I guess the
+[36:08] video got long again, must be around 30
+[36:10] minutes, but trust me, I've told you
+[36:12] almost everything. You shouldn't have
+[36:15] any problems with read_csv (). Now
+[36:17] tomorrow, we will learn how to work
+[36:19] with JSON and SQL data, okay? So, I
+[36:22] hope you liked the video. If so, please
+[36:25] consider subscribing and sharing, okay?
+[36:27] Let's meet tomorrow, bye!

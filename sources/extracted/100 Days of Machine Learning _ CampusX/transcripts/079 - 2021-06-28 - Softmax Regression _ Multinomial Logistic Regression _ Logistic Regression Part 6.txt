@@ -1,0 +1,758 @@
+# Softmax Regression || Multinomial Logistic Regression || Logistic Regression Part 6
+# https://www.youtube.com/watch?v=Z8noL_0M4tw
+
+Hi guys, welcome to my YouTube channel. We have studied logistic regression so far, but we studied it in a binary classification setting. Meaning, the classification problem we had only had two classes. Generally, yes or no. But what if we have more than two classes, like yes, no, maybe, or even more? Like four classes or five classes. Then the logistic regression we studied will not work. In that case, we need to learn a form of logistic regression called Softmax regression, or you could also call it multinomial logistic regression. Right? In this video, we will look at the intuition behind that type of logistic regression. Okay? And through a code sample, we will see how it works. And then, in a future video, I will teach you its mathematical formulation and coding from scratch. So, let's start the video. So guys, let's say we have a classification problem where we have student data with CGPA and IQ, and we are asked whether they got placed or not. But this time, there are three possible outcomes. The first possibility is that they got placed. The second possibility is that they did not get placed. And the third possibility is that the student didn't even sit for placements. They opted out. There could be any reason. Higher studies, entrepreneurship, or maybe off-campus, whatever the reason. Yes, no, and opted out. You can call yes "1". You can call no "0" and opted out "2". Right? Meaning, your data could look something like this. 7.1, 71, 0, 8.5. 85, 1, 9.5, 95, 2; our data could look like this. Right? Now, what do we have to do? We have to build a classifier. We have to build a logistic regression classifier. So that if I am asked about a new student, let's say with a CGPA of 6.5 and IQ of 65, we need to predict if they will get placed, not get placed, or won't even participate. Right? So what we studied in logistic regression so far, we studied specifically for binary classification problems. This means if you have a yes/no, 0/1 setting, then what you have studied so far will work. But the question being asked now, where there are more than two classes, which we also call multi-class classification. In that setting, our logistic regression fails. Right? And that is where we need Softmax regression. Right? Softmax regression, which we sometimes also call multinomial logistic regression. All right? In any case, it is very useful because you have to study this in deep learning as well. In deep learning too, you will have to study this exact same thing. So in that sense, this topic is very important and interesting. The good part is that Softmax is a general thing. Meaning if you know Softmax, then the logistic regression you studied falls under Softmax. That is a specialization, it's a specialization of Softmax. The logistic regression you studied is a specialization of Softmax for two classes. So, if you have written the code for Softmax, if you set the classes equal to two, it starts behaving like normal logistic regression. So in a way, it is more important to study Softmax. But that’s okay. We studied logistic regression first. No problem at all. All right? So our goal in this video is for me to explain to you from scratch how this entire thing works. All right? And to learn and understand this, first you need to understand what the Softmax function is. First, we will look at what the Softmax function is. When we studied logistic regression, we learned about the sigmoid function there. Now I will show you what the Softmax function is. So if you Google it, you will get this result. It's a famous mathematical function. I will write it down. So it is written like this: sigma zi = e power zi sigma from i = 1 to capital K, e to the power—I'm sorry, this should be j zj, right? Here, k is the number of classes, like in our case, the number of classes is three: Yes, No, Opt-out. All right? So now, suppose you want to find the Softmax output of z of 1. Meaning, if you want to calculate the Softmax for 'Yes'(placement happening), you will calculate it this way. You would calculate e to the power z1 divided by e power z1 + e to the power z2 + e to the power z3, right? Similarly, if you want to find the Softmax of z2, or let's find z1 first, meaning for placement not happening, then here it will come...Actually, we took it the wrong way; let's assume for a while, guys, that 'Yes' is 1, 'No' is 2, and 'Opt-out' is 3. Let's assume this for a moment. So it will come here. I will just erase this. This will become Softmax of z2 will be equal to e ^ z2/(e ^ z1 + e ^ z2 + e ^ z3) and similarly if you want to find the softmax of z3, it would be e ^ z3/(e ^ z1 + e ^ z2 + e ^ z3), okay? So you can see some things might already be making sense to you. So what happens is that your softmax function is a function where if you provide a z-value, it gives you a probability for that particular class. Like what did sigmoid do? It used to give you the probability of being positive. Here, you get the probability for every class. Okay? So this is the probability of the first class. This is the second's probability and this is the third's probability. All these numbers, softmax of z1, softmax of z2, and softmax of z3, the value of all three will always be between 0 and 1. Okay? What is the second thing? That if you add all three, it will always be one. Meaning when you add these three probabilities, it will always be equal to one. If you clearly add all three, you will get one. Okay? So if you are asked what is the probability of a student getting placed? What is the probability of not getting placed? And what is the probability of opting out? Since these are the only three cases associated with a student. So when you add these three, that will be one. Because there is nothing left besides this. A student will either be placed, or not be placed, or won't even sit for it. There is no other possibility besides this. And that is why when you add all of these, you always get one. Okay? So that is the softmax function. Okay? The softmax function is very useful and it is very relatable to the sigmoid function. Okay? In fact, if you apply softmax for two classes, you can mathematically prove it is the sigmoid function. Okay? Now what we will do is, we will first look at the training. We will look at two things. First, we will look at training and then we will look at prediction. In softmax regression, we will first see how training happens and then we will see how prediction happens. Okay? So I will give you an intuition. Mind you, what I am about to tell you does not exactly happen inside scikit-learn. I am just giving you this as an example to explain it easily. Okay? I will explain the exact process to you in a little while. Okay? So what happens is, first you take the data you have, let's say you have this data. We are training our model using Softmax regression. So we have CGPA, IQ, and whether placement will happen or not, and there are three classes here. Yes, No, and Opt-out. Okay? So let's say you have some data here and this is it. Okay? The value for Yes is zero, and the value for No is one. The value for Opt-out is two. Okay? So what will you do first? You will transform your data. And the transformation you will perform on the data will only be on your output column. Okay? And what kind of transformation will you do? You will perform one-hot encoding. Okay? You will one-hot encode this column. So what will happen? One column for equal to zero will be created, one for equal to one, and one for two. Okay? Now, the first one is zero, so one will go here and the other two values will be zero. Okay? Then here it is equal to one, so the first value will be zero. The second value is this, so this will be one and it will look like this. And in the third case, you will have this. So basically, I applied one-hot encoding to it and created three columns. Okay? And now here, here my other two columns are written as they were. CGPA and IQ are written just as they were. So initially I had three columns. Now I have five columns. Okay? So CGPA is the first column, IQ is the second, and my output column is now divided into three separate columns. Okay? And I divided it in such a way that binary classification is done for every class. So for the zero case, you made a binary classifier. Wherever there was a zero, you made it one, and wherever it wasn't zero, you made it zero. Okay? Similarly, you made a binary classifier for the one as well. Wherever it is not one, it is zero. And wherever it is one, you kept it as one. And the same goes for the two class. Wherever it is not two, you made it zero. And wherever there was a two, you made it a one. So in a way, you turned multiclass into binary classifications. Three. If there were four classes here, four columns would be created. If there were n classes, n columns would be created. I guess you are understanding up to this point. Right? Now, what will you do? You will create three datasets from this particular dataset. One will be d1, the second will be d2, and the third will be d3. Right? Now watch carefully. This isn't. What will be in D1? D1 will have this column, this column, and this column. Right? So D1 will have CGPA, IQ, and the column equal to 0, this one. Right? Now what happens next? D2 will again have CGPA, IQ, and the column equal to 1. This column here. Right? And here there will be CGPA, IQ, and the column equal to 2. So in a way, I created a separate dataset for the zero one. I created a separate dataset for the one and a separate dataset for the two. Right? Now the next step is very crucial. What will I do? I will train three separate logistic regression models. So this is model one. This is a logistic regression model. This is model two. Again, it is a logistic regression model, and this is M3, again a logistic regression model. Right? So what will I do? Now I will train all three models with their respective datasets. So this data will go to this model. This data will go to this model. Now since the model is training, you will get the coefficient values in return. How many coefficient values will you get? For every model, you will get three coefficients. Because you have two input columns. So you will get W1 and W2, and you will get one W-naught intercept term for each of these three models. Right? Since the data is different. The value of these coefficients will be different for all three. So I will write it here. What we will get here is w1 of 0, w2 of 0, and w0 of 0, and here too I will get w1 of 1, w2 of 1, and W-naught of 1. And here I will get W1 of 2, W2 of 2, and W-naught of 2. So I will get a total of nine coefficients because I trained three separate models. And that is how training is done. You do the training exactly like this. I mean, behind the scenes, it doesn't happen this way. I wanted to explain to you at an intuitive level how training works. Behind the scenes, there is a slight difference. I will explain that to you after a while. But to give you an intuition of what is happening. This is a good way to explain it. Right? So, I hope you have understood up to this point how training happens. See, at the end, what is the purpose of training? To provide you with the values of the coefficients. So, you are getting the values of the coefficients. Because behind the scenes your loss function is running, and behind the scenes you are finding these values by applying gradient descent. So, I hope you are getting a rough intuition. If you understand logistic regression, then you must be understanding the training of Softmax as well. At least what I just explained to you. Right? Now, if you have these three values. If you have all three sets of values, then the question is how will you make a prediction? Right? We will understand that next. So guys, now we have three models. Right? m1, m2, and m3. Right? And let me explain to you once more what these three models are doing. Right? So, this first model, if you give it a query point, some student's data, CGPA and IQ, it tells you whether they will get placed or not. Meaning, either they will get placed, that is the positive class; and here zero means both the other cases, that is, not getting placed and opting out. Right? Similarly, this second model of yours is telling you that the person will not get placed, and the zeroth class is the other two classes, either placed or opt-out. And similarly, the third model is also filtering out whether they will opt out or not opt out. The positive class is opt-out, and the others are whether they get placed or not, the other two classes. So, what is the job of these three models? To pick one thing at a time and make a prediction. Right? So, now imagine you have a new student, and their CGPA is say, and their IQ is 70. So, how do we determine if it will be yes, no, or opt-out? Given we have three different models. Very simple. What will you do? You will calculate the z-value for all three models. And how is the z-value calculated? Dot product of coefficients with the coordinate value. So, first you will calculate Z1, and how will that be calculated? It will be 7 multiplied by this value, W1 of model one, plus 70 multiplied by this value. And plus W naught, okay? Similarly, you will calculate z2 for this model: z2 = 7 multiplied by this value w1 of model 2 + 70 multiplied by w2 of model 2 + w0; and similarly, you will calculate z3 for this: z3 = 7*w1 of model 3 + 70*w2 of model 3 + w naught. And here, guys, by the way, will be model one. Here will be model two, and here will be model three. Okay? Now we have z1. z2 is here, and z3 is here. Now we will apply the softmax function. Okay? So I will calculate the sigmoid probability of it being 'yes'. Okay? And how will that be calculated? E to the power z1/E to the power z1 + E to the power z2 + E to the power z3. Then I will calculate the sigmoid probability of it being 'no ', and that will be E to the power z2/E to the power z1 + E to the power z2 + E to the power z3, and then I will calculate the probability of being 'opt out', and that will be E to the power z3/E to the power z1 + E to the power z2 + E to the power z3. Okay? And let's assume these three probabilities for now; suppose this came to 4, this to 35, then this will be 25. Okay? And going by this logic, you would say this student will get placed because the other two are lower than this. Okay? And that is how prediction is done. So, in short, if I were to summarize it for you, what are you doing first? You are training as many logistic regression models as you have classes. You are calculating that many sets of coefficients for each of the models. Okay? After that, what are you doing? For every model, you are calculating the z value, we are talking about prediction. And then you convert that z value into a probability value using the softmax function. And then, in the end, whichever class has the maximum probability, you assign that query point to that class. Okay? And that is how softmax regression works. Okay? There is only one problem: the training approach we saw here, where we train as many logistic regression models as there are classes. This approach becomes a little slow. Especially on large datasets with a high number of classes. This approach is slow. So what do you do? You use a different approach. Where what do you do? You change the loss function of your logistic regression. You bring a change in it, and because of that change, what happens? You do the entire training through a single model and get the values of all coefficients. If there are three classes, you get nine coefficient values from a single loss function. Okay? And we will see exactly how that is done next. So guys, now I will tell you how exactly things work in the implementation of Softmax Regression in Scikit-learn. What I told you so far was very intuitive, and it doesn't actually work by training as many logistic regression models behind the scenes as you have classes. I gave you the reason a little while ago. Your data might be very large. The number of classes might be very high. So training can take a lot of time. So a better approach is to modify your loss function in such a way that it works in the case of Softmax. Okay? So the loss function you studied so far in logistic regression looked something like this. Let me write it down for you. Suppose we have m rows. We have data of m students. So our loss function used to be this. yi log yi hat + 1-yi log 1-yi hat was our loss function. Okay? Now, the loss function in the case of Softmax, I am writing it once. Then I will explain it to you. It is this. Like before, it is 1/m. Where m equals the number of rows in your data. Then comes sigma i = 1 to m and another sigma k = 1 to capital K, and here comes yi. log yi. And here in brackets i, in brackets i. Uh okay, just one second, I wrote it a bit wrong. Let me write it properly again. So here it is. y. k. of i. And then here is log y k of y hat. Okay, this is the loss function in the case of Softmax. Okay, this might seem a bit confusing because there are two summations here, but it is not that difficult. Let's do one thing, let's create a dataset. So suppose we have a dataset that has two input columns. x1, x2, and we have a y. Okay? And we only have three rows. Right? This is a dataset of only three rows. So this will be x1, this will be x12. This will be x 2 1, x 22, x 31, x 32. Okay? The y is like this: 0, 1, and 2, three classes. What I did was apply one-hot encoding to it and created a column for y k = 0, so this becomes one. These two will become zero. Similarly, I created a column for y k = 1. This will become zero. This will become one. This will also become zero. And similarly, I created a column for y k = 2. So this will also become zero. This will also become zero. And this will become one. Okay? Now I will do one thing. I will show you how to expand this term for this dataset. Okay? Watch carefully what happens. So this outer summation is for the number of rows. And this inner summation is the summation of the number of classes for each row. So I will do one thing. Right now, I will focus only on the first row and open only the inner summation. Okay? Meaning, for now, I will only expand K. I will leave i as it is. Okay? So when I am writing for the first one, writing for the first row. Then what can the value of K be? It can be zero, one, or two. K can only be these three values. And since it is row one, the value of i will be one. So we can write it as y 0, we are expanding this inner summation. Here it will be one. And one more thing, this is k equals i = 1 to m, and k = 1 to K, capital K. So let's do one thing. For a moment, let's imagine that instead of 0 1 2, it is one, two, and three. So I will make the same changes here as well. Just to keep uniformity with the notation. This is one. This is two. This is three. This is one. This is two. And this is three. Okay? And now let's write it properly. So we are expanding the inner term. Then we will expand the outer term. So according to the inner term, first will come the y k value of one, and we are currently talking about the first row. Here comes the log of k value one, and above is also one hat plus y 2, still one remains log y. 2 one hat plus y 3 1 log y 3 1 hat. This is the inner expansion, okay? Now again, a plus will come, and now I am expanding the outer one, so I will talk about the second row. Now I will talk about the second row, so for the second row, what will happen, first a two will come here, and one will still remain here, first class log one. two hat plus y 2 log y 2 2 plus, by the way there will be a plus here too, y 3 2 log y 3 two hat. Okay? And similarly, now I am writing for the last row. For the last row, it will be y one 3 log y one 3 hat plus y 2 3 log y 2 3 there is actually a high chance of making a mistake here. So if there is any mistake, I hope you are understanding the basic concept. y 33 log y 333 hat, okay, so guys this is the entire expansion, this is the entire expansion, okay, now see things become very simple here because if you take the values, like take this value y 1 basically when the k value is one and i value is also one. This is one, so this whole thing will remain as it is. But if you take this value y 2 1 when the k value is two and the i value is one, then this is zero. Meaning this term here, it will be completely zero. Okay? Similarly, when you talk about y 3 1, this value, this is also zero, so this whole term will also be zero. Similarly, if you look, this term, meaning this term here, will also be zero. This term here will also be zero, and this term here will also be zero. So what will you be left with? Your loss function will only be this much. Loss function will be y1 one log y1 one hat plus y 222 log y 22 hat plus y3 3 log y 33 hat, this is your loss function finally, but obviously this is just for three rows, so it's like this, and with more rows, there would be more terms. Okay? But in our case right now, the loss function is like this. Okay? So this is the loss function. Now in this loss function, I have these values. I just need to find these values, what is y1 1 hat? Similarly, what is y 2 2 hat? And what is y3 3 hat? I need to calculate these three values. Okay? Because eventually, what will you have to do? You will have to apply gradient descent. So, let me show you how to calculate this value first. What is this value? y 1 hat is nothing but the sigmoid of the weights corresponding to this particular column, w1, w2, and w naught 1 1, okay? So, what you will do is multiply x1 by this, multiply x12 by this, and add w0 to it, so basically this term is equal to W1 1 X1 + W2 1 X12 + W0 Okay? And by the way, this is not a sigmoid. This is softmax. This is softmax. Okay? Similarly, y 2 will be the softmax of w1 2 x 21 + w 2 x 22 + w naught; I keep forgetting here. It will be one, here it will be two. And similarly, y 3 will be the softmax of w1 of 3 x 31 + w 2 3 x32 + w0 of 3; okay, these are your defined softmax functions. Okay? Now what do you have to do? If you think about it here, the number of coefficients you have are these. W1 1, W2 1, and W naught 1, W2 I'm sorry, W1 of 2, W2 of 2, and W naught of 2, W1 of 3, W2 of 3, and W naught of 3. So basically, in total, your loss function depends on all these coefficients. You can see that 1, 2, 3, 4, 5, 6, 7, 8, 9, so this means what will you have to do? While applying gradient descent, you will have to calculate the derivative of your loss function with respect to all of them. You will have to calculate all these derivatives. In total, you will have to calculate nine derivatives. You will have to calculate nine derivatives. What will you do each time? In gradient descent, you know the steps; first, you will initialize the nine values. You will initialize this entire matrix of nine values. After that, you will run a loop, for example, 1000 times, 1000 epochs, and every time what will you do? You will perform all nine updates. For every coefficient, you will perform the update. Like, let me show you the first one. The update for w1 of 1 will be the old value minus the learning rate times del del W1. Similarly, the second update will be this. Okay? In this way, you will perform nine updates. Obviously, if you apply vectorization, you won't have to put in so much effort. But yes, instead of training separate models, you make changes within your loss function itself. And then, based on the changes in the loss function, you calculate those nine values. If you have got three classes. If it's four, then depending on how many input columns you have. You will have that many coefficients. Right? So that is how this thing works. I am not going into the details right now of what the differentiation derivative will look like. And how to code it using gradient descent. I will show you that in a separate video. But it would be a good practice if you try it yourself. Right? It's fun, a bit challenging. So you will get some perspective on how the whole thing works. Right? Now I will show you how this whole thing works in the code. So now guys, I will show you an example where I will perform Softmax regression using Scikit-learn. Right? So the code is already written. It will be a walkthrough on the Iris dataset. If you know, in the Iris dataset, there are three classes: Setosa, Versicolor, and Virginica, we will use those. So here I have taken all the imports. Here I have imported the dataset. This is the dataset. We have four input columns and one output column which has three different classes. Although, I won't use all four input columns because I need to show you the plot graph. So I will just select Sepal length and Petal length. I will keep only these two input columns. I will remove the other two. Right? What did I do here? I applied a label encoder on my output column and converted it into numbers. So that my data looks like this now. After that, I selected only three columns out of five: Sepal length, Petal length, and Species. Due to which, my dataset now looks like this. This is my final dataset on which I will apply the algorithm. Right? After that, I extracted x and y. Then I applied train-test split. And after that, this is the main line where I created an object of the Logistic Regression class. Here you just have to do one thing, there is a parameter called multi-class. You have to select its value as multinomial because what we studied was Softmax regression, whose technical name is Multinomial Logistic Regression. That is why I put multinomial here. So Scikit-learn will understand that you want to perform Softmax regression. We have created this object. In this step, we trained the model. Here, I just calculated the predictions. And my accuracy score is coming out to be 96% because the data is not that difficult. And this is the confusion matrix. There is an error in only one place, this one. Okay? And now what did I do? I took a new query point. Where 3.4 is the sepal length and 2.7 is the petal length. Okay? And this time, instead of predicting in clf, I called the predict probability function. So what will the predict probability function do? It will show the softmax output for each of the classes. Basically, it will tell the probability of all three classes. And when I ran this, this was the output. These are three different probabilities. This is the probability of this flower being Setosa. This is the probability of it being Versicolor and this is the probability of Virginica. When you add these three numbers, you will get one. Okay? And when you use predict, you get the maximum value among these three. Like in this case, the maximum is zero. Here, it is 10 to the power of -1. And this is 7.25. This is 2.73. This is very small. Meaning the probability of it being Virginica is very low. There was a competition between Setosa and Versicolor, but Setosa is coming out higher. Okay? Uh, okay. And in the end, what did I do? This is a library, MLxtend. Inside this, there is a function called plot decision regions, where you provide your classifier and your x and y values, and it plots the decision boundary for you. And you can see this is the decision boundary. So my logistic regression is able to classify three different classes. If there were even more classes, I could do this easily. Okay? So this is the output of a logistic regression as softmax regression. Okay? So you try this same thing on some other dataset. If possible, try it on MNIST. Apply PCA on it first and take the top two principal components to apply this thing on top of it. There are 10 classes there. So you will get 10 different decision regions. Just like you are getting three regions here. Blue, red, and green. Okay? So yeah, that's it about softmax regression. I hope you understood the core idea. I will make a video in the future on its proper mathematical formulation and coding all algorithms from scratch. But at this point I think we've understood as much as we need to. All right? So yeah, that's it. Thanks for watching. Bye.
+
+
+[00:00] Hi guys, welcome to my YouTube channel.
+[00:03] We have studied logistic regression so
+[00:04] far, but we studied it in a binary
+[00:06] classification setting. Meaning, the
+[00:08] classification problem we had only had
+[00:11] two classes. Generally, yes or no. But
+[00:14] what if we have more than two classes,
+[00:17] like yes, no, maybe, or even more? Like
+[00:20] four classes or five classes. Then the
+[00:23] logistic regression we studied will not
+[00:25] work. In that case, we need to learn a
+[00:29] form of logistic regression called
+[00:31] Softmax regression, or you could also
+[00:33] call it multinomial logistic regression
+[00:35] . Right? In this video, we will look at
+[00:39] the intuition behind that type of
+[00:41] logistic regression. Okay? And through
+[00:43] a code sample, we will see how it works
+[00:45] . And then, in a future video, I will
+[00:48] teach you its mathematical formulation
+[00:51] and coding from scratch. So, let's
+[00:53] start the video. So guys, let's say we
+[00:58] have a classification problem where we
+[01:01] have student data with CGPA and IQ, and
+[01:05] we are asked whether they got placed or
+[01:09] not. But this time, there are three
+[01:12] possible outcomes. The first
+[01:14] possibility is that they got placed.
+[01:17] The second possibility is that they did
+[01:19] not get placed. And the third
+[01:20] possibility is that the student didn't
+[01:22] even sit for placements. They opted out
+[01:25] . There could be any reason. Higher
+[01:26] studies, entrepreneurship, or maybe
+[01:29] off-campus, whatever the reason. Yes,
+[01:31] no, and opted out. You can call yes "1"
+[01:35] . You can call no "0" and opted out "2"
+[01:40] . Right? Meaning, your data could look
+[01:42] something like this. 7.1, 71, 0, 8.5.
+[01:49] 85, 1, 9.5, 95, 2; our data could look
+[01:55] like this. Right? Now, what do we have
+[01:58] to do? We have to build a classifier.
+[02:01] We have
+[02:04] to build a logistic regression
+[02:05] classifier. So that if I am asked about
+[02:09] a new student, let's say with a CGPA of
+[02:12] 6.5 and IQ of 65, we need to predict if
+[02:15] they will get placed, not get placed,
+[02:18] or won't even participate. Right? So
+[02:22] what we studied in logistic regression
+[02:25] so far, we studied specifically for
+[02:27] binary classification problems. This
+[02:31] means if you have a yes/no, 0/1 setting
+[02:34] , then what you have studied so far
+[02:36] will work. But the question being asked
+[02:39] now, where there are more than two
+[02:41] classes, which we also call multi-class
+[02:43] classification. In that setting, our
+[02:46] logistic regression fails. Right? And
+[02:48] that is where we need Softmax
+[02:51] regression. Right? Softmax regression,
+[02:55] which we sometimes also call
+[02:58] multinomial logistic regression. All
+[03:02] right? In any case, it is very useful
+[03:06] because you have to study this in deep
+[03:08] learning as well. In deep learning too,
+[03:12] you will have to study this exact same
+[03:14] thing. So in that sense, this topic is
+[03:17] very important and interesting. The
+[03:21] good part is that Softmax is a general
+[03:25] thing. Meaning if you know Softmax,
+[03:29] then the logistic regression you
+[03:32] studied falls under Softmax. That is a
+[03:35] specialization, it's a specialization
+[03:39] of Softmax. The logistic regression you
+[03:42] studied is a specialization of Softmax
+[03:45] for two classes. So, if you have
+[03:49] written the code for Softmax, if you
+[03:51] set the classes equal to two, it starts
+[03:53] behaving like normal logistic
+[03:55] regression. So in a way, it is more
+[03:57] important to study Softmax. But
+[03:59] that’s okay. We studied logistic
+[04:00] regression first. No problem at all.
+[04:02] All right? So our goal in this video is
+[04:05] for me to explain to you from scratch
+[04:07] how this entire thing works. All right?
+[04:10] And to learn and understand this, first
+[04:12] you need to understand what the Softmax
+[04:14] function is. First, we will look at
+[04:18] what the Softmax function is. When we
+[04:21] studied logistic regression, we learned
+[04:23] about the sigmoid function there. Now I
+[04:25] will show you what the Softmax function
+[04:27] is. So if you Google it, you will get
+[04:31] this result. It's a famous mathematical
+[04:34] function. I will write it down. So it
+[04:36] is written like this: sigma zi = e
+[04:42] power zi sigma from i = 1 to capital K,
+[04:49] e to the power—I'm sorry, this should
+[04:53] be j zj, right? Here, k is the number
+[05:00] of classes, like in our case, the
+[05:04] number of classes is three: Yes, No,
+[05:07] Opt-out. All right? So now, suppose you
+[05:12] want to find the Softmax output of z of
+[05:16] 1. Meaning, if you want to calculate
+[05:20] the Softmax for 'Yes'(placement
+[05:22] happening), you will calculate it this
+[05:24] way. You would calculate e to the power
+[05:30] z1 divided by e power z1 + e to the
+[05:34] power z2 + e to the power z3, right?
+[05:39] Similarly, if you want to find the
+[05:41] Softmax of z2, or let's find z1 first,
+[05:44] meaning for placement not happening,
+[05:46] then here it will come...Actually, we
+[05:52] took it the wrong way; let's assume for
+[05:56] a while, guys, that 'Yes' is 1, 'No' is
+[05:59] 2, and 'Opt-out' is 3. Let's assume
+[06:03] this for a moment. So it will come here
+[06:06] . I will just erase this. This will
+[06:09] become Softmax of z2 will be equal to e
+[06:18] ^ z2/(e ^ z1 + e ^ z2 + e ^ z3) and
+[06:24] similarly if you want to find the
+[06:29] softmax of z3, it would be e ^ z3/(e ^
+[06:35] z1 + e ^ z2 + e ^ z3), okay? So you can
+[06:41] see some things might already be making
+[06:43] sense to you. So what happens is that
+[06:46] your softmax function is a function
+[06:49] where if you provide a z-value, it
+[06:52] gives you a probability for that
+[06:55] particular class. Like what did sigmoid
+[06:58] do? It used to give you the probability
+[07:00] of being positive. Here, you get the
+[07:03] probability for every class. Okay? So
+[07:06] this is the probability of the first
+[07:07] class. This is the second's probability
+[07:09] and this is the third's probability.
+[07:11] All these numbers, softmax of z1,
+[07:14] softmax of z2, and softmax of z3, the
+[07:17] value of all three will always be
+[07:20] between 0 and 1. Okay? What is the
+[07:24] second thing? That if you add all three
+[07:26] , it will always be one. Meaning when
+[07:29] you add these three probabilities, it
+[07:30] will always be equal to one. If you
+[07:33] clearly add all three, you will get one
+[07:35] . Okay? So if you are asked what is the
+[07:39] probability of a student getting placed
+[07:42] ? What is the probability of not
+[07:44] getting placed? And what is the
+[07:46] probability of opting out? Since these
+[07:48] are the only three cases associated
+[07:49] with a student. So when you add these
+[07:51] three, that will be one. Because there
+[07:53] is nothing left besides this. A student
+[07:55] will either be placed, or not be placed
+[07:57] , or won't even sit for it. There is no
+[07:59] other possibility besides this. And
+[08:00] that is why when you add all of these,
+[08:02] you always get one. Okay? So that is
+[08:05] the softmax function. Okay? The softmax
+[08:07] function is very useful and it is very
+[08:09] relatable to the sigmoid function.
+[08:11] Okay? In fact, if you apply softmax for
+[08:14] two classes, you can mathematically
+[08:16] prove it is the sigmoid function. Okay?
+[08:19] Now what we will do is, we will first
+[08:21] look at the training. We will look at
+[08:24] two things. First, we will look at
+[08:25] training and then we will look at
+[08:27] prediction. In softmax regression, we
+[08:29] will first see how training happens and
+[08:31] then we will see how prediction happens
+[08:33] . Okay? So I will give you an intuition
+[08:35] . Mind you, what I am about to tell you
+[08:38] does not exactly happen inside
+[08:40] scikit-learn. I am just giving you this
+[08:44] as an example to explain it easily.
+[08:46] Okay? I will explain the exact process
+[08:48] to you in a little while. Okay? So what
+[08:52] happens is, first you take the data you
+[08:54] have, let's say you have this data. We
+[08:58] are training our model using Softmax
+[09:00] regression. So we have CGPA, IQ, and
+[09:03] whether placement will happen or not,
+[09:06] and there are three classes here. Yes,
+[09:09] No, and Opt-out. Okay? So let's say you
+[09:14] have some data here and this is it.
+[09:19] Okay? The value for Yes is zero, and
+[09:21] the value for No is one. The value for
+[09:23] Opt-out is two. Okay? So what will you
+[09:26] do first? You will transform your data.
+[09:30] And the
+[09:32] transformation you will perform on the
+[09:35] data will only be on your output column
+[09:38] . Okay? And what kind of transformation
+[09:41] will you do? You will perform one-hot
+[09:43] encoding. Okay? You will one-hot encode
+[09:46] this column. So what will happen? One
+[09:48] column for equal to zero will be
+[09:50] created, one for equal to one, and one
+[09:52] for two. Okay? Now, the first one is
+[09:55] zero, so one will go here and the other
+[09:57] two values will be zero. Okay? Then
+[10:01] here it is equal to one, so the first
+[10:03] value will be zero. The second value is
+[10:05] this, so this will be one and it will
+[10:07] look like this. And in the third case,
+[10:09] you will have this. So basically, I
+[10:12] applied one-hot encoding to it and
+[10:14] created three columns. Okay? And now
+[10:17] here, here my other two columns are
+[10:23] written as they were. CGPA and IQ are
+[10:27] written just as they were. So initially
+[10:31] I had three columns. Now I have five
+[10:35] columns. Okay? So CGPA is the first
+[10:38] column, IQ is the second, and my output
+[10:40] column is now divided into three
+[10:42] separate columns. Okay? And I divided
+[10:45] it in such a way that binary
+[10:47] classification is done for every class.
+[10:49] So for the zero case, you made a binary
+[10:52] classifier. Wherever there was a zero,
+[10:54] you made it one, and wherever it wasn't
+[10:56] zero, you made it zero. Okay? Similarly
+[10:59] , you made a binary classifier for the
+[11:01] one as well. Wherever it is not one, it
+[11:03] is zero. And wherever it is one, you
+[11:05] kept it as one. And the same goes for
+[11:07] the two class. Wherever it is not two,
+[11:09] you made it zero. And wherever there
+[11:11] was a two, you made it a one. So in a
+[11:13] way, you turned multiclass into binary
+[11:16] classifications. Three. If there were
+[11:18] four classes here, four columns would
+[11:19] be created. If there were n classes, n
+[11:21] columns would be created. I guess you
+[11:23] are understanding up to this point.
+[11:24] Right? Now, what will you do? You will
+[11:26] create three datasets from this
+[11:29] particular dataset. One will be d1, the
+[11:32] second will be d2, and the third will
+[11:35] be d3. Right? Now watch carefully. This
+[11:38] isn't. What will be in D1? D1 will have
+[11:41] this column, this column, and this
+[11:44] column. Right? So D1 will have CGPA, IQ
+[11:52] , and the column equal to 0, this one.
+[11:56] Right? Now what happens next? D2 will
+[12:00] again have CGPA, IQ, and the column
+[12:04] equal to 1. This column here. Right?
+[12:08] And here there will be CGPA, IQ, and
+[12:11] the column equal to 2. So in a way, I
+[12:15] created a separate dataset for the zero
+[12:17] one. I created a separate dataset for
+[12:19] the one and a separate dataset for the
+[12:21] two. Right? Now the next step is very
+[12:25] crucial. What will I do? I will train
+[12:28] three separate logistic regression
+[12:30] models. So this is model one. This is a
+[12:33] logistic regression model. This is
+[12:35] model two. Again, it is a logistic
+[12:37] regression model, and this is M3, again
+[12:39] a logistic regression model. Right? So
+[12:42] what will I do? Now I will train all
+[12:45] three models with their respective
+[12:47] datasets. So this data will go to this
+[12:50] model. This data will go to this model.
+[12:52] Now
+[12:55] since the model is training, you will
+[12:57] get the coefficient values in return.
+[12:59] How many coefficient values will you
+[13:00] get? For every model, you will get
+[13:02] three coefficients. Because you have
+[13:05] two input columns. So you will get W1
+[13:07] and W2, and you will get one W-naught
+[13:10] intercept term for each of these three
+[13:13] models. Right? Since the data is
+[13:14] different. The value of these
+[13:16] coefficients will be different for all
+[13:17] three. So I will write it here. What we
+[13:22] will get here is w1 of 0, w2 of 0, and
+[13:27] w0 of 0, and here too I will get w1 of
+[13:32] 1, w2 of 1, and W-naught of 1. And here
+[13:39] I will get W1 of 2, W2 of 2, and
+[13:43] W-naught of 2. So I will get a total of
+[13:47] nine coefficients because I trained
+[13:50] three separate models. And that is how
+[13:52] training is done. You do the training
+[13:54] exactly like this. I mean, behind the
+[13:56] scenes, it doesn't happen this way. I
+[13:58] wanted to explain to you at an
+[14:00] intuitive level how training works.
+[14:02] Behind the scenes, there is a slight
+[14:03] difference. I will explain that to you
+[14:04] after a while. But to give you an
+[14:06] intuition of what is happening. This is
+[14:08] a good way to explain it. Right? So, I
+[14:11] hope you have understood up to this
+[14:12] point how training happens. See, at the
+[14:14] end, what is the purpose of training?
+[14:16] To provide you with the values of the
+[14:18] coefficients. So, you are getting the
+[14:20] values of the coefficients. Because
+[14:22] behind the scenes your loss function is
+[14:24] running, and behind the scenes you are
+[14:27] finding these values by applying
+[14:29] gradient descent. So, I hope you are
+[14:32] getting a rough intuition. If you
+[14:34] understand logistic regression, then
+[14:35] you must be understanding the training
+[14:37] of Softmax as well. At least what I
+[14:39] just explained to you. Right? Now, if
+[14:42] you have these three values. If you
+[14:45] have all three sets of values, then the
+[14:48] question is how will you make a
+[14:50] prediction? Right? We will understand
+[14:52] that next. So guys, now we have three
+[14:54] models. Right? m1, m2, and m3. Right?
+[14:58] And let me explain to you once more
+[15:00] what these three models are doing.
+[15:02] Right? So, this first model, if you
+[15:05] give it a query point, some student's
+[15:08] data, CGPA and IQ, it tells you whether
+[15:11] they will get placed or not. Meaning,
+[15:15] either they will get placed, that is
+[15:17] the positive class; and here zero means
+[15:19] both the other cases, that is, not
+[15:21] getting placed and opting out. Right?
+[15:25] Similarly, this second model of yours
+[15:27] is telling you that the person will not
+[15:29] get placed, and the zeroth class is the
+[15:32] other two classes, either placed or
+[15:34] opt-out. And similarly, the third model
+[15:38] is also filtering out whether they will
+[15:40] opt out or not opt out. The positive
+[15:43] class is opt-out, and the others are
+[15:44] whether they get placed or not, the
+[15:46] other two classes. So, what is the job
+[15:47] of these three models? To pick one
+[15:49] thing at a time and make a prediction.
+[15:51] Right? So, now imagine you have a new
+[15:55] student, and their CGPA is say, and
+[15:59] their IQ is 70. So, how do we determine
+[16:05] if it will be yes, no, or opt-out?
+[16:09] Given we have three different models.
+[16:11] Very simple. What will you do? You will
+[16:14] calculate the z-value for all three
+[16:16] models. And how is the z-value
+[16:18] calculated? Dot product of coefficients
+[16:20] with the coordinate value. So, first
+[16:22] you will calculate Z1, and how will
+[16:24] that be calculated? It will be 7
+[16:27] multiplied by this value, W1 of model
+[16:32] one, plus 70 multiplied by this value.
+[16:39] And plus W naught, okay? Similarly, you
+[16:46] will calculate z2 for this model: z2 =
+[16:51] 7 multiplied by this value w1 of model
+[16:55] 2 + 70 multiplied by w2 of model 2 + w0
+[17:00] ; and similarly, you will calculate z3
+[17:05] for this: z3 = 7*w1 of model 3 + 70*w2
+[17:11] of model 3 + w naught. And here, guys,
+[17:15] by the way, will be model one. Here
+[17:18] will be model two, and here will be
+[17:20] model three. Okay? Now we have z1. z2
+[17:24] is here, and z3 is here. Now we will
+[17:27] apply the softmax function. Okay? So I
+[17:29] will calculate the sigmoid probability
+[17:32] of it being 'yes'. Okay? And how will
+[17:35] that be calculated? E to the power z1/E
+[17:38] to the power z1 + E to the power z2 + E
+[17:41] to the power z3. Then I will calculate
+[17:45] the sigmoid probability of it being 'no
+[17:48] ', and that will be E to the power z2/E
+[17:51] to the power z1 + E to the power z2 + E
+[17:54] to the power z3, and then I will
+[17:56] calculate the probability of being 'opt
+[17:59] out', and that will be E to the power
+[18:01] z3/E to the power z1 + E to the power
+[18:04] z2 + E to the power z3. Okay? And let's
+[18:08] assume these three probabilities for
+[18:11] now; suppose this came to 4, this to 35
+[18:15] , then this will be 25. Okay? And going
+[18:20] by this logic, you would say this
+[18:22] student will get placed because the
+[18:23] other two are lower than this. Okay?
+[18:26] And that is how prediction is done. So,
+[18:28] in short, if I were to summarize it for
+[18:31] you, what are you doing first? You are
+[18:33] training as many logistic regression
+[18:37] models as you have classes. You are
+[18:40] calculating that many sets of
+[18:41] coefficients for each of the models.
+[18:43] Okay? After that, what are you doing?
+[18:45] For every model, you are calculating
+[18:48] the z value, we are talking about
+[18:50] prediction. And then you convert that z
+[18:53] value into a probability value using
+[18:55] the softmax function. And then, in the
+[18:59] end, whichever class has the maximum
+[19:01] probability, you assign that query
+[19:03] point to that class. Okay? And that is
+[19:07] how softmax regression works. Okay?
+[19:09] There is only one problem: the training
+[19:12] approach we saw here, where we train as
+[19:15] many logistic regression models as
+[19:17] there are classes. This approach
+[19:20] becomes a little slow. Especially on
+[19:23] large datasets with a high number of
+[19:25] classes. This approach is slow. So what
+[19:28] do you do? You use a different approach
+[19:30] . Where what do you do? You change the
+[19:33] loss function of your logistic
+[19:35] regression. You bring a change in it,
+[19:38] and because of that change, what
+[19:40] happens? You do the entire training
+[19:43] through a single model and get the
+[19:45] values of all coefficients. If there
+[19:48] are three classes, you get nine
+[19:51] coefficient values from a single loss
+[19:53] function. Okay? And we will see exactly
+[19:56] how that is done next. So guys, now I
+[19:59] will tell you how exactly things work
+[20:02] in the implementation of Softmax
+[20:04] Regression in Scikit-learn. What I told
+[20:08] you so far was very intuitive, and it
+[20:10] doesn't actually work by training as
+[20:12] many logistic regression models behind
+[20:14] the scenes as you have classes. I gave
+[20:17] you the reason a little while ago. Your
+[20:19] data might be very large. The number of
+[20:21] classes might be very high. So training
+[20:23] can take a lot of time. So a better
+[20:26] approach is to modify your loss
+[20:28] function in such a way that it works in
+[20:30] the case of Softmax. Okay? So the loss
+[20:34] function you studied so far in logistic
+[20:36] regression looked something like this.
+[20:39] Let me write it down for you. Suppose
+[20:43] we have m rows. We have data of m
+[20:45] students. So our loss function used to
+[20:47] be this. yi log yi hat + 1-yi log 1-yi
+[20:55] hat was our loss function. Okay? Now,
+[21:03] the loss function in the case of
+[21:05] Softmax, I am writing it once. Then I
+[21:07] will explain it to you. It is this.
+[21:10] Like before, it is 1/m. Where m equals
+[21:13] the number of rows in your data. Then
+[21:17] comes sigma i = 1 to m and another
+[21:22] sigma k = 1 to capital K, and here
+[21:26] comes yi. log yi. And here in brackets
+[21:35] i, in brackets i. Uh okay, just one
+[21:40] second, I wrote it a bit wrong. Let me
+[21:42] write it properly again. So here it is.
+[21:48] y. k. of i. And then here is log y k of
+[21:59] y hat. Okay, this is the loss function
+[22:02] in the case of Softmax. Okay, this
+[22:05] might seem a bit confusing because
+[22:06] there are two summations here, but it
+[22:08] is not that difficult. Let's do one
+[22:10] thing, let's create a dataset. So
+[22:13] suppose we have a dataset that has two
+[22:15] input columns. x1, x2, and we have a y.
+[22:19] Okay? And we only have three rows.
+[22:21] Right? This is a dataset of only three
+[22:23] rows. So this will be x1, this will be
+[22:27] x12. This will be x 2 1, x 22, x 31, x
+[22:37] 32. Okay? The y is like this: 0, 1, and
+[22:42] 2, three classes. What I did was apply
+[22:46] one-hot encoding to it and created a
+[22:48] column for y k = 0, so this becomes one
+[22:51] . These two will become zero. Similarly
+[22:54] , I created a column for y k = 1. This
+[22:57] will become zero. This will become one.
+[22:58] This will also become zero. And
+[23:00] similarly, I created a column for y k =
+[23:03] 2. So this will also become zero. This
+[23:05] will also become zero. And this will
+[23:06] become one. Okay? Now I will do one
+[23:09] thing. I will show you how to expand
+[23:13] this term for this dataset. Okay? Watch
+[23:18] carefully what happens. So this outer
+[23:23] summation is for the number of rows.
+[23:27] And this inner summation is the
+[23:30] summation of the number of classes for
+[23:33] each row. So I will do one thing. Right
+[23:35] now, I will focus only on the first row
+[23:38] and open only the inner summation. Okay
+[23:41] ? Meaning, for now, I will only expand
+[23:43] K. I will leave i as it is. Okay? So
+[23:45] when I am writing for the first one,
+[23:47] writing for the first row. Then what
+[23:51] can the value of K be? It can be zero,
+[23:56] one, or two. K can only be these three
+[24:00] values. And since it is row one, the
+[24:02] value of i will be one. So we can write
+[24:05] it as y 0, we are expanding this inner
+[24:09] summation. Here it will be one. And one
+[24:14] more thing, this is k equals i = 1 to m
+[24:18] , and k = 1 to K, capital K. So let's
+[24:21] do one thing. For a moment, let's
+[24:26] imagine that instead of 0 1 2, it is
+[24:30] one, two, and three. So I will make the
+[24:33] same changes here as well. Just to keep
+[24:36] uniformity with the notation. This is
+[24:40] one. This is two. This is three. This
+[24:48] is one. This is two. And this is three.
+[24:52] Okay? And now let's write it properly.
+[24:57] So we are expanding the inner term.
+[24:59] Then we will expand the outer term. So
+[25:01] according to the inner term, first will
+[25:03] come the y k value of one, and we are
+[25:05] currently talking about the first row.
+[25:08] Here comes the log of k value one, and
+[25:14] above is also one hat plus y 2, still
+[25:20] one remains log y. 2 one hat plus y 3 1
+[25:34] log y 3 1 hat. This is the inner
+[25:40] expansion, okay? Now again, a plus will
+[25:44] come, and now I am expanding the outer
+[25:46] one, so I will talk about the second
+[25:49] row. Now I will talk about the second
+[25:52] row, so for the second row, what will
+[25:55] happen, first a two will come here, and
+[25:57] one will still remain here, first class
+[25:59] log one. two hat plus y 2 log y 2 2
+[26:16] plus, by the way there will be a plus
+[26:23] here too, y 3 2 log y 3 two hat. Okay?
+[26:31] And similarly, now I am writing for the
+[26:34] last row. For the last row, it will be
+[26:38] y one 3 log y one 3 hat plus y 2 3 log
+[26:53] y 2 3 there is actually a high chance
+[26:57] of making a mistake here. So if there
+[27:00] is any mistake, I hope you are
+[27:02] understanding the basic concept. y 33
+[27:05] log y 333 hat, okay, so guys this is
+[27:09] the entire expansion, this is the
+[27:12] entire expansion, okay, now see things
+[27:16] become very simple here because if you
+[27:20] take the values, like take this value y
+[27:24] 1 basically when the k value is one and
+[27:28] i value is also one. This is one, so
+[27:34] this whole thing will remain as it is.
+[27:37] But if you take this value y 2 1 when
+[27:39] the k value is two and the i value is
+[27:41] one, then this is zero. Meaning this
+[27:44] term here, it will be completely zero.
+[27:47] Okay? Similarly, when you talk about y
+[27:50] 3 1, this value, this is also zero, so
+[27:52] this whole term will also be zero.
+[27:55] Similarly, if you look, this term,
+[27:58] meaning this term here, will also be
+[28:01] zero. This term here will also be zero,
+[28:05] and
+[28:08] this term here will also be zero. So
+[28:11] what will you be left with? Your loss
+[28:13] function will only be this much. Loss
+[28:16] function will be y1 one log y1 one hat
+[28:25] plus y 222 log y 22 hat plus y3 3 log y
+[28:33] 33 hat, this is your loss function
+[28:37] finally, but obviously this is just for
+[28:41] three rows, so it's like this, and with
+[28:45] more rows, there would be more terms.
+[28:49] Okay? But in our case right now, the
+[28:51] loss function is like this. Okay? So
+[28:53] this is the loss function. Now in this
+[28:57] loss function, I have these values. I
+[29:00] just need to find these values, what is
+[29:04] y1 1 hat? Similarly, what is y 2 2 hat?
+[29:09] And what is y3 3 hat? I need to
+[29:13] calculate these three values. Okay?
+[29:14] Because eventually, what will you have
+[29:16] to do? You will have to apply gradient
+[29:18] descent. So, let me show you how to
+[29:20] calculate this value first. What is
+[29:21] this value? y 1 hat is nothing but the
+[29:26] sigmoid of the weights corresponding to
+[29:32] this particular column, w1, w2, and w
+[29:37] naught 1 1, okay? So, what you will do
+[29:43] is multiply x1 by this, multiply x12 by
+[29:46] this, and add w0 to it, so basically
+[29:49] this term is equal to W1 1 X1 + W2 1
+[30:01] X12 + W0 Okay? And by the way, this is
+[30:07] not a sigmoid. This is softmax. This is
+[30:12] softmax. Okay? Similarly, y 2 will be
+[30:19] the softmax of w1 2 x 21 + w 2 x 22 + w
+[30:31] naught; I keep forgetting here. It will
+[30:35] be one, here it will be two. And
+[30:38] similarly, y 3 will be the softmax of
+[30:44] w1 of 3 x 31 + w 2 3 x32 + w0 of 3;
+[30:50] okay, these are your defined softmax
+[30:56] functions. Okay? Now what do you have
+[31:00] to do? If you think about it here, the
+[31:03] number of coefficients you have are
+[31:06] these. W1 1, W2 1, and W naught 1, W2
+[31:15] I'm sorry, W1 of 2, W2 of 2, and W
+[31:21] naught of 2, W1 of 3, W2 of 3, and W
+[31:28] naught of 3. So basically, in total,
+[31:33] your loss function depends on all these
+[31:36] coefficients. You can see that 1, 2, 3,
+[31:42] 4, 5, 6, 7, 8, 9, so this means what
+[31:45] will you have to do? While applying
+[31:50] gradient descent, you will have to
+[31:52] calculate the derivative of your loss
+[31:54] function with respect to all of them.
+[32:00] You will have to calculate all these
+[32:02] derivatives. In total, you will have to
+[32:06] calculate nine derivatives. You will
+[32:09] have to calculate nine derivatives.
+[32:11] What will you do each time? In gradient
+[32:14] descent, you know the steps; first, you
+[32:18] will initialize the nine values. You
+[32:22] will initialize this entire matrix of
+[32:25] nine values. After that, you will run a
+[32:28] loop, for example, 1000 times, 1000
+[32:31] epochs, and every time what will you do
+[32:33] ? You will perform all nine updates.
+[32:39] For every coefficient, you will perform
+[32:41] the update. Like, let me show you the
+[32:43] first one. The update for w1 of 1 will
+[32:47] be the old value minus the learning
+[32:51] rate times del del W1. Similarly, the
+[32:56] second update will be this. Okay? In
+[33:06] this way, you will perform nine updates
+[33:08] . Obviously, if you apply vectorization
+[33:10] , you won't have to put in so much
+[33:11] effort. But yes, instead of training
+[33:14] separate models, you make changes
+[33:16] within your loss function itself. And
+[33:19] then, based on the changes in the loss
+[33:21] function, you calculate those nine
+[33:24] values. If you have got three classes.
+[33:27] If it's four, then depending on how
+[33:30] many input columns you have. You will
+[33:33] have that many coefficients. Right? So
+[33:36] that is how this thing works. I am not
+[33:39] going into the details right now of
+[33:40] what the differentiation derivative
+[33:42] will look like. And how to code it
+[33:44] using gradient descent. I will show you
+[33:46] that in a separate video. But it would
+[33:48] be a good practice if you try it
+[33:50] yourself. Right? It's fun, a bit
+[33:52] challenging. So you will get some
+[33:54] perspective on how the whole thing
+[33:56] works. Right? Now I will show you how
+[33:59] this whole thing works in the code. So
+[34:02] now guys, I will show you an example
+[34:05] where I will perform Softmax regression
+[34:07] using Scikit-learn. Right? So the code
+[34:10] is already written. It will be a
+[34:11] walkthrough on the Iris dataset. If you
+[34:14] know, in the Iris dataset, there are
+[34:16] three classes: Setosa, Versicolor, and
+[34:18] Virginica, we will use those. So here I
+[34:21] have taken all the imports. Here I have
+[34:23] imported the dataset. This is the
+[34:25] dataset. We have four input columns and
+[34:28] one output column which has three
+[34:30] different classes. Although, I won't
+[34:33] use all four input columns because I
+[34:34] need to show you the plot graph. So I
+[34:36] will just select Sepal length and Petal
+[34:39] length. I will keep only these two
+[34:41] input columns. I will remove the other
+[34:42] two. Right? What did I do here? I
+[34:45] applied a label encoder on my output
+[34:47] column and converted it into numbers.
+[34:50] So that my data looks like this now.
+[34:52] After that, I selected only three
+[34:54] columns out of five: Sepal length,
+[34:56] Petal length, and Species. Due to which
+[34:59] , my dataset now looks like this. This
+[35:01] is my final dataset on which I will
+[35:03] apply the algorithm. Right? After that,
+[35:07] I extracted x and y. Then I applied
+[35:10] train-test split. And after that, this
+[35:13] is the main line where I created an
+[35:15] object of the Logistic Regression class
+[35:17] . Here you just have to do one thing,
+[35:20] there is a parameter called multi-class
+[35:22] . You have to select its value as
+[35:25] multinomial because what we studied was
+[35:28] Softmax regression, whose technical
+[35:30] name is Multinomial Logistic Regression
+[35:32] . That is why I put multinomial here.
+[35:36] So Scikit-learn will understand that
+[35:38] you want to perform Softmax regression.
+[35:40] We have created this object. In this
+[35:43] step, we trained the model. Here, I
+[35:45] just calculated the predictions. And my
+[35:48] accuracy score is coming out to be 96%
+[35:50] because the data is not that difficult.
+[35:52] And this is the confusion matrix. There
+[35:54] is an error in only one place, this one
+[35:56] . Okay? And now what did I do? I took a
+[35:59] new query point. Where 3.4 is the sepal
+[36:03] length and 2.7 is the petal length.
+[36:06] Okay? And this time, instead of
+[36:08] predicting in clf, I called the predict
+[36:10] probability function. So what will the
+[36:12] predict probability function do? It
+[36:14] will show the softmax output for each
+[36:17] of the classes. Basically, it will tell
+[36:20] the probability of all three classes.
+[36:21] And when I ran this, this was the
+[36:25] output. These are three different
+[36:27] probabilities. This is the probability
+[36:29] of this flower being Setosa. This is
+[36:31] the probability of it being Versicolor
+[36:33] and this is the probability of
+[36:35] Virginica. When you add these three
+[36:38] numbers, you will get one. Okay? And
+[36:41] when you use predict, you get the
+[36:43] maximum value among these three. Like
+[36:45] in this case, the maximum is zero. Here
+[36:48] , it is 10 to the power of -1. And this
+[36:51] is 7.25. This is 2.73. This is very
+[36:54] small. Meaning the probability of it
+[36:56] being Virginica is very low. There was
+[36:58] a competition between Setosa and
+[37:00] Versicolor, but Setosa is coming out
+[37:01] higher. Okay? Uh, okay. And in the end,
+[37:05] what did I do? This is a library,
+[37:07] MLxtend. Inside this, there is a
+[37:09] function called plot decision regions,
+[37:11] where you provide your classifier and
+[37:14] your x and y values, and it plots the
+[37:16] decision boundary for you. And you can
+[37:18] see this is the decision boundary. So
+[37:20] my logistic regression is able to
+[37:22] classify three different classes. If
+[37:25] there were even more classes, I could
+[37:27] do this easily. Okay? So this is the
+[37:30] output of a logistic regression as
+[37:33] softmax regression. Okay? So you try
+[37:36] this same thing on some other dataset.
+[37:39] If possible, try it on MNIST. Apply PCA
+[37:43] on it first and take the top two
+[37:45] principal components to apply this
+[37:48] thing on top of it. There are 10
+[37:50] classes there. So you will get 10
+[37:52] different decision regions. Just like
+[37:53] you are getting three regions here.
+[37:55] Blue, red, and green. Okay? So yeah,
+[37:59] that's it about softmax regression. I
+[38:02] hope you understood the core idea. I
+[38:04] will make a video in the future on its
+[38:07] proper mathematical formulation and
+[38:10] coding all algorithms from scratch. But
+[38:13] at this point I think we've understood
+[38:15] as much as we need to. All right? So
+[38:17] yeah, that's it. Thanks for watching.
+[38:19] Bye.

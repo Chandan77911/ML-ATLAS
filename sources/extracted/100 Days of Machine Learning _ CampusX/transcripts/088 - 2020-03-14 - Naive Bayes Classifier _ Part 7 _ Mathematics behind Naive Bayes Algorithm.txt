@@ -1,0 +1,434 @@
+# Naive Bayes Classifier | Part 7 | Mathematics behind Naive Bayes Algorithm
+# https://www.youtube.com/watch?v=2PVRG45eVrY
+
+So now let's do the mathematics part of this algorithm. Uh to be honest uh which points to that but other last video says it follow here. So what if it didn't work here? So what we are going to do in this video is we are going to derive the formula. And to be last thing we used here was mathematically derived from here. Or along the way seeking it key in life assumption here life is here. So let's start. Uh so let's start with this uh vector. Let's say X1 X2 X3 XN. And uh uh this uh target variable C1 C2 C3 up till CK. This is capital K. This is small K. Now I think it's difficult to see it's a very simple thing. So there was toss. Uh there was venue. And there was outlook. Right? And there was result. Or last time it was a two class classification if you remember. Yes. I'm sorry. Won or lost. Basically this is what we have to do here. I don't know if this model will follow X1 X2 X3. So you have three things only. Okay? Or similarly yeah C1 or won. And C2 lost. Yeah. Okay. So we have a general case like that. You want to make N columns. So my X1 X2 X3 XN or you may there are this is a multi-class label or a problem. Okay? This is a binary problem, binary class classification. So, there was there is only C1 and C2. You have to have what? K classes. Okay? So, there are K classes. It's a K class classification. So, I guess you all are pointing here. Okay? So, I'll remove this. Now, uh you remember this, right? What we have to do is for every C, C1, C2, C3, I have to find out this, probability of C K, but you have to pay. One is the probability of the general K given X. You can do it. So, probability of C K given X. C2. Okay? Uh So, it's going to be I'm just writing it this way. So, we need to get back to that. Okay? And now, according to Bayes' theorem, we already know this that that this would become X given C K multiplied by probability of C K divided by probability of X. Right? Or This term is going to be common everywhere. So, So, what we will do is we'll remove this. So, we are left with this term. Okay? Now, if you remember conditional probability, according to conditional probability, right? So, probability of A given B multiplied by probability of B, this will be probability of A intersection B, right? So, what we will do is we'll use this logic over here. I will write probability of CK happening given X will actually be equal to probability of X intersection CK. This is basic conditional probability. Uh you already know this that you can replace this with a comma, right? So, I'm going to go ahead and instead of writing this, we are writing this. X comma CK. Now, equal to Don't you think I can break down X into X1 {comma} X2 {comma} X3 {comma} XN {comma} CK? X is actually equal to X1 intersection X2 intersection X3 intersection XN. Right? What we are doing is come is done cool. X1 cool. A minor. Or is for a damn cool. B minor. Okay, so in a way in between we got it. This. Up again. By. Conditional probability we know this. This can be replaced. With this. This is conditional probability. Probability of. A given B. So this is A. X1. Given. X2 {comma} X3. XN {comma} CK. I just want to know to get. Now you want to probability of B. So probability of B would become this. X2 {comma} X3 {dot} {dot} {dot} {comma} XN {comma} CK. I guess it's not so much to get. Up a counter. This is not going to be too much let's say it's going to be cool. You get more than let's call it A. Okay, so you can actually write. Probability. Of. CK. Given X is equal to A multiplied by. Probability of X2. X3. XN. CK. Right. Up cool social is done cool cool. Probability of X1, sorry, not one. Two is the start of the year. X3 XN {comma} CK. Don't you think you have to be the same assumption applied to the system? What I can do is I can assume this thing to be equal to A and this entire thing to be equal to B. Or you have to first see the conditional probability apply to the rule. So, I can write this again as So, I make it equal to the conditional probability. So, I will write equal to A, which is this big term multiplied by I will write probability of X2 given X3 {comma} X4 XN {comma} CK. Or you have to write down the probability of you know B. So, we will write X3 X4 XN {comma} CK. Right? I don't know what you think this term will become. I can say something. Let's call it B. So, you put all these together and you get A. AB probability of X3 X4 XN {comma} CK. Um chain rule for conditional probability. A term here mathematical to be honest, machine learning with my company I get it down. But you have to keep learning and understand what I mean. So, this is known as chain rule for conditional probability. I will probably break it down. Okay? So, don't you think there will be a time when eventually you will get it down? So, you have to get it down. So, there will be this term multiplied by this term and then I will say will be this multiplied by this term probability of X N given C K or B K C K C K X C X N C K B and I got X N C A 1 J X N B 1 J C This will become This is This will become the last A and this will become the last B So, many of you last minute condition probability that I got So, and then space for a comment, but I'll try. So, It's a busy day. So, this entire term will be simplified as this. P of X 1 given X 2 {comma} X 3 X N {comma} C K multiplied by P of X 2 given X 3 X 4 X N C K multiplied by P of X 3 X 4 X 5 C K or something P of X N minus 1 X N {comma} C K probability of X N given C K or last minute probability of C K So, this will be the entire term. Okay. So, but If you you'll be able to understand Now comes this part. John naive assumption simple assumption So Yeah assumption Yeah Yeah last terms problem I'm terms assumption So assumption be this So This is like this. Imagine key So Let's say. same problem toss Mumbai or sunny Okay. So Yeah probability of a toss being lost given venue is Mumbai a outlook is sunny or match They Similarly Yeah So probability of Mumbai given outlook sunny or match you got Okay. I last notice is probabilities about coming Yeah zero You probability about Okay. So what do we take an assumption. Okay. And that assumption is this. Key Yeah X3 Q depend Yeah X1 X3 depend Yeah depend Similarly X2 will not depend X3 X4 It will only CK. This n minus will not depend on Xn. It will only depend on CK. This is the assumption. We call this assumption, if I remember it correctly, it's called conditional conditional independence. Independent events, so independent events, if you remember, If you condition here, P of A given B is equal to P of A, then these events are known as independent events. Conditional independence here is given by the term here. This is comma, which means intersection. You have conditionally A B C independent. So, we can write it like this, P A C. So, we are going to simplify this entire equation and we'll write this. Now, so this entire thing will become this. Probability of X1 given CK probability of X2 given CK probability of X3 given CK dot dot probability of Xn given CK multiplied by probability of CK. And if you remember, in the last video we did that. We did the probability of toss given one, probability of windy given one, probability of outlook given one. Okay, I'll multiply probability of winning ticket. So, yeah, final formula ticket. Or this may humble is called simplify mathematically. We can write this down as so I'm going to calculate you got to get them. Right, you got to get them. So, we'll write it like this. Probability of CK given a particular X is equal to probability of CK product of I is equal to one say and up probability of X of I CK. Ticket. Summation means product is going to inside the product multiplication ticket. So, this is the final formula. Ticket. So, uh this is the final formula. I was a classy or we get it to final decision making that by the way uh I'll just write it down over here so that clarify that. So, uh yeah. This is the final formula that we have established or derived. Uh I'll write it down again. So, this is the final formula. Probability of CK given X is equal to probability of CK product I one to N probability of X of I given CK, right? What I wanted to tell you is yeah, actually you will be remember from the denominator consider so I will equal to we have to do it You actually use arc max for K in the range of 1 {comma} 2 {comma} small K and it is P of C K product of I is equal to 1 to N or probability of X of I C of K maximum a posteriori rule Yeah, map people this cool. maximum a posteriori rule Okay. So basically I don't know if you know but I would recommend or surely So thank you for watching.
+
+
+[00:02] So now let's do the mathematics part of
+[00:04] this algorithm.
+[00:06] Uh to be honest uh
+[00:08] which points to that
+[00:09] but other last video says it follow
+[00:11] here.
+[00:12] So what if it didn't work here? So
+[00:15] what we are going to do in this video is
+[00:17] we are going to derive the formula.
+[00:19] And to be last thing we used here was
+[00:21] mathematically derived from here.
+[00:23] Or along the way seeking it key in life
+[00:26] assumption here life is here. So let's
+[00:29] start.
+[00:30] Uh so let's start with this
+[00:34] uh vector.
+[00:36] Let's say
+[00:37] X1 X2 X3
+[00:42] XN.
+[00:44] And uh
+[00:47] uh this
+[00:49] uh
+[00:51] target variable C1 C2 C3
+[00:54] up till CK.
+[00:57] This is capital K. This is small K. Now
+[01:00] I think it's difficult to see
+[01:02] it's a very simple thing.
+[01:09] So there was toss.
+[01:11] Uh there was venue.
+[01:13] And there was outlook.
+[01:16] Right? And there was result.
+[01:18] Or last time it was a two class
+[01:20] classification if you remember. Yes. I'm
+[01:22] sorry.
+[01:23] Won
+[01:25] or lost. Basically this is what we have
+[01:27] to do here. I don't know if this model
+[01:29] will follow X1
+[01:31] X2 X3.
+[01:33] So you have three things only. Okay?
+[01:35] Or similarly yeah C1
+[01:38] or won.
+[01:39] And C2
+[01:41] lost.
+[01:42] Yeah.
+[01:43] Okay. So we have a general case like
+[01:45] that. You want to make N columns. So my
+[01:48] X1 X2 X3 XN
+[01:50] or you may
+[01:52] there are this is a multi-class label or
+[01:55] a problem. Okay? This is a binary problem,
+[01:58] binary class classification. So, there
+[02:00] was there is only C1 and C2. You have to
+[02:02] have what? K classes. Okay? So, there
+[02:04] are K classes. It's a K class
+[02:07] classification.
+[02:08] So, I guess you all are pointing here.
+[02:10] Okay? So,
+[02:12] I'll remove this.
+[02:18] Now,
+[02:19] uh
+[02:21] you remember this, right? What we have
+[02:23] to do is
+[02:25] for every C, C1, C2, C3, I have to find
+[02:28] out this, probability of
+[02:32] C
+[02:33] K, but you have to pay. One is the
+[02:35] probability of the general K given
+[02:39] X.
+[02:41] You can do it.
+[02:44] So, probability of C K given X.
+[02:54] C2.
+[02:56] Okay? Uh
+[03:02] So, it's going to be
+[03:04] I'm just writing it this way.
+[03:06] So, we need to get back to that. Okay?
+[03:08] And now, according to Bayes' theorem, we
+[03:11] already know this that that this would
+[03:13] become
+[03:14] X given
+[03:16] C K multiplied by probability of
+[03:19] C K divided by probability of
+[03:23] X.
+[03:24] Right?
+[03:25] Or
+[03:31] This term is going to be common
+[03:34] everywhere. So,
+[03:38] So, what we will do is we'll remove
+[03:40] this.
+[03:42] So, we are left with this term.
+[03:44] Okay?
+[03:47] Now,
+[03:48] if you remember conditional probability,
+[03:50] according to conditional probability,
+[04:01] right?
+[04:02] So,
+[04:06] probability of A given B multiplied by
+[04:08] probability of B, this will be
+[04:10] probability of A intersection B, right?
+[04:15] So,
+[04:16] what we will do is we'll use this logic
+[04:19] over here.
+[04:22] I will write
+[04:24] probability of
+[04:26] CK happening given X will actually be
+[04:30] equal to probability of
+[04:33] X
+[04:34] intersection
+[04:36] CK.
+[04:37] This is basic
+[04:39] conditional probability.
+[04:47] Uh you already know this that you can
+[04:49] replace this with a comma,
+[04:51] right? So,
+[04:54] I'm going to go ahead and instead of
+[04:55] writing this, we are writing this.
+[04:58] X comma
+[05:00] CK.
+[05:04] Now,
+[05:05] equal to
+[05:08] Don't you think I can break down X into
+[05:11] X1 {comma} X2 {comma} X3 {comma}
+[05:15] XN {comma}
+[05:17] CK?
+[05:28] X is actually equal to
+[05:30] X1 intersection X2 intersection X3
+[05:34] intersection XN.
+[05:49] Right?
+[05:55] What we are doing is come is done cool.
+[05:58] X1 cool.
+[05:59] A minor.
+[06:01] Or is for a damn cool.
+[06:06] B minor.
+[06:07] Okay, so in a way in between we got it.
+[06:10] This.
+[06:11] Up again.
+[06:13] By.
+[06:15] Conditional probability we know this.
+[06:17] This can be replaced.
+[06:21] With this.
+[06:23] This is conditional probability.
+[06:29] Probability of. A given B. So this is A.
+[06:34] X1.
+[06:35] Given.
+[06:37] X2 {comma} X3.
+[06:40] XN {comma}
+[06:42] CK.
+[06:48] I just want to know
+[06:49] to get.
+[06:50] Now you want to
+[06:52] probability of B. So probability of B
+[06:55] would become this.
+[06:59] X2 {comma} X3 {dot} {dot} {dot} {comma}
+[07:03] XN {comma}
+[07:06] CK.
+[07:07] I guess it's not so much
+[07:08] to get.
+[07:09] Up a counter.
+[07:11] This
+[07:12] is not going to be too much let's say
+[07:14] it's going to be cool.
+[07:16] You get more than let's call it A.
+[07:19] Okay, so you can actually write.
+[07:22] Probability.
+[07:24] Of. CK. Given X is equal to A multiplied
+[07:31] by.
+[07:32] Probability of X2.
+[07:35] X3.
+[07:37] XN.
+[07:38] CK.
+[07:40] Right.
+[07:43] Up cool social is done cool cool.
+[07:47] Probability of
+[07:49] X1, sorry, not one. Two is the start of
+[07:52] the year. X3
+[07:54] XN {comma} CK.
+[07:58] Don't you think you have to be the same
+[07:59] assumption applied to the system? What I
+[08:01] can do is I can assume this thing to be
+[08:04] equal to A and this entire thing
+[08:07] to be equal to
+[08:09] B.
+[08:10] Or you have to first see the conditional
+[08:11] probability apply to the rule.
+[08:13] So, I can write this again as So, I make
+[08:16] it equal to the conditional probability.
+[08:17] So, I will write equal to
+[08:19] A, which is this big term
+[08:22] multiplied by I will write probability
+[08:25] of
+[08:27] X2
+[08:28] given
+[08:30] X3 {comma} X4
+[08:33] XN {comma} CK.
+[08:36] Or you have to write down the
+[08:37] probability of you know B. So, we will
+[08:39] write
+[08:41] X3
+[08:43] X4
+[08:44] XN {comma}
+[08:47] CK.
+[08:48] Right? I don't know what you think this
+[08:49] term will become. I can say something.
+[08:51] Let's call it B. So, you put all these
+[08:53] together and you get A.
+[08:54] AB
+[08:56] probability of
+[08:58] X3 X4
+[09:01] XN {comma} CK.
+[09:10] Um
+[09:12] chain
+[09:14] rule
+[09:16] for conditional probability.
+[09:18] A term here mathematical
+[09:21] to be honest, machine learning with my
+[09:22] company I get it down. But you have to
+[09:24] keep learning and understand what I
+[09:26] mean. So, this is known as chain rule
+[09:28] for conditional probability. I will
+[09:29] probably break it down. Okay? So, don't
+[09:31] you think there will be a time when
+[09:33] eventually you will get it down? So, you
+[09:35] have to get it down.
+[09:37] So, there will be this term multiplied
+[09:38] by this term and then I will say will be
+[09:40] this multiplied by this term
+[09:48] probability of
+[09:50] X N given C K
+[09:54] or B K C K
+[09:59] C K
+[10:02] X C
+[10:03] X
+[10:04] N C K B and I got X N C A 1 J X N B 1
+[10:08] J C
+[10:10] This will become This is This will
+[10:12] become the last A and this will become
+[10:16] the last B
+[10:18] So, many of you last minute condition
+[10:19] probability that I got
+[10:21] So, and then
+[10:24] space for a comment, but I'll try. So,
+[10:29] It's a busy day.
+[10:31] So, this entire term will be simplified
+[10:32] as this. P of X 1
+[10:35] given
+[10:36] X 2 {comma} X 3
+[10:39] X N
+[10:41] {comma} C K
+[10:43] multiplied by
+[10:46] P of
+[10:48] X 2
+[10:50] given X 3 X 4
+[10:54] X N C K
+[10:57] multiplied by
+[10:59] P of X 3
+[11:01] X 4
+[11:03] X 5
+[11:04] C K or something
+[11:09] P of X N minus 1
+[11:13] X N {comma} C K
+[11:18] probability of X N given C K or last
+[11:23] minute probability of
+[11:25] C K So, this will be the entire term.
+[11:28] Okay. So,
+[11:31] but
+[11:34] If you you'll be able to understand
+[11:36] Now comes this part. John
+[11:39] naive assumption
+[11:42] simple assumption
+[11:44] So
+[11:45] Yeah
+[11:46] assumption
+[11:47] Yeah
+[11:50] Yeah
+[11:52] last terms problem
+[11:55] I'm terms assumption
+[11:57] So assumption be this
+[12:04] So
+[12:05] This is like this. Imagine key
+[12:09] So
+[12:11] Let's say.
+[12:15] same problem
+[12:17] toss
+[12:19] Mumbai
+[12:21] or sunny
+[12:24] Okay. So Yeah
+[12:27] probability of
+[12:30] a toss being lost given
+[12:35] venue is Mumbai
+[12:37] a
+[12:38] outlook is sunny
+[12:41] or match
+[12:42] They
+[12:43] Similarly
+[12:44] Yeah So
+[12:47] probability of Mumbai given outlook
+[12:51] sunny or
+[12:52] match you got Okay. I
+[12:55] last notice
+[12:56] is probabilities about coming Yeah zero
+[13:01] You
+[13:02] probability about Okay. So what do we
+[13:05] take an assumption.
+[13:06] Okay. And that assumption is this. Key
+[13:10] Yeah
+[13:11] X3 Q depend
+[13:16] Yeah X1
+[13:17] X3 depend
+[13:19] Yeah
+[13:20] depend
+[13:22] Similarly
+[13:23] X2 will not depend X3 X4
+[13:26] It will only CK.
+[13:29] This n minus will not depend on Xn. It
+[13:32] will only depend on CK. This is the
+[13:34] assumption.
+[13:40] We call this assumption,
+[13:42] if I remember it correctly, it's called
+[13:44] conditional
+[13:49] conditional
+[13:51] independence.
+[13:56] Independent events, so independent
+[13:58] events, if you remember,
+[14:03] If you condition here, P of A given B is
+[14:06] equal to P of A, then these events are
+[14:08] known as
+[14:09] independent events. Conditional
+[14:11] independence here is given by the term
+[14:13] here.
+[14:17] This is comma, which means intersection.
+[14:22] You have conditionally
+[14:24] A
+[14:25] B C independent. So, we can write it
+[14:27] like this, P
+[14:29] A
+[14:32] C.
+[14:40] So, we are going to
+[14:43] simplify this entire equation and we'll
+[14:46] write this. Now,
+[14:47] so this entire thing will become
+[14:51] this.
+[14:52] Probability of
+[14:54] X1
+[14:56] given CK
+[14:58] probability of X2
+[15:01] given CK probability of X3 given CK dot
+[15:06] dot probability of Xn given CK
+[15:11] multiplied by probability of
+[15:13] CK.
+[15:14] And if you remember, in the last video
+[15:16] we did that.
+[15:17] We did the probability of
+[15:20] toss given one, probability of windy
+[15:22] given one, probability of outlook given
+[15:24] one. Okay, I'll multiply
+[15:27] probability of winning ticket. So, yeah,
+[15:29] final formula ticket. Or this may humble
+[15:33] is called simplify
+[15:35] mathematically. We can write this down
+[15:37] as so I'm going to calculate you got to
+[15:39] get them.
+[15:41] Right, you got to get them.
+[15:42] So, we'll write it like this.
+[15:44] Probability of
+[15:47] CK
+[15:49] given a particular X is equal to
+[15:53] probability of
+[15:56] CK
+[15:59] product of
+[16:01] I is equal to
+[16:03] one say and up probability of
+[16:07] X of I
+[16:09] CK. Ticket. Summation means product is
+[16:13] going to inside the
+[16:14] product multiplication
+[16:16] ticket. So, this is the final formula.
+[16:21] Ticket.
+[16:22] So,
+[16:23] uh this is the final formula.
+[16:25] I was a classy
+[16:27] or we get it
+[16:28] to final decision making that
+[16:30] by the way
+[16:32] uh
+[16:33] I'll just write it down over here so
+[16:35] that clarify that.
+[16:36] So,
+[16:38] uh yeah.
+[16:39] This is the final formula that we have
+[16:41] established or derived.
+[16:43] Uh I'll write it down again. So, this is
+[16:45] the final formula. Probability of
+[16:48] CK given
+[16:50] X is equal to
+[16:54] probability of CK
+[16:59] product
+[17:00] I one to N
+[17:03] probability of X of I given CK, right?
+[17:08] What I wanted to tell you is
+[17:10] yeah, actually
+[17:12] you will
+[17:13] be remember from the denominator
+[17:16] consider
+[17:17] so I will equal to
+[17:19] we have to do it
+[17:47] You actually use
+[17:49] arc max
+[17:52] for K in the range of 1 {comma} 2
+[17:55] {comma}
+[17:56] small K
+[17:57] and
+[17:58] it is
+[18:00] P of
+[18:01] C K
+[18:03] product of
+[18:05] I is equal to 1 to N
+[18:08] or probability of
+[18:10] X of I C of K
+[18:27] maximum
+[18:32] a posteriori rule
+[18:37] Yeah, map people this cool.
+[18:40] maximum a posteriori rule
+[18:43] Okay. So basically
+[18:53] I don't know if you know but I would
+[18:55] recommend
+[18:58] or
+[18:59] surely
+[19:04] So thank you for watching.
